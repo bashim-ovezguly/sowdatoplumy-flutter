@@ -1,0 +1,734 @@
+// ignore_for_file: must_be_immutable
+
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:my_app/pages/Customer/deleteImage.dart';
+import 'package:my_app/pages/Customer/locationWidget.dart';
+import 'package:provider/provider.dart';
+import '../../../dB/colors.dart';
+import '../../../dB/constants.dart';
+import '../../../dB/providers.dart';
+import '../../../dB/textStyle.dart';
+import '../../customCheckbox.dart';
+import '../../select.dart';
+import '../loadingWidget.dart';
+
+class EditCar extends StatefulWidget {
+  final Function callbackFunc;
+  EditCar({Key? key, required this.old_data, required this.callbackFunc}) : super(key: key);
+  var old_data;
+  @override
+  State<EditCar> createState() => _EditCarState(old_data: old_data, callbackFunc: callbackFunc);
+}
+class _EditCarState extends State<EditCar> {
+  var baseurl = "";
+  final Function callbackFunc;
+
+  List<dynamic> models = [];
+  List<dynamic> marks = [];
+  List<dynamic> body_types= [];
+  List<dynamic> fruits = [];
+  List<dynamic> colors = [];
+  List<dynamic> fuels = [];
+  List<dynamic> transmissions = [];
+  List<dynamic> wheel_drives = [];
+  List<File> images = [];
+  List<dynamic> made_in_countries = [];
+
+  var old_data;
+  final usernameController = TextEditingController();
+  final yearController = TextEditingController();
+  final millageController = TextEditingController();
+  final engineController = TextEditingController();
+  final vinCodeController = TextEditingController();
+  final phoneController = TextEditingController();
+  final priceController = TextEditingController();
+  final detailController = TextEditingController();
+
+  bool credit = false ;
+  bool swap = false ;
+  bool none_cash_pay = false ;
+  bool recolored = false ;
+
+  callbackCredit(){ setState(() { credit = ! credit; });}
+  callbackSwap(){ setState(() { swap = ! swap; });}
+  callbackNone_cash_pay(){ setState(() { none_cash_pay = ! none_cash_pay; });}
+  callbackRecolored(){ setState(() { recolored = ! recolored; });}
+
+  var markaController = {};
+  var modelController = {};
+  var colorController = {};
+  var body_typeController = {};
+  var fuelController = {};
+  var transmissionController = {};
+  var wdController = {};
+  var locationController = {};
+  var locationDestController = {};
+  
+  int _mainImg = 0;
+
+  callbackMarka(new_value){ setState(() { markaController = new_value; });}
+  callbackModel(new_value){ setState(() { modelController = new_value; });}
+  callbackColor(new_value){ setState(() { colorController = new_value; });}
+  callbackBodyType(new_value){ setState(() { body_typeController = new_value; });}
+  callbackFuel(new_value){ setState(() { fuelController = new_value; });}
+  callbackTransmission(new_value){ setState(() { transmissionController = new_value; });}
+  callbackWd(new_value){ setState(() { wdController = new_value; });}
+  callbackLocation(new_value){ setState(() { locationController = new_value; });}
+  callbackLocationDest(new_value){ setState(() { locationDestController = new_value; });}
+  
+  File? image;
+  Future<void> addimages() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if(image == null) return;
+      final imageTemp = File(image.path);
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch(e) {
+      print('Failed to pick image: $e');
+    }
+    setState(() {
+      if (image != null){
+        images.add(image!);
+        }
+      });
+  }
+  
+
+
+
+  remove_image(value){
+    setState(() {
+      old_data['images'].remove(value);
+    });}
+
+  void initState() {
+    credit = old_data['credit'];
+    swap = old_data['swap'] ;
+    none_cash_pay = old_data['none_cash_pay'] ;
+    recolored = old_data['recolored'] ;
+    get_cars_index();
+    super.initState();
+  }
+
+
+  _EditCarState({required this.old_data, required this.callbackFunc});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar( title: const Text("Meniň sahypam", style: CustomText.appBarText,),),
+      body: ListView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: const Text("Awtoulag üýtgetmek", style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold, color: CustomColors.appColors),),
+          ),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,),
+               if (old_data['mark']!= null && old_data['mark']!='')
+                  Expanded(flex: 2,child: Text(old_data['mark'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                if (old_data['mark']==null || old_data['mark']=='')
+
+              Expanded(flex: 1,child: Text("Marka: ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child:MyDropdownButton(items: marks, callbackFunc: callbackMarka)
+                ),],),),
+          const SizedBox(height: 15,),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,), 
+              if (old_data['model']!= null && old_data['model']!='')
+                  Expanded(flex: 2,child: Text(old_data['model'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                if (old_data['model']==null || old_data['model']=='')
+              
+                Expanded(flex: 1,child: Text("Model : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: models, callbackFunc: callbackModel)
+                                                                
+                ),],),),
+          const SizedBox(height: 5,),
+
+          GestureDetector(
+              child: Container(
+              height: 35,
+              margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
+              width: double.infinity,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+              child: Row(
+              children: <Widget>[
+                SizedBox(width: 10,),
+                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                if (locationController['name_tm']!=null)
+                Expanded(flex: 4, child: Text(locationController['name_tm']))
+                else
+                  if (old_data['location']!=null)
+                    Expanded(flex: 4, child: Text(old_data['location']))
+                  else
+                    Expanded(flex: 4, child: Text(''))
+              ],),),
+              onTap: (){
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return LocationWidget(callbackFunc: callbackLocation);},);
+              },
+            ),
+            const SizedBox(height: 15,),
+
+            Container(
+              height: 35,
+              margin: const EdgeInsets.only(left: 20,right: 20),
+              width: double.infinity,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+              child: Row(
+                children: <Widget>[SizedBox(width: 10,),
+                
+                  if (old_data['dest_location']!= null && old_data['dest_location']!='')
+                    Expanded(flex: 2,child: Text(old_data['dest_location'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  if (old_data['dest_location']==null || old_data['dest_location']=='')
+
+                Expanded(flex: 2,child: Text("Ýurdy : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: made_in_countries, callbackFunc: callbackLocationDest)
+              ),],),),
+            const SizedBox(height: 15,),
+            
+          Container(
+            alignment: Alignment.center,
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child:  TextFormField(
+              controller: yearController,
+              decoration: InputDecoration(hintText: old_data['year']!= null ? 'Ýyl: ' + old_data['year'].toString(): 'Ýyl',
+                  border: InputBorder.none,
+                  focusColor: Colors.white,
+                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }return null;
+            },),),
+          const SizedBox(height: 15,),
+
+          Container(
+            alignment: Alignment.center,
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child:  TextFormField(
+              controller: priceController,
+              decoration: InputDecoration(hintText: old_data['price']!= null ? 'Bahasy :' + old_data['price'].toString(): 'Bahasy :',
+                  border: InputBorder.none,
+                  focusColor: Colors.white,
+                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }return null;
+            },),),
+          const SizedBox(height: 15,),
+        
+          Container(
+            alignment: Alignment.center,
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child:  TextFormField(
+              controller: millageController,
+              decoration: InputDecoration(hintText: old_data['millage']!= null ? 'Geçen ýoly :' + old_data['millage'].toString(): 'Geçen ýoly',
+                  border: InputBorder.none,
+                  focusColor: Colors.white,
+                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }return null;
+            },),),
+          const SizedBox(height: 15,),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,), 
+                if (old_data['color']!= null && old_data['color']!='')
+                  Expanded(flex: 2,child: Text(old_data['color'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                if (old_data['color']==null || old_data['color']=='')
+                  Expanded(flex: 1,child: Text("Reňki : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+
+                Expanded(flex: 4, child: MyDropdownButton(items: colors, callbackFunc: callbackColor  )
+                ),],),),
+          const SizedBox(height: 15,),
+
+          Container(
+            alignment: Alignment.center,
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child:  TextFormField(
+              controller: engineController,
+              decoration: InputDecoration(hintText: old_data['engine']!= null ? 'Matory: ' + old_data['engine'].toString(): 'Matory: ',
+                  border: InputBorder.none,
+                  focusColor: Colors.white,
+                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }return null;
+            },),),
+          const SizedBox(height: 15,),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,), 
+                if (old_data['body_type']!= null && old_data['body_type']!='')
+                  Expanded(flex: 2,child: Text(old_data['body_type'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                if (old_data['body_type']==null || old_data['body_type']=='')
+                  Expanded(flex: 2,child: Text("Kuzow görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: body_types, callbackFunc: callbackBodyType)
+                ),],),),
+          const SizedBox(height: 15,),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,),
+                if (old_data['transmission']!= null && old_data['transmission']!='')
+                  Expanded(flex: 2,child: Text(old_data['transmission'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                if (old_data['transmission']==null || old_data['transmission']=='')
+                  
+                  Expanded(flex: 2,child: Text("Karopka görnüş : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: transmissions, callbackFunc: callbackTransmission)
+                ),],),),
+          const SizedBox(height: 15,),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,), 
+                if (old_data['wd']!= null && old_data['wd']!='')
+                  Expanded(flex: 2,child: Text(old_data['wd'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                if (old_data['wd']==null || old_data['wd']=='')
+
+                  Expanded(flex: 3,child: Text("Ýörediji görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: wheel_drives, callbackFunc: callbackWd)
+                ),],),),
+          const SizedBox(height: 15,),
+            
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,),
+                if (old_data['fuel']!= null && old_data['fuel']!='')
+                  Expanded(flex: 2,child: Text(old_data['fuel'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                if (old_data['fuel']==null || old_data['fuel']=='')
+              
+                  Expanded(flex: 3,child: Text("Ýangyç görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: fuels, callbackFunc: callbackFuel)
+                ),],),),
+          const SizedBox(height: 15,),
+
+
+          Container(
+            alignment: Alignment.center,
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child:  TextFormField(
+              controller: phoneController,
+              decoration: InputDecoration(hintText: old_data['phone']!= null ? 'Telefon :' + old_data['phone'].toString(): 'Telefon :',
+                  border: InputBorder.none,
+                  focusColor: Colors.white,
+                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }return null;
+            },),),
+          const SizedBox(height: 15,),
+
+          Container(
+            alignment: Alignment.center,
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child:  TextFormField(
+              controller: vinCodeController,
+              decoration: InputDecoration(hintText: old_data['vin'] != null? 'VIN ' + old_data['vin'].toString(): 'VIN ',
+                  border: InputBorder.none,
+                  focusColor: Colors.white,
+                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }return null;
+            },),),
+          const SizedBox(height: 15,),
+
+          Container(
+            alignment: Alignment.centerLeft,
+            height: 80,
+            width: double.infinity,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 15),
+                      height: 40,
+                      width: 200,
+                      child: CustomCheckBox(labelText:'Nagt däl töleg',  callbackFunc: callbackNone_cash_pay, status: old_data['none_cash_pay']),
+                    ),
+                    Spacer(),
+                    Container(
+                      margin: EdgeInsets.only(left: 15),
+                      height: 40,
+                      width: 180,
+                      child: CustomCheckBox(labelText:'Kredit', callbackFunc: callbackCredit, status: old_data['credit']),
+
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(left: 15),
+                      height: 40,
+                      width: 200,
+                      child: CustomCheckBox(labelText:'Çalyşyk', callbackFunc: callbackSwap, status: old_data['swap']),
+                    ),
+                    Spacer(),
+                    Container(
+                      margin: EdgeInsets.only(left: 15),
+                      height: 40,
+                      width: 180,
+                      child: CustomCheckBox(labelText:'Reñklenen', callbackFunc: callbackRecolored, status: old_data['recolored']),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+   
+          const SizedBox(height: 15,),
+          Container(
+            margin: const EdgeInsets.all(10),
+            decoration: BoxDecoration(border: Border.all(color: CustomColors.appColors, style: BorderStyle.solid, width: 1.0,),),
+            height: 100,
+            width: double.infinity,
+            child: TextField(
+              controller: detailController,
+              cursorColor: Colors.red,
+              maxLines:  3 ,
+              decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide.none,),
+                filled: true,
+                hintText: old_data['detail']!= null ? old_data['detail']: '...', 
+                fillColor: Colors.white,),),),
+
+
+          if (old_data['images'].length > 0)
+            SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("    Suratlar", style: TextStyle(color: CustomColors.appColors, fontSize: 16),),
+                    Row(children: [
+                      for(var country in old_data['images'])
+                      Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                  margin: const EdgeInsets.only(left: 10,bottom: 10),
+                                  height: 100, width:100,
+                                  alignment: Alignment.topLeft,
+                                  child: Image.network(baseurl + country['img_l'],fit: BoxFit.cover,height: 100,width: 100,
+                                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                              return Center(child: CircularProgressIndicator(color: CustomColors.appColors,),);},
+                                  )
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                    showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return DeleteImage(action: 'cars', image: country, callbackFunc: remove_image,);},);
+                                },
+                                child: Container(
+                                  height: 100, width:110,
+                                  alignment: Alignment.topRight,
+                                  child: Icon(Icons.close, color: Colors.red),),),
+                            ],),
+
+                            if (_mainImg == country['id'])
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: OutlinedButton(
+                                child: Text("Esasy img", style: TextStyle(color: Colors.white),),
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: Color.fromARGB(255, 15, 138, 19),
+                                  primary: Colors.green,
+                                  side: BorderSide(
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _mainImg = country['id'];
+                                  });
+                                },
+                              ),
+                              )                            
+                            else
+
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: OutlinedButton(
+                                child: Text("Esasy img"),
+                                style: OutlinedButton.styleFrom(
+                                  primary: Colors.red,
+                                  side: BorderSide(
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _mainImg = country['id'];
+                                  });
+                                },
+                              ),
+                              )
+                        ],
+                      )
+                      ],)])),
+
+          SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child:Row(
+                children: images.map((country){
+                  return Stack(
+                    children: [
+                      Container(
+                          margin: const EdgeInsets.only(left: 10,bottom: 10),
+                          height: 100, width:100,
+                          alignment: Alignment.topLeft,
+                          child: Image.file(country, fit: BoxFit.cover, height: 100, width: 100,)
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            images.remove(country);
+                          });
+                        },
+                        child: Container(
+                          height: 100, width:110,
+                          alignment: Alignment.topRight,
+                          child: Icon(Icons.close, color: Colors.red),),),
+                    ],
+                  );
+                }).toList(),)),
+
+          Container(
+            height: 50,
+            padding: const EdgeInsets.all(10),
+            child: SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: CustomColors.appColors,
+                    foregroundColor: Colors.white),
+                onPressed: () {
+                  addimages();
+                },
+                child: const Text('Surat goş',style: TextStyle(fontWeight: FontWeight.bold),),
+              ),
+            ),
+          ),
+          Container(
+            height: 50,
+            padding: const EdgeInsets.all(10),
+            child: SizedBox(
+              width: double.infinity,
+              height: 60,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: CustomColors.appColors,
+                    foregroundColor: Colors.white),
+                onPressed: () async {
+
+
+                    Urls server_url  =  new Urls();
+                    String url = server_url.get_server_url() + '/mob/cars/' + old_data['id'].toString();
+                    final uri = Uri.parse(url);
+                    var  request = new http.MultipartRequest("PUT", uri);
+                    var token = Provider.of<UserInfo>(context, listen: false).access_token;
+
+                    var swap_num = '0';
+                    if (swap==true){ swap_num = '1';}
+                    
+                    var credit_num = '0';
+                    if (credit==true){ credit_num = '1';}
+
+                    var none_cash_pay_num = '0';
+                    if (none_cash_pay==true){ none_cash_pay_num = '1';}
+
+                    var recolored_num = '0';
+                    if (recolored==true){ recolored_num = '1';}
+                    
+                    request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+                    
+                    if (modelController['id']!=null){
+                      request.fields['model'] = modelController['id'].toString();
+                    }
+                    if (_mainImg!=0){
+                      request.fields['img'] = _mainImg.toString();
+                    }
+
+                    if (markaController['id']!=null){
+                      request.fields['mark'] = markaController['id'].toString();
+                    }
+
+                    if (transmissionController['id']!=null){
+                      request.fields['transmission'] = transmissionController['id'].toString();
+                    }
+                    if (colorController['id']!=null){
+                      request.fields['color'] = colorController['id'].toString();
+                    }
+
+                    if (locationController['id']!=null){
+                      request.fields['location'] = locationController['id'].toString();
+                    }
+
+                    if (locationDestController['id']!=null){
+                      request.fields['made_in'] = locationDestController['id'].toString();
+                    }
+                    
+                    if (fuelController['id']!=null){
+                      request.fields['fuel'] = fuelController['id'].toString();
+                    }
+
+                    if (wdController['id']!=null){
+                      request.fields['wd'] =  wdController['id'].toString();
+                    }
+                    
+                    if (priceController.text!=''){
+                      request.fields['price'] = priceController.text.toString();
+                    }
+                    
+                    if (vinCodeController.text!=''){
+                      request.fields['vin'] = vinCodeController.text;
+                    }
+
+                    if (phoneController.text!=''){
+                      request.fields['phone'] = phoneController.text;
+                    }
+
+                    if (engineController.text!=''){
+                      request.fields['engine'] = engineController.text;
+                    }
+                    if (yearController.text!=''){
+                      request.fields['year'] = yearController.text;
+                    }
+
+                    if (millageController.text!=''){
+                      request.fields['millage'] = millageController.text;
+                    }
+                    
+                    if (detailController.text!=''){
+                      request.fields['detail'] = detailController.text;
+                    }
+                    
+                    request.fields['swap'] = swap_num;
+                    request.fields['credit'] = credit_num;
+                    request.fields['none_cash_pay'] = none_cash_pay_num;
+                    request.fields['recolored'] = recolored_num;
+                    
+                    if (images.length!=0){
+                      for (var i in images){
+                       var multiport = await http.MultipartFile.fromPath('images', i.path, contentType: MediaType('image', 'jpeg'),);
+                       request.files.add(multiport);
+                       }
+                    }
+                    print(request.fields);
+                    showLoaderDialog(context);
+                    final response = await request.send();
+                    print(response.statusCode);
+                     if (response.statusCode == 200){
+                      callbackFunc();
+                      Navigator.pop(context); 
+                      Navigator.pop(context); 
+                     }
+                     else{
+                      Navigator.pop(context); 
+                      showConfirmationDialogError(context);    
+                     }
+                },
+                child: const Text('Ýatda sakla',style: TextStyle(fontWeight: FontWeight.bold),),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+  
+  showConfirmationDialogError(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return ErrorAlert();},);}
+
+  void get_cars_index() async {
+    Urls server_url  =  new Urls();
+    String url = server_url.get_server_url() + '/mob/index/car';
+    final uri = Uri.parse(url);
+    final response = await http.get(uri);
+    final json = jsonDecode(utf8.decode(response.bodyBytes));
+    setState(() {
+      baseurl =  server_url.get_server_url();
+      models = json['models'];
+      marks = json['marks'];
+      body_types = json['body_types'];
+      colors = json['colors'];
+      fuels = json['fuels'];
+      transmissions = json['transmissions'];
+      wheel_drives = json['wheel_drives']; 
+      made_in_countries = json['countries'];
+    });
+    }
+}

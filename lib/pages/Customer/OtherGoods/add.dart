@@ -1,0 +1,371 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:my_app/dB/constants.dart';
+import 'package:my_app/pages/Customer/locationWidget.dart';
+import 'package:provider/provider.dart';
+import '../../../dB/colors.dart';
+import '../../../dB/providers.dart';
+import '../../../dB/textStyle.dart';
+import '../../error.dart';
+import '../../select.dart';
+import '../../success.dart';
+import '../loadingWidget.dart';
+
+
+class OtherGoodsAdd extends StatefulWidget {
+  OtherGoodsAdd({Key? key, required this.customer_id, required this.refreshFunc}) : super(key: key);
+  final String customer_id;
+  final Function refreshFunc;
+  @override
+  State<OtherGoodsAdd> createState() => _OtherGoodsAddState(customer_id: customer_id);
+}
+class _OtherGoodsAddState extends State<OtherGoodsAdd> {
+  var data = {};
+  List<dynamic> categories = [];
+  List<dynamic> brands = [];
+  List<dynamic> units = [];
+  List<dynamic> countries = [];
+  List<File> images = [];
+  
+  final String customer_id;
+  final name_tmController = TextEditingController();
+  final priceController = TextEditingController();
+  final phoneController = TextEditingController();
+  final detailController = TextEditingController();
+  final amountController = TextEditingController();
+  final unitController = TextEditingController();
+
+  var locationController = {};
+  var categoryController = {};
+  var barndController = {};
+  var madeInController = {};  
+
+  callbackStatus(){
+    Navigator.pop(context);
+  }
+
+  callbackLocation(new_value){ setState(() { locationController = new_value; });}
+  callbackCategory(new_value){ setState(() { categoryController = new_value; });}
+  callbackBrand(new_value){ setState(() { barndController = new_value; });}
+  callbackMadein(new_value){ setState(() { madeInController = new_value; });}
+
+  File? image;
+  Future<void> addimages() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if(image == null) return;
+      final imageTemp = File(image.path);
+      setState(() => this.image = imageTemp);
+    } on PlatformException catch(e) {
+      print('Failed to pick image: $e');
+    }
+    setState(() {
+      if (image != null){
+        images.add(image!);
+        }
+      });
+  }
+  
+  void initState() {
+    get_product_index();
+    super.initState();
+  }
+ 
+  _OtherGoodsAddState({required this.customer_id});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar( title: const Text("Meniň sahypam", style: CustomText.appBarText,),),
+      body: ListView(
+        scrollDirection: Axis.vertical,
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: const Text("Bildiriş goşmak", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CustomColors.appColors),),
+          ),
+
+          Container(
+            alignment: Alignment.center,
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child:  TextFormField(
+              controller: name_tmController,
+              decoration: const InputDecoration(hintText: 'Ady :',
+                  border: InputBorder.none,
+                  focusColor: Colors.white,
+                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }return null;
+            },),),
+          const SizedBox(height: 15,),
+
+          Container(
+            alignment: Alignment.center,
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child:  TextFormField(
+              controller: priceController,
+              decoration: const InputDecoration(hintText: 'Bahasy :',
+                  border: InputBorder.none,
+                  focusColor: Colors.white,
+                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }return null;
+            },),),
+          const SizedBox(height: 15,),
+
+
+          Container(
+            alignment: Alignment.center,
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child:  TextFormField(
+              controller: phoneController,
+              decoration: const InputDecoration(hintText: 'Telefon :',
+                  border: InputBorder.none,
+                  focusColor: Colors.white,
+                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }return null;
+            },),),
+          const SizedBox(height: 15,),
+          
+          Container(
+            alignment: Alignment.center,
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child:  TextFormField(
+              controller: amountController,
+              decoration: const InputDecoration(hintText: 'Sany :',
+                  border: InputBorder.none,
+                  focusColor: Colors.white,
+                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }return null;
+            },),),
+          const SizedBox(height: 5,),
+          
+            GestureDetector(
+              child: Container(
+              height: 35,
+              margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
+              width: double.infinity,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+              child: Row(
+              children: <Widget>[
+                SizedBox(width: 10,),
+                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                if (locationController['name_tm']!=null)
+                Expanded(flex: 4, child: Text(locationController['name_tm']))
+                else
+                  Expanded(flex: 4, child: Text(''))
+              ],),),
+              onTap: (){
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return LocationWidget(callbackFunc: callbackLocation);},);
+              },
+            ),
+          const SizedBox(height: 15,),
+          
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Öndülilen ýurdy : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: countries, callbackFunc: callbackMadein)
+                ),],),),
+          const SizedBox(height: 15,),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Bölümi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: categories, callbackFunc: callbackCategory)
+                ),],),),
+          const SizedBox(height: 15,),
+          
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Brend : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: brands, callbackFunc: callbackBrand)
+                ),],),),
+          const SizedBox(height: 15,),
+
+
+          Container(
+            margin: const EdgeInsets.all(10),
+            decoration: BoxDecoration(border: Border.all(color: CustomColors.appColors, style: BorderStyle.solid, width: 1.0,),),
+            height: 100,
+            width: double.infinity,
+            child: TextFormField(
+              controller: detailController,
+              cursorColor: Colors.red,
+              maxLines:  3 ,
+              decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide.none,),
+                filled: true,
+                hintText: '........',
+                fillColor: Colors.white,),),),
+
+          SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child:Row(
+                children: images.map((country){
+                  return Stack(
+                    children: [
+                      Container(
+                          margin: const EdgeInsets.only(left: 10,bottom: 10),
+                          height: 100, width:100,
+                          alignment: Alignment.topLeft,
+                          child: Image.file(country,fit: BoxFit.cover,height: 100,width: 100,)
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            images.remove(country);
+                          });
+                          },
+                        child: Container(
+                          height: 100, width:110,
+                          alignment: Alignment.topRight,
+                          child: Icon(Icons.close, color: Colors.red),),),
+                    ],
+                  );
+                }).toList(),)),
+
+
+          Container(
+            height: 50,
+            padding: const EdgeInsets.all(10),
+            child: SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: CustomColors.appColors,
+                    foregroundColor: Colors.white),
+                onPressed: () {
+                  addimages();
+                },
+                child: const Text('Surat goş',style: TextStyle(fontWeight: FontWeight.bold),),
+              ),
+            ),
+          ),
+          Container(
+            height: 50,
+            padding: const EdgeInsets.all(10),
+            child: SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: CustomColors.appColors,
+                    foregroundColor: Colors.white),
+                onPressed: () async {
+                    Urls server_url  =  new Urls();
+                    String url = server_url.get_server_url() + '/mob/products';
+                    final uri = Uri.parse(url);
+                    var  request = new http.MultipartRequest("POST", uri);
+                    var token = Provider.of<UserInfo>(context, listen: false).access_token; 
+
+                    request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+                    request.fields['name_tm'] = name_tmController.text;
+
+                    request.fields['category'] = categoryController['id'].toString();
+                    request.fields['price'] = priceController.text;
+                    request.fields['phone'] = phoneController.text;
+                    request.fields['body_tm'] = detailController.text;
+                    request.fields['amount'] = amountController.text;
+                    request.fields['brand'] = barndController['id'].toString();
+                    request.fields['made_in'] = madeInController['id'].toString();
+                    request.fields['unit'] = unitController.text;
+                    request.fields['location'] = locationController['id'].toString();
+                    request.fields['customer'] = customer_id.toString();
+                                        
+                    for (var i in images){
+                       var multiport = await http.MultipartFile.fromPath('images', i.path, contentType: MediaType('image', 'jpeg'),);
+                       request.files.add(multiport);
+                    }
+                    showLoaderDialog(context);
+                    
+                    final response = await request.send();       
+                     if (response.statusCode == 200){
+                      widget.refreshFunc();
+                      Navigator.pop(context); 
+                      showConfirmationDialogSuccess(context);
+                     }
+                     else{
+                      Navigator.pop(context); 
+                      showConfirmationDialogError(context);    
+                     }  
+                },
+                child: const Text('Ýatda sakla',style: TextStyle(fontWeight: FontWeight.bold),),
+              ),
+            ),
+          )
+
+        ],
+      ),
+    );
+  }
+
+  showConfirmationDialogSuccess(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return SuccessAlert(action: 'othergoods', callbackFunc: callbackStatus,);},);}
+  
+  showConfirmationDialogError(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return ErrorAlert();},);}
+
+  void get_product_index() async {
+    Urls server_url  =  new Urls();
+    String url = server_url.get_server_url() + '/mob/index/product';
+    final uri = Uri.parse(url);
+    final response = await http.get(uri);
+    final json = jsonDecode(utf8.decode(response.bodyBytes));
+    setState(() {
+      data  = json;
+      categories = json['categories'];
+      brands = json['brands'];
+      units = json['units'];
+      countries = json['countries'];
+      print(json);
+
+    });
+    }
+}

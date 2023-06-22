@@ -1,0 +1,123 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../dB/colors.dart';
+import '../../dB/constants.dart';
+import 'package:http/http.dart' as http;
+
+import '../../dB/providers.dart';
+
+class DeleteImage extends StatefulWidget {
+  final String action;
+  var image;
+  final Function callbackFunc;
+
+  DeleteImage({Key? key, required this.action, required this.image, required this.callbackFunc}) : super(key: key);
+  @override
+  _DeleteImageState createState() => _DeleteImageState( action: action, image: image, callbackFunc: callbackFunc);
+}
+
+class _DeleteImageState extends State<DeleteImage> {
+  bool canUpload = false;
+  final String action;
+  var image;
+  final Function callbackFunc;
+  
+  _DeleteImageState({required this.action, required this.image, required this.callbackFunc});
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Row(
+        children: [
+          Text('Suraty pozmak isleýäňizmi?' ,style: TextStyle(color: CustomColors.appColors, fontSize: 17),),
+          Spacer(),
+          GestureDetector(
+            onTap: () => Navigator.pop(context, 'Cancel'),
+            child: Icon(Icons.close, color: Colors.red, size: 25,),
+          )
+        ],
+      ),
+      content: Container(
+        alignment: Alignment.center,
+        width: 70,
+        height: 70,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: CustomColors.appColors,
+                foregroundColor: Colors.white),
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: const Text('Goý bolsun'),
+          ),
+          SizedBox(width: 10,),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              foregroundColor: Colors.white),
+            onPressed: () async {
+              print('$action    ---    $image["id"]');
+                 Urls server_url  =  new Urls();
+                 print(image);
+                 String url = server_url.get_server_url() + '/mob/' + action + "/img/delete/"+ image['id'].toString();
+                 final uri = Uri.parse(url);
+                 print(uri);
+                 var  request = new http.MultipartRequest("POST", uri);
+                 var token = Provider.of<UserInfo>(context, listen: false).access_token;
+                 request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+                 final response = await request.send();
+                 print(response);
+                 print(response.statusCode);
+                 if (response.statusCode == 200){ 
+                    callbackFunc(image);
+                    Navigator.pop(context, 'Cancel');                         
+                  }
+                  else{
+                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ErrorAlert()));  
+                  }
+            },
+            child: const Text('Howwa'),
+          ),
+          ],
+        )
+      ),
+    );
+  }
+}
+
+
+class ErrorAlert extends StatefulWidget {
+  ErrorAlert({Key? key}) : super(key: key);
+  @override
+  _ErrorAlertState createState() => _ErrorAlertState();
+}
+
+class _ErrorAlertState extends State<ErrorAlert> {
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Container(
+        width: 200,
+        height: 250,
+        child: Text(
+          'Bagyşlan ýalňyşlyk ýüze çykdy täzeden synanşyp görüň!'
+        ),
+      ),
+      actions: <Widget>[
+
+        Align(
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white),
+            onPressed: () {
+              Navigator.pop(context,'Close');
+            },
+            child: const Text('Dowam et'),
+          ),
+        )
+      ],
+    );
+  }
+}
