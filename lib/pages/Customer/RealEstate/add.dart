@@ -7,12 +7,14 @@ import 'package:http_parser/http_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
+import 'package:my_app/pages/Customer/login.dart';
 import 'package:my_app/pages/error.dart';
 import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/constants.dart';
 import '../../../dB/providers.dart';
 import '../../../dB/textStyle.dart';
+import '../../../main.dart';
 import '../../customCheckbox.dart';
 import '../../select.dart';
 import '../../success.dart';
@@ -52,14 +54,16 @@ class _RealEstateAddState extends State<RealEstateAdd> {
   final atFloorController = TextEditingController();
   final roomCountController = TextEditingController();
   
-  
+  List<dynamic> stores = [];
+  var storesController = {};
+  callbackStores(new_value){ setState(() { storesController = new_value; });}
+
   var typeFlatsController = {};
   var remontStateController = {};
   var locationsController = {};
   
   callbackTypeFlats(new_value){ setState(() { typeFlatsController = new_value; });}
   callbackRemontState(new_value){ setState(() { remontStateController = new_value; });}
-
   callbackLocation(new_value){ setState(() { locationsController = new_value; });}
   
 
@@ -77,6 +81,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
 
   void initState() {
     get_flats_index();
+    get_userinfo();
     super.initState();
   }
   
@@ -154,6 +159,17 @@ class _RealEstateAddState extends State<RealEstateAdd> {
               ],
             ),
           ),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Söwda nokat : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: stores, callbackFunc: callbackStores)
+                ),],),),
+          const SizedBox(height: 15,),
 
           Container(
             height: 35,
@@ -527,7 +543,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
                     var document_num = '0';
                     if (document==true){ document_num = '1';}
                     
-                    print(typeFlatsController);
+                    request.fields['store'] = storesController['id'].toString();
                     request.fields['remont_state'] = remontStateController['id'].toString();
                     request.fields['category'] = typeFlatsController['id'].toString();
                     request.fields['location'] = locationsController['id'].toString();
@@ -598,7 +614,18 @@ class _RealEstateAddState extends State<RealEstateAdd> {
       data  = json;
       categories = json['categories'];
       remont_states = json['remont_states'];
-    });
-    }
+    });}
+
+    void get_userinfo() async {
+    var allRows = await dbHelper.queryAllRows();
+    var data = [];for (final row in allRows) {data.add(row);}
+    if (data.length==0){Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));}
+    Urls server_url  =  new Urls();
+    String url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString() ;
+    final uri = Uri.parse(url);
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded','token': data[0]['name']},);
+    final json = jsonDecode(utf8.decode(response.bodyBytes));
+    setState(() {stores = json['data']['stores'];});
+    Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);}
 }
 

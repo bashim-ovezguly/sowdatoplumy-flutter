@@ -105,7 +105,7 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
               margin: EdgeInsets.only(left: 20, right: 10),
               child:  Row(
                 children: <Widget>[
-                  Text("Awtoulaglar", style: TextStyle(color: CustomColors.appColors, fontSize: 18,),),
+                  Text("Awtoşaýlar", style: TextStyle(color: CustomColors.appColors, fontSize: 18,),),
                 ],
               )
           ),
@@ -170,7 +170,7 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                 children:  <Widget>[
                   SizedBox(width: 10,),
                   Icon(Icons.access_time_outlined,size: 20,color: CustomColors.appColors,),
-                  SizedBox(width: 20,),
+                  SizedBox(width: 10,),
                   Text(data['created_at'].toString(),
                     style: TextStyle(
                       fontSize: 16,
@@ -180,6 +180,7 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                   ),
                 ],
               ),),
+              Spacer(),
               Expanded(child: Row(
                 children:  <Widget>[
                   Icon(Icons.visibility_sharp, size: 20,color: CustomColors.appColors,),
@@ -225,6 +226,18 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                     const Icon(Icons.production_quantity_limits, color: Colors.grey, size: 20,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Ady", size: 16.0),)],),),
                 Expanded(child: SizedBox(child: TextValueWidget(text: data['name_tm'].toString(), size: 16.0),))
+              ],),),
+
+          Container(
+            height: 30,
+            margin: const EdgeInsets.only(left: 10),
+            child: Row(
+              children: <Widget>[
+                Expanded(child: Row(
+                  children: <Widget>[
+                    const Icon(Icons.store, color: Colors.grey, size: 20,),
+                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Söwda nokat", size: 16.0),)],),),
+                Expanded(child: SizedBox(child: TextValueWidget(text: data['store'].toString(), size: 16.0),))
               ],),),
               
           Container(
@@ -327,7 +340,7 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                 Expanded(child: Row(
                   children: <Widget>[
                     const Icon(Icons.monetization_on_sharp, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kridit", size:16.0),)],),),
+                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kredit", size:16.0),)],),),
                 Expanded(child: Container(
                   alignment: Alignment.topLeft,
            
@@ -508,7 +521,7 @@ class TextKeyWidget extends StatelessWidget {
   final double size;
   @override
   Widget build(BuildContext context) {
-    return Text(text, maxLines: 3,style: TextStyle(fontSize: 16, color: Colors.black26));
+    return Text(text, maxLines: 3,style: TextStyle(fontSize: 14, color: Colors.black26));
   }
 }
 
@@ -519,6 +532,6 @@ class TextValueWidget extends StatelessWidget {
   final double size;
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: TextStyle(fontSize: 16, color: CustomColors.appColors));
+    return Text(text, style: TextStyle(fontSize: 14, color: CustomColors.appColors));
   }
 }

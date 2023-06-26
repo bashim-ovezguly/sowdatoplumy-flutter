@@ -7,8 +7,10 @@ import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:my_app/main.dart';
 import 'package:my_app/pages/Customer/deleteImage.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
+import 'package:my_app/pages/Customer/login.dart';
 import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/constants.dart';
@@ -39,6 +41,10 @@ class _EditCarState extends State<EditCar> {
   List<dynamic> wheel_drives = [];
   List<File> images = [];
   List<dynamic> made_in_countries = [];
+
+    List<dynamic> stores = [];
+  var storesController = {};
+  callbackStores(new_value){ setState(() { storesController = new_value; });}
 
   var old_data;
   final usernameController = TextEditingController();
@@ -72,7 +78,18 @@ class _EditCarState extends State<EditCar> {
   
   int _mainImg = 0;
 
-  callbackMarka(new_value){ setState(() { markaController = new_value; });}
+   callbackMarka(new_value) async { setState(() { markaController = new_value; });
+    Urls server_url  =  new Urls();
+    String url = server_url.get_server_url() + '/mob/index/car?mark=' + markaController['id'].toString();
+    final uri = Uri.parse(url);
+    final responses = await http.get(uri);
+    final jsons = jsonDecode(utf8.decode(responses.bodyBytes));
+    setState(() {
+      models = jsons['models'];
+    });
+    
+    }
+
   callbackModel(new_value){ setState(() { modelController = new_value; });}
   callbackColor(new_value){ setState(() { colorController = new_value; });}
   callbackBodyType(new_value){ setState(() { body_typeController = new_value; });}
@@ -113,6 +130,7 @@ class _EditCarState extends State<EditCar> {
     none_cash_pay = old_data['none_cash_pay'] ;
     recolored = old_data['recolored'] ;
     get_cars_index();
+    get_userinfo();
     super.initState();
   }
 
@@ -129,6 +147,22 @@ class _EditCarState extends State<EditCar> {
             padding: const EdgeInsets.all(10),
             child: const Text("Awtoulag üýtgetmek", style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold, color: CustomColors.appColors),),
           ),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,),
+               if (old_data['store']!= null && old_data['store']!='')
+                  Expanded(flex: 2,child: Text(old_data['store'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                if (old_data['store']==null || old_data['store']=='')
+
+              Expanded(flex: 2,child: Text("Söwda nokat: ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child:MyDropdownButton(items: stores, callbackFunc: callbackStores)
+                ),],),),
+          const SizedBox(height: 15,),
 
           Container(
             height: 35,
@@ -610,6 +644,10 @@ class _EditCarState extends State<EditCar> {
                     if (recolored==true){ recolored_num = '1';}
                     
                     request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+
+                    if (storesController['id']!=null){
+                      request.fields['store'] = storesController['id'].toString();
+                    }
                     
                     if (modelController['id']!=null){
                       request.fields['model'] = modelController['id'].toString();
@@ -686,7 +724,6 @@ class _EditCarState extends State<EditCar> {
                     print(request.fields);
                     showLoaderDialog(context);
                     final response = await request.send();
-                    print(response.statusCode);
                      if (response.statusCode == 200){
                       callbackFunc();
                       Navigator.pop(context); 
@@ -729,6 +766,18 @@ class _EditCarState extends State<EditCar> {
       transmissions = json['transmissions'];
       wheel_drives = json['wheel_drives']; 
       made_in_countries = json['countries'];
-    });
-    }
+    });}
+
+          
+    void get_userinfo() async {
+    var allRows = await dbHelper.queryAllRows();
+    var data = [];for (final row in allRows) {data.add(row);}
+    if (data.length==0){Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));}
+    Urls server_url  =  new Urls();
+    String url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString() ;
+    final uri = Uri.parse(url);
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded','token': data[0]['name']},);
+    final json = jsonDecode(utf8.decode(response.bodyBytes));
+    setState(() {stores = json['data']['stores'];});
+    Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);}
 }

@@ -170,6 +170,9 @@ _StoreFirstState({required this.title, required this.id});
                 const  Expanded(child: SizedBox(child: TextValueWidget(text:"Bazarlar", size: 17.0),))
               ],),),
 
+
+          
+
           Container(
                 margin: EdgeInsets.only(top: 10, bottom: 20),
                 alignment: Alignment.center,

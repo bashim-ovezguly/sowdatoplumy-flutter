@@ -25,7 +25,7 @@ class Car extends StatefulWidget {
 
 class _CarState extends State<Car> {
   String dropdownValue = list.first;
-  List<dynamic> dataSlider = [{"img": "", }];
+  List<dynamic> dataSlider = [{"img": "", 'name_tm':"", 'price':"", 'location':''}];
   List<dynamic> data = [];
   int _current = 0;
   var baseurl = "";
@@ -136,13 +136,14 @@ class _CarState extends State<Car> {
                                         child:  FittedBox(
                                           fit: BoxFit.cover,
                                           child: item['img'] != null && item['img'] != '' ? Image.network(baseurl + item['img'].toString(),):
-                                          Image.asset('assets/images/default.jpg'),),
+                                          Image.asset('assets/images/default16x9.jpg'),),
                                       ),
                                     ),
                                     Positioned(top: 130, left: 10,
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
+                                            if (item['mark']!=null && item['model']!=null)
                                             Text(item['mark'].toString() + " " + item['model'].toString(),
                                               style: TextStyle(shadows: [
                                                 Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
@@ -344,6 +345,9 @@ class _CarState extends State<Car> {
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       dataSlider  = json['data'];
+      if ( dataSlider.length==0){
+        dataSlider = [{"img": "", 'name_tm':"", 'price':"", 'location':''}];
+      }
       baseurl =  server_url.get_server_url();
       determinate1 = true;
 

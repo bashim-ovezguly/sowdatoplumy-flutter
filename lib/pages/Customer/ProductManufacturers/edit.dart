@@ -31,7 +31,7 @@ class _FactoriesEditState extends State<FactoriesEdit> {
   final Function callbackFunc;
   List<dynamic> categories = [];
   List<File> images = [];
-    
+  int _mainImg = 0; 
   var old_data;
   var baseurl = "";
 
@@ -197,7 +197,7 @@ class _FactoriesEditState extends State<FactoriesEdit> {
               }return null;
             },),),
 
-            if (old_data['images'].length > 0)
+                      if (old_data['images'].length > 0)
             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Column(
@@ -206,31 +206,78 @@ class _FactoriesEditState extends State<FactoriesEdit> {
                     Text("    Suratlar", style: TextStyle(color: CustomColors.appColors, fontSize: 16),),
                     Row(children: [
                       for(var country in old_data['images'])
-                      Stack(
-                      children: [
-                        Container(
-                            margin: const EdgeInsets.only(left: 10,bottom: 10),
-                            height: 100, width:100,
-                            alignment: Alignment.topLeft,
-                            child: Image.network(baseurl + country['img_l'],fit: BoxFit.cover,height: 100,width: 100,
-                               errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                                        return Center(child: CircularProgressIndicator(color: CustomColors.appColors,),);},)
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                              showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return DeleteImage(action: 'factories', image: country, callbackFunc: remove_image,);},);
-                          },
-                          child: Container(
-                            height: 100, width:110,
-                            alignment: Alignment.topRight,
-                            child: Icon(Icons.close, color: Colors.red),),),
-                      ],)],)])),
+                      Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                  margin: const EdgeInsets.only(left: 10,bottom: 10),
+                                  height: 100, width:100,
+                                  alignment: Alignment.topLeft,
+                                  child: Image.network(baseurl + country['img_l'],fit: BoxFit.cover,height: 100,width: 100,
+                                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                              return Center(child: CircularProgressIndicator(color: CustomColors.appColors,),);},
+                                  )
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                    showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return DeleteImage(action: 'cars', image: country, callbackFunc: remove_image,);},);
+                                },
+                                child: Container(
+                                  height: 100, width:110,
+                                  alignment: Alignment.topRight,
+                                  child: Icon(Icons.close, color: Colors.red),),),
+                            ],),
+
+                            if (_mainImg == country['id'])
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: OutlinedButton(
+                                child: Text("Esasy img", style: TextStyle(color: Colors.white),),
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: Color.fromARGB(255, 15, 138, 19),
+                                  primary: Colors.green,
+                                  side: BorderSide(
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _mainImg = country['id'];
+                                  });
+                                },
+                              ),
+                              )                            
+                            else
+
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: OutlinedButton(
+                                child: Text("Esasy img"),
+                                style: OutlinedButton.styleFrom(
+                                  primary: Colors.red,
+                                  side: BorderSide(
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _mainImg = country['id'];
+                                  });
+                                },
+                              ),
+                              )
+                        ],
+                      )
+                      ],)])),
           
           SizedBox(height: 10,),
+
+
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child:Row(
@@ -307,6 +354,10 @@ class _FactoriesEditState extends State<FactoriesEdit> {
                     
                     if (phoneController.text!=''){
                       request.fields['phone'] = phoneController.text;
+                    }
+                    
+                    if (_mainImg!=0){
+                      request.fields['img'] = _mainImg.toString();
                     }
                     
                     if (categoryController['id']!=null){

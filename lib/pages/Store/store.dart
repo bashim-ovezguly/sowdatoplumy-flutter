@@ -197,10 +197,17 @@ class _StoreState extends State<Store> {
                               .map((item) => GestureDetector(
                                 onTap: (){
                                   if (title=='Marketler' || title=='Söwda nokatlar'){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: item['id'].toString(), title: title,) ));
+                                    if (item['id']!=null){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: item['id'].toString(), title: title,) ));
+                                    }
+                                    
                                   }
                                   else{
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => StoreFirst(id: item['id'].toString(), title: title,) ));
+                                    if (item['id']!=null)
+                                    {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => StoreFirst(id: item['id'].toString(), title: title,) ));
+                                    }
+                                    
                                   }
                                 },
                                 child: Stack(

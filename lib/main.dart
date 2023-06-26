@@ -5,15 +5,8 @@ import 'package:my_app/pages/Awtoparts/awtoPartsDetail.dart';
 import 'package:my_app/pages/Car/car.dart';
 import 'package:my_app/pages/Construction/constructionDetail.dart';
 import 'package:my_app/pages/Construction/constructionList.dart';
-import 'package:my_app/pages/Customer/AutoParts/list.dart';
-import 'package:my_app/pages/Customer/AwtoCar/list.dart';
-import 'package:my_app/pages/Customer/Construction/list.dart';
 import 'package:my_app/pages/Customer/Finance/getFirst.dart';
-import 'package:my_app/pages/Customer/Finance/list.dart';
-import 'package:my_app/pages/Customer/ProductManufacturers/list.dart';
-import 'package:my_app/pages/Customer/RealEstate/list.dart';
 import 'package:my_app/pages/Customer/login.dart';
-import 'package:my_app/pages/Customer/myStores.dart';
 import 'package:my_app/pages/Customer/newPassword.dart';
 import 'package:my_app/pages/OtherGoods/otherGoodsList.dart';
 import 'package:my_app/pages/Pharmacies/pharmaciesList.dart';
@@ -34,13 +27,19 @@ import 'package:my_app/pages/homePages.dart';
 import 'dB/colors.dart';
 import 'dB/db.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter/services.dart';
 
 final dbHelper = DatabaseSQL();
 
 Future<void> main() async {
   
+
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+    ]
+  );
   await dbHelper.init();
 
   runApp(

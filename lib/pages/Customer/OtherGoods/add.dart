@@ -8,10 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
+import 'package:my_app/pages/Customer/login.dart';
 import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/providers.dart';
 import '../../../dB/textStyle.dart';
+import '../../../main.dart';
 import '../../error.dart';
 import '../../select.dart';
 import '../../success.dart';
@@ -32,6 +34,10 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
   List<dynamic> units = [];
   List<dynamic> countries = [];
   List<File> images = [];
+
+  List<dynamic> stores = [];
+  var storesController = {};
+  callbackStores(new_value){ setState(() { storesController = new_value; });}
   
   final String customer_id;
   final name_tmController = TextEditingController();
@@ -74,6 +80,7 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
   
   void initState() {
     get_product_index();
+    get_userinfo();
     super.initState();
   }
  
@@ -89,6 +96,17 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
             padding: const EdgeInsets.all(10),
             child: const Text("Bildiriş goşmak", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CustomColors.appColors),),
           ),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Söwda nokat : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: stores, callbackFunc: callbackStores)
+                ),],),),
+          const SizedBox(height: 15,),
 
           Container(
             alignment: Alignment.center,
@@ -298,6 +316,7 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
                     var token = Provider.of<UserInfo>(context, listen: false).access_token; 
 
                     request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+                    request.fields['store'] = storesController['id'].toString();
                     request.fields['name_tm'] = name_tmController.text;
 
                     request.fields['category'] = categoryController['id'].toString();
@@ -364,8 +383,18 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
       brands = json['brands'];
       units = json['units'];
       countries = json['countries'];
-      print(json);
-
     });
     }
+
+    void get_userinfo() async {
+      var allRows = await dbHelper.queryAllRows();
+      var data = [];for (final row in allRows) {data.add(row);}
+      if (data.length==0){Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));}
+      Urls server_url  =  new Urls();
+      String url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString() ;
+      final uri = Uri.parse(url);
+      final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded','token': data[0]['name']},);
+      final json = jsonDecode(utf8.decode(response.bodyBytes));
+      setState(() {stores = json['data']['stores'];});
+      Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);}
 }

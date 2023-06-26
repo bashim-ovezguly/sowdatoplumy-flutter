@@ -148,7 +148,7 @@ class _MyFactoriesState extends State<MyFactories> {
                                           if (data[index]['location'].toString().length>25)
                                             Text(data[index]['location'].toString().substring(0, 25)+"...", style: CustomText.itemText)
                                           else
-                                          Text('')                
+                                          Text(data[index]['location'].toString(), style: CustomText.itemText)                
                                           ],),)),
                                         
                                     Expanded( flex: 2,

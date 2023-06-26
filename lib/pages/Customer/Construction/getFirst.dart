@@ -159,6 +159,33 @@ class _GetConstructionFirstState extends State<GetConstructionFirst> {
             ],
           ),
 
+          Row(
+            children: <Widget>[
+              Expanded(flex: 4,child: Row(
+                children:  <Widget>[
+                  SizedBox(width: 10,),
+                  Icon(Icons.access_time_outlined,size: 20,color: CustomColors.appColors,),
+                  SizedBox(width: 10,),
+                  Text(data['created_at'].toString(),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'Raleway',
+                      color: CustomColors.appColors,
+                    ),
+                  ),
+                ],
+              ),),
+              Spacer(),
+              Expanded(child: Row(
+                children:  <Widget>[
+                  Icon(Icons.visibility_sharp,size: 20,color: CustomColors.appColors,),
+                  SizedBox(width: 10,),
+                  Text(data['viewed'].toString(), style: TextStyle(fontSize: 16, fontFamily: 'Raleway', color: CustomColors.appColors,
+                  ),),],),
+              )
+            ],
+          ),
+
           Container(
             margin: EdgeInsets.only(left: 10,right: 10,top: 10),
             height: 35,
@@ -168,11 +195,11 @@ class _GetConstructionFirstState extends State<GetConstructionFirst> {
                   SizedBox(width: 10,),
                   Icon(Icons.auto_graph_outlined, color: Colors.black54,),
                   SizedBox(width: 10,),
-                  Text("Id", style: TextStyle(fontSize: 15, color: Colors.black54),)],),),
-              Expanded(child: Text(data['id'].toString(), style: TextStyle(fontSize: 17, color: CustomColors.appColors)))],),),
+                  Text("Id", style: TextStyle(fontSize: 14, color: Colors.black54),)],),),
+              Expanded(child: Text(data['id'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors)))],),),
 
           Container(
-            margin: EdgeInsets.only(left: 10,right: 10,top: 10),
+            margin: EdgeInsets.only(left: 10,right: 10),
             height: 35,
             child: Row(children: [
               Expanded(child: Row(
@@ -180,8 +207,20 @@ class _GetConstructionFirstState extends State<GetConstructionFirst> {
                   SizedBox(width: 10,),
                   Icon(Icons.drive_file_rename_outline_outlined, color: Colors.black54,),
                   SizedBox(width: 10,),
-                  Text("Ady", style: TextStyle(fontSize: 15, color: Colors.black54),)],),),
-              Expanded(child: Text(data['name_tm'].toString(), style: TextStyle(fontSize: 17, color: CustomColors.appColors)))],),),
+                  Text("Ady", style: TextStyle(fontSize: 14, color: Colors.black54),)],),),
+              Expanded(child: Text(data['name_tm'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors)))],),),
+
+          Container(
+            margin: EdgeInsets.only(left: 10,right: 10),
+            height: 35,
+            child: Row(children: [
+              Expanded(child: Row(
+                children: [
+                  SizedBox(width: 10,),
+                  Icon(Icons.store, color: Colors.black54,),
+                  SizedBox(width: 10,),
+                  Text("Söwda nokat", style: TextStyle(fontSize: 14, color: Colors.black54),)],),),
+              Expanded(child: Text(data['store'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors)))],),),
 
           Container(
             height: 35,
@@ -192,8 +231,8 @@ class _GetConstructionFirstState extends State<GetConstructionFirst> {
                   SizedBox(width: 10,),
                   Icon(Icons.category_outlined, color: Colors.black54,),
                   SizedBox(width: 10,),
-                  Text("Kategoriýa", style: TextStyle(fontSize: 15, color: Colors.black54),)],),),
-              Expanded(child: Text("Gurluşyk harytlar",maxLines: 2,  style: TextStyle(fontSize: 17, color: CustomColors.appColors)))],),),
+                  Text("Kategoriýa", style: TextStyle(fontSize: 14, color: Colors.black54),)],),),
+              Expanded(child: Text("Gurluşyk harytlar",maxLines: 2,  style: TextStyle(fontSize: 14, color: CustomColors.appColors)))],),),
 
           Container(
             margin: EdgeInsets.only(left: 10,right: 10),
@@ -204,8 +243,8 @@ class _GetConstructionFirstState extends State<GetConstructionFirst> {
                   SizedBox(width: 10,),
                   Icon(Icons.money, color: Colors.black54,),
                   SizedBox(width: 10,),
-                  Text("Bahasy", style: TextStyle(fontSize: 15, color: Colors.black54),)],),),
-              Expanded(child: Text(data['price'].toString(),  style: TextStyle(fontSize: 17, color: CustomColors.appColors)))],),),
+                  Text("Bahasy", style: TextStyle(fontSize: 14, color: Colors.black54),)],),),
+              Expanded(child: Text(data['price'].toString(),  style: TextStyle(fontSize: 14, color: CustomColors.appColors)))],),),
           Container(
             margin: EdgeInsets.only(left: 10,right: 10),
             height: 30,
@@ -215,8 +254,8 @@ class _GetConstructionFirstState extends State<GetConstructionFirst> {
                   SizedBox(width: 10,),
                   Icon(Icons.phone_callback, color: Colors.black54,),
                   SizedBox(width: 10,),
-                  Text("Telefon", style: TextStyle(fontSize: 15, color: Colors.black54),)],),),
-              Expanded(child: Text(data['phone'].toString(),  style: TextStyle(fontSize: 17, color: CustomColors.appColors)))],),),
+                  Text("Telefon", style: TextStyle(fontSize: 14, color: Colors.black54),)],),),
+              Expanded(child: Text(data['phone'].toString(),  style: TextStyle(fontSize: 14, color: CustomColors.appColors)))],),),
 
           Container(
             margin: EdgeInsets.only(left: 10,right: 10),
@@ -227,8 +266,8 @@ class _GetConstructionFirstState extends State<GetConstructionFirst> {
                   SizedBox(width: 10,),
                   Icon(Icons.location_on, color: Colors.black54,),
                   SizedBox(width: 10,),
-                  Text("Ýerlesyan ýeri", style: TextStyle(fontSize: 15, color: Colors.black54),)],),),
-              Expanded(child: Text(data['location'].toString(),  style: TextStyle(fontSize: 17, color: CustomColors.appColors)))],),),
+                  Text("Ýerlesyan ýeri", style: TextStyle(fontSize: 14, color: Colors.black54),)],),),
+              Expanded(child: Text(data['location'].toString(),  style: TextStyle(fontSize: 14, color: CustomColors.appColors)))],),),
           SizedBox(height: 30,),
                     Container(
                       margin: const EdgeInsets.all(10),

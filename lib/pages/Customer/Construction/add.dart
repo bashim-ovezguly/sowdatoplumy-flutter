@@ -6,7 +6,9 @@ import 'package:http_parser/http_parser.dart';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:my_app/main.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
+import 'package:my_app/pages/Customer/login.dart';
 import 'package:my_app/pages/error.dart';
 import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
@@ -31,6 +33,10 @@ class _ConstructionAddState extends State<ConstructionAdd> {
   List<dynamic> categories = [];
   
   List<File> images = [];
+  
+  List<dynamic> stores = [];
+  var storesController = {};
+  callbackStores(new_value){ setState(() { storesController = new_value; });}
   
   final String customer_id;
   final name_tmController = TextEditingController();
@@ -68,6 +74,7 @@ class _ConstructionAddState extends State<ConstructionAdd> {
   
   void initState() {
     get_materials_index();
+    get_userinfo();
     super.initState();
   }
   _ConstructionAddState({required this.customer_id});
@@ -99,6 +106,17 @@ class _ConstructionAddState extends State<ConstructionAdd> {
                 return 'Please enter some text';
               }return null;
             },),),
+          const SizedBox(height: 15,),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Söwda nokat : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: stores, callbackFunc: callbackStores)
+                ),],),),
           const SizedBox(height: 15,),
 
           Container(
@@ -251,6 +269,8 @@ class _ConstructionAddState extends State<ConstructionAdd> {
                     var token = Provider.of<UserInfo>(context, listen: false).access_token;
                     
                     request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+                    request.fields['store'] = storesController['id'].toString();
+
                     request.fields['name_tm'] = name_tmController.text;
                     request.fields['category'] = categoryController['id'].toString();
                     request.fields['price'] = priceController.text;
@@ -311,6 +331,17 @@ class _ConstructionAddState extends State<ConstructionAdd> {
     setState(() {
       data  = json;
       categories = json['categories'];
-    });
-    }
+    });}
+
+    void get_userinfo() async {
+    var allRows = await dbHelper.queryAllRows();
+    var data = [];for (final row in allRows) {data.add(row);}
+    if (data.length==0){Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));}
+    Urls server_url  =  new Urls();
+    String url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString() ;
+    final uri = Uri.parse(url);
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded','token': data[0]['name']},);
+    final json = jsonDecode(utf8.decode(response.bodyBytes));
+    setState(() {stores = json['data']['stores'];});
+    Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);}
 }

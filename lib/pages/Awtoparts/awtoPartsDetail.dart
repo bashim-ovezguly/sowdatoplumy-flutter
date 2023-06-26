@@ -35,7 +35,6 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
   
   bool determinate = false;
   
-
   void initState() {
     if (imgList.length==0){
       imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXAFCMCaO9NVAPUqo5i8rXVgWB5Qaj_Qthf-KQZNAy0YyJxlAxejBSvSWOK-5PMK3RQQ&usqp=CAU');
@@ -139,7 +138,7 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                 children:  <Widget>[
                   SizedBox(width: 10,),
                   Icon(Icons.access_time_outlined,size: 20,color: CustomColors.appColors,),
-                  SizedBox(width: 20,),
+                  SizedBox(width: 10,),
                   Text(data['created_at'].toString(),
                     style: TextStyle(
                       fontSize: 16,
@@ -149,6 +148,7 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                   ),
                 ],
               ),),
+              Spacer(),
               Expanded(child: Row(
                 children:  <Widget>[
                   Icon(Icons.visibility_sharp, size: 20,color: CustomColors.appColors,),
@@ -301,7 +301,7 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                 Expanded(child: Row(
                   children: <Widget>[
                     const Icon(Icons.monetization_on_sharp, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kridit", size:16.0),)],),),
+                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kredit", size:16.0),)],),),
                 Expanded(child: Container(
                   alignment: Alignment.topLeft,
            
@@ -419,23 +419,29 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                     child: Image.network(baseurl + data['ad']!['img'].toString(), 
                     fit: BoxFit.fitHeight, height: 160, width: double.infinity),),
                 ],),),
-          
-            Container(
-              margin: const EdgeInsets.all(10),
-              height: 100,
+
+            if (data['detail']!=null && data['detail']!='')
+            SizedBox(
               width: double.infinity,
               child: TextField(
                 enabled: false, 
-                maxLines:  3 ,
                 decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide.none,),
                 filled: true,
+                hintMaxLines: 10,
+                hintStyle: TextStyle(fontSize: 14, color: CustomColors.appColors),
                 hintText: data['detail'].toString(),
                 fillColor: Colors.white,),),),
-
-          Call(phone: number)
+            SizedBox(height: 70,),
         ],
       ): Center(child: CircularProgressIndicator(
         color: CustomColors.appColors,),),
+      ),
+      
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(top: 30, left: 25),
+        alignment: Alignment.bottomCenter,
+        padding: EdgeInsets.only(top: 50),
+        child: Call(phone: data['phone'].toString()),
       )
     );
   }
@@ -476,7 +482,7 @@ class TextKeyWidget extends StatelessWidget {
   final double size;
   @override
   Widget build(BuildContext context) {
-    return Text(text, maxLines: 3,style: TextStyle(fontSize: 16, color: Colors.black26));
+    return Text(text, maxLines: 3,style: TextStyle(fontSize: 14, color: Colors.black26));
   }
 }
 
@@ -487,7 +493,7 @@ class TextValueWidget extends StatelessWidget {
   final double size;
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: TextStyle(fontSize: 16, color: CustomColors.appColors),
+    return Text(text, style: TextStyle(fontSize: 14, color: CustomColors.appColors),
            overflow: TextOverflow.clip,
                                             maxLines: 2,
                                             softWrap: false,);

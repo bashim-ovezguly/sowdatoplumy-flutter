@@ -67,7 +67,10 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: (){ 
-                       Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: data[index]['id'].toString(), title: 'Beýleki bildirişler',)));
+                      if (data[index]['id']!=null){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: data[index]['id'].toString(), title: 'Beýleki bildirişler',)));
+                      }
+                       
                       },
                     child: Container(
                       margin: EdgeInsets.only(left: 5, right: 5),

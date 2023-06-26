@@ -7,7 +7,9 @@ import 'package:http_parser/http_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_app/dB/constants.dart';
+import 'package:my_app/main.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
+import 'package:my_app/pages/Customer/login.dart';
 import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/providers.dart';
@@ -30,6 +32,10 @@ class _ServiceAddState extends State<ServiceAdd> {
   List<dynamic> categories = [];
   List<dynamic> trade_centers = [];
   List<File> images = [];
+
+  List<dynamic> stores = [];
+  var storesController = {};
+  callbackStores(new_value){ setState(() { storesController = new_value; });}
   
   final String customer_id;
   final name_tmController = TextEditingController();
@@ -72,6 +78,7 @@ class _ServiceAddState extends State<ServiceAdd> {
   
   void initState() {
     get_product_index();
+    get_userinfo();
     super.initState();
   }
  
@@ -87,7 +94,7 @@ class _ServiceAddState extends State<ServiceAdd> {
             padding: const EdgeInsets.all(10),
             child: const Text("Hyzmat goşmak", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: CustomColors.appColors),),
           ),
-
+          
           Container(
             alignment: Alignment.center,
             height: 35,
@@ -104,6 +111,17 @@ class _ServiceAddState extends State<ServiceAdd> {
                 return 'Please enter some text';
               }return null;
             },),),
+          const SizedBox(height: 15,),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Söwda nokat : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: stores, callbackFunc: callbackStores)
+                ),],),),
           const SizedBox(height: 15,),
 
           Container(
@@ -260,6 +278,7 @@ class _ServiceAddState extends State<ServiceAdd> {
                     request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
                     request.fields['name_tm'] = name_tmController.text;
                     request.fields['category'] = categoryController['id'].toString();
+                    request.fields['store'] = storesController['id'].toString();
                     request.fields['price'] = priceController.text;
                     request.fields['phone'] = phoneController.text;
                     request.fields['description'] = detailController.text;
@@ -317,8 +336,19 @@ class _ServiceAddState extends State<ServiceAdd> {
       data  = json;
       categories = json['categories'];
       trade_centers = json['trade_centers'];
-      print(json);
-
     });
     }
+
+
+    void get_userinfo() async {
+    var allRows = await dbHelper.queryAllRows();
+    var data = [];for (final row in allRows) {data.add(row);}
+    if (data.length==0){Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));}
+    Urls server_url  =  new Urls();
+    String url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString() ;
+    final uri = Uri.parse(url);
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded','token': data[0]['name']},);
+    final json = jsonDecode(utf8.decode(response.bodyBytes));
+    setState(() {stores = json['data']['stores'];});
+    Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);}
 }

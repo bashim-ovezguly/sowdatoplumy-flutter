@@ -8,8 +8,8 @@ class CustomText {
   static const itemTextBold = TextStyle(fontSize: 15, color: CustomColors.appColorWhite, fontWeight: FontWeight.bold);
   
 
-  static const size_16_black54 = TextStyle(fontSize: 16, color: CustomColors.appColorBlack54);
-  static const size_16 = TextStyle(fontSize: 16, color: CustomColors.appColors);
-  static const size_c = TextStyle(fontSize: 16, color: CustomColors.appColors, fontWeight: FontWeight.bold);
+  static const size_16_black54 = TextStyle(fontSize: 14, color: CustomColors.appColorBlack54);
+  static const size_16 = TextStyle(fontSize: 14, color: CustomColors.appColors);
+  static const size_c = TextStyle(fontSize: 14, color: CustomColors.appColors, fontWeight: FontWeight.bold);
 
 }

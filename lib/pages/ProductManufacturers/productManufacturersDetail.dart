@@ -130,12 +130,12 @@ class _ProductManufacturersDetailState extends State<ProductManufacturersDetail>
                               SizedBox(width: 20,),
                               Icon(Icons.access_time_outlined,size: 20,color: CustomColors.appColors,),
                               SizedBox(width: 20,),
-                              Text(data['created_at'].toString(), style: TextStyle(fontSize: 18, color: CustomColors.appColors,),),],),),
+                              Text(data['created_at'].toString(), style: TextStyle(fontSize: 16, color: CustomColors.appColors,),),],),),
                           Expanded(child: Row(
                             children:  <Widget>[
-                              Icon(Icons.visibility_sharp,size: 20,color: CustomColors.appColors,),
+                              Icon(Icons.visibility_sharp,size: 18,color: CustomColors.appColors,),
                               SizedBox(width: 10,),
-                              Text(data['viewed'].toString(), style: TextStyle(fontSize: 18, color: CustomColors.appColors,
+                              Text(data['viewed'].toString(), style: TextStyle(fontSize: 16, color: CustomColors.appColors,
                               ),),],),)],),
 
                       Container(

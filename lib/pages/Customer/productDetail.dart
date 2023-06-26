@@ -256,7 +256,7 @@ class _ProductDetailState extends State<ProductDetail> {
           //         children: <Widget>[
           //           SizedBox(width: 10,),
           //           const Icon(Icons.monetization_on_sharp, color: Colors.black54,),
-          //           Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kridit", size:16.0),)],),),
+          //           Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kredit", size:16.0),)],),),
           //       Expanded(child: Container(
           //         alignment: Alignment.topLeft,
            

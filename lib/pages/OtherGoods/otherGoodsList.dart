@@ -27,7 +27,7 @@ class OtherGoodsList extends StatefulWidget {
 class _OtherGoodsListState extends State<OtherGoodsList> {
   String dropdownValue = list.first;
 
-  List<dynamic> dataSlider = [{"img": "", }];
+  List<dynamic> dataSlider = [{"img": "", 'name':"", 'price':"", 'location':''}];
   List<dynamic> data = [];
   int _current = 0;
   var baseurl = "";  
@@ -46,7 +46,6 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
     getproductlist();
     getslider_products();
     super.initState();
-
   }
   
   @override
@@ -120,7 +119,11 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                             items: dataSlider
                                 .map((item) => GestureDetector(
                                   onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: item['id'].toString(),title: 'Beýleki bildirişler',) ));
+                                    if (item['id']!=null && item['id']!='')
+                                    {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: item['id'].toString(),title: 'Beýleki bildirişler',) ));
+                                    }
+                                    
                                   },
                                   child: Container(
                               color: Colors.white,
@@ -141,6 +144,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
+                                              if (item['name']!=null)
                                               Text(item['name'].toString(),
                                                 style: TextStyle(shadows: [
                                                   Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
@@ -352,8 +356,10 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       dataSlider  = json['data'];
+      if ( dataSlider.length==0){
+        dataSlider = [{"img": "", 'name_tm':"", 'price':"", 'location':''}];
+      }
       baseurl =  server_url.get_server_url();
-      
       determinate1 = true;
     });}
 

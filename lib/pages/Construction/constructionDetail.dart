@@ -119,7 +119,7 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
                 children:  <Widget>[
                   SizedBox(width: 10,),
                   Icon(Icons.access_time_outlined,size: 20,color: CustomColors.appColors,),
-                  SizedBox(width: 20,),
+                  SizedBox(width: 10,),
                   Text(data['created_at'].toString(),
                     style: TextStyle(
                       fontSize: 16,
@@ -129,6 +129,7 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
                   ),
                 ],
               ),),
+              Spacer(),
               Expanded(child: Row(
                 children:  <Widget>[
                   Icon(Icons.visibility_sharp, size: 20,color: CustomColors.appColors,),
@@ -200,6 +201,8 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
                   SizedBox(width: 10,),
                   Text("Bahasy", style: CustomText.size_16_black54,)],),),
               Expanded(child: Text(data['price'].toString(),  style: CustomText.size_16))],),),
+
+  
           Container(
             margin: EdgeInsets.only(left: 10,right: 10),
             height: 30,
@@ -210,8 +213,8 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
                   Icon(Icons.phone_callback, color: Colors.black54,),
                   SizedBox(width: 10,),
                   Text("Telefon", style: CustomText.size_16_black54,)],),),
-              Expanded(child: Text(data['phone'].toString() ,  style: CustomText.size_16))],),),
-
+              Expanded(child:data['phone']!=null && data['phone']!='' ? Text(data['phone'].toString() ,  style: CustomText.size_16): Text(''))],),),
+        
           Container(
             margin: EdgeInsets.only(left: 10,right: 10),
             height: 30,
@@ -242,22 +245,28 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
           if (data['ad'] == null && data['ad'] =='')
             SizedBox(height: 60,),
 
-          Container(
-              margin: const EdgeInsets.all(10),
-              height: 100,
+
+        if (data['detail']!=null && data['detail']!='')
+        SizedBox(
               width: double.infinity,
               child: TextField(
                 enabled: false, 
-                maxLines:  3 ,
                 decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide.none,),
                 filled: true,
+                hintMaxLines: 10,
+                hintStyle: TextStyle(fontSize: 14, color: CustomColors.appColors),
                 hintText: data['detail'].toString(),
                 fillColor: Colors.white,),),),
-                
-          Call(phone: number)
+        SizedBox(height: 70,),
         ],
       ): Center(child: CircularProgressIndicator(
         color: CustomColors.appColors,),),
+      ),
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(top: 30, left: 25),
+        alignment: Alignment.bottomCenter,
+        padding: EdgeInsets.only(top: 50),
+        child: Call(phone: data['phone'].toString()),
       )
     );
   }

@@ -7,7 +7,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_app/dB/constants.dart';
+import 'package:my_app/main.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
+import 'package:my_app/pages/Customer/login.dart';
 import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/providers.dart';
@@ -40,6 +42,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
   List<dynamic> wheel_drives = [];
   List<dynamic> models = [];
   List<dynamic> marks = [];
+  List<dynamic> stores = [];
   List<File> images = [];
   
   final String customer_id;
@@ -53,8 +56,10 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
   final origCodeController = TextEditingController();
   final duplicateCodeController = TextEditingController();
   final vinCodeController = TextEditingController();
+  
 
   var markaController = {};
+  var storesController = {};
   var modelController = {};  
   var locationDestController = {};
   var categoryController = {};
@@ -75,6 +80,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
       models = jsons['models'];
     });
   }
+  callbackStores(new_value){ setState(() { storesController = new_value; });}
   callbackModel(new_value){ setState(() { modelController = new_value; });}
   callbackLocationDest(new_value){ setState(() { locationDestController = new_value; });}
   callbackCategory(new_value){ setState(() { categoryController = new_value; });}
@@ -116,6 +122,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
   
   void initState() {
     get_parts_index();
+    get_userinfo();
     super.initState();
   }
   
@@ -148,6 +155,17 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
               }return null;
             },),),
             
+          const SizedBox(height: 15,),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Söwda nokat : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: stores, callbackFunc: callbackStores,)
+                ),],),),
           const SizedBox(height: 15,),
 
           Container(
@@ -576,6 +594,10 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
                     if (none_cash_pay==true){ none_cash_pay_num = '1';}
 
                     request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+                    
+                    request.fields['store'] = storesController['id'].toString();
+
+                    
                     request.fields['model'] = modelController['id'].toString();
                     request.fields['mark'] = markaController['id'].toString();
                     request.fields['price'] = priceController.text.toString();
@@ -662,10 +684,22 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
       made_in_countries = json['made_in_countries'];
       models = json['models'];
       marks = json['marks'];
-    });
-    }
+    });}
 
+      
+  void get_userinfo() async {
+    var allRows = await dbHelper.queryAllRows();
+    var data = [];for (final row in allRows) {data.add(row);}
+    if (data.length==0){Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));}
+    Urls server_url  =  new Urls();
+    String url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString() ;
+    final uri = Uri.parse(url);
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded','token': data[0]['name']},);
+    final json = jsonDecode(utf8.decode(response.bodyBytes));
+    setState(() {stores = json['data']['stores'];});
+    Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);}
 
+    
 }
 
 

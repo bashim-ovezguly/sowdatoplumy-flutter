@@ -156,7 +156,7 @@ class _GetCarFirstState extends State<GetCarFirst> {
                 children:  <Widget>[
                   SizedBox(width: 10,),
                   Icon(Icons.access_time_outlined,size: 20,color: CustomColors.appColors,),
-                  SizedBox(width: 20,),
+                  SizedBox(width: 10,),
                   Text(data['created_at'].toString(),
                     style: TextStyle(
                       fontSize: 16,
@@ -166,6 +166,7 @@ class _GetCarFirstState extends State<GetCarFirst> {
                   ),
                 ],
               ),),
+              Spacer(),
               Expanded(child: Row(
                 children:  <Widget>[
                   Icon(Icons.visibility_sharp,size: 20,color: CustomColors.appColors,),
@@ -188,6 +189,19 @@ class _GetCarFirstState extends State<GetCarFirst> {
                     const Icon(Icons.auto_graph_outlined, color: Colors.grey, size: 20,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "id", size: 16.0),)],),),
                 Expanded(child: SizedBox(child: TextValueWidget(text: this.id, size: 16.0),))
+              ],),),
+
+        Container(
+            height: 30,
+            margin: const EdgeInsets.only(left: 10),
+            child: Row(
+              children: <Widget>[
+                Expanded(child: Row(
+                  children: <Widget>[
+                    const Icon(Icons.store, color: Colors.grey,size: 20,),
+                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Söwda nokat", size: 16.0),)],),),
+
+                Expanded(child: SizedBox(child: TextValueWidget(text: data['store'].toString(), size: 16.0),))
               ],),),
               
           Container(
@@ -313,7 +327,7 @@ class _GetCarFirstState extends State<GetCarFirst> {
                 Expanded(child: Row(
                   children: <Widget>[
                     const Icon(Icons.monetization_on_sharp, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kridit", size:16.0),)],),),
+                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kredit", size:16.0),)],),),
                 Expanded(child: Container(
                   alignment: Alignment.topLeft,
            

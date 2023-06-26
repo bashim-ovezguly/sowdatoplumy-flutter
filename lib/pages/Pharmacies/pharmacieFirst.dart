@@ -25,6 +25,7 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
   final String id;
   int _current = 0;
   var baseurl = "";
+  var telefon = {};
   var data = {};
   var data_tel = []; 
   List<dynamic> products = [];
@@ -125,17 +126,20 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
                     activeShape:
                     RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),),),)
             ],);},)),
-
+            
+            
+            
             SliverList(delegate: SliverChildBuilderDelegate(
             childCount: 1,
             (BuildContext context, int index) {
-              return            Row(
+              return Row(
             children: <Widget>[
               Expanded(flex: 4,child: Row(
                 children:  <Widget>[
+
                   SizedBox(width: 10,),
                   Icon(Icons.access_time_outlined,size: 20,color: CustomColors.appColors,),
-                  SizedBox(width: 20,),
+                  SizedBox(width: 10,),
                   Text(data['created_at'].toString(),
                     style: TextStyle(
                       fontSize: 16,
@@ -145,6 +149,7 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
                   ),
                 ],
               ),),
+              Spacer(),
               Expanded(child: Row(
                 children:  <Widget>[
                   Icon(Icons.visibility_sharp,size: 20,color: CustomColors.appColors,),
@@ -155,76 +160,105 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
             ],
           );},)),
 
-
+            SliverList(delegate: SliverChildBuilderDelegate(childCount: 1,(BuildContext context, int index) {return Container(height: 15,);},)),
 
             SliverList(delegate: SliverChildBuilderDelegate(
             childCount: 1,
             (BuildContext context, int index) {
-              return SizedBox(
-              child: Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 10, top: 10),
-                  child: Text('Salgysy: ', style: CustomText.size_16,),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10, top: 10),
-                child: Text(
-                  data['location'].toString() + " " + data['street'].toString(),
-                  maxLines: 3,
-                  style: CustomText.size_16,),),
-              ],
-            ),
-          );},)),
+              return  SizedBox(
+                child: Row(children: [
+                  Expanded(child: Row(
+                    children: [
+                      SizedBox(width: 20,),
+                      Icon(Icons.location_on, color: Colors.black54,),
+                      SizedBox(width: 10,),
+                      Text("Address", style: TextStyle(fontSize: 14, color: Colors.black54),)],),),
+                  Expanded(child: Text(data['address'].toString(),  style: TextStyle(fontSize: 14, color: CustomColors.appColors))),
+                  SizedBox(width: 10,),],),);},)),
 
+          SliverList(delegate: SliverChildBuilderDelegate(childCount: 1,(BuildContext context, int index) {return Container(height: 10,);},)),
 
-          SliverList(delegate: SliverChildBuilderDelegate(
-            childCount: 1,
-            (BuildContext context, int index) {
-              return Container(
-                margin: EdgeInsets.only(top: 15),
-                alignment: Alignment.center,
-                child: Text('Telefon nomerleri', style: TextStyle(fontSize: 18, color: CustomColors.appColors),),);},)),
+           if (data_tel.length > 0)
+              SliverList(delegate: SliverChildBuilderDelegate(
+                      childCount: 1,
+                      (BuildContext context, int index) {
+                        return Container(
+                          alignment: Alignment.center,
+                          child: Row(
+                            children: [
+                            Expanded(child: Row(
+                              children: [
+                                SizedBox(width: 20,),
+                                Icon(Icons.phone, color: Colors.black54,),
+                                SizedBox(width: 10,),
+                                Text("Telefon", style: TextStyle(fontSize: 14, color: Colors.black54),),],),),
+                            if (telefon != {})
+                            Expanded(child: Row(
+                              children: [
+                                 Icon(Icons.phone_android_outlined, color: CustomColors.appColors,),
+                                 SizedBox(width: 10,),
+                                 GestureDetector(
+                                  onTap: () async {
+                                    final call = Uri.parse('tel:'+ telefon['phone'].toString());
+                                      if (await canLaunchUrl(call)) {
+                                        launchUrl(call);}
+                                      else {
+                                        throw 'Could not launch $call';
+                                        }
+                                  },
+                                  child: Text(
+                                  telefon['phone'].toString(),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: CustomColors.appColors,
+                                    fontWeight: FontWeight.bold),),
+                                )
+                              ],
+                            )),
+                              
+                              ],)
+                        );},)),
 
-
-          SliverList(delegate: SliverChildBuilderDelegate(
-            childCount: 1,
-            (BuildContext context, int index) {
-              return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for(var i in data_tel)
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.only(left: 10),
-                    padding: EdgeInsets.all(7),
-                      child: Row(
-                        children: [
-                          Text("* ", style: TextStyle(color: CustomColors.appColors),),
-                          Icon(Icons.phone_android_outlined, color: CustomColors.appColors,),
-                          SizedBox(width: 10,),
-                          GestureDetector(
-                            onTap: () async {
-                              final call = Uri.parse('tel:'+ i['phone'].toString());
-                                if (await canLaunchUrl(call)) {
-                                  launchUrl(call);}
-                                else {
-                                  throw 'Could not launch $call';
-                                  }
-                            },
-                            child: Text(
-                            i['phone'].toString(),
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: CustomColors.appColors,
-                              fontWeight: FontWeight.bold),),
-                          )
-
-                        ],
-                      )
-                  )
-              ],
-            ) ;},)),
+                  SliverList(delegate: SliverChildBuilderDelegate(
+                  childCount: 1,
+                  (BuildContext context, int index) {
+                    return Column(
+                    children: [
+                      for(var i in data_tel)
+                      if (i!=telefon)
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(10),
+                            child: Row(
+                              children: [
+                                Expanded(child: Text('')),
+                                Expanded(child: Row(
+                                  children: [
+                                Icon(Icons.phone_android_outlined, color: CustomColors.appColors,),
+                                SizedBox(width: 10,),
+                                GestureDetector(
+                                  onTap: () async {
+                                    final call = Uri.parse('tel:'+ i['phone'].toString());
+                                      if (await canLaunchUrl(call)) {
+                                        launchUrl(call);}
+                                      else {
+                                        throw 'Could not launch $call';
+                                        }
+                                  },
+                                  child: Text(
+                                  i['phone'].toString(),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: CustomColors.appColors,
+                                    fontWeight: FontWeight.bold),),
+                                )
+                                  ],
+                                ))
+                              ],
+                            )
+                        )
+                    ],
+                  ) ;},)),
 
           
         
@@ -330,8 +364,10 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
         baseurl =  server_url.get_server_url();
         data_tel = json['phones'];
         products = json['products'];
+        if (json['phones'].length!=0){
+          telefon = json['phones'][0]; 
+        }
         var i;
-        print(data_tel);
         imgList = [];
         for ( i in data['images']) {
           imgList.add(baseurl + i['img_l']);

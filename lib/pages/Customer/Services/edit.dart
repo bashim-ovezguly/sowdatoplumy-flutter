@@ -8,7 +8,9 @@ import 'package:http_parser/http_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_app/dB/constants.dart';
+import 'package:my_app/main.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
+import 'package:my_app/pages/Customer/login.dart';
 import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/providers.dart';
@@ -37,7 +39,7 @@ class _ServiceEditState extends State<ServiceEdit> {
   List<dynamic> brands = [];
   List<dynamic> units = [];
   List<dynamic> countries = [];
-  
+  int _mainImg = 0;
   List<File> images = [];
   
   final name_tmController = TextEditingController();
@@ -47,6 +49,10 @@ class _ServiceEditState extends State<ServiceEdit> {
 
   var locationController = {};
   var categoryController = {};
+
+  List<dynamic> stores = [];
+  var storesController = {};
+  callbackStores(new_value){ setState(() { storesController = new_value; });}
 
   bool status = false;
   callbackStatus(){
@@ -76,14 +82,13 @@ class _ServiceEditState extends State<ServiceEdit> {
 
   remove_image(value){
     setState(() {
-
       old_data['images'].remove(value);
     });
   }
   
   void initState() {
- 
     get_product_index();
+    get_userinfo();
     super.initState();
   }
   var old_data;
@@ -116,6 +121,22 @@ class _ServiceEditState extends State<ServiceEdit> {
                 return 'Please enter some text';
               }return null;
             },),),
+          const SizedBox(height: 15,),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,), 
+                if (old_data['store']!= null && old_data['store']!='')
+                  Expanded(flex: 2,child: Text(old_data['store'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                if (old_data['store']==null || old_data['store']=='')
+                  Expanded(flex: 3,child: Text("Söwda nokat : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+
+                Expanded(flex: 4, child: MyDropdownButton(items: stores, callbackFunc: callbackStores)
+                ),],),),
           const SizedBox(height: 15,),
 
           Container(
@@ -215,7 +236,7 @@ class _ServiceEditState extends State<ServiceEdit> {
                 fillColor: Colors.white,),),),
             
             
-            if (old_data['images'].length > 0)
+                     if (old_data['images'].length > 0)
             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Column(
@@ -224,29 +245,74 @@ class _ServiceEditState extends State<ServiceEdit> {
                     Text("    Suratlar", style: TextStyle(color: CustomColors.appColors, fontSize: 16),),
                     Row(children: [
                       for(var country in old_data['images'])
-                      Stack(
-                      children: [
-                        Container(
-                            margin: const EdgeInsets.only(left: 10,bottom: 10),
-                            height: 100, width:100,
-                            alignment: Alignment.topLeft,
-                            child: Image.network(baseurl + country['img_l'],fit: BoxFit.cover,height: 100,width: 100,
-                               errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                                        return Center(child: CircularProgressIndicator(color: CustomColors.appColors,),);},)
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                              showDialog(
-                              barrierDismissible: false,
-                              context: context,
-                              builder: (BuildContext context) {
-                                return DeleteImage(action: 'services', image: country, callbackFunc: remove_image,);},);
-                          },
-                          child: Container(
-                            height: 100, width:110,
-                            alignment: Alignment.topRight,
-                            child: Icon(Icons.close, color: Colors.red),),),
-                      ],)],)])),
+                      Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                  margin: const EdgeInsets.only(left: 10,bottom: 10),
+                                  height: 100, width:100,
+                                  alignment: Alignment.topLeft,
+                                  child: Image.network(baseurl + country['img_l'],fit: BoxFit.cover,height: 100,width: 100,
+                                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                              return Center(child: CircularProgressIndicator(color: CustomColors.appColors,),);},
+                                  )
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                    showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return DeleteImage(action: 'cars', image: country, callbackFunc: remove_image,);},);
+                                },
+                                child: Container(
+                                  height: 100, width:110,
+                                  alignment: Alignment.topRight,
+                                  child: Icon(Icons.close, color: Colors.red),),),
+                            ],),
+
+                            if (_mainImg == country['id'])
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: OutlinedButton(
+                                child: Text("Esasy img", style: TextStyle(color: Colors.white),),
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: Color.fromARGB(255, 15, 138, 19),
+                                  primary: Colors.green,
+                                  side: BorderSide(
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _mainImg = country['id'];
+                                  });
+                                },
+                              ),
+                              )                            
+                            else
+
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: OutlinedButton(
+                                child: Text("Esasy img"),
+                                style: OutlinedButton.styleFrom(
+                                  primary: Colors.red,
+                                  side: BorderSide(
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _mainImg = country['id'];
+                                  });
+                                },
+                              ),
+                              )
+                        ],
+                      )
+                      ],)])),
 
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -315,8 +381,15 @@ class _ServiceEditState extends State<ServiceEdit> {
                       request.fields['name_tm'] = name_tmController.text;
                     }
 
+                    if (storesController['id']!=null){
+                      request.fields['store'] = storesController['id'].toString();
+                    }
+
                     if (categoryController['id']!=null){
                       request.fields['category'] = categoryController['id'].toString();
+                    }
+                    if (_mainImg!=0){
+                      request.fields['img'] = _mainImg.toString();
                     }
 
                     if (priceController.text!=''){
@@ -384,8 +457,18 @@ class _ServiceEditState extends State<ServiceEdit> {
       baseurl =  server_url.get_server_url();
       data  = json;
       categories = json['categories'];
-      print(json);
-
     });
     }
+
+        void get_userinfo() async {
+    var allRows = await dbHelper.queryAllRows();
+    var data = [];for (final row in allRows) {data.add(row);}
+    if (data.length==0){Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));}
+    Urls server_url  =  new Urls();
+    String url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString() ;
+    final uri = Uri.parse(url);
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded','token': data[0]['name']},);
+    final json = jsonDecode(utf8.decode(response.bodyBytes));
+    setState(() {stores = json['data']['stores'];});
+    Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);}
 }

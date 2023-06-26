@@ -84,7 +84,6 @@ class _PropertiesState extends State<Properties> {
                       (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: (){  
-                          Navigator.pushNamed(context, '/properties/detail');
                       },
                       child: Stack(
                       alignment: Alignment.bottomCenter,
@@ -115,7 +114,10 @@ class _PropertiesState extends State<Properties> {
                             items: dataSlider
                                 .map((item) => GestureDetector(
                                   onTap: (){
-
+                                    if (item['id']!=null && item['id']!=''){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => PropertiesDetail(id: item['id'].toString()) ));
+                                    }
+                                    
                                   },
                                   child: Container(
                               color: Colors.white,
@@ -139,6 +141,7 @@ class _PropertiesState extends State<Properties> {
                                           child: Column(
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
+                                              if (item['name']!=null)
                                               Text(item['name'].toString(),
                                                 style: TextStyle(shadows: [
                                                   Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
@@ -146,13 +149,15 @@ class _PropertiesState extends State<Properties> {
                                                     fontSize: 20, color: Colors.white,
                                                     fontStyle: FontStyle.italic,
                                                     fontWeight: FontWeight.bold),),
+                                              if (item['price']!=null)
                                               Text(item['price'].toString() , style: TextStyle(shadows: [
                                                 Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
                                                 Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
                                                   fontSize: 18, color: Colors.white,
                                                   fontStyle: FontStyle.italic,
                                                   fontWeight: FontWeight.bold),),
-                                              Text(item['location'].toString() + " " + item['location_status'].toString(), style: TextStyle(shadows: [
+                                              if (item['location']!=null)
+                                              Text(item['location'].toString(), style: TextStyle(shadows: [
                                                 Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
                                                 Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
                                                   fontSize: 18, color: Colors.white,

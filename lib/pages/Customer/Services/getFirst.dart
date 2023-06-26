@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:my_app/dB/colors.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/dB/textStyle.dart';
-import 'package:my_app/pages/Customer/OtherGoods/edit.dart';
 import 'package:my_app/pages/Customer/Services/edit.dart';
 import 'package:my_app/pages/fullScreenSlider.dart';
 
@@ -181,6 +180,18 @@ class _ServiceDetailState extends State<ServiceDetail> {
                   SizedBox(width: 10,),
                   Text("Kategoriýa", style: CustomText.size_16_black54,)],),),
               Expanded(child: Text(data['category'].toString(),  style: CustomText.size_16))],),),
+
+          Container(
+            margin: EdgeInsets.only(left: 10,right: 10),
+            height: 35,
+            child: Row(children: [
+              Expanded(child: Row(
+                children: [
+                  SizedBox(width: 10,),
+                  Icon(Icons.store, color: Colors.black54,),
+                  SizedBox(width: 10,),
+                  Text("Söwda nokat", style: CustomText.size_16_black54,)],),),
+              Expanded(child: Text(data['store'].toString(),  style: CustomText.size_16))],),),
 
           Container(
             margin: EdgeInsets.only(left: 10),

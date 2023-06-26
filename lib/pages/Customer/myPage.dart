@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -157,47 +158,39 @@ class _MyPageState extends State<MyPage> {
                   Container(
                     height: 200,
                     margin: const EdgeInsets.all(10),
-                    child: GestureDetector(
-                      child:  CarouselSlider(
-                        options: CarouselOptions(
-                          height: 200,
-                          viewportFraction: 1,
-                          initialPage: 0,
-                          enableInfiniteScroll: true,
-                          reverse: false,
-                          autoPlay: true,
-                          autoPlayInterval: const Duration(seconds: 4),
-                          autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                          autoPlayCurve: Curves.fastOutSlowIn,
-                          enlargeCenterPage: true,
-                          enlargeFactor: 0.3,
-                          scrollDirection: Axis.horizontal,
-                            onPageChanged: (index, reason) {setState(() {_current = index;});}
-                        ),
-                        items: imgList
-                            .map((item) => Container(
-                          color: Colors.white,
-                          child: Center(
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10), // Image border
-                                child: Image.network(item, fit: BoxFit.fill, height: 200,width: double.infinity,),)
-
-                          ),)).toList(),),
-                      onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => FullScreenSlider(imgList: imgList) )); },),
+                    child: ImageSlideshow(
+                      indicatorColor: CustomColors.appColors,
+                      indicatorBackgroundColor: Colors.grey,
+                      onPageChanged: (value) {},
+                      autoPlayInterval: 6666,
+                      isLoop: true,
+                      children: [
+                        if (imgList.length==0)
+                              ClipRect(
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        child:  FittedBox(
+                                          fit: BoxFit.cover,
+                                          child:  Image.asset('assets/images/default.jpg'),
+                                      ),
+                                    ),
+                              ),
+                        for (var item in imgList)
+                          if (item!='')
+                            GestureDetector(
+                              onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => FullScreenSlider(imgList: imgList) )); },
+                                      child: Container(
+                                        width: MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: NetworkImage(item),
+                                            fit: BoxFit.cover,    // -> 02
+                                          ),
+                                        ),
+                                    ),
+                            )
+                      ],),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child:    
-                    DotsIndicator(
-                      dotsCount: imgList.length,
-                      position: _current.toDouble(),
-                      decorator: DotsDecorator(
-                        color: Colors.white,
-                        activeColor: CustomColors.appColors,
-                        activeShape:
-                        RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),),)
-
-                        )
                 ],);},)),
 
               SliverList(
@@ -210,15 +203,16 @@ class _MyPageState extends State<MyPage> {
                         children: <Widget>[
                           Expanded(flex: 4,child: Row(
                             children: <Widget>[
-                              SizedBox(width: 20,),
+                              SizedBox(width: 10,),
                               Icon(Icons.access_time_outlined,size: 20,color: CustomColors.appColors,),
                               SizedBox(width: 5,),
                               Text(data['created_at'].toString(), style: TextStyle(fontSize: 16, fontFamily: 'Raleway', color: CustomColors.appColors,
                               ),),],),),
+                              Spacer(),
                           Expanded(child: Row(
                             children: <Widget>[
                               Icon(Icons.visibility_sharp,size: 20,color: CustomColors.appColors,),
-                              SizedBox(width: 5,),
+                              SizedBox(width: 10,),
                               Text(data['viewed'].toString(), style: TextStyle(fontSize: 16, fontFamily: 'Raleway', color: CustomColors.appColors,
                               ),),],),)],),
                       
@@ -236,6 +230,7 @@ class _MyPageState extends State<MyPage> {
                             SizedBox(width: 10,),
                           ],),),
 
+                      Container(height: 15, child: Text(''),),
                       SizedBox(
                         child: Row(children: [
                           Expanded(child: 
@@ -462,8 +457,8 @@ class _MyPageState extends State<MyPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                     Text(item['name'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
-                                     Text(item['price'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
+                                     Text(item['name'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, ),),
+                                     Text(item['price'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, ),),
                                   ],
                                 )
                             ),

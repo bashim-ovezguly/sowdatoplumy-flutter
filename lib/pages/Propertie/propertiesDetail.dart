@@ -120,8 +120,8 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
               Expanded(flex: 4,child: Row(
                 children:  <Widget>[
                   SizedBox(width: 10,),
-                  Icon(Icons.access_time_outlined,size: 20,color: CustomColors.appColors,),
-                  SizedBox(width: 20,),
+                  Icon(Icons.access_time_outlined, size: 20,color: CustomColors.appColors,),
+                  SizedBox(width: 10,),
                   Text(data['created_at'].toString(),
                     style: TextStyle(
                       fontSize: 16,
@@ -131,6 +131,7 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
                   ),
                 ],
               ),),
+              Spacer(),
               Expanded(child: Row(
                 children:  <Widget>[
                   Icon(Icons.visibility_sharp, size: 20,color: CustomColors.appColors,),
@@ -301,7 +302,7 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
                   children: <Widget>[
                     SizedBox(width: 10,),
                     const Icon(Icons.monetization_on_sharp, color: Colors.black26, size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kridit", size:16.0),)],),),
+                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kredit", size:16.0),)],),),
                 Expanded(child: Container(alignment: Alignment.topLeft,
                     child: data['credit'] == null ? MyCheckBox(type: true ): MyCheckBox(type: data['credit'] ),))
               ],),),
@@ -369,23 +370,30 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
                       fit: BoxFit.fitHeight, height: 160, width: double.infinity),),
               ],),),
 
-          Container(
-              margin: const EdgeInsets.all(10),
-              height: 100,
+
+          if (data['detail']!=null && data['detail']!='')
+          SizedBox(
               width: double.infinity,
               child: TextField(
                 enabled: false, 
-                maxLines:  3 ,
                 decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide.none,),
                 filled: true,
+                hintMaxLines: 10,
+                hintStyle: TextStyle(fontSize: 14, color: CustomColors.appColors),
                 hintText: data['detail'].toString(),
                 fillColor: Colors.white,),),),
-          Call(phone: number)
+        SizedBox(height: 70,),
 
         ],
       ):Center(child: CircularProgressIndicator(
         color: CustomColors.appColors,),),
 
+      ),
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(top: 30, left: 25),
+        alignment: Alignment.bottomCenter,
+        padding: EdgeInsets.only(top: 50),
+        child: Call(phone: data['phone'].toString()),
       )
     );    
   }

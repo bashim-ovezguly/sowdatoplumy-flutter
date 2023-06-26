@@ -8,8 +8,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_app/dB/constants.dart';
+import 'package:my_app/main.dart';
 import 'package:my_app/pages/Customer/deleteImage.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
+import 'package:my_app/pages/Customer/login.dart';
 import 'package:my_app/pages/Customer/selectEdit.dart';
 import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
@@ -42,8 +44,14 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
   List<dynamic> wheel_drives = [];
   List<dynamic> models = [];
   List<dynamic> marks = [];
+  
   List<File> images = [];
   int _mainImg = 0;
+
+  
+  List<dynamic> stores = [];
+  var storesController = {};
+  callbackStores(new_value){ setState(() { storesController = new_value; });}
 
   bool status = false;
   callbackStatus(){ setState(() { status = true; });}
@@ -127,6 +135,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
       none_cash_pay = old_data['none_cash_pay'];
     });
     get_parts_index();
+    get_userinfo();
     super.initState();
   }
   
@@ -150,7 +159,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child:  TextFormField(
               controller: nameController,
-              decoration: InputDecoration(hintText: old_data['name_tm'],
+              decoration: InputDecoration(hintText: old_data['name_tm']!='' && old_data['name_tm']!=null ? old_data['name_tm']: "Ady",
                   border: InputBorder.none,
                   focusColor: Colors.white,
                   contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
@@ -160,6 +169,23 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
             },),),
             
           const SizedBox(height: 15,),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child: Row(
+              children: <Widget>[SizedBox(width: 10,),
+              if (old_data['store']!= null && old_data['store']!='')
+                Expanded(flex: 2,child: Text(old_data['store'].toString() , style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              if (old_data['store']==null || old_data['store']=='')
+                Expanded(flex: 2,child: Text("Söwda nokat : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+
+              Expanded(flex: 4, child: MyDropdownButtonEdit(items: stores, callbackFunc: callbackStores, text: "aman")
+                ),],),),
+          const SizedBox(height: 15,),
+
           Container(
             height: 35,
             margin: const EdgeInsets.only(left: 20,right: 20),
@@ -700,6 +726,10 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
 
                     request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
 
+                    if (storesController['id']!=null){
+                      request.fields['store'] = storesController['id'].toString();
+                    }
+
                     if (modelController['id']!=null){
                       request.fields['model'] = modelController['id'].toString();
                     }
@@ -737,6 +767,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
                     if (_mainImg!=0){
                       request.fields['img'] = _mainImg.toString();
                     }
+                    
 
                     if (phoneController.text!=''){
                       request.fields['phone'] = phoneController.text.toString();
@@ -757,11 +788,11 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
                     if (engineController.text!=''){
                       request.fields['engine'] =  engineController.text.toString();
                     }
+
                     if (detailController.text!=''){
                       request.fields['detail'] =  detailController.text.toString();
                     }
   
-
                     if (factoriesController['id']!=null){
                       request.fields['part_factory'] =  factoriesController['id'].toString();
                     }
@@ -785,7 +816,6 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
                        }
                     }
                     showLoaderDialog(context);
-                    print(request.fields);
                     final response = await request.send();
                     if (response.statusCode == 200){
                       callbackFunc();
@@ -841,6 +871,19 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
       marks = json['marks'];
     });
     }
+
+      
+    void get_userinfo() async {
+    var allRows = await dbHelper.queryAllRows();
+    var data = [];for (final row in allRows) {data.add(row);}
+    if (data.length==0){Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));}
+    Urls server_url  =  new Urls();
+    String url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString() ;
+    final uri = Uri.parse(url);
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded','token': data[0]['name']},);
+    final json = jsonDecode(utf8.decode(response.bodyBytes));
+    setState(() {stores = json['data']['stores'];});
+    Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);}
 }
 
 

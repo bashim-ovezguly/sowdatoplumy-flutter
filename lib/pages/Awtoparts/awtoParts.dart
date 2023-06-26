@@ -27,7 +27,7 @@ class AutoParts extends StatefulWidget {
 class _AutoPartsState extends State<AutoParts> {
   String dropdownValue = list.first;
   List<dynamic> data = [];
-  List<dynamic> dataSlider = [{"img": "", }];
+  List<dynamic> dataSlider = [{"img": "", 'name':"", 'price':"", 'location':''}];
   int _current = 0;
   var baseurl = "";
   bool determinate = false;
@@ -108,14 +108,14 @@ class _AutoPartsState extends State<AutoParts> {
                         onPageChanged: (index, reason) {
                         setState(() {
                         _current = index;
-                        });
-                        }
-                        ),
+                        });}),
                         items: dataSlider
                             .map((item) => 
                             GestureDetector(
                               onTap: (){
-                                 Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartsDetail(id: item['id'].toString(),) ));
+                                if (item['id']!=null && item['id']!=''){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartsDetail(id: item['id'].toString(),) ));
+                                } 
                               },
                               child: Container(
                         color: Colors.white,
@@ -138,7 +138,7 @@ class _AutoPartsState extends State<AutoParts> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-
+                                  if (item['name_tm']!=null)
                                   Text(item['name_tm'].toString(),
                                     style: TextStyle(shadows: [
                                       Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
@@ -146,12 +146,14 @@ class _AutoPartsState extends State<AutoParts> {
                                         fontSize: 18, color: Colors.white,
                                         fontStyle: FontStyle.italic,
                                         fontWeight: FontWeight.bold),),
+                                  if (item['price']!=null)
                                   Text(item['price'].toString() , style: TextStyle(shadows: [
                                     Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
                                     Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
                                       fontSize: 18, color: Colors.white,
                                       fontStyle: FontStyle.italic,
                                       fontWeight: FontWeight.bold),),
+                                  if (item['location']!=null)
                                   Text(item['location'].toString(), style: TextStyle(shadows: [
                                     Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
                                     Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
@@ -187,7 +189,10 @@ class _AutoPartsState extends State<AutoParts> {
                     (BuildContext context, int index) {
                   return GestureDetector(
                       onTap: (){
-                       Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartsDetail(id: data[index]['id'].toString())));
+                        if (data[index]['id']!=null && data[index]['id']!=''){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartsDetail(id: data[index]['id'].toString())));
+                        }
+                       
                         },
                         child: Container(
                           margin: EdgeInsets.only(left: 5, right: 5),
@@ -353,6 +358,9 @@ class _AutoPartsState extends State<AutoParts> {
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       dataSlider  = json['data'];
+      if ( dataSlider.length==0){
+        dataSlider = [{"img": "", 'name_tm':"", 'price':"", 'location':''}];
+      }
       baseurl =  server_url.get_server_url();
       determinate1 = true;
       print(data);

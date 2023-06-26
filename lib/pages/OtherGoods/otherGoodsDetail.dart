@@ -21,7 +21,7 @@ class OtherGoodsDetail extends StatefulWidget {
 
 class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
   final String id, title;
-  final number = '+99364334578';
+  String number = '';
   int _current = 0;
   var baseurl = "";
   var data = {};
@@ -29,7 +29,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
   bool slider_img = true;
   List<String> imgList = [ ];
 
-     void initState() {
+    void initState() {
     if (imgList.length==0){
       imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXAFCMCaO9NVAPUqo5i8rXVgWB5Qaj_Qthf-KQZNAy0YyJxlAxejBSvSWOK-5PMK3RQQ&usqp=CAU');
     }
@@ -82,7 +82,9 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                       enlargeCenterPage: true,
                       enlargeFactor: 0.3,
                       scrollDirection: Axis.horizontal,
-                        onPageChanged: (index, reason) {setState(() {_current = index;});}
+                        onPageChanged: (index, reason) {setState(() {
+                          print(index);
+                          _current = index;});}
                     ),
                     items: imgList
                         .map((item) => Container(
@@ -118,8 +120,8 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
               Expanded(flex: 4,child: Row(
                 children:  <Widget>[
                   SizedBox(width: 10,),
-                  Icon(Icons.access_time_outlined,size: 20,color: CustomColors.appColors,),
-                  SizedBox(width: 20,),
+                  Icon(Icons.access_time_outlined, size: 20,color: CustomColors.appColors,),
+                  SizedBox(width: 10,),
                   Text(data['created_at'].toString(),
                     style: TextStyle(
                       fontSize: 16,
@@ -129,9 +131,10 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                   ),
                 ],
               ),),
+              Spacer(),
               Expanded(child: Row(
                 children:  <Widget>[
-                  Icon(Icons.visibility_sharp,size: 20,color: CustomColors.appColors,),
+                  Icon(Icons.visibility_sharp, size: 20,color: CustomColors.appColors,),
                   SizedBox(width: 10,),
                   Text(data['viewed'].toString(), style: TextStyle(fontSize: 16, fontFamily: 'Raleway', color: CustomColors.appColors,
                   ),),],),
@@ -211,7 +214,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                   SizedBox(width: 10,),
                   Text("Brand", style: CustomText.size_16_black54,)],),),
                   if (data['brand']!=null && data['brand']!='')
-                    Expanded(child: Text(data['brand']['name'].toString(),  style: CustomText.size_16))],),),
+                    Expanded(child: Text(data['brand'].toString(),  style: CustomText.size_16))],),),
 
           Container(
             margin: EdgeInsets.only(left: 10,right: 10),
@@ -223,10 +226,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                   Icon(Icons.location_on, color: Colors.black54,),
                   SizedBox(width: 10,),
                   Text("Ýerleşýän ýeri", style: CustomText.size_16_black54,)],),),
-              Expanded(child: Text(data['location'].toString(), 
-                                            overflow: TextOverflow.clip,
-                                            maxLines: 2,
-                                            softWrap: false,
+              Expanded(child: Text(data['location'].toString(), overflow: TextOverflow.clip,maxLines: 2,softWrap: false,
                style: CustomText.size_16))],),),
 
           Container(
@@ -243,7 +243,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
 
           Container(
             margin: EdgeInsets.only(left: 10,right: 10),
-            height: 30,
+            height: 35,
             child: Row(children: [
               Expanded(child: Row(
                 children: [
@@ -263,7 +263,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                   children: <Widget>[
                     SizedBox(width: 10,),
                     const Icon(Icons.monetization_on_sharp, color: Colors.black54,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kridit", size:16.0),)],),),
+                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kredit", size:16.0),)],),),
                 Expanded(child: Container(
                   alignment: Alignment.topLeft,
            
@@ -300,9 +300,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                     child: data['none_cash_pay'] == null ? MyCheckBox(type: true ): MyCheckBox(type: data['none_cash_pay'] ),))
 
               ],),),
-        
-
-
+      
           Container(
             margin: EdgeInsets.only(left: 10,right: 10),
             height: 30,
@@ -329,7 +327,6 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
           
           if (data['ad'] != null && data['ad'] !='')
             Container(
-              
               margin: const EdgeInsets.all(10),
               child: Column(
                 children: <Widget>[
@@ -344,42 +341,48 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                         fit: BoxFit.fitHeight, height: 160, width: double.infinity),),
                 ],),),
 
-          Container(
-              margin: const EdgeInsets.all(10),
-              height: 100,
+          SizedBox(
               width: double.infinity,
               child: TextField(
                 enabled: false, 
-                maxLines:  3 ,
                 decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide.none,),
                 filled: true,
+                hintMaxLines: 10,
+                hintStyle: TextStyle(fontSize: 14, color: CustomColors.appColors),
                 hintText: data['body_tm'].toString(),
                 fillColor: Colors.white,),),),
-          Call(phone: number)
+        SizedBox(height: 70,),
 
         ],
       ): Center(child: CircularProgressIndicator(
         color: CustomColors.appColors,),),
+      ),
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(top: 30, left: 25),
+        alignment: Alignment.bottomCenter,
+        padding: EdgeInsets.only(top: 50),
+        child: Call(phone: number),
       )
+
     );
   }
-
-
       void getsingleproduct({required id}) async {
     Urls server_url  =  new Urls();
-    String url = server_url.get_server_url() + '/mob/products/' + id;
+    String url = server_url.get_server_url() + '/mob/products/' + id.toString();
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
         data  = json;
-        baseurl =  server_url.get_server_url();
-        // ignore: unused_local_variable
-        var i;
-        print(data);
         imgList = [];
-        for ( i in data['images']) {
+        baseurl =  server_url.get_server_url();
+        
+        if (data['phone']!=null && data['phone']!=''){
+          number = data['phone'].toString();
+        }
+        
+        for (var i in data['images']) {
           imgList.add(baseurl + i['img_l']);
         }
       if (imgList.length==0){
@@ -387,7 +390,6 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
         imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXAFCMCaO9NVAPUqo5i8rXVgWB5Qaj_Qthf-KQZNAy0YyJxlAxejBSvSWOK-5PMK3RQQ&usqp=CAU');
       }
       determinate = true;
-
     });
   }
 }

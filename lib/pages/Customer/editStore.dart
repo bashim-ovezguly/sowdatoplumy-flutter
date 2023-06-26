@@ -40,7 +40,7 @@ class _EditStoreState extends State<EditStore> {
   List<dynamic> streets = [];
   List<File> images = [];
   bool desible = false;
-  
+  int _mainImg = 0;
 
   final nameController = TextEditingController();
   final body_tmController = TextEditingController();
@@ -61,7 +61,6 @@ class _EditStoreState extends State<EditStore> {
     });
   }
 
-  
   var categoryController = {};
   var locationController = {};
   var streetController = {};
@@ -217,7 +216,7 @@ class _EditStoreState extends State<EditStore> {
                     Expanded(flex: 2,child: Text(old_data['size'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
                   if (old_data['size']==null || old_data['size']=='') 
                     Expanded(flex: 2,child: Text("Ululygy : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
-                  Expanded(flex: 4, child: MyDropdownButton(items: sizes, callbackFunc: callbackStreet)
+                  Expanded(flex: 4, child: MyDropdownButton(items: sizes, callbackFunc: callbackSize)
               ),],),),
 
               Container(
@@ -295,39 +294,83 @@ class _EditStoreState extends State<EditStore> {
                   }return null;
                 },),),
         SizedBox(height: 30,),
-        if (old_data['images'].length > 0)
+                  if (old_data['images'].length > 0)
             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("    Suratlar", style: TextStyle(color: CustomColors.appColors, fontSize: 16),),
-                    Row(
-                      children: [
+                    Row(children: [
                       for(var country in old_data['images'])
-                      Stack(
-                      children: [
-                        Container(
-                            margin: const EdgeInsets.only(left: 10,bottom: 10),
-                            height: 100, width:100,
-                            alignment: Alignment.topLeft,
-                            child: Image.network(baseurl + country['img_l'],fit: BoxFit.cover,height: 100,width: 100,
-                               errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
-                                        return Center(child: CircularProgressIndicator(color: CustomColors.appColors,),);},)
-                        ),
-                        GestureDetector(
-                          onTap: (){
-                              showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return DeleteImage(action: 'stores', image: country, callbackFunc: remove_image);},);
-                          },
-                          child: Container(
-                            height: 100, width:110,
-                            alignment: Alignment.topRight,
-                            child: Icon(Icons.close, color: Colors.red),),),
-                      ],)],)])),
+                      Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Container(
+                                  margin: const EdgeInsets.only(left: 10,bottom: 10),
+                                  height: 100, width:100,
+                                  alignment: Alignment.topLeft,
+                                  child: Image.network(baseurl + country['img_l'],fit: BoxFit.cover,height: 100,width: 100,
+                                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                              return Center(child: CircularProgressIndicator(color: CustomColors.appColors,),);},
+                                  )
+                              ),
+                              GestureDetector(
+                                onTap: (){
+                                    showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return DeleteImage(action: 'cars', image: country, callbackFunc: remove_image,);},);
+                                },
+                                child: Container(
+                                  height: 100, width:110,
+                                  alignment: Alignment.topRight,
+                                  child: Icon(Icons.close, color: Colors.red),),),
+                            ],),
+
+                            if (_mainImg == country['id'])
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: OutlinedButton(
+                                child: Text("Esasy img", style: TextStyle(color: Colors.white),),
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: Color.fromARGB(255, 15, 138, 19),
+                                  primary: Colors.green,
+                                  side: BorderSide(
+                                    color: Colors.green,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _mainImg = country['id'];
+                                  });
+                                },
+                              ),
+                              )                            
+                            else
+
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: OutlinedButton(
+                                child: Text("Esasy img"),
+                                style: OutlinedButton.styleFrom(
+                                  primary: Colors.red,
+                                  side: BorderSide(
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    _mainImg = country['id'];
+                                  });
+                                },
+                              ),
+                              )
+                        ],
+                      )
+                      ],)])),
         
         SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -397,6 +440,10 @@ class _EditStoreState extends State<EditStore> {
 
                     if (categoryController['id']!= null){
                       request.fields['category'] = categoryController['id'].toString();
+                    }
+                    
+                    if (_mainImg!=0){
+                      request.fields['img'] = _mainImg.toString();
                     }
 
                     if (sizeController['id']!= null){

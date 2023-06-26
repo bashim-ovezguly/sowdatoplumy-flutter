@@ -33,6 +33,7 @@ class _MyPagesState extends State<MyPages> {
   var user = {};
   var baseurl = "";
   bool determinate = false;
+  List<dynamic> stores = [];
 
   void initState() {
     get_userinfo();
@@ -168,7 +169,7 @@ class _MyPagesState extends State<MyPages> {
                 ),),
               GestureDetector(
                 onTap: (){ 
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => MyCars(customer_id: user['id'].toString())));  
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => MyCars(customer_id: user['id'].toString(), )));  
                   },
                 child: Container(
                     padding: EdgeInsets.only(left: 5,right: 5),
@@ -335,11 +336,11 @@ class _MyPagesState extends State<MyPages> {
         'token': data[0]['name']      
       },                
     );
-    print(uri);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       user  = json['data'];
       determinate = true;
+      stores = json['data']['stores'];
       baseurl =  server_url.get_server_url();
     });
     Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);

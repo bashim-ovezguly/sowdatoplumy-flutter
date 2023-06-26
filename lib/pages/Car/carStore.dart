@@ -129,6 +129,7 @@ class _CarStoreState extends State<CarStore> {
                   ),
                 ],
               ),),
+              Spacer(),
               Expanded(child: Row(
                 children:  <Widget>[
                   Icon(Icons.visibility_sharp,size: 20,color: CustomColors.appColors,),
@@ -145,7 +146,7 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.auto_graph_outlined, color: Colors.grey,size: 20,),
+                    const Icon(Icons.auto_graph_outlined, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Id", size: 16.0),)],),),
 
                 Expanded(child: SizedBox(child: TextValueWidget(text: data['id'].toString(), size: 16.0),))
@@ -159,7 +160,7 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.car_crash_sharp, color: Colors.grey,size: 20,),
+                    const Icon(Icons.car_crash_sharp, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Marka", size: 16.0),)],),),
 
                 Expanded(child: SizedBox(child: TextValueWidget(text: data['mark'].toString(), size: 16.0),))
@@ -172,7 +173,7 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.model_training_sharp, color: Colors.grey,size: 20,),
+                    const Icon(Icons.model_training_sharp, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Modeli", size: 16.0),)],),),
                 Expanded(child: SizedBox(child: TextValueWidget(text: data['model'].toString(), size: 16.0),))
               ],),),
@@ -182,9 +183,12 @@ class _CarStoreState extends State<CarStore> {
                 Expanded(child: Row(
                   children: [
                     SizedBox(width: 10,),
-                    Icon(Icons.location_on, color: Colors.grey,size: 20,),
+                    Icon(Icons.location_on, color: Colors.grey,size: 18,),
                     SizedBox(width: 10,),
-                    Text("Address", style: TextStyle(fontSize: 15, color: Colors.black54),)],),),
+                    Text("Address", style: TextStyle(fontSize: 15, color: Colors.black54),)],
+                    
+                    ),),
+                    SizedBox(width: 10,),
                     Expanded(child: Text(data['location'].toString(),  style: TextStyle(fontSize: 15, color: CustomColors.appColors))),
                     SizedBox(width: 10,),
                     ],),),
@@ -196,7 +200,7 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.date_range_sharp, color: Colors.grey,size: 20,),
+                    const Icon(Icons.date_range_sharp, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Ýyly", size:16.0),)],),),
 
                 Expanded(child: SizedBox(child: TextValueWidget(text: data['year'].toString() + ' ý', size: 16.0),))
@@ -209,7 +213,7 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.date_range_sharp, color: Colors.grey,size: 20,),
+                    const Icon(Icons.date_range_sharp, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Geçen ýoly", size:16.0),)],),),
 
                 Expanded(child: SizedBox(child: TextValueWidget(text: data['millage'].toString() + ' mil', size: 16.0),))
@@ -222,7 +226,7 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.monetization_on, color: Colors.grey,size: 20,),
+                    const Icon(Icons.monetization_on, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Bahasy", size:16.0),)],),),
 
                 Expanded(child: SizedBox(child: TextValueWidget(text: data['price'].toString() , size: 16.0),))
@@ -235,7 +239,7 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.color_lens_rounded, color: Colors.grey,size: 20,),
+                    const Icon(Icons.color_lens_rounded, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Reňki", size:16.0),)],),),
 
                 Expanded(child: SizedBox(child: TextValueWidget(text: data['color'].toString(), size: 16.0),))
@@ -247,7 +251,7 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.format_color_fill_rounded, color: Colors.grey,size: 20,),
+                    const Icon(Icons.format_color_fill_rounded, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Reňki üýtgedilen", size:16.0),)],),),
 
                 Expanded(child: SizedBox(child:
@@ -260,7 +264,7 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.energy_savings_leaf, color: Colors.grey,size: 20,),
+                    const Icon(Icons.energy_savings_leaf, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Matory", size:16.0),)],),),
 
                  Expanded(child: SizedBox(child: TextValueWidget(text: data['engine'].toString() , size: 16.0),))
@@ -274,8 +278,8 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.monetization_on_sharp, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kridit", size:16.0),)],),),
+                    const Icon(Icons.monetization_on_sharp, color: Colors.grey,size: 18,),
+                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kredit", size:16.0),)],),),
                 Expanded(child: Container(
                   alignment: Alignment.topLeft,
            
@@ -289,7 +293,7 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.library_add_check_outlined, color: Colors.grey,size: 20,),
+                    const Icon(Icons.library_add_check_outlined, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Çalyşyk", size:16.0),)],),),
                 Expanded(child: Container(
                     alignment: Alignment.topLeft,
@@ -303,25 +307,13 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.credit_card, color: Colors.grey,size: 20,),
+                    const Icon(Icons.credit_card, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Nagt däl töleg", size:16.0),)],),),
                 Expanded(child: Container(
                     alignment: Alignment.topLeft,
                     child: data['none_cash_pay'] == null ? MyCheckBox(type: true ): MyCheckBox(type: data['none_cash_pay'] ),))
 
               ],),),
-          // Container(
-          //   height: 30,
-          //   margin: const EdgeInsets.only(left: 10),
-          //   child: Row(
-          //     children: <Widget>[
-          //       Expanded(child: Row(
-          //         children: <Widget>[
-          //           const Icon(Icons.person, color: Colors.grey,size: 20,),
-          //           Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Eýesinden", size:16.0),)],),),
-          //       Expanded(child: Container(
-          //           child: SizedBox(child: TextValueWidget(text: data['customer'].toString() , size: 16.0)),))
-          //     ],),),
 
           Container(
             height: 30,
@@ -330,7 +322,7 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.phone_callback, color: Colors.grey,size: 20,),
+                    const Icon(Icons.phone_callback, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Telefon", size:16.0),)],),),
 
                   Expanded(child: SizedBox(child: TextValueWidget(text: data['phone'].toString(), size: 16.0),))
@@ -342,7 +334,7 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.person_outline_outlined, color: Colors.grey,size: 20,),
+                    const Icon(Icons.person_outline_outlined, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Satyjy", size:16.0),)],),),
 
                 Expanded(child: SizedBox(child: TextValueWidget(text: data['customer_name'].toString(), size: 16.0),))
@@ -356,7 +348,7 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.qr_code, color: Colors.grey,size: 20,),
+                    const Icon(Icons.qr_code, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Vin kody", size: 16.0),)],),),
 
                 Expanded(child: SizedBox(child: TextValueWidget(text: data['vin'].toString(), size: 16.0),))
@@ -368,7 +360,7 @@ class _CarStoreState extends State<CarStore> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.invert_colors_on_sharp, color: Colors.grey,size: 20,),
+                    const Icon(Icons.invert_colors_on_sharp, color: Colors.grey, size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Ýangyjyň görnüşi", size:16.0),)],),),
 
                 Expanded(child: SizedBox(child: TextValueWidget(text: data['fuel'].toString(), size: 16.0),))
@@ -383,7 +375,7 @@ class _CarStoreState extends State<CarStore> {
                 
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.car_crash_rounded, color: Colors.grey,size: 20,),
+                    const Icon(Icons.car_crash_rounded, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Görnüşi", size: 16.0),)],),),
 
 
@@ -406,23 +398,29 @@ class _CarStoreState extends State<CarStore> {
                         fit: BoxFit.fitHeight, height: 160, width: double.infinity),),
                 ],),),
 
-          Container(
-              margin: const EdgeInsets.all(10),
-              height: 100,
+          if (data['detail']!=null && data['detail']!='')
+          SizedBox(
               width: double.infinity,
               child: TextField(
                 enabled: false, 
-                maxLines:  3 ,
                 decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide.none,),
                 filled: true,
+                hintMaxLines: 10,
+                hintStyle: TextStyle(fontSize: 14, color: CustomColors.appColors),
                 hintText: data['detail'].toString(),
                 fillColor: Colors.white,),),),
+        SizedBox(height: 70,),
 
-
-          Call(phone: data['phone'].toString(),)
         ],
       ): Center(child: CircularProgressIndicator(
         color: CustomColors.appColors,),),
+      ),
+      
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(top: 30, left: 25),
+        alignment: Alignment.bottomCenter,
+        padding: EdgeInsets.only(top: 50),
+        child: Call(phone: data['phone'].toString()),
       )
     );
   }
@@ -473,7 +471,7 @@ class TextKeyWidget extends StatelessWidget {
   final double size;
   @override
   Widget build(BuildContext context) {
-    return Text(text, maxLines: 3,style: TextStyle(fontSize: 16, color: Colors.black54,));
+    return Text(text, maxLines: 3,style: TextStyle(fontSize: 14, color: Colors.black54,));
   }
 }
 
@@ -484,7 +482,7 @@ class TextValueWidget extends StatelessWidget {
   final double size;
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: TextStyle(fontSize: 15, color: CustomColors.appColors));
+    return Text(text, style: TextStyle(fontSize: 14, color: CustomColors.appColors));
   }
 }
 

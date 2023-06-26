@@ -417,14 +417,17 @@ class MyDraver extends StatelessWidget {
       child: Column(
         children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 25),
+              margin: EdgeInsets.only(top: 20),
+              child: SizedBox(
               child: Image.asset(
                 'assets/images/lllll.jpeg',
                 height: 150,
                 width: 200,
               ),
             ),
-                      GestureDetector(
+            ),
+            
+            GestureDetector(
             onTap: ()async{
               const url = 'http://business-complex.com.tm/';
               final uri = Uri.parse(url);
@@ -452,12 +455,10 @@ class MyDraver extends StatelessWidget {
             ),
           ),
           
-          Container(
-            color: Colors.white,
-            height: 500,
+          SizedBox(
+            height: MediaQuery.of(context).size.height-200,
             child: ListView(
               children: <Widget>[
-              
                 ListTile(
                   leading: const Icon(Icons.home, size: 30, color: CustomColors.appColors,),
                   title: GestureDetector(

@@ -202,7 +202,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                   SizedBox(width: 10,),
                   Icon(Icons.store, color: Colors.black54,),
                   SizedBox(width: 10,),
-                  Text("Dükan", style: CustomText.size_16_black54,)],),),
+                  Text("Söwda nokat", style: CustomText.size_16_black54,)],),),
               Expanded(child: Text(data['store'].toString(),  style: CustomText.size_16))],),),
 
           Container(
@@ -276,7 +276,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                   children: <Widget>[
                     SizedBox(width: 10,),
                     const Icon(Icons.monetization_on_sharp, color: Colors.black54,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kridit", size:16.0),)],),),
+                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kredit", size:16.0),)],),),
                 Expanded(child: Container(
                   alignment: Alignment.topLeft,
            

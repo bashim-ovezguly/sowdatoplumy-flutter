@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -120,18 +121,19 @@ class _ServiceDetailState extends State<ServiceDetail> {
                     SizedBox(width: 20,),
                     Text(data['created_at'].toString(),
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 16,
                         fontFamily: 'Raleway',
                         color: CustomColors.appColors,
                       ),
                     ),
                   ],
                 ),),
+                Spacer(),
                 Expanded(child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children:  <Widget>[
                     Icon(Icons.visibility_sharp,size: 20,color: CustomColors.appColors,),
-                    SizedBox(width: 20,),
+                    SizedBox(width: 10,),
                     Text(data['viewed'].toString(), style: TextStyle(fontSize: 16, fontFamily: 'Raleway', color: CustomColors.appColors,
                     ),),],),
                 )
@@ -242,23 +244,30 @@ class _ServiceDetailState extends State<ServiceDetail> {
                   child:  Image.network(baseurl + data['ad']!['img'].toString(), 
                       fit: BoxFit.fitHeight, height: 160, width: double.infinity),),
               ],),),
-
-          Container(
-              margin: const EdgeInsets.all(10),
-              height: 100,
+              
+          if (data['description']!=null && data['description']!='')
+          SizedBox(
               width: double.infinity,
               child: TextField(
                 enabled: false, 
-                maxLines:  3 ,
                 decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide.none,),
                 filled: true,
+                hintMaxLines: 10,
+                hintStyle: TextStyle(fontSize: 14, color: CustomColors.appColors),
                 hintText: data['description'].toString(),
                 fillColor: Colors.white,),),),
-          Call(phone: number)
+        SizedBox(height: 70,),
 
         ],
       ): Center(child: CircularProgressIndicator(
         color: CustomColors.appColors,),),
+      ),
+    
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(top: 30, left: 25),
+        alignment: Alignment.bottomCenter,
+        padding: EdgeInsets.only(top: 50),
+        child: Call(phone: data['phone'].toString()),
       )
     );
   }
