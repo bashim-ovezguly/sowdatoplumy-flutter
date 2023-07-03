@@ -224,14 +224,27 @@ class _ServicesListState extends State<ServicesList> {
                                             Icon(Icons.place,color: Colors.white,),
                                             SizedBox(width: 10,),
                                             Text(data[index]['location'].toString(), style: CustomText.itemText)],),)),
-                                      Expanded(
+                                      
+                                      if (data[index]['store_id']==null || data[index]['store_id']=='')
+                                          Expanded(
                                           child:Align(
                                             alignment: Alignment.centerLeft,
                                             child: Row(
                                               children: <Widget>[
                                                 Icon(Icons.price_change, color: Colors.white,),
                                                 SizedBox(width: 10,),
-                                                Text(data[index]['price'].toString(), style: CustomText.itemText)],),)),
+                                                Text(data[index]['price'].toString(), style: CustomText.itemText)],),))
+                                        else
+                                          Expanded(child:Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: ElevatedButton(
+                                                onPressed: () {},
+                                                child: Text(
+                                                  data[index]['store_name'],
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: CustomText.itemText,
+                                                ),)))
                                     ],
                                   ),
                                 ),

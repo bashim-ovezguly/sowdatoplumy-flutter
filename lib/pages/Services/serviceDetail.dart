@@ -7,6 +7,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
   
 import 'package:my_app/dB/constants.dart';
+import 'package:my_app/pages/Store/merketDetail.dart';
 import '../../dB/colors.dart';
 import '../../dB/textStyle.dart';
 import '../call.dart';
@@ -168,6 +169,32 @@ class _ServiceDetailState extends State<ServiceDetail> {
                                             softWrap: false,
               
                style: CustomText.size_16))],),),
+            
+            if (data['store_id']!=null && data['store_id']!='')
+            SizedBox(
+              child: Row(
+                children: [
+                  Expanded(child: Row(
+                  children: [
+                    SizedBox(width: 10,),
+                    Icon(Icons.store, color: Colors.black54),
+                    SizedBox(width: 10,),
+                    Text("Söwda nokat", style: CustomText.size_16_black54,)],),),
+
+                   Expanded(child:Align(
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
+                      onPressed: () {
+                        if (data['store_id']!=null && data['store_id']!=''){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Söwda nokatlar')));
+                        }
+                      },
+                      child: Text(data['store'].toString(),),)))
+                ],
+              ),
+            ),
 
           Container(
             margin: EdgeInsets.only(left: 10,right: 10),

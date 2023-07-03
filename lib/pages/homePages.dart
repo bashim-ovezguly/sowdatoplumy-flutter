@@ -396,12 +396,6 @@ class _HomeState extends State<Home> {
         determinate = true;
       });
       }
-      print(dataSlider1);
-      print("");
-      print(dataSlider2);
-      print("");
-      print(dataSlider3);
-
     });}
 }
 
@@ -447,7 +441,7 @@ class MyDraver extends StatelessWidget {
                   Image.asset('assets/images/browser_internet.png', height: 30, width: 30,),
                   Text('  business-complex.com.tm', 
                   style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 15,
                   color: CustomColors.appColors,
               ),),
                 ],
@@ -459,127 +453,295 @@ class MyDraver extends StatelessWidget {
             height: MediaQuery.of(context).size.height-200,
             child: ListView(
               children: <Widget>[
-                ListTile(
-                  leading: const Icon(Icons.home, size: 30, color: CustomColors.appColors,),
-                  title: GestureDetector(
-                    onTap: () {
+                Container(
+                  margin: EdgeInsets.only(left: 20),
+                  child: GestureDetector(
+                    onTap: (){
                       Navigator.pushNamed(context, "/");
-                      },
-                    child: const Text('Baş sahypa', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
-              
-                ListTile(
-                  leading: const Icon(Icons.person, size: 30, color: CustomColors.appColors,),
-                  title: GestureDetector(
+                    },
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.home, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Baş sahypa', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),),
+                        ],
+                      ),
+                    ),
+                  ),  
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
                     onTap: () async {
-
-                      // ignore: unused_local_variable
                       final allRows = await dbHelper.queryAllRows();
-                      if (allRows.length==0){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Login() ));  
-                      }
-                      else{
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyPages() ));  
-                      }
-                      },
-                    child: const Text('Meniň sahypam', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
+                      if (allRows.length==0){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login() ));  }
+                      else{Navigator.push(context, MaterialPageRoute(builder: (context) => MyPages() ));  }},
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.person, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Meniň sahypam', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
 
-                // ListTile(
-                //   leading: const Icon(Icons.note_alt, size: 30, color: CustomColors.appColors,),
-                //   title: GestureDetector(
-                //     onTap: () {Navigator.pushNamed(context, "/customer/myPages/finance/list");},
-                //     child: const Text('Özara hasabym', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
-
-                ListTile(
-                  leading: const Icon(Icons.search, size: 30, color: CustomColors.appColors,),
-                  title: GestureDetector(
-                    onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:0)));},
-                    child: const Text('Gözleg', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
-
-                ListTile(
-                  leading: const Icon(Icons.local_pharmacy_sharp, size: 30, color: CustomColors.appColors,),
-                  title: GestureDetector(
-                    onTap: () {Navigator.pushNamed(context, "/pharmacies/list");},
-                    child: const Text('Dermanhanalar', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
-
-                ListTile(
-                  leading: const Icon(Icons.storefront_sharp, size: 30, color: CustomColors.appColors,),
-                  title: GestureDetector(
+                 Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
                     onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:0)));
+                    },
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.search, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Gözleg', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
 
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Bazarlar") )); },
-                    child: const Text('Bazarlar', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
-
-                ListTile(
-                  leading: const Icon(Icons.store, size: 30, color: CustomColors.appColors,),
-                  title: GestureDetector(
+                 Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Söwda merkezler") ));},
-                    child: const Text('Söwda merkezler', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
+                      Navigator.pushNamed(context, "/pharmacies/list");
+                    },
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.local_pharmacy_sharp, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Dermanhanalar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
 
-                ListTile(
-                  leading: const Icon(Icons.store_outlined, size: 30, color: CustomColors.appColors,),
-                  title: GestureDetector(
+                 Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
                     onTap: () {
-                      // ignore: unused_local_variable
-                      String title = "";
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Söwda nokatlar") ));},
-                    child: const Text('Söwda nokatlar', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Bazarlar") )); 
+                    },
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.storefront_sharp, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Bazarlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
 
-                ListTile(
-                  leading: const Icon(Icons.storefront_outlined, size: 30, color: CustomColors.appColors,),
-                  title:  GestureDetector(
+                Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
                     onTap: () {
-                      String title = "";
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Marketler") ));},
-                    child: const Text('Marketler', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
+                       Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Söwda merkezler") ));
+                    },
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.store, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Söwda merkezler', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
 
-                ListTile(
-                  leading: const Icon(Icons.store_outlined, size: 30, color: CustomColors.appColors,),
-                  title:  GestureDetector(
+
+                Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
+                    onTap: () {
+                       Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Söwda nokatlar") ));
+                    },
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.store_outlined, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Söwda nokatlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
+
+
+                Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Marketler") ));
+                    },
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.storefront_outlined, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Marketler', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
+
+                Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
                     onTap: () {Navigator.pushNamed(context, "/productManufacturers");},
-                    child: const Text('Önüm öndürijiler', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.store_outlined, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Önüm öndürijiler', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
 
-                ListTile(
-                  leading: const Icon(Icons.car_repair, size: 30, color: CustomColors.appColors,),
-                  title:  GestureDetector(
+                Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
                     onTap: () {Navigator.pushNamed(context, "/car");},
-                    child: const Text('Awtoulaglar', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
-                ListTile(
-                  leading: const Icon(Icons.settings_outlined, size: 30, color: CustomColors.appColors,),
-                  title:  GestureDetector(
-                    onTap: () {Navigator.pushNamed(context, "/autoParts");},
-                    child: const Text('Awtoşaýlar', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
-                ListTile(
-                  leading: const Icon(Icons.other_houses, size: 30, color: CustomColors.appColors,),
-                  title:  GestureDetector(
-                    onTap: () {Navigator.pushNamed(context, "/properties/list");},
-                    child: const Text('Emläkler', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
-                ListTile(
-                  leading: const Icon(Icons.build_circle, size: 30, color: CustomColors.appColors,),
-                  title:  GestureDetector(
-                    onTap: () {Navigator.pushNamed(context, "/constructions/list");},
-                    child: const Text('Gurluşyk harytlary', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
-                ListTile(
-                  leading: const Icon(Icons.home_repair_service, size: 30, color: CustomColors.appColors,),
-                  title:  GestureDetector(
-                    onTap: () {Navigator.pushNamed(context, "/services/list");},
-                    child: const Text('Hyzmatlar', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
-                ListTile(
-                  leading: const Icon(Icons.newspaper, size: 30, color: CustomColors.appColors,),
-                  title:  GestureDetector(
-                    onTap: () {Navigator.pushNamed(context, "/othergoods/list");},
-                    child: const Text('Beýleki harytlar', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
-                ListTile(
-                  leading: const Icon(Icons.shopping_cart_outlined, size: 30, color: CustomColors.appColors,),
-                  title:  GestureDetector(
-                    onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => OrdersList() ));},
-                    child: const Text('Sargytlar', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.car_repair, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Awtoulaglar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
 
-                ListTile(
-                  leading: const Icon(Icons.settings, size: 30, color: CustomColors.appColors,),
-                  title:  GestureDetector(
+                Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
+                    onTap: () {Navigator.pushNamed(context, "/autoParts");},
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.settings_outlined, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Awtoşaýlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
+
+                Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
+                    onTap: () {Navigator.pushNamed(context, "/properties/list");},
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.other_houses, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Emläkler', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
+
+                Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
+                    onTap: () {Navigator.pushNamed(context, "/constructions/list");},
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.build_circle, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Gurluşyk harytlary', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
+                
+                Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
+                    onTap: () {Navigator.pushNamed(context, "/services/list");},
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.home_repair_service, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Hyzmatlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
+
+                 Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
+                    onTap: () {Navigator.pushNamed(context, "/othergoods/list");},
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.newspaper, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                          Text('Beýleki harytlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
+
+                Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
+                    onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => OrdersList() ));},
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.shopping_cart_outlined, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 15,),
+                           Text('Sargytlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
+
+                Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
                     onTap: () {Navigator.pushNamed(context, "/settings");},
-                    child: const Text('Sazlamalar', style: TextStyle(fontSize: 17, color: CustomColors.appColors,),),),),
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.settings, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width:15),
+                          Text('Sazlamalar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
               ],
             ),            
           ),

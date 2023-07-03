@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/pages/Store/merketDetail.dart';
   
 import 'package:my_app/pages/call.dart';
 import 'package:http/http.dart' as http;
@@ -178,6 +179,34 @@ class _CarStoreState extends State<CarStore> {
                 Expanded(child: SizedBox(child: TextValueWidget(text: data['model'].toString(), size: 16.0),))
               ],),),
 
+            if (data['store_name']!= null && data['store_name']!='')
+            SizedBox(
+              child: Row(
+                children: [
+                  Expanded(child: Row(
+                  children: [
+                    SizedBox(width: 10,),
+                    Icon(Icons.store, color: Colors.grey,size: 18,),
+                    SizedBox(width: 10,),
+                    Text("Söwda nokat", style: CustomText.size_16_black54,)],),),
+
+                   Expanded(child:Align(
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
+                      onPressed: () {
+                        if (data['store_id']!=null && data['store_id']!=''){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Söwda nokatlar')));
+                        }
+                      },
+                      child: Text(data['store'].toString(),),)))
+                ],
+              ),
+            ),
+            
+            Container(height: 10,),
+
             SizedBox(
               child: Row(children: [
                 Expanded(child: Row(
@@ -192,10 +221,10 @@ class _CarStoreState extends State<CarStore> {
                     Expanded(child: Text(data['location'].toString(),  style: TextStyle(fontSize: 15, color: CustomColors.appColors))),
                     SizedBox(width: 10,),
                     ],),),
-                    
+          
           Container(
             height: 30,
-            margin: const EdgeInsets.only(left: 10),
+            margin: const EdgeInsets.only(left: 10, top: 10),
             child: Row(
               children: <Widget>[
                 Expanded(child: Row(

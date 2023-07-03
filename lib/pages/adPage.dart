@@ -125,7 +125,7 @@ class _AdPageState extends State<AdPage> {
                   children: <Widget>[
                     const Icon(Icons.phone, color: Colors.grey,size: 20,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Telefon", size:16.0),),],),),
-                    Expanded(child: SizedBox(child: data['phone']!=null && data['phone']!='' ? TextValueWidget(text: data['location'].toString(), size: 16.0):
+                    Expanded(child: SizedBox(child: data['phone']!=null && data['phone']!='' ? TextValueWidget(text: data['phone'].toString(), size: 16.0):
                     TextValueWidget(text: '', size: 16.0)
                     ))
               ],),),

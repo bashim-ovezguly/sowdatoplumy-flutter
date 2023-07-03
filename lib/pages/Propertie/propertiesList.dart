@@ -213,7 +213,7 @@ class _PropertiesState extends State<Properties> {
                                 flex: 2,
                                 child: Container(
                                   margin: EdgeInsets.only(left: 2),
-                                  padding: const EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(5),
                                   color: CustomColors.appColors,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -235,6 +235,7 @@ class _PropertiesState extends State<Properties> {
                                                   maxLines: 2,
                                                   softWrap: false,
                                                 style: CustomText.itemText,),),),
+                                      
                                       Expanded(child: Row(
                                         children: [
                                           Expanded(child: Align(
@@ -250,8 +251,19 @@ class _PropertiesState extends State<Properties> {
                                             SizedBox(width: 10,),
                                             Text('otag sany: ', style: CustomText.itemText),
                                             Text(data[index]['room_count'].toString(),style: CustomText.itemText)],),)),
-                                        ],
-                                      )),    
+                                        ],)),
+
+                                        if (data[index]['store_id']!=null &&  data[index]['store_id']!='')
+                                          Expanded(child:Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: ElevatedButton(
+                                                onPressed: () {},
+                                                child: Text(
+                                                  data[index]['store_name'],
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: CustomText.itemText,
+                                                ),)))    
                                     ],
                                   ),
                                 ),

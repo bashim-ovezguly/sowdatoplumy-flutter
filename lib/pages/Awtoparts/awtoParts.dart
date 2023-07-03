@@ -245,22 +245,35 @@ class _AutoPartsState extends State<AutoParts> {
                                                     data[index]['price'].toString(),
                                                     style: CustomText.itemText
                                                 ),)),
+
+
+                                    if (data[index]['store_id']==null || data[index]['store_id']=='')
                                           Expanded(child:Align(
                                             alignment: Alignment.centerLeft,
                                             child: Row(
-                                              children:  <Widget>[
-                                                  SizedBox(width: 5,),
-                                                  Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                  SizedBox(width: 5,),
-                                                  Text('Obmen',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['swap'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                  SizedBox(width: 5,),
-                                                  Text('Nagt däl',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                
-                                              ],)
-                                            ,)),
+                                              children: <Widget>[
+                                                Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                SizedBox(width: 5,),
+                                                Text('Obmen',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                data[index]['swap'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                SizedBox(width: 5,),
+                                                Text('Nagt däl',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                              ],),))
+                                        else
+                                          Expanded(child:Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: ElevatedButton(
+                                                onPressed: () {},
+                                                child: Text(
+                                                  data[index]['store_name'],
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: CustomText.itemText,
+                                                ),)))
+
+
                                         ],
                                       ),
                                     ),

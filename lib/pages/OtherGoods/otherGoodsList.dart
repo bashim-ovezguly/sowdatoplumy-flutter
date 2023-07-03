@@ -217,14 +217,16 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
+                                      if (data[index]['name']!=null && data[index]['name']!='')
                                       Expanded(
                                         child: Container(
                                           margin: EdgeInsets.only(left: 5),
                                           alignment: Alignment.centerLeft,
                                           child: Text(
                                             data[index]['name'],
+                                            maxLines: 1,
                                             style: CustomText.itemTextBold,),),),
-
+                                      if (data[index]['location']!=null && data[index]['location']!='')
                                       Expanded(child:Align(
                                         alignment: Alignment.centerLeft,
                                         child: Row(
@@ -240,21 +242,32 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                 Icon(Icons.access_time_outlined,color: Colors.white, size: 15,),SizedBox(width: 5,),
                                                 Text(data[index]['delta_time'].toString(),style: CustomText.itemText)],),)),
 
-                                            Expanded(child:Align(
+                                      if (data[index]['store_id']==null || data[index]['store_id']=='')
+                                          Expanded(child:Align(
                                             alignment: Alignment.centerLeft,
                                             child: Row(
-                                              children:  <Widget>[
-                                                  Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                  SizedBox(width: 5,),
-                                                  Text('Obmen',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['swap'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                  SizedBox(width: 5,),
-                                                  Text('Nagt däl',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                
-                                              ],)
-                                            ,)),
+                                              children: <Widget>[
+                                                Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                SizedBox(width: 5,),
+                                                Text('Obmen',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                data[index]['swap'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                SizedBox(width: 5,),
+                                                Text('Nagt däl',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                              ],),))
+                                        else
+                                          Expanded(child:Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: ElevatedButton(
+                                                onPressed: () {},
+                                                child: Text(
+                                                  data[index]['store_name'],
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: CustomText.itemText,
+                                                ),
+                                              )))
 
                                     ],
                                   ),

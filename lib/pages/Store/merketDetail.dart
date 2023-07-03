@@ -37,6 +37,7 @@ class _MarketDetailState extends State<MarketDetail> {
   final String title;
   final number = '+99364334578';
   var telefon = {};
+  var modules = {};
   int _current = 0;
   var baseurl = "";
   var data = {};
@@ -421,7 +422,20 @@ class _MarketDetailState extends State<MarketDetail> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                     Text(item['name'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
+                                    if (modul=='1')
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(item['mark'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
+                                          SizedBox(width: 2,),
+                                          Text(item['year'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
+                                        ],   
+                                      ),
+                                    if (modul=='0')
+                                      Text(item['name'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
+
+
                                      Text(item['price'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
                                   ],
                                 )
@@ -461,46 +475,59 @@ class _MarketDetailState extends State<MarketDetail> {
               onSelected: (value) {
                 setState(() {
                   change_modul(value);
-                  
                 });              
               },
               itemBuilder: (context) {    
                 return [
+                  if (modules['products']>0)
                   PopupMenuItem(
                     child: Center(
                       child: Text('Harytlar',style: TextStyle(color: Colors.black),),),
                     value: 0,
                   ),
+                  if (modules['products']>0)
                   PopupMenuItem( height: 4,child: Container(height: 2,color: Colors.black,),),
                   
+
+                  if (modules['cars']>0)
                   PopupMenuItem(
                     child: Center(
                       child: Text( 'Awtoulaglar', style: TextStyle(color: Colors.black),),),
                     value: 1,
                   ),
+                  if (modules['cars']>0)
                   PopupMenuItem(height: 4,child: Container(height: 2,color: Colors.black,),),
 
+                  if (modules['parts']>0)
                   PopupMenuItem(
                     child: Center(
                       child: Text('Awtoşaýlar',style: TextStyle(color: Colors.black),),),
                     value: 2,
                   ),
+                  if (modules['parts']>0)
                   PopupMenuItem(height: 4,child: Container(height: 2,color: Colors.black,),),
-
+                  
+                  if (modules['flats']>0)
                   PopupMenuItem(
                     child: Center(
                       child: Text('Emläkler',style: TextStyle(color: Colors.black),),),
                     value: 3,
                   ),
+                  if (modules['flats']>0)
                   PopupMenuItem(height: 4,child: Container(height: 2,color: Colors.black,),),
 
+  
+                  if (modules['materials']>0)
                   PopupMenuItem(
                     child: Center(
                       child: Text('Gurluşyk harytlar',style: TextStyle(color: Colors.black),),),
                     value: 4,
                   ),
+                  if (modules['materials']>0)
                   PopupMenuItem(height: 4,child: Container(height: 2,color: Colors.black,),),
 
+
+                  if (modules['services']>0)
                   PopupMenuItem(
                     child: Center(
                       child: Text('Hyzmatlar',style: TextStyle(color: Colors.black),),),
@@ -523,10 +550,11 @@ class _MarketDetailState extends State<MarketDetail> {
     final response = await http.get(uri);    
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
-        data  = json;
-        baseurl =  server_url.get_server_url();
         var i; imgList = [];
+        data = json;
+        baseurl =  server_url.get_server_url();
         data_tel = json['phones'];
+        modules = json['modules'];
         if (json['phones'].length!=0){ telefon = json['phones'][0]; }
         for ( i in data['images']) { imgList.add(baseurl + i['img_l']);}
       determinate = true;
@@ -534,7 +562,6 @@ class _MarketDetailState extends State<MarketDetail> {
         imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBYAVt1PGvwtPxFwyln-2VL4hyc3ViLcdgYaVFxgnrcK2KP9ywLquGti9teKFEFz4vP1o&usqp=CAU');
       }});}
     
-
     Future<void> get_products_modul(modul, id) async {
       Urls server_url  =  new Urls();
       var param = '';

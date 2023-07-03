@@ -46,7 +46,7 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
                   alignment: Alignment.topLeft,
                   margin: const EdgeInsets.only(top: 30,left: 20),
                   child: GestureDetector(
-                    child: const Icon(Icons.arrow_back, size: 30, color: Color.fromARGB(255, 146, 23, 23),),
+                    child: const Icon(Icons.arrow_back, size: 30, color: Color.fromARGB(255, 255, 255, 255),),
                     onTap: (){
                       Navigator.pop(context);
                     },
@@ -54,36 +54,36 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
                   )),
 
                   Spacer(),
-                  Row(
-                    children: [
-                      Container(
-                  margin: const EdgeInsets.only(top: 30),
-                  child: GestureDetector(
-                    child: const Icon(Icons.download, color: Color.fromARGB(255, 178, 22, 22),),
-                    onTap: (){
-                       print(imgList[index]);
+                  // Row(
+                  //   children: [
+                  //     Container(
+                  // margin: const EdgeInsets.only(top: 30),
+                  // child: GestureDetector(
+                  //   child: const Icon(Icons.download, color: Color.fromARGB(255, 255, 255, 255),),
+                  //   onTap: (){
+                  //      print(imgList[index]);
 
-                        FileDownloader.downloadFile(url:imgList[index].trim(), onProgress: (name, progress) => {
-                          setState(() {
-                            _progres = progress;
-                          },) 
-                        },
-                        onDownloadCompleted: (value){
-                          print('path $value');
-                          setState(() {
-                            _progres = null;
-                          });
-                        }
-                        );
-                    },
-                  )
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
-                    child: const Icon(Icons.wifi_protected_setup_outlined, color: Color.fromARGB(255, 133, 23, 23),),
-                  )
-                    ],
-                  )
+                  //       FileDownloader.downloadFile(url:imgList[index].trim(), onProgress: (name, progress) => {
+                  //         setState(() {
+                  //           _progres = progress;
+                  //         },) 
+                  //       },
+                  //       onDownloadCompleted: (value){
+                  //         print('path $value');
+                  //         setState(() {
+                  //           _progres = null;
+                  //         });
+                  //       }
+                  //       );
+                  //   },
+                  // )
+                  // ),
+                  // Container(
+                  //   margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                  //   child: const Icon(Icons.wifi_protected_setup_outlined, color: Color.fromARGB(255, 255, 255, 255),),
+                  // )
+                  //   ],
+                  // )
                 ],
               )),
               Expanded(flex: 10, child: Align(

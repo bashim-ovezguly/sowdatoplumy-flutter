@@ -207,11 +207,12 @@ class _ConstructionsListState extends State<ConstructionsList> {
                               flex: 2,
                               child: Container(
                                 margin: EdgeInsets.only(left: 2),
-                                padding: const EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(5),
                                 color: CustomColors.appColors,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
+                                    if (data[index]['name_tm']!=null && data[index]['name_tm']!='')
                                     Expanded(
                                       child: Align(
                                           alignment: Alignment.centerLeft,
@@ -226,8 +227,6 @@ class _ConstructionsListState extends State<ConstructionsList> {
                                       alignment: Alignment.centerLeft,
                                       child: Row(
                                         children:  <Widget>[
-                                          Icon(Icons.place,color: Colors.white,),
-                                          SizedBox(width: 10,),
                                           Text(data[index]['location'].toString(),
                                               style: CustomText.itemText)],),)),
 
@@ -237,8 +236,6 @@ class _ConstructionsListState extends State<ConstructionsList> {
                                             children:  <Widget>[
                                               Row(
                                                 children: [
-                                                  Icon(Icons.attach_money_rounded,color: Colors.white,),
-                                                  SizedBox(width: 10,),
                                                   Text(data[index]['price'].toString(),style: CustomText.itemText)
                                                 ],
                                               ),
@@ -248,6 +245,18 @@ class _ConstructionsListState extends State<ConstructionsList> {
                                                 child: Text(data[index]['delta_time'].toString(), style:  CustomText.itemText,),
                                               )],
                                               ),)),
+
+                                     if (data[index]['store_id']!=null && data[index]['store_id']!='')
+                                          Expanded(child:Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: ElevatedButton(
+                                                onPressed: () {},
+                                                child: Text(
+                                                  data[index]['store_name'],
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: CustomText.itemText,
+                                                ),)))
 
                                   ],
                                 ),

@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/pages/Store/merketDetail.dart';
   
 import '../../dB/constants.dart';
 import '../../dB/textStyle.dart';
@@ -173,6 +174,32 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
                                             maxLines: 2,
                                             softWrap: false,
               ))],),),
+              
+            if (data['store_name']!= null && data['store_name']!='')
+             SizedBox(
+              child: Row(
+                children: [
+                  Expanded(child: Row(
+                  children: [
+                    SizedBox(width: 20,),
+                    Icon(Icons.store, color: Colors.black54,),
+                    SizedBox(width: 10,),
+                    Text("Söwda nokat", style: CustomText.size_16_black54,)],),),
+
+                   Expanded(child:Align(
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
+                      onPressed: () {
+                        if (data['store_id']!=null && data['store_id']!=''){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Söwda nokatlar')));
+                        }
+                      },
+                      child: Text(data['store_name'].toString(),),)))
+                ],
+              ),
+            ),
 
           Container(
             height: 35,

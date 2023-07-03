@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/Car/carStore.dart';
+import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/call.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:my_app/pages/fullScreenSlider.dart';
@@ -197,6 +198,31 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                 
                 ),))
               ],),),
+          if (data['store_name']!= null && data['store_name']!='')
+            SizedBox(
+              child: Row(
+                children: [
+                  Expanded(child: Row(
+                  children: [
+                    SizedBox(width: 10,),
+                    Icon(Icons.store, color: Colors.grey,size: 18,),
+                    SizedBox(width: 10,),
+                    Text("Söwda nokat", style: CustomText.size_16_black54,)],),),
+
+                   Expanded(child:Align(
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
+                      onPressed: () {
+                        if (data['store_id']!=null && data['store_id']!=''){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Söwda nokatlar')));
+                        }
+                      },
+                      child: Text(data['store'].toString(),),)))
+                ],
+              ),
+            ),
               
           Container(
             height: 30,

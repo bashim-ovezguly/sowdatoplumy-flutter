@@ -6,6 +6,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
   
 import 'package:my_app/dB/constants.dart';
+import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../dB/textStyle.dart';
 import '../OtherGoods/otherGoodsDetail.dart';
@@ -161,6 +162,32 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
           );},)),
 
             SliverList(delegate: SliverChildBuilderDelegate(childCount: 1,(BuildContext context, int index) {return Container(height: 15,);},)),
+
+             SizedBox(
+              child: Row(
+                children: [
+                  Expanded(child: Row(
+                  children: [
+                    SizedBox(width: 10,),
+                    Icon(Icons.store, color: Colors.grey,size: 18,),
+                    SizedBox(width: 10,),
+                    Text("Dükan", style: CustomText.size_16_black54,)],),),
+
+                   Expanded(child:Align(
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
+                      onPressed: () {
+                        if (data['store_id']!=null && data['store_id']!=''){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Söwda nokatlar')));
+                        }
+                      },
+                      child: Text(data['store'].toString(),),)))
+                ],
+              ),
+            ),
+
 
             SliverList(delegate: SliverChildBuilderDelegate(
             childCount: 1,
