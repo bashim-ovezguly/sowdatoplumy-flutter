@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/colors.dart';
 import 'package:http/http.dart' as http;
-import '../../dB/constants.dart';
+import '../dB/constants.dart';
+import 'dart:convert';
 
 
 class LocationWidget extends StatefulWidget {
@@ -102,12 +102,6 @@ class _LocationWidgetState extends State<LocationWidget> {
                                 height: 20,
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(60)),
                                 child: Container())),
-                              
-                            // if (data[index]['name_tm'].length > 19 && data[index]['childs']!='0')
-                            //   Text(" " + data[index]['name_tm'].substring(0, 19))
-                            // else if (data[index]['name_tm'].length > 30 && data[index]['childs']==0)
-                            //   Text(" " + data[index]['name_tm'].substring(0, 30))
-                            // else
                               Flexible(child: Text(" " + data[index]['name_tm'], overflow: TextOverflow.ellipsis, maxLines: 1,))
                           ],
                         ),
@@ -140,6 +134,22 @@ class _LocationWidgetState extends State<LocationWidget> {
             Expanded(flex:1,
             child: Row(
               children: [
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  alignment: Alignment.centerLeft,
+                  child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                  backgroundColor: CustomColors.appColors,
+                    shadowColor: Colors.white),              
+                    child: Text('Saýlanmadyk', style: TextStyle(color: Colors.white),),
+                    onPressed: (){
+                      widget.callbackFunc({});
+                      Navigator.pop(context);
+                  },
+                ),
+                ),
+
+                Spacer(),
                 if (data.length>0 && data[0]['back_id']!= '')
                 Container(
                   margin: EdgeInsets.only(top: 10),
@@ -168,8 +178,8 @@ class _LocationWidgetState extends State<LocationWidget> {
                     },
                   ),
                   ),
-                Spacer(),
-
+                
+              SizedBox(width: 20,),
               Container(
                   margin: EdgeInsets.only(top: 10),
                   alignment: Alignment.centerRight,
@@ -194,20 +204,16 @@ class _LocationWidgetState extends State<LocationWidget> {
   }
 
     void get_locations(parent) async {
-    setState(() {
-      determinate = false;
-    });
+    setState(() {determinate = false;});
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/index/locations/all';
-    if (parent!=null){
-      url = url + "?parent=" + parent.toString();
-    }
+    if (parent!=null){url = url + "?parent=" + parent.toString();}
+
     final uri = Uri.parse(url);  
     final response = await http.get(uri);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data  = json;
-      print(data[0]);
       determinate = true;
     });
     }

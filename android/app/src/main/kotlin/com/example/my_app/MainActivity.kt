@@ -1,4 +1,4 @@
-package com.example.my_app
+package com.sowda_toplum.sowda_toplum
 
 import io.flutter.embedding.android.FlutterActivity
 

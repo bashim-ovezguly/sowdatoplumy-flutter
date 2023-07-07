@@ -13,30 +13,32 @@ import 'package:my_app/pages/Customer/login.dart';
 import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/textStyle.dart';
+import 'loadingWidget.dart';
+import 'package:quickalert/quickalert.dart';
 
 
 class EditProfil extends StatefulWidget {
-
   EditProfil({Key? key, required this.customer_id,
                         required this.email,
                         required this.name,
                         required this.img,
                         required this.callbackFunc,
-                        required this.phone,}) : super(key: key);
+                        required this.phone,
+                        required this.showSuccessAlert
+                        }) : super(key: key);
   final String customer_id;
   final String email;
   final String name;
   final String phone;
   final String img;
   final Function callbackFunc;
+  final Function showSuccessAlert;
   
-
   @override
   State<EditProfil> createState() => _EditProfilState(customer_id: customer_id,
                                                       email: email,
                                                       name: name,
-                                                      phone: phone
-                                                      );
+                                                      phone: phone);
 }
 
 class _EditProfilState extends State<EditProfil> {
@@ -60,14 +62,7 @@ class _EditProfilState extends State<EditProfil> {
     }}
 
   void initState() {
-    
-    if (phone == null){
-      setState(() {
-        phone = '';
-        
-      });
-
-    }
+    if (phone == null){setState(() { phone = '';});}
     super.initState();
   }
 
@@ -77,7 +72,12 @@ class _EditProfilState extends State<EditProfil> {
                     required this.phone});
   @override
   Widget build(BuildContext context) {
-
+    showErrorAlert(String text){
+      QuickAlert.show(
+        text: text,
+        context: context, 
+        type: QuickAlertType.error);
+    }
     return Scaffold(
         appBar: AppBar(
           title: const Text("Meniň sahypam", style: CustomText.appBarText,),
@@ -181,22 +181,23 @@ class _EditProfilState extends State<EditProfil> {
                                 
                                 request.fields['name'] = newNameController.text;
                                 request.fields['email'] = newPhoneController.text;
-
-                                if (image!.path!=null){
-                                   var multiport = await http.MultipartFile.fromPath('img',
-                                                                                  image!.path,
-                                                                                  contentType: MediaType('image', 'jpeg'),);
-                                request.files.add(multiport);
-                                }
-                               
+                                try {
+                                  var multiport = await http.MultipartFile.fromPath('img', image!.path, contentType: MediaType('image', 'jpeg'),);
+                                  request.files.add(multiport);
+                                  }
+                                catch(e){}
+                                
+                                showLoaderDialog(context);
                                 final response = await request.send();
                                 if (response.statusCode==200){
                                     widget.callbackFunc();
                                     Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    widget.showSuccessAlert();
                                   }
+
                                   if (response.statusCode != 200){
                                    var response  = Provider.of<UserInfo>(context, listen: false).update_tokenc();
-                                   print('bniljrwn');
                                    if (response==false){
                                     Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));  
                                    }
@@ -205,6 +206,7 @@ class _EditProfilState extends State<EditProfil> {
                                     if (response.statusCode==200){ 
                                       widget.callbackFunc();
                                       Navigator.pop(context);  }
+                                    else{showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy!');}
                                     }
                                   }
                               },

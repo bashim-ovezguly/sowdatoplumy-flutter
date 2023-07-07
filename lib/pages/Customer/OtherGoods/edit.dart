@@ -42,8 +42,6 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
   List<dynamic> units = [];
   List<dynamic> countries = [];
   
-  List<File> images = [];
-  
   List<dynamic> stores = [];
   var storesController = {};
   callbackStores(new_value){ setState(() { storesController = new_value; });}
@@ -81,21 +79,23 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
   callbackBrand(new_value){ setState(() { barndController = new_value; });}
   callbackMadein(new_value){ setState(() { madeInController = new_value; });}
 
-  File? image;
-  Future<void> addimages() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if(image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch(e) {
-      print('Failed to pick image: $e');
-    }
+  List<File> selectedImages = []; 
+  final picker = ImagePicker();
+  
+  Future getImages() async {
+    final pickedFile = await picker.pickMultiImage(imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+    List<XFile> xfilePick = pickedFile;
     setState(() {
-      if (image != null){
-        images.add(image!);
+        if (xfilePick.isNotEmpty) {
+          for (var i = 0; i < xfilePick.length; i++) {
+            selectedImages.add(File(xfilePick[i].path));
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Surat saýlamadyňyz!')));
         }
-      });
+      },
+    );
   }
 
   remove_image(value){
@@ -286,7 +286,7 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,), 
                 if (old_data['brand']!= null && old_data['brand']!='')
-                  Expanded(flex: 2,child: Text(old_data['brand']['name'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text(old_data['brand'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
                 if (old_data['brand']==null || old_data['brand']=='')
                   Expanded(flex: 2,child: Text("Brend : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
 
@@ -427,7 +427,7 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child:Row(
-                children: images.map((country){
+                children: selectedImages.map((country){
                   return Stack(
                     children: [
                       Container(
@@ -439,7 +439,7 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
                       GestureDetector(
                         onTap: (){
                           setState(() {
-                            images.remove(country);
+                            selectedImages.remove(country);
                           });
                           },
                         child: Container(
@@ -461,7 +461,7 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
                     backgroundColor: CustomColors.appColors,
                     foregroundColor: Colors.white),
                 onPressed: () {
-                  addimages();
+                  getImages();
                 },
                 child: const Text('Surat goş',style: TextStyle(fontWeight: FontWeight.bold),),
               ),
@@ -546,9 +546,8 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
                     request.fields['credit'] = credit_num;
                     request.fields['none_cash_pay'] = none_cash_pay_num;
                     
-                    print(request.fields);
-                    if (images.length!=0){
-                      for (var i in images){
+                    if (selectedImages.length!=0){
+                      for (var i in selectedImages){
                        var multiport = await http.MultipartFile.fromPath('images', i.path, contentType: MediaType('image', 'jpeg'),);
                        request.files.add(multiport);
                        }

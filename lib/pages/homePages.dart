@@ -13,10 +13,10 @@ import 'package:my_app/pages/regionWidget.dart';
 import 'package:my_app/dB/colors.dart';
 import '../dB/providers.dart';
 import '../main.dart';
-import 'Customer/locationWidget.dart';
 import 'Orders/ordersList.dart';
 import 'Search/search.dart';
 import 'Store/store.dart';
+import 'homePageLocation.dart';
 
 
 class Home extends StatefulWidget {
@@ -41,8 +41,11 @@ class _HomeState extends State<Home> {
     super.initState();
   }
   callbackLocation(new_value){ setState(() {
+    
     Provider.of<UserInfo>(context, listen: false).chang_Region_Code(new_value);
     region = Provider.of<UserInfo>(context, listen: false).regionsCode;
+    determinate = false;
+    getHomePage();
     });}
   
   @override
@@ -364,10 +367,20 @@ class _HomeState extends State<Home> {
         return RegionWidget();},);}
         
   void getHomePage() async {
+
+    var region_code = Provider.of<UserInfo>(context, listen: false).regionsCode;
+    Map<String, String> _header = {};
+
+    if (region_code!={} && region_code['id']!=null){
+      _header = <String, String>{
+      "Region-Id": region_code['id'].toString(), 
+      "Source": "Android"};
+    }
+    print(_header); 
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/home_ads';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    final response = await http.get(uri , headers: _header);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       baseurl =  server_url.get_server_url();

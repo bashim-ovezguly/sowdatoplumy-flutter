@@ -32,8 +32,6 @@ class _ConstructionAddState extends State<ConstructionAdd> {
   var data = {};
   List<dynamic> categories = [];
   
-  List<File> images = [];
-  
   List<dynamic> stores = [];
   var storesController = {};
   callbackStores(new_value){ setState(() { storesController = new_value; });}
@@ -50,21 +48,23 @@ class _ConstructionAddState extends State<ConstructionAdd> {
   callbackLocation(new_value){ setState(() { locationController = new_value; });}
   callbackCategory(new_value){ setState(() { categoryController = new_value; });}
 
-  File? image;
-  Future<void> addimages() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if(image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch(e) {
-      print('Failed to pick image: $e');
-    }
+  List<File> selectedImages = []; 
+  final picker = ImagePicker();
+  
+  Future getImages() async {
+    final pickedFile = await picker.pickMultiImage(imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+    List<XFile> xfilePick = pickedFile;
     setState(() {
-      if (image != null){
-        images.add(image!);
+        if (xfilePick.isNotEmpty) {
+          for (var i = 0; i < xfilePick.length; i++) {
+            selectedImages.add(File(xfilePick[i].path));
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Surat saýlamadyňyz!')));
         }
-      });
+      },
+    );
   }
 
   callbackStatus(){
@@ -203,13 +203,13 @@ class _ConstructionAddState extends State<ConstructionAdd> {
               maxLines:  3 ,
               decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide.none,),
                 filled: true,
-                hintText: '........',
+                hintText: '...',
                 fillColor: Colors.white,),),),
 
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child:Row(
-                children: images.map((country){
+                children: selectedImages.map((country){
                   return Stack(
                     children: [
                       Container(
@@ -221,7 +221,7 @@ class _ConstructionAddState extends State<ConstructionAdd> {
                       GestureDetector(
                         onTap: (){
                           setState(() {
-                            images.remove(country);
+                            selectedImages.remove(country);
                           });
                                 },
                         child: Container(
@@ -244,7 +244,7 @@ class _ConstructionAddState extends State<ConstructionAdd> {
                     backgroundColor: CustomColors.appColors,
                     foregroundColor: Colors.white),
                 onPressed: () {
-                  addimages();
+                  getImages();
                 },
                 child: const Text('Surat goş',style: TextStyle(fontWeight: FontWeight.bold),),
               ),
@@ -267,10 +267,9 @@ class _ConstructionAddState extends State<ConstructionAdd> {
                     final uri = Uri.parse(url);
                     var  request = new http.MultipartRequest("POST", uri);
                     var token = Provider.of<UserInfo>(context, listen: false).access_token;
-                    
                     request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
-                    request.fields['store'] = storesController['id'].toString();
 
+                    request.fields['store'] = storesController['id'].toString();
                     request.fields['name_tm'] = name_tmController.text;
                     request.fields['category'] = categoryController['id'].toString();
                     request.fields['price'] = priceController.text;
@@ -279,9 +278,7 @@ class _ConstructionAddState extends State<ConstructionAdd> {
                     request.fields['location'] = locationController['id'].toString();
                     request.fields['customer'] =  customer_id.toString();
 
-                    print(request.fields);
-
-                    for (var i in images){
+                    for (var i in selectedImages){
                        var multiport = await http.MultipartFile.fromPath('images', i.path, contentType: MediaType('image', 'jpeg'),);
                        request.files.add(multiport);
                     }

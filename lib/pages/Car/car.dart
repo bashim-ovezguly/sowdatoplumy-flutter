@@ -227,10 +227,15 @@ class _CarState extends State<Car> {
                                              style: CustomText.itemText),),),
 
                                         Expanded(
-                                           child:Align(
+                                           child: Align(
                                              alignment: Alignment.centerLeft,
-                                             child: Text(data[index]['price'].toString(),
-                                                 style: CustomText.itemText),)),
+                                             child: Row(
+                                              children: [
+                                                Expanded(child: Text(data[index]['price'].toString(),style: CustomText.itemText)),
+                                                Spacer(),
+                                                Expanded(child: Text(data[index]['delta_time'].toString(),style: CustomText.itemText)),
+                                              ],
+                                             ),)),
                                         
                                         if (data[index]['store_id']==null || data[index]['store_id']=='')
                                           Expanded(child:Align(

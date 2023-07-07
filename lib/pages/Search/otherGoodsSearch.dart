@@ -339,7 +339,6 @@ class _OtherGoodsSearchState extends State<OtherGoodsSearch> {
       brands = json['brands'];
       units = json['units'];
       countries = json['countries'];
-      print(json);
       });
   }
 }

@@ -217,6 +217,20 @@ class _MarketDetailState extends State<MarketDetail> {
                                 data['size'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors),maxLines: 2,)),
                               SizedBox(width: 10,),
                             ],),),
+                            Container(height: 10, child: Text(''),),
+
+                      SizedBox(  
+                        child: Row(children: [
+                          Expanded(child: Row(
+                            children: [
+                              SizedBox(width: 15,),
+                              Icon(Icons.person, color: Colors.black54,),
+                              SizedBox(width: 10,),
+                              Text("Satyjy", style: TextStyle(fontSize: 14, color: Colors.black54),)],),),
+                              if (data['customer']!=null && data['customer']!={} && data['customer']!='')
+                              Expanded(child: Text(data['customer']['name'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors),maxLines: 2,)),
+                              SizedBox(width: 10,),
+                            ],),),
 
                       Container(
                         margin: EdgeInsets.only(left: 10,right: 10,top: 10),
@@ -434,8 +448,6 @@ class _MarketDetailState extends State<MarketDetail> {
                                       ),
                                     if (modul=='0')
                                       Text(item['name'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
-
-
                                      Text(item['price'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
                                   ],
                                 )

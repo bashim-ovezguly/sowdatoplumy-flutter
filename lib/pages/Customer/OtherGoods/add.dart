@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
@@ -33,7 +32,6 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
   List<dynamic> brands = [];
   List<dynamic> units = [];
   List<dynamic> countries = [];
-  List<File> images = [];
 
   List<dynamic> stores = [];
   var storesController = {};
@@ -61,21 +59,23 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
   callbackBrand(new_value){ setState(() { barndController = new_value; });}
   callbackMadein(new_value){ setState(() { madeInController = new_value; });}
 
-  File? image;
-  Future<void> addimages() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if(image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch(e) {
-      print('Failed to pick image: $e');
-    }
+  List<File> selectedImages = []; 
+  final picker = ImagePicker();
+  
+  Future getImages() async {
+    final pickedFile = await picker.pickMultiImage(imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+    List<XFile> xfilePick = pickedFile;
     setState(() {
-      if (image != null){
-        images.add(image!);
+        if (xfilePick.isNotEmpty) {
+          for (var i = 0; i < xfilePick.length; i++) {
+            selectedImages.add(File(xfilePick[i].path));
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Surat saýlamadyňyz!')));
         }
-      });
+      },
+    );
   }
   
   void initState() {
@@ -257,7 +257,7 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child:Row(
-                children: images.map((country){
+                children: selectedImages.map((country){
                   return Stack(
                     children: [
                       Container(
@@ -269,7 +269,7 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
                       GestureDetector(
                         onTap: (){
                           setState(() {
-                            images.remove(country);
+                            selectedImages.remove(country);
                           });
                           },
                         child: Container(
@@ -292,7 +292,7 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
                     backgroundColor: CustomColors.appColors,
                     foregroundColor: Colors.white),
                 onPressed: () {
-                  addimages();
+                  getImages();
                 },
                 child: const Text('Surat goş',style: TextStyle(fontWeight: FontWeight.bold),),
               ),
@@ -318,7 +318,6 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
                     request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
                     request.fields['store'] = storesController['id'].toString();
                     request.fields['name_tm'] = name_tmController.text;
-
                     request.fields['category'] = categoryController['id'].toString();
                     request.fields['price'] = priceController.text;
                     request.fields['phone'] = phoneController.text;
@@ -330,7 +329,7 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
                     request.fields['location'] = locationController['id'].toString();
                     request.fields['customer'] = customer_id.toString();
                                         
-                    for (var i in images){
+                    for (var i in selectedImages){
                        var multiport = await http.MultipartFile.fromPath('images', i.path, contentType: MediaType('image', 'jpeg'),);
                        request.files.add(multiport);
                     }

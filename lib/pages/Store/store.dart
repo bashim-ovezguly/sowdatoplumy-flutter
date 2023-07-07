@@ -255,7 +255,7 @@ class _StoreState extends State<Store> {
                                                 fontStyle: FontStyle.italic,
                                                 fontWeight: FontWeight.bold),),
                                           if (title=='Söwda nokatlar')
-                                            Text("Söwda nokat", style: TextStyle(shadows: [
+                                            Text(item['category'].toString(), style: TextStyle(shadows: [
                                               Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
                                               Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
                                                 fontSize: 18, color: Colors.white,

@@ -31,7 +31,6 @@ class _ServiceAddState extends State<ServiceAdd> {
   var data = {};
   List<dynamic> categories = [];
   List<dynamic> trade_centers = [];
-  List<File> images = [];
 
   List<dynamic> stores = [];
   var storesController = {};
@@ -59,21 +58,23 @@ class _ServiceAddState extends State<ServiceAdd> {
   callbackBrand(new_value){ setState(() { barndController = new_value; });}
   callbackMadein(new_value){ setState(() { madeInController = new_value; });}
 
-  File? image;
-  Future<void> addimages() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if(image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch(e) {
-      print('Failed to pick image: $e');
-    }
+  List<File> selectedImages = []; 
+  final picker = ImagePicker();
+  
+  Future getImages() async {
+    final pickedFile = await picker.pickMultiImage(imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+    List<XFile> xfilePick = pickedFile;
     setState(() {
-      if (image != null){
-        images.add(image!);
+        if (xfilePick.isNotEmpty) {
+          for (var i = 0; i < xfilePick.length; i++) {
+            selectedImages.add(File(xfilePick[i].path));
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Surat saýlamadyňyz!')));
         }
-      });
+      },
+    );
   }
   
   void initState() {
@@ -211,14 +212,14 @@ class _ServiceAddState extends State<ServiceAdd> {
               maxLines:  3 ,
               decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide.none,),
                 filled: true,
-                hintText: '........',
+                hintText: '...',
                 fillColor: Colors.white,),),),
 
 
-                          SingleChildScrollView(
+          SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child:Row(
-                children: images.map((country){
+                children: selectedImages.map((country){
                   return Stack(
                     children: [
                       Container(
@@ -230,7 +231,7 @@ class _ServiceAddState extends State<ServiceAdd> {
                       GestureDetector(
                         onTap: (){
                           setState(() {
-                            images.remove(country);
+                            selectedImages.remove(country);
                           });
                           },
                         child: Container(
@@ -252,7 +253,7 @@ class _ServiceAddState extends State<ServiceAdd> {
                     backgroundColor: CustomColors.appColors,
                     foregroundColor: Colors.white),
                 onPressed: () {
-                  addimages();
+                  getImages();
                 },
                 child: const Text('Surat goş',style: TextStyle(fontWeight: FontWeight.bold),),
               ),
@@ -285,7 +286,7 @@ class _ServiceAddState extends State<ServiceAdd> {
                     request.fields['location'] = locationController['id'].toString();
                     request.fields['customer'] = customer_id.toString();
                                         
-                    for (var i in images){
+                    for (var i in selectedImages){
                        var multiport = await http.MultipartFile.fromPath('images', i.path, contentType: MediaType('image', 'jpeg'),);
                        request.files.add(multiport);
                     }

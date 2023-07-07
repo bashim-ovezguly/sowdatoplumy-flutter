@@ -176,7 +176,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                 children: [
                   Expanded(child: Row(
                   children: [
-                    SizedBox(width: 10,),
+                    SizedBox(width: 20,),
                     Icon(Icons.store, color: Colors.black54),
                     SizedBox(width: 10,),
                     Text("Söwda nokat", style: CustomText.size_16_black54,)],),),
@@ -188,7 +188,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                         textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
                       onPressed: () {
                         if (data['store_id']!=null && data['store_id']!=''){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Söwda nokatlar')));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_name'].toString(), title: 'Söwda nokatlar')));
                         }
                       },
                       child: Text(data['store'].toString(),),)))
@@ -308,10 +308,12 @@ class _ServiceDetailState extends State<ServiceDetail> {
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
         data  = json;
+        if (data['phone']==null || data['phone']==0){
+          data['phone']= '';
+        }
         baseurl =  server_url.get_server_url();
         // ignore: unused_local_variable
         var i;
-        print(data);
         imgList = [];
         for ( i in data['images']) {
           imgList.add(baseurl + i['img_l']);

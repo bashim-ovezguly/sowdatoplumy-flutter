@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
@@ -16,7 +15,6 @@ import '../select.dart';
 import '../success.dart';
 import '../../dB/colors.dart';
 import 'package:intl/intl.dart';
-
 import 'loadingWidget.dart';
 
 
@@ -71,16 +69,26 @@ class _EditStoreState extends State<EditStore> {
   callbackStreet(new_value){ setState(() { streetController = new_value; });}
   callbackSize(new_value){ setState(() { sizeController = new_value; });}
   
-  File? image;
-  Future<void> addimages() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if(image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch(e) { print('Failed to pick image: $e');}
-    setState(() { if (image != null){ images.add(image!);}});
+  List<File> selectedImages = []; 
+  final picker = ImagePicker();
+  
+    Future getImages() async {
+    final pickedFile = await picker.pickMultiImage(imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+    List<XFile> xfilePick = pickedFile;
+ 
+    setState(() {
+        if (xfilePick.isNotEmpty) {
+          for (var i = 0; i < xfilePick.length; i++) {
+            selectedImages.add(File(xfilePick[i].path));
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Surat saýlamadyňyz!')));
+        }
+      },
+    );
   }
+
 
   remove_image(value){ setState(() {old_data['images'].remove(value);});}
 
@@ -337,7 +345,6 @@ class _EditStoreState extends State<EditStore> {
                                 child: Text("Esasy img", style: TextStyle(color: Colors.white),),
                                 style: OutlinedButton.styleFrom(
                                   backgroundColor: Color.fromARGB(255, 15, 138, 19),
-                                  primary: Colors.green,
                                   side: BorderSide(
                                     color: Colors.green,
                                   ),
@@ -375,7 +382,7 @@ class _EditStoreState extends State<EditStore> {
         SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: images.map((country){
+              children: selectedImages.map((country){
                 return Stack(
                   children: [
                     Container(
@@ -387,7 +394,7 @@ class _EditStoreState extends State<EditStore> {
                     GestureDetector(
                       onTap: (){
                         setState(() {
-                          images.remove(country);
+                          selectedImages.remove(country);
                         });
                       },
                       child: Container(
@@ -408,7 +415,7 @@ class _EditStoreState extends State<EditStore> {
                   backgroundColor: CustomColors.appColors,
                   foregroundColor: Colors.white),
               onPressed: ()  async {
-                addimages();
+                getImages();
                 },
               child: const Text('Surat goş',style: TextStyle(),),
             ),
@@ -477,8 +484,8 @@ class _EditStoreState extends State<EditStore> {
                     if (body_tmController.text!=''){
                       request.fields['body_tm'] = body_tmController.text;
                     }
-                    if (images.length!=0){
-                      for (var i in images){
+                    if (selectedImages.length!=0){
+                      for (var i in selectedImages){
                        var multiport = await http.MultipartFile.fromPath('images', i.path, contentType: MediaType('image', 'jpeg'),);
                        request.files.add(multiport);
                        }

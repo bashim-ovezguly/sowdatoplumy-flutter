@@ -51,7 +51,7 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
             child:Row(
               children: <Widget>[
                 Text("Beýleki bildirişler - " + data.length.toString() + " sany",
-                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold, color: CustomColors.appColors),),
+                  style: TextStyle(fontSize: 18, color: CustomColors.appColors),),
                 const Spacer(),
                 Container(margin: const EdgeInsets.only(right: 20), child:
                 GestureDetector(
@@ -78,7 +78,6 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
                         elevation: 2,
                         child: Container(
                           height: 110,
-                          margin: const EdgeInsets.all(5),
                           child: Row(
                             children: <Widget>[
                                  Expanded(flex: 1,
@@ -95,7 +94,7 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
                                 child: Container(
                                   color: CustomColors.appColors,
                                   margin: EdgeInsets.only(left: 2),
-                                  padding: const EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(5),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[

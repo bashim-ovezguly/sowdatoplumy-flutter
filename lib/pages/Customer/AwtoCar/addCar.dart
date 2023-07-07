@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -37,7 +36,6 @@ class _AddCarState extends State<AddCar> {
   List<dynamic> fuels = [];
   List<dynamic> transmissions = [];
   List<dynamic> wheel_drives = [];
-  List<File> images = [];
   List<dynamic> made_in_countries = [];
   
   int s = 0;
@@ -97,23 +95,24 @@ class _AddCarState extends State<AddCar> {
   callbackStatus(){
     Navigator.pop(context);
   }
+
+  List<File> selectedImages = []; 
+  final picker = ImagePicker();
   
-  File? image;
-  Future<void> addimages() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if(image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch(e) {
-      print('Failed to pick image: $e');
-    }
+  Future getImages() async {
+    final pickedFile = await picker.pickMultiImage(imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+    List<XFile> xfilePick = pickedFile;
     setState(() {
-      if (image != null){
-        images.add(image!);
-        s=s+1;
+        if (xfilePick.isNotEmpty) {
+          for (var i = 0; i < xfilePick.length; i++) {
+            selectedImages.add(File(xfilePick[i].path));
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Surat saýlamadyňyz!')));
         }
-      });
+      },
+    );
   }
 
   void initState() {
@@ -432,84 +431,11 @@ class _AddCarState extends State<AddCar> {
                 filled: true,
                 hintText: '........',
                 fillColor: Colors.white,),),),
-       
-       
-            //  for (var i in images)
-            //   Container(
-            //     margin: EdgeInsets.only(left: 8, right: 8),
-            //     padding: EdgeInsets.all(5),
-            //     height: 150,
-            //     width: double.infinity,
-            //     child: Card(
-            //       elevation: 2,
-            //         child: Row(
-            //           children: [
-            //             GestureDetector(
-            //               onTap: (){
-            //                 showDialog(context: context,
-            //                   builder: (context) => AlertDialog(
-            //                     content: Stack(
-            //                       alignment: Alignment.center,
-            //                       children: <Widget>[
-            //                         Image.file(i, fit: BoxFit.cover),
-            //                       ],
-            //                     ),
-            //                   ),
-            //                 );
-            //               },
-            //               child: Container(
-            //                 margin: const EdgeInsets.all(5),
-            //                 height: 140, width: 140,
-            //                 alignment: Alignment.topLeft,
-            //                 child: Image.file(i, fit: BoxFit.cover, height: 140, width: 140,)
-            //               ),
-            //             ),
-            //             Spacer(),
-            //             Container(
-            //               height: 120, width: 150,
-            //               margin: const EdgeInsets.all(5),
-            //               child: Column(
-            //                 mainAxisAlignment: MainAxisAlignment.center,
-            //                 children: [
-            //                   Row(
-            //                     children: [
-            //                       Text('Pozmak', style: const TextStyle(fontSize: 17, color: CustomColors.appColors)),
-            //                       Spacer(),
-            //                       GestureDetector(
-            //                         onTap: (){
-            //                           setState(() {
-            //                           images.remove(i);
-            //                           });
-            //                         },
-            //                         child: Icon(Icons.close, color: Colors.red)
-            //                       )
-            //                     ],
-            //                   ),
-            //                   Row(
-            //                     children: [
-            //                       Text('Esasy surat', style: const TextStyle(fontSize: 17, color: CustomColors.appColors)),
-            //                       Spacer(),
-            //                       Switch(value: light,
-            //                         activeColor: CustomColors.appColors,
-            //                         onChanged: (bool value) {
-            //                           setState(() {
-            //                             light = value;
-            //                           });
-            //                         },
-            //                       )
-            //                     ],
-            //                   )
-            //                 ],
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //     ),
-            //   ),
+             
           SingleChildScrollView(
-              scrollDirection: Axis.vertical,
+              scrollDirection: Axis.horizontal,
               child: Row(
-                children: images.map((country){
+                children: selectedImages.map((country){
                   return 
                   Stack(
                     children: [
@@ -522,7 +448,7 @@ class _AddCarState extends State<AddCar> {
                       GestureDetector(
                         onTap: (){
                           setState(() {
-                            images.remove(country);
+                            selectedImages.remove(country);
                           });
                         },
                         child: Container(
@@ -544,7 +470,7 @@ class _AddCarState extends State<AddCar> {
                     backgroundColor: CustomColors.appColors,
                     foregroundColor: Colors.white),
                 onPressed: () {
-                  addimages();
+                  getImages();
                 },
                 child: const Text('Surat goş',style: TextStyle(fontWeight: FontWeight.bold),),
               ),
@@ -581,7 +507,6 @@ class _AddCarState extends State<AddCar> {
                     var recolored_num = '0';
                     if (recolored==true){ recolored_num = '1';}
 
-
                     request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
                     request.fields['store'] = storesController['id'].toString();
 
@@ -594,13 +519,10 @@ class _AddCarState extends State<AddCar> {
                     request.fields['made_in'] = locationDestController['id'].toString();
                     request.fields['fuel'] = fuelController['id'].toString();
                     request.fields['transmission'] = transmissionController['id'].toString();
-                    
                     request.fields['color'] = colorController['id'].toString();
                     request.fields['body_type'] = body_typeController['id'].toString();
                     request.fields['phone'] = phoneController.text;
-                    
                     request.fields['wd'] =  wdController['id'].toString();
-
                     request.fields['customer'] = customer_id.toString();
                     request.fields['year'] = yearController.text;
                     request.fields['millage'] = millageController.text;
@@ -611,9 +533,7 @@ class _AddCarState extends State<AddCar> {
                     request.fields['none_cash_pay'] = none_cash_pay_num;
                     request.fields['recolored'] = recolored_num;
                     
-                    
-                    print(request.fields);
-                    for (var i in images){
+                    for (var i in selectedImages){
                        var multiport = await http.MultipartFile.fromPath('images', i.path, contentType: MediaType('image', 'jpeg'),);
                        request.files.add(multiport);
                     }

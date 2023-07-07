@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/textStyle.dart';
 import '../../main.dart';
+import 'package:quickalert/quickalert.dart';
 
 var user_data = [];
 
@@ -35,15 +36,22 @@ class _MyPagesState extends State<MyPages> {
   bool determinate = false;
   List<dynamic> stores = [];
 
-  void initState() {
-    get_userinfo();
-    super.initState();
-  }
-
+  void initState() { get_userinfo();super.initState(); }
   refreshFunc() async {get_userinfo();}
   
   @override
   Widget build(BuildContext context) {
+
+    showSuccessAlert(){
+      QuickAlert.show(
+        context: context,
+        title: '',
+        text: 'Siziň maglumatyňyz üýtgedildi !',
+        confirmBtnText: 'Dowam et',
+        confirmBtnColor: CustomColors.appColors,
+        type: QuickAlertType.success);
+    }
+    
     return Scaffold(
       appBar: AppBar(title: const Text("Meniň sahypam", style: CustomText.appBarText,),
       actions: [
@@ -114,6 +122,7 @@ class _MyPagesState extends State<MyPages> {
                                                                                                      phone: user['phone'].toString(),
                                                                                                      img: baseurl + user['img'].toString(),
                                                                                                      callbackFunc: refreshFunc,
+                                                                                                     showSuccessAlert: showSuccessAlert
                                                                                                      ) )); 
                           
                           },

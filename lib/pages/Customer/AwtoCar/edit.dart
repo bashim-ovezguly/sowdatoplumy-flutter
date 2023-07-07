@@ -99,22 +99,26 @@ class _EditCarState extends State<EditCar> {
   callbackLocation(new_value){ setState(() { locationController = new_value; });}
   callbackLocationDest(new_value){ setState(() { locationDestController = new_value; });}
   
-  File? image;
-  Future<void> addimages() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if(image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch(e) {
-      print('Failed to pick image: $e');
-    }
+  List<File> selectedImages = []; 
+  final picker = ImagePicker();
+  
+  Future getImages() async {
+    final pickedFile = await picker.pickMultiImage(imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+    List<XFile> xfilePick = pickedFile;
+ 
     setState(() {
-      if (image != null){
-        images.add(image!);
+        if (xfilePick.isNotEmpty) {
+          for (var i = 0; i < xfilePick.length; i++) {
+            selectedImages.add(File(xfilePick[i].path));
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Surat saýlamadyňyz!')));
         }
-      });
+      },
+    );
   }
+
   
 
 
@@ -572,7 +576,7 @@ class _EditCarState extends State<EditCar> {
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child:Row(
-                children: images.map((country){
+                children: selectedImages.map((country){
                   return Stack(
                     children: [
                       Container(
@@ -584,7 +588,7 @@ class _EditCarState extends State<EditCar> {
                       GestureDetector(
                         onTap: (){
                           setState(() {
-                            images.remove(country);
+                            selectedImages.remove(country);
                           });
                         },
                         child: Container(
@@ -606,7 +610,7 @@ class _EditCarState extends State<EditCar> {
                     backgroundColor: CustomColors.appColors,
                     foregroundColor: Colors.white),
                 onPressed: () {
-                  addimages();
+                  getImages();
                 },
                 child: const Text('Surat goş',style: TextStyle(fontWeight: FontWeight.bold),),
               ),
@@ -715,13 +719,12 @@ class _EditCarState extends State<EditCar> {
                     request.fields['none_cash_pay'] = none_cash_pay_num;
                     request.fields['recolored'] = recolored_num;
                     
-                    if (images.length!=0){
-                      for (var i in images){
+                    if (selectedImages.length!=0){
+                      for (var i in selectedImages){
                        var multiport = await http.MultipartFile.fromPath('images', i.path, contentType: MediaType('image', 'jpeg'),);
                        request.files.add(multiport);
                        }
                     }
-                    print(request.fields);
                     showLoaderDialog(context);
                     final response = await request.send();
                      if (response.statusCode == 200){

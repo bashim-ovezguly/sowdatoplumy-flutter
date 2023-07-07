@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
 
@@ -43,7 +42,6 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
   List<dynamic> models = [];
   List<dynamic> marks = [];
   List<dynamic> stores = [];
-  List<File> images = [];
   
   final String customer_id;
   final nameController = TextEditingController();
@@ -90,9 +88,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
   callbackTransmission(new_value){ setState(() { transmissionController = new_value; });}
   callbackFactories(new_value){ setState(() { factoriesController = new_value; });}
   
-  callbackStatus(){
-    Navigator.pop(context);
-  }
+  callbackStatus(){Navigator.pop(context);}
 
   bool credit = false ;
   bool swap = false ;
@@ -103,21 +99,23 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
   callbackNone_cash_pay(){ setState(() { none_cash_pay = ! none_cash_pay; });}
 
 
-  File? image;
-  Future<void> addimages() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if(image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch(e) {
-      print('Failed to pick image: $e');
-    }
+  List<File> selectedImages = []; 
+  final picker = ImagePicker();
+  
+  Future getImages() async {
+    final pickedFile = await picker.pickMultiImage(imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+    List<XFile> xfilePick = pickedFile;
     setState(() {
-      if (image != null){
-        images.add(image!);
+        if (xfilePick.isNotEmpty) {
+          for (var i = 0; i < xfilePick.length; i++) {
+            selectedImages.add(File(xfilePick[i].path));
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Surat saýlamadyňyz!')));
         }
-      });
+      },
+    );
   }
   
   void initState() {
@@ -519,9 +517,9 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
 
 
           SingleChildScrollView(
-              scrollDirection: Axis.vertical,
+              scrollDirection: Axis.horizontal,
               child: Row(
-                children: images.map((country){
+                children: selectedImages.map((country){
                   return Column(
                     children: [
                       Stack(
@@ -535,7 +533,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
                         GestureDetector(
                           onTap: (){
                             setState(() {
-                              images.remove(country);
+                              selectedImages.remove(country);
                             });
                           },
                           child: Container(
@@ -559,7 +557,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
                     backgroundColor: CustomColors.appColors,
                     foregroundColor: Colors.white),
                 onPressed: () {
-                  addimages();
+                  getImages();
                 },
                 child: const Text('Surat goş',style: TextStyle(fontWeight: FontWeight.bold),),
               ),
@@ -596,8 +594,6 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
                     request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
                     
                     request.fields['store'] = storesController['id'].toString();
-
-                    
                     request.fields['model'] = modelController['id'].toString();
                     request.fields['mark'] = markaController['id'].toString();
                     request.fields['price'] = priceController.text.toString();
@@ -624,7 +620,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
                     request.fields['year_end'] = endYearController.text;
                     
                     
-                    for (var i in images){
+                    for (var i in selectedImages){
                        var multiport = await http.MultipartFile.fromPath('images', i.path, contentType: MediaType('image', 'jpeg'),);
                        request.files.add(multiport);
                     }

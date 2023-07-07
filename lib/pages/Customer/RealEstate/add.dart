@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
@@ -37,11 +36,8 @@ class _RealEstateAddState extends State<RealEstateAdd> {
   var data = {};
   List<dynamic> categories = [];
   List<dynamic> remont_states = [];
-  List<File> images = [];
 
-  callbackStatus(){
-    Navigator.pop(context);
-  }
+  callbackStatus(){Navigator.pop(context);}
 
   final usernameController = TextEditingController();
   final addressController = TextEditingController();
@@ -85,21 +81,24 @@ class _RealEstateAddState extends State<RealEstateAdd> {
     super.initState();
   }
   
-  File? image;
-  Future<void> addimages() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if(image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch(e) {
-      print('Failed to pick image: $e');
-    }
+
+  List<File> selectedImages = []; 
+  final picker = ImagePicker();
+  
+  Future getImages() async {
+    final pickedFile = await picker.pickMultiImage(imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+    List<XFile> xfilePick = pickedFile;
     setState(() {
-      if (image != null){
-        images.add(image!);
+        if (xfilePick.isNotEmpty) {
+          for (var i = 0; i < xfilePick.length; i++) {
+            selectedImages.add(File(xfilePick[i].path));
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Surat saýlamadyňyz!')));
         }
-      });
+      },
+    );
   }
 
   _RealEstateAddState({ required this.customer_id });
@@ -468,7 +467,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child:Row(
-                children: images.map((country){
+                children: selectedImages.map((country){
                   return Stack(
                     children: [
                       Container(
@@ -480,7 +479,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
                       GestureDetector(
                         onTap: (){
                           setState(() {
-                          images.remove(country);
+                          selectedImages.remove(country);
                           });
                         },
                         child: Container(
@@ -503,7 +502,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
                     backgroundColor: CustomColors.appColors,
                     foregroundColor: Colors.white),
                 onPressed: () {
-                  addimages();
+                  getImages();
                 },
                 child: const Text('Surat goş',style: TextStyle(fontWeight: FontWeight.bold),),
               ),
@@ -562,8 +561,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
                     request.fields['floor'] = floorController.text;
                     request.fields['customer'] = customer_id.toString();
                     
-                    print(request.fields);
-                    for (var i in images){
+                    for (var i in selectedImages){
                        var multiport = await http.MultipartFile.fromPath('images', i.path, contentType: MediaType('image', 'jpeg'),);
                        request.files.add(multiport);
                     }

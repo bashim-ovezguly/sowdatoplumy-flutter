@@ -228,7 +228,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                   SizedBox(width: 10,),
                   Text("Brend", style: CustomText.size_16_black54,)],),),
                   if (data['brand']!=null && data['brand']!='')
-              Expanded(child: Text(data['brand']['name'].toString(),  style: CustomText.size_16))],),),
+              Expanded(child: Text(data['brand'].toString(),  style: CustomText.size_16))],),),
 
           Container(
             margin: EdgeInsets.only(left: 10,right: 10),
@@ -381,7 +381,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
 
   void getsingleproduct({required id}) async {
     Urls server_url  =  new Urls();
-    String url = server_url.get_server_url() + '/mob/products/' + id;
+    String url = server_url.get_server_url() + '/mob/products/' + id.toString();
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     
@@ -389,7 +389,6 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
     setState(() {
         data  = json;
         baseurl =  server_url.get_server_url();
-        // ignore: unused_local_variable
         var i;
         print(data);
         imgList = [];

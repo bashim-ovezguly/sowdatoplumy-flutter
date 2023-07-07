@@ -51,7 +51,7 @@ class _CarSearchListState extends State<CarSearchList> {
             child:Row(
               children: <Widget>[
                 Text("Awtoulaglaryn - " + data.length.toString() + " sany",
-                  style:  TextStyle(fontSize: 20,fontWeight: FontWeight.bold, color: CustomColors.appColors),),
+                  style:  TextStyle(fontSize: 20, color: CustomColors.appColors),),
                 const Spacer(),
                 Container(margin: const EdgeInsets.only(right: 20), child:
                 GestureDetector(
@@ -92,7 +92,7 @@ class _CarSearchListState extends State<CarSearchList> {
                                  child: Container(
                                    color: CustomColors.appColors,
                                    margin: EdgeInsets.only(left: 2),
-                                   padding: const EdgeInsets.all(10),
+                                   padding: const EdgeInsets.all(5),
                                    child: Column(
                                      mainAxisAlignment: MainAxisAlignment.start,
                                      children: <Widget>[
@@ -109,26 +109,41 @@ class _CarSearchListState extends State<CarSearchList> {
                                              style: CustomText.itemText),),),
 
                                         Expanded(
-                                           child:Align(
+                                           child: Align(
                                              alignment: Alignment.centerLeft,
-                                             child: Text(data[index]['price'].toString(),
-                                                 style: CustomText.itemText),)),
-
-                                       Expanded(child:Align(
-                                         alignment: Alignment.centerLeft,
-                                         child: Row(
-                                           children: <Widget>[
-                                             Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                             data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                             SizedBox(width: 5,),
-                                             Text('Obmen',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                             data[index]['swap'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                             SizedBox(width: 5,),
-                                             Text('Nagt däl',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                             data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                           
-                                           ],)
-                                         ,)),
+                                             child: Row(
+                                              children: [
+                                                Expanded(child: Text(data[index]['price'].toString(),style: CustomText.itemText)),
+                                                Spacer(),
+                                                Expanded(child: Text(data[index]['delta_time'].toString(),style: CustomText.itemText)),
+                                              ],
+                                             ),)),
+                                        
+                                        if (data[index]['store_id']==null || data[index]['store_id']=='')
+                                          Expanded(child:Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Row(
+                                              children: <Widget>[
+                                                Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                SizedBox(width: 5,),
+                                                Text('Obmen',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                data[index]['swap'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                SizedBox(width: 5,),
+                                                Text('Nagt däl',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                              ],),))
+                                        else
+                                          Expanded(child:Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: ElevatedButton(
+                                                onPressed: () {},
+                                                child: Text(
+                                                  data[index]['store_name'],
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: CustomText.itemText,
+                                                ),)))
                                      ],
                                    ),
                                  ),

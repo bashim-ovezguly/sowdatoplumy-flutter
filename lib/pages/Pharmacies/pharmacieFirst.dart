@@ -163,30 +163,34 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
 
             SliverList(delegate: SliverChildBuilderDelegate(childCount: 1,(BuildContext context, int index) {return Container(height: 15,);},)),
 
-             SizedBox(
-              child: Row(
-                children: [
-                  Expanded(child: Row(
-                  children: [
-                    SizedBox(width: 10,),
-                    Icon(Icons.store, color: Colors.grey,size: 18,),
-                    SizedBox(width: 10,),
-                    Text("Dükan", style: CustomText.size_16_black54,)],),),
+            // SliverList(delegate: SliverChildBuilderDelegate(
+            //   childCount: 1,(BuildContext context, int index) {
+            //     return SizedBox(
+            //   child: Row(
+            //     children: [
+            //       Expanded(child: Row(
+            //       children: [
+            //         SizedBox(width: 20,),
+            //         Icon(Icons.store, color: Colors.black54,),
+            //         SizedBox(width: 10,),
+            //         Text("Dükan", style: TextStyle(fontSize: 14, color: Colors.black54))],),),
 
-                   Expanded(child:Align(
-                    alignment: Alignment.centerLeft,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
-                      onPressed: () {
-                        if (data['store_id']!=null && data['store_id']!=''){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Söwda nokatlar')));
-                        }
-                      },
-                      child: Text(data['store'].toString(),),)))
-                ],
-              ),
-            ),
+            //        Expanded(child:Align(
+            //         alignment: Alignment.centerLeft,
+            //         child: ElevatedButton(
+            //           style: ElevatedButton.styleFrom(
+            //             textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
+            //           onPressed: () {
+            //             if (data['store_id']!=null && data['store_id']!=''){
+            //               Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Söwda nokatlar')));
+            //             }
+            //           },
+            //           child: Text(data['store'].toString(),),)))
+            //     ],
+            //   ),
+            // );},)),
+
+             
 
 
             SliverList(delegate: SliverChildBuilderDelegate(

@@ -52,7 +52,7 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
             child:Row(
               children: <Widget>[
                 Text("Söwda nokatlary - " + data.length.toString() + " sany",
-                  style:  TextStyle(fontSize: 20,fontWeight: FontWeight.bold, color: CustomColors.appColors),),
+                  style:  TextStyle(fontSize: 18, color: CustomColors.appColors),),
                 const Spacer(),
                 Container(margin: const EdgeInsets.only(right: 20), child:
                 GestureDetector(
@@ -79,7 +79,6 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
                         elevation: 2,
                         child: Container(
                           height: 110,
-                          margin: EdgeInsets.all(5),
                           child: Row(
                             children: <Widget>[
                               Expanded(flex: 1,
@@ -96,7 +95,7 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
                                 child: Container(
                                   color: CustomColors.appColors,
                                   margin: EdgeInsets.only(left: 2),
-                                  padding: const EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(5),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
@@ -109,7 +108,7 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
                                             overflow: TextOverflow.clip,
                                             maxLines: 2,
                                             softWrap: false,
-                                            style: CustomText.itemTextBold,),),),
+                                            style: CustomText.itemText,),),),
                                   
                                       Expanded(child: Container(
                                         alignment: Alignment.centerLeft,
@@ -124,20 +123,21 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
                                                 overflow: TextOverflow.ellipsis,
                                                 ),
                                             )],),)),
+                                      if (data[index]['category']!=null && data[index]['category']!='')
+                                        Expanded(child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            children: <Widget>[
+                                              Icon(Icons.category, color: Colors.white,),
+                                              SizedBox(
+                                                child: Text(data[index]['category'],
+                                                  style: CustomText.itemText,
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  ),
+                                              )],),))
 
-                                      Expanded(
-                                          child:Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Row(
-                                              children:  <Widget>[
-                                                Icon(Icons.star_outline_sharp,color: Colors.white,),
-                                                if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'pending')
-                                                 Text("Garşylyar".toString(),style: TextStyle(color: Colors.amber))
-                                                else if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'accepted')
-                                                 Text("Tassyklanyldy".toString(),style: TextStyle(color: Colors.green))
-                                                else if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'canceled')
-                                                 Text("Gaýtarylan".toString(),style: TextStyle(color: Colors.red))
-                                            ],),)),
+                                      
                                     ],
                                   ),
                                 ),
