@@ -214,11 +214,10 @@ class _CarStoreState extends State<CarStore> {
                     SizedBox(width: 10,),
                     Icon(Icons.location_on, color: Colors.grey,size: 18,),
                     SizedBox(width: 10,),
-                    Text("Address", style: TextStyle(fontSize: 15, color: Colors.black54),)],
-                    
-                    ),),
+                    Text("Address", style: TextStyle(fontSize: 15, color: Colors.black54),)],),),
                     SizedBox(width: 10,),
-                    Expanded(child: Text(data['location'].toString(),  style: TextStyle(fontSize: 15, color: CustomColors.appColors))),
+                    if (data['location']!=null && data['location']!='')
+                      Expanded(child: Text(data['location'].toString(),  style: TextStyle(fontSize: 15, color: CustomColors.appColors))),
                     SizedBox(width: 10,),
                     ],),),
           

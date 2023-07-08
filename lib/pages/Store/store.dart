@@ -225,6 +225,7 @@ class _StoreState extends State<Store> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
+                                          if (item['name']!=null  && item['name']!='')
                                           Text(item['name'].toString(),
                                             style: TextStyle(shadows: [
                                                 Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
@@ -233,6 +234,7 @@ class _StoreState extends State<Store> {
                                                   fontStyle: FontStyle.italic,
                                                   fontWeight: FontWeight.bold),),
                                            if (title=='Marketler')
+                                           if (item['category']!=null  && item['category']!='')
                                             Text(item['category'].toString(), style: TextStyle(shadows: [
                                               Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
                                               Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
@@ -255,6 +257,7 @@ class _StoreState extends State<Store> {
                                                 fontStyle: FontStyle.italic,
                                                 fontWeight: FontWeight.bold),),
                                           if (title=='Söwda nokatlar')
+                                            if (item['category']!=null  && item['category']!='')
                                             Text(item['category'].toString(), style: TextStyle(shadows: [
                                               Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
                                               Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],

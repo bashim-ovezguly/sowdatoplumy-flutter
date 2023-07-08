@@ -200,8 +200,9 @@ class _MarketDetailState extends State<MarketDetail> {
                               Icon(Icons.location_on, color: Colors.black54,),
                               SizedBox(width: 10,),
                               Text("Ýerleşýän ýeri", style: TextStyle(fontSize: 14, color: Colors.black54),)],),),
+                              if (data['location']!=null && data['location']!='')
                               Expanded(child: Text(
-                                data['location'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors),maxLines: 2,)),
+                                data['location']['name'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors),maxLines: 2,)),
                               SizedBox(width: 10,),
                             ],),),
                       Container(height: 10, child: Text(''),),

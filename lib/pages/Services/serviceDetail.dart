@@ -230,6 +230,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                   Icon(Icons.location_on, color: Colors.black54,),
                   SizedBox(width: 10,),
                   Text("Ýerleşýän ýeri", style: CustomText.size_16_black54,)],),),
+              if (data['location']!=null && data['location']!='')
               Expanded(child: Text(data['location'].toString(),  style: CustomText.size_16))],),),
 
           Container(

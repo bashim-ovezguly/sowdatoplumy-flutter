@@ -272,7 +272,8 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                   children: <Widget>[
                     const Icon(Icons.location_on, color: Colors.grey,size: 20,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Ýerleşýän ýeri", size:16.0),),],),),
-                Expanded(child: SizedBox(child: TextValueWidget(text: data['location'].toString(), size: 16.0)))
+                if (data['location']!=null && data['location']!='')
+                  Expanded(child: SizedBox(child: TextValueWidget(text: data['location'].toString(), size: 16.0)))
               ],),),
 
 

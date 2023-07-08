@@ -196,7 +196,8 @@ class _ProductManufacturersDetailState extends State<ProductManufacturersDetail>
                               Icon(Icons.location_on, color: Colors.black54,),
                               SizedBox(width: 10,),
                               Text("Ýerleşýän ýeri", style: CustomText.size_16_black54,)],),),
-                          Expanded(child: Text(data['location'].toString(),  style: CustomText.size_16))],),),
+                          if (data['location']!=null && data['location']!='')
+                          Expanded(child: Text(data['location']['name'].toString(),  style: CustomText.size_16))],),),
 
                       Container(
                         margin: EdgeInsets.only(left: 10,right: 10),

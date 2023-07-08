@@ -241,7 +241,9 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                   Icon(Icons.location_on, color: Colors.black54,),
                   SizedBox(width: 10,),
                   Text("Ýerleşýän ýeri", style: CustomText.size_16_black54,)],),),
-              Expanded(child: Text(data['location'].toString(), overflow: TextOverflow.clip,maxLines: 2,softWrap: false,
+
+              if (data['location']!=null && data['location']!='')
+              Expanded(child: Text(data['location']['name'].toString(), overflow: TextOverflow.clip,maxLines: 2,softWrap: false,
                style: CustomText.size_16))],),),
 
           Container(
