@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -10,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
+import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
 
@@ -25,20 +27,32 @@ class _PharmaciesListState extends State<PharmaciesList> {
   List<dynamic> data = [];
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
   
   bool filter = false;
-  callbackFilter(){setState(() { 
+  callbackFilter(){
+    timers();
+    setState(() { 
     determinate = false;
     getpharmacieslist();
     });}
   
   void initState() {
+    timers();
     getpharmacieslist();
     super.initState();}
+  
+  timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(
         title: const Text("Dermanhanalar", style: CustomText.appBarText,),
         actions: [
@@ -52,6 +66,8 @@ class _PharmaciesListState extends State<PharmaciesList> {
                         showConfirmationDialog(context);
                       },
                       child: const Icon(Icons.sort, size: 25,))),
+
+    
               ],)],),
 
       body: RefreshIndicator(
@@ -84,7 +100,6 @@ class _PharmaciesListState extends State<PharmaciesList> {
                       child: Card(
                         elevation: 2,
                         child: Container(
-                          margin: const EdgeInsets.all(5),
                           height: 110,
                           child: Row(
                             children: <Widget>[
@@ -157,8 +172,7 @@ class _PharmaciesListState extends State<PharmaciesList> {
                 }),
           )
         ],
-      ):Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors)) 
       ),
       drawer: const MyDraver(),
       floatingActionButton: Container(
@@ -173,9 +187,7 @@ class _PharmaciesListState extends State<PharmaciesList> {
                 shape: BoxShape.circle,
               ),
               child: InkWell(
-              
-                borderRadius: BorderRadius.circular(
-                    500.0), 
+                borderRadius: BorderRadius.circular(500.0), 
                 onTap: () {
                   Navigator.pushNamed(context, "/search");
                 },
@@ -189,7 +201,7 @@ class _PharmaciesListState extends State<PharmaciesList> {
           ),
         ),
 
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   showConfirmationDialog(BuildContext context){

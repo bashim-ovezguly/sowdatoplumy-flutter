@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/pages/progressIndicator.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
@@ -27,30 +29,44 @@ class Home extends StatefulWidget {
 }
 class _HomeState extends State<Home> {
   bool a = false;
+  bool status = true;
   List<dynamic> dataSlider1 = [];
   List<dynamic> dataSlider2 = [];
   List<dynamic> dataSlider3 = [];
   List<dynamic> items= [];  
   var region = {};
-
   bool determinate = false;
   var baseurl = "";
+
   void initState() {
-    setState(() {region = Provider.of<UserInfo>(context, listen: false).regionsCode;});
+    timers();
+    setState(() {
+      determinate = false; status = true;
+      region = Provider.of<UserInfo>(context, listen: false).regionsCode;});
     getHomePage();
     super.initState();
   }
+
   callbackLocation(new_value){ setState(() {
-    
     Provider.of<UserInfo>(context, listen: false).chang_Region_Code(new_value);
     region = Provider.of<UserInfo>(context, listen: false).regionsCode;
     determinate = false;
     getHomePage();
-    });}
+  });}
+
+  timers() async {
+    setState(() {status = true;});
+    final completer = Completer();
+    final t = Timer(Duration(seconds: 5), () => completer.complete());
+    await completer.future;
+    setState(() {
+      status = false;
+    });
+  }
   
   @override
   Widget build(BuildContext context)  {
-    return Scaffold(
+    return status==false ? Scaffold(
       appBar: AppBar(
         title: Column(        
           children: [
@@ -69,7 +85,6 @@ class _HomeState extends State<Home> {
           Row(
             children: <Widget>[
               Container(
-                  padding: const EdgeInsets.all(10),
                   child:  GestureDetector(
                       onTap: (){
                         showDialog(
@@ -78,8 +93,16 @@ class _HomeState extends State<Home> {
                         builder: (BuildContext context) {
                           return LocationWidget(callbackFunc: callbackLocation);},);
                       },
-                      child: const Icon(Icons.location_on, size: 25,))),
-            ],)],),
+                      child: const Icon(Icons.location_on, size: 25))),
+
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: GestureDetector(
+                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:0)));},
+                  child: Icon(Icons.search, color: Colors.white, size: 25)
+                )
+              )              
+            ])]),
       body: RefreshIndicator(
         color: Colors.white,
         backgroundColor: CustomColors.appColors,
@@ -92,7 +115,7 @@ class _HomeState extends State<Home> {
           return Future<void>.delayed(const Duration(seconds: 3));
         },
         
-        child: determinate ? CustomScrollView(
+        child: determinate  ? CustomScrollView(
         physics : ClampingScrollPhysics(),
         slivers: [      
           SliverList(
@@ -211,11 +234,11 @@ class _HomeState extends State<Home> {
                                             child:  FittedBox(
                                               fit: BoxFit.cover,
                                               child:  Image.asset('assets/images/default.jpg'),
-                                          ),
-                                        ),
+                                          )
+                                        )
                                   ),
                                    
-                                  for (var item in dataSlider1)
+                                  for (var item in dataSlider3)
                                     if (item['img']!= null && item['img']!='')
                                       GestureDetector(
                                         onTap: (){
@@ -228,10 +251,7 @@ class _HomeState extends State<Home> {
                                         child:  FittedBox(
                                           fit: BoxFit.cover,
                                           child: Image.network( baseurl+ item['img'],fit: BoxFit.cover,),
-                                      ),
-                                    ),
-                              )
-                                      )                                  
+                                      ))))
                                   ],),)),]));},)),
           SliverList(
             delegate: SliverChildBuilderDelegate(
@@ -241,42 +261,38 @@ class _HomeState extends State<Home> {
                   onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => AdPage(id: items[index]['id'].toString(),) ));
                   },
-                  child: Card(
+                  child: Container(
+                    margin: EdgeInsets.only(left: 5, right: 5),
+                    child: Card(
                   elevation: 2,
                   shadowColor: CustomColors.appColors,
                   child: Container(
                     height: 110,
-                    color: Colors.white,
                     child: Row(
                       children: <Widget>[
                         Expanded(
                           flex: 1,
                           child: Container(
-                            padding: const EdgeInsets.all(5),
-                            color: Colors.white,
-                            child: 
-                            ClipRect(
+                            child: ClipRect(
                               child: Container(
-                              height: 200,
+                              height: 110,
                               width: double.infinity,
                               child:  FittedBox(
                               fit: BoxFit.cover,
-                              child: items[index]['img'] != null && items[index]['img'] != '' ? Image.network(baseurl + items[index]['img'].toString(),):
-                                Image.asset('assets/images/default.jpg'),),
-                                      ),
-                                    ),
-                          )
-                          
-                          ,),
+                              child: items[index]['img'] != null && items[index]['img'] != '' ? Image.network(
+                                baseurl + items[index]['img'].toString(),
+                                ): Image.asset('assets/images/default.jpg'))))
+                          )),
                         Expanded(
                           flex: 2,
                           child: Container(
-                            padding: const EdgeInsets.all(10),
-                            margin: const EdgeInsets.all(2),
+                            margin: EdgeInsets.only(left: 2),
+                            padding: const EdgeInsets.all(5),
                             color: CustomColors.appColors,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
+                                SizedBox(height: 10),
                                  Expanded(
                                   child: Align(
                                     alignment: Alignment.topLeft,
@@ -284,8 +300,8 @@ class _HomeState extends State<Home> {
                                       items[index]['name'].toString(),
                                       overflow: TextOverflow.clip,
                                       style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 15,
+                                          color: CustomColors.appColorWhite,
+                                          fontSize: 14,
                                           fontWeight: FontWeight.bold),),),),
                                 SizedBox(height: 5,),
                                 Expanded(
@@ -293,22 +309,23 @@ class _HomeState extends State<Home> {
                                       alignment: Alignment.topLeft,
                                       child: Row(
                                         children:  <Widget>[
-                                          Icon(Icons.access_time_outlined,color: Colors.white, size: 15 ,),
+                                          Icon(Icons.access_time_outlined,color: CustomColors.appColorWhite, size: 14 ,),
                                           SizedBox(width: 5,),
                                           Text( items[index]['delta_time'].toString(),
                                               style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15,))],),)),
+                                                  color: CustomColors.appColorWhite,
+                                                  fontSize: 14,))],),)),
                                 SizedBox(height: 5,),
                                 Expanded(child:Align(
                                   alignment: Alignment.topLeft,
                                   child: Row(
                                     children:  <Widget>[
-                                      Icon(Icons.place ,color: Colors.white, size: 15 ),
+                                      Icon(Icons.place ,color: CustomColors.appColorWhite, size: 14 ),
                                       SizedBox(width: 5,),
                                       Text(items[index]['location'].toString(),
                                       overflow: TextOverflow.clip,
-                                          style: TextStyle(color: Colors.white, fontSize: 15,))],),)),
+                                          style: TextStyle(color: CustomColors.appColorWhite, fontSize: 14,))],),)),
+                              SizedBox(height: 10),
                               ],
                             ),
                           ),
@@ -317,47 +334,18 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
+                  )
                 );
               },
             ),
           )
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ):CustomProgressIndicator(funcInit: initState) 
       ),
       drawer: const MyDraver(),
-      
-      floatingActionButton: Container(
-          height: 45,
-          width: 45,
-          child: Material(
-            type: MaterialType.transparency,
-            child: Ink(
-              decoration: BoxDecoration(
-                border: Border.all(color: Color.fromARGB(255, 182, 210, 196), width: 2.0),
-                color : Colors.blue[900],
-                shape: BoxShape.circle,
-              ),
-              child: InkWell(
-              
-                borderRadius: BorderRadius.circular(
-                    500.0), 
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:0)));
-                },
-                child: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                  //size: 50,
-                ),
-              ),
-            ),
-          ),
-        ),
-
-
-    );
+    ):HomePageProgressIndicator(funcInit: initState);
   }
+  
 
   showConfirmationDialog(BuildContext context){
     showDialog(
@@ -376,7 +364,6 @@ class _HomeState extends State<Home> {
       "Region-Id": region_code['id'].toString(), 
       "Source": "Android"};
     }
-    print(_header); 
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/home_ads';
     final uri = Uri.parse(url);
@@ -386,33 +373,16 @@ class _HomeState extends State<Home> {
       baseurl =  server_url.get_server_url();
 
       dataSlider1  = json['data']['slider1'];
-      if ( dataSlider1.length==0){
-        dataSlider1 = [{"img": "", 'name':"", 'location':''}];
-      }
-
+      if ( dataSlider1.length==0){dataSlider1 = [{"img": "", 'name':"", 'location':''}];}
       dataSlider2  = json['data']['slider2'];
-      if ( dataSlider2.length==0){
-        dataSlider2 = [{"img": "", 'name':"", 'location':''}];
-      }
-
+      if ( dataSlider2.length==0){dataSlider2 = [{"img": "", 'name':"", 'location':''}];}
       dataSlider3  = json['data']['slider3'];
-      if ( dataSlider3.length==0){
-        dataSlider3 = [{"img": "", 'name':"", 'location':''}];
-      }
-
+      if ( dataSlider3.length==0){dataSlider3 = [{"img": "", 'name':"", 'location':''}];}
       items  = json['data']['items'];
-      if ( items.length==0){
-        items = [{"img": "", 'name':"", 'location':''}];
-      }
-      if (dataSlider1.length!=0){
-      setState(() {
-        determinate = true;
-      });
-      }
+      if ( items.length==0){items = [{"img": "", 'name':"", 'location':''}];}
+      if (dataSlider1.length!=0){setState(() {determinate = true; status = false;});}
     });}
 }
-
-
 
 class MyDraver extends StatelessWidget {
   const MyDraver({Key? key}) : super(key: key);
@@ -428,7 +398,7 @@ class MyDraver extends StatelessWidget {
               child: SizedBox(
               child: Image.asset(
                 'assets/images/lllll.jpeg',
-                height: 150,
+                height: 140,
                 width: 200,
               ),
             ),
@@ -454,7 +424,7 @@ class MyDraver extends StatelessWidget {
                   Image.asset('assets/images/browser_internet.png', height: 30, width: 30,),
                   Text('  business-complex.com.tm', 
                   style: TextStyle(
-                  fontSize: 15,
+                  fontSize: 14,
                   color: CustomColors.appColors,
               ),),
                 ],
@@ -476,7 +446,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.home, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Baş sahypa', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),),
                         ],
                       ),
@@ -494,7 +464,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.person, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Meniň sahypam', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
                         ],
                       ),
@@ -512,7 +482,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.search, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Gözleg', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
                         ],
                       ),
@@ -530,7 +500,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.local_pharmacy_sharp, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Dermanhanalar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
                         ],
                       ),
@@ -548,7 +518,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.storefront_sharp, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Bazarlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
                         ],
                       ),
@@ -566,7 +536,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.store, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Söwda merkezler', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
                         ],
                       ),
@@ -585,7 +555,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.store_outlined, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Söwda nokatlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
                         ],
                       ),
@@ -604,7 +574,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.storefront_outlined, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Marketler', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
                         ],
                       ),
@@ -620,7 +590,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.store_outlined, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Önüm öndürijiler', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
                         ],
                       ),
@@ -636,7 +606,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.car_repair, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Awtoulaglar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
                         ],
                       ),
@@ -652,7 +622,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.settings_outlined, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Awtoşaýlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
                         ],
                       ),
@@ -668,7 +638,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.other_houses, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Emläkler', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
                         ],
                       ),
@@ -684,7 +654,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.build_circle, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Gurluşyk harytlary', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
                         ],
                       ),
@@ -700,7 +670,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.home_repair_service, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Hyzmatlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
                         ],
                       ),
@@ -716,7 +686,7 @@ class MyDraver extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.newspaper, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
+                          SizedBox(width: 14,),
                           Text('Beýleki harytlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
                         ],
                       ),
@@ -724,37 +694,22 @@ class MyDraver extends StatelessWidget {
                   ),        
                 ),
 
-                Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => OrdersList() ));},
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.shopping_cart_outlined, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 15,),
-                           Text('Sargytlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
-                        ],
-                      ),
-                    ),
-                  ),        
-                ),
-
-                Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () {Navigator.pushNamed(context, "/settings");},
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.settings, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width:15),
-                          Text('Sazlamalar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
-                        ],
-                      ),
-                    ),
-                  ),        
-                ),
+                // Container(
+                //   margin: EdgeInsets.only(left: 20, top: 20),
+                //   child: GestureDetector(
+                //     onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => OrdersList()));},
+                //     child: Container(
+                //       child: Row(
+                //         children: [
+                //           Icon(Icons.shopping_cart_outlined, size: 25, color: CustomColors.appColors),
+                //           SizedBox(width: 14),
+                //            Text('Sargytlarym', style: TextStyle(fontSize: 16, color: CustomColors.appColors))
+                //         ],
+                //       ),
+                //     ),
+                //   ),        
+                // ),
+                Container(height: 20)        
               ],
             ),            
           ),

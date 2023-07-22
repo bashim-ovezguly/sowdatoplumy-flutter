@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import '../../dB/colors.dart';
 import '../../dB/constants.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
+import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
 
@@ -27,23 +29,33 @@ class _ServiceSearchListState extends State<ServiceSearchList> {
   var data = [];
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
 
   bool filter = false;
-  callbackFilter(){setState(() { 
+  callbackFilter(){
+    timers();
+    setState(() { 
     determinate = false;
     getserviceslist();
   });}
 
   @override
   void initState() {
+    timers();
     getserviceslist();
     super.initState();
-
+  }
+  timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
   _ServiceSearchListState({required this.params});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(
         title: const Text('Gözleg', style: CustomText.appBarText,),
       ),
@@ -78,7 +90,6 @@ class _ServiceSearchListState extends State<ServiceSearchList> {
                         elevation: 2,
                         child: Container(
                           height: 110,
-                          margin: const EdgeInsets.all(5),
                           child: Row(
                             children: <Widget>[
                               Expanded(flex: 1,
@@ -104,24 +115,19 @@ class _ServiceSearchListState extends State<ServiceSearchList> {
                                         child: Align(
                                             alignment: Alignment.centerLeft,
                                             child: Container(
-                                              margin: EdgeInsets.only(left: 5),
                                               child: Text(data[index]['name'].toString(), style: CustomText.itemTextBold,),)
                                         ),),
 
-                                      Expanded(child:Align(
+                                      Expanded(child: Container(
                                         alignment: Alignment.centerLeft,
                                         child: Row(
                                           children: <Widget>[
-                                            Icon(Icons.place,color: Colors.white,),
-                                            SizedBox(width: 10,),
-                                            Text(data[index]['location'].toString(), style: CustomText.itemText)],),)),
+                                            Text(data[index]['location'].toString(), overflow: TextOverflow.clip, style: CustomText.itemText)],),)),
                                       Expanded(
                                           child:Align(
                                             alignment: Alignment.centerLeft,
                                             child: Row(
                                               children: <Widget>[
-                                                Icon(Icons.price_change, color: Colors.white,),
-                                                SizedBox(width: 10,),
                                                 Text(data[index]['price'].toString(), style: CustomText.itemText)],),)),
                                     ],
                                   ),
@@ -136,9 +142,8 @@ class _ServiceSearchListState extends State<ServiceSearchList> {
                 }),
           )
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
-    );
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+    ): CustomProgressIndicator(funcInit: initState);
   }
   
   void getserviceslist() async {

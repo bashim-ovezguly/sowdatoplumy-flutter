@@ -508,7 +508,7 @@ class _AddCarState extends State<AddCar> {
                     if (recolored==true){ recolored_num = '1';}
 
                     request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
-                    request.fields['store'] = storesController['id'].toString();
+                    if (storesController['id']!=null){request.fields['store'] = storesController['id'].toString();}
 
                     request.fields['model'] = modelController['id'].toString();
                     request.fields['mark'] = markaController['id'].toString();

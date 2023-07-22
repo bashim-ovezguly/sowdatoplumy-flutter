@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -10,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../Search/search.dart';
+import '../progressIndicator.dart';
 import '../sortWidget.dart';
 import '../../dB/colors.dart';
 
@@ -31,6 +33,7 @@ class _CarState extends State<Car> {
   var baseurl = "";
   bool determinate = false;
   bool determinate1 = false;
+  bool status = true;
 
   bool filter = false;
   callbackFilter(){setState(() { 
@@ -41,31 +44,46 @@ class _CarState extends State<Car> {
     });}
 
   void initState() { 
+    timers();
     getcarlist();
     getcars_slider();
     super.initState();
+  }
+  
+  timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
 
   @override
   Widget build(BuildContext context) {
     
-    return Scaffold(
+    return status? Scaffold(
       appBar: AppBar(
         title: const Text("Awtoulaglar", style: CustomText.appBarText,),
         actions: [
           Row(
             children: <Widget>[
               Container(
-                  padding: const EdgeInsets.all(10),
                   child:  GestureDetector(
                       onTap: (){
                         showConfirmationDialog(context);
                       },
                       child: const Icon(Icons.sort, size: 25,))),
-        
-              SizedBox(width: 10,)
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:0)));
+                  },
+                  child: Icon(Icons.search, color: Colors.white, size: 25)
+                )
+              )   
             ],
-          )
+          ),
         ],
       ),
       body: RefreshIndicator(
@@ -224,18 +242,18 @@ class _CarState extends State<Car> {
                                          child: Align(
                                            alignment: Alignment.centerLeft,
                                            child: Text(data[index]['location'].toString(),
-                                             style: CustomText.itemText),),),
+                                             style: CustomText.itemText))),
 
                                         Expanded(
                                            child: Align(
                                              alignment: Alignment.centerLeft,
                                              child: Row(
                                               children: [
-                                                Expanded(child: Text(data[index]['price'].toString(),style: CustomText.itemText)),
+                                                Expanded(flex: 2,child: Text(data[index]['price'].toString(),style: CustomText.itemText)),
                                                 Spacer(),
-                                                Expanded(child: Text(data[index]['delta_time'].toString(),style: CustomText.itemText)),
-                                              ],
-                                             ),)),
+                                                Expanded(flex: 1,child: Text(data[index]['delta_time'].toString(),style: CustomText.itemText))
+                                              ]
+                                             ))),
                                         
                                         if (data[index]['store_id']==null || data[index]['store_id']=='')
                                           Expanded(child:Align(
@@ -276,38 +294,12 @@ class _CarState extends State<Car> {
             ),
           )
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+      
       ),
       drawer: const MyDraver(),
-      floatingActionButton: Container(
-          height: 45,
-          width: 45,
-          child: Material(
-            type: MaterialType.transparency,
-            child: Ink(
-              decoration: BoxDecoration(
-                border: Border.all(color: Color.fromARGB(255, 182, 210, 196), width: 2.0),
-                color : Colors.blue[900],
-                shape: BoxShape.circle,
-              ),
-              child: InkWell(
-              
-                borderRadius: BorderRadius.circular(
-                    500.0), 
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:0)));
-                },
-                child: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                  //size: 50,
-                ),
-              ),
-            ),
-          ),
-        ),
-    );
+
+    ):CustomProgressIndicator(funcInit: initState);
   }
 
   showConfirmationDialog(BuildContext context){

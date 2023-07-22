@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -11,6 +12,7 @@ import 'package:my_app/dB/constants.dart';
 import '../../dB/textStyle.dart';
 import '../fullScreenSlider.dart';
 import '../../dB/colors.dart';
+import '../progressIndicator.dart';
 
 class CarStore extends StatefulWidget {
   CarStore({Key? key, required this.id}) : super(key: key);
@@ -30,19 +32,28 @@ class _CarStoreState extends State<CarStore> {
   int _current = 0;
   bool determinate = false;
   bool slider_img = true;
+  bool status = true;
 
   void initState() {
+    timers();
     if (imgList.length==0){
       imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXAFCMCaO9NVAPUqo5i8rXVgWB5Qaj_Qthf-KQZNAy0YyJxlAxejBSvSWOK-5PMK3RQQ&usqp=CAU');
     }
     getsinglecar(id: id);
     super.initState();
   }
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
 
   _CarStoreState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status? Scaffold(
       appBar: AppBar(
         title: data['model']!=null && data['model']!=''? Text(data['model'].toString(), style: CustomText.appBarText,):
           Text(''),
@@ -440,17 +451,17 @@ class _CarStoreState extends State<CarStore> {
         SizedBox(height: 70,),
 
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ):Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+       
       ),
       
-      floatingActionButton: Container(
+      floatingActionButton: status ? Container(
         margin: EdgeInsets.only(top: 30, left: 25),
         alignment: Alignment.bottomCenter,
         padding: EdgeInsets.only(top: 50),
         child: Call(phone: data['phone'].toString()),
-      )
-    );
+      ): Container()
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   void getsinglecar({required id}) async {
@@ -467,7 +478,7 @@ class _CarStoreState extends State<CarStore> {
         var i;
         imgList = [];
         for ( i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
       if (imgList.length==0){
         slider_img = false;

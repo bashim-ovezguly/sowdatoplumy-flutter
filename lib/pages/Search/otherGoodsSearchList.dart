@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -10,6 +11,7 @@ import '../../dB/constants.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../OtherGoods/otherGoodsDetail.dart';
+import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
 
@@ -25,22 +27,32 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
   List<dynamic> data = [];
   var baseurl = "";  
   bool determinate = false;
+  bool status = true;
 
   callbackFilter(){setState(() { 
+    timers();
     determinate = false;
     getproductlist();
     
     });}
   
   void initState() {
+    timers();
     getproductlist();
     super.initState();
+  }
+     timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
 
   _OtherGoodsSearchListState({required this.params});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(
         title: const Text('Gözleg', style: CustomText.appBarText,),
       ),
@@ -100,7 +112,6 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
                                     children: <Widget>[
                                       Expanded(
                                         child: Container(
-                                          margin: EdgeInsets.only(left: 5),
                                           alignment: Alignment.centerLeft,
                                           child: Text(
                                             data[index]['name'],
@@ -110,7 +121,6 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
                                         alignment: Alignment.centerLeft,
                                         child: Row(
                                           children: <Widget>[
-                                            Icon(Icons.place,color: Colors.white, size: 15,),SizedBox(width: 5,),
                                             Text(data[index]['location'].toString(), style: CustomText.itemText)],),)),
 
                                       Expanded(
@@ -118,7 +128,6 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
                                             alignment: Alignment.centerLeft,
                                             child: Row(
                                               children: <Widget>[
-                                                Icon(Icons.access_time_outlined,color: Colors.white, size: 15,),SizedBox(width: 5,),
                                                 Text(data[index]['delta_time'].toString(),style: CustomText.itemText)],),)),
 
                                             Expanded(child:Align(
@@ -149,9 +158,9 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
                 }),
           )
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
-    );
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+      
+    ): CustomProgressIndicator(funcInit: initState);
   }
   void getproductlist() async {
 

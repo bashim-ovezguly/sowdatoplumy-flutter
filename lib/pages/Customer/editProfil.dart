@@ -66,10 +66,8 @@ class _EditProfilState extends State<EditProfil> {
     super.initState();
   }
 
-  _EditProfilState({required this.customer_id,
-                    required this.email,
-                    required this.name,
-                    required this.phone});
+  _EditProfilState({required this.customer_id, required this.email, required this.name, required this.phone});
+  
   @override
   Widget build(BuildContext context) {
     showErrorAlert(String text){

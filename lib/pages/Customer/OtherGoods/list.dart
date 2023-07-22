@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -9,6 +10,7 @@ import 'package:my_app/pages/Customer/OtherGoods/add.dart';
 import 'package:my_app/pages/Customer/OtherGoods/getFirst.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/textStyle.dart';
+import '../../progressIndicator.dart';
 
 
 class MyOtherGoodsList extends StatefulWidget {
@@ -24,23 +26,33 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
   List<dynamic> data = [];
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
   
   void initState() {
+    timers();
     widget.callbackFunc();
     get_my_parts(customer_id: customer_id);
     super.initState();
   }
 
   refreshFunc() async {
+    timers();
     widget.callbackFunc();
     get_my_parts(customer_id: customer_id);
+  }
+  timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
 
   _MyOtherGoodsListState({required this.customer_id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Meniň sahypam", style:  CustomText.appBarText,),
+    return status? Scaffold(
+      appBar: AppBar(title: const Text("Harytlar", style:  CustomText.appBarText,),
             actions: [
         PopupMenuButton<String>(
           itemBuilder: (context) {
@@ -82,21 +94,19 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
             child: Row(
               children: [
                 if (data.length>0)
-                  Align(alignment: Alignment.centerLeft,child: Container( padding: const EdgeInsets.only(left: 10, top: 5),child:  Text("Bildirişleriň sany " + data.length.toString() ,style: TextStyle(fontSize: 18, color:CustomColors.appColors),),),),
+                  Align(alignment: Alignment.centerLeft,child: Container( padding: const EdgeInsets.only(left: 10, top: 5),child:  Text("Harytlaryň sany " + data.length.toString() ,style: TextStyle(fontSize: 18, color:CustomColors.appColors),),),),
                 if (data.length==0)
-                  Align(alignment: Alignment.centerLeft,child: Container( padding: const EdgeInsets.only(left: 10, top: 5),child:  Text("Sizde şu wagtlykça Bildiriş ýok" ,style: TextStyle(fontSize: 16, color:CustomColors.appColors),),),),
+                  Align(alignment: Alignment.centerLeft,child: Container( padding: const EdgeInsets.only(left: 10, top: 5),child:  Text("Haryt ýok" ,style: TextStyle(fontSize: 16, color:CustomColors.appColors),),),),
           
               ],
           )),
 
-          Expanded(flex: 12,child:ListView.builder(
+          Expanded(flex: 14,child:ListView.builder(
             itemCount: data.length  ,
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: (){
-
                    Navigator.push(context, MaterialPageRoute(builder: (context) => MyOtherGoodsDetail(id: data[index]['id'].toString(), refreshFunc: refreshFunc ))); 
-                   
                    },
                 child: Container(
                   margin: EdgeInsets.only(left: 5, right: 5),
@@ -104,7 +114,6 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                         elevation: 2,
                         child: Container(
                           height: 110,
-                          margin: const EdgeInsets.all(5),
                           child: Row(
                             children: <Widget>[
                                  Expanded(flex: 1,
@@ -127,7 +136,6 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                                     children: <Widget>[
                                       Expanded(
                                         child: Container(
-                                          margin: EdgeInsets.only(left: 5),
                                           alignment: Alignment.centerLeft,
                                           child: Text(
                                             data[index]['name'],
@@ -140,38 +148,32 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                                         alignment: Alignment.centerLeft,
                                         child: Row(
                                           children: <Widget>[
-                                            Icon(Icons.place,color: Colors.white, size: 15,),SizedBox(width: 5,),
+                                            Icon(Icons.place,color: Colors.white, size: 15),
+                                            SizedBox(width: 5),
                                             Flexible(child: new Container(
                                               child: Text(data[index]['location'].toString(),
                                             overflow: TextOverflow.ellipsis,
                                             style: CustomText.itemText),
                                             ))
                                             
-                                            ],),)),
-
-                                      Expanded(
+                                            ]))),
+                                        Expanded(
                                           child:Align(
                                             alignment: Alignment.centerLeft,
                                             child: Row(
-                                              children: <Widget>[
-                                                Icon(Icons.access_time_outlined,color: Colors.white, size: 15,),SizedBox(width: 5,),
-                                                Text(data[index]['delta_time'].toString(),style: CustomText.itemText)],),)),
-
-                                            Expanded(child:Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Row(
                                               children:  <Widget>[
-                                                  Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                  SizedBox(width: 5,),
-                                                  Text('Obmen',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['swap'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                  SizedBox(width: 5,),
-                                                  Text('Nagt däl',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                
-                                              ],)
-                                            ,)),
+                                                if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'pending')
+                                                 Text("Garşylýar".toString(),style: TextStyle(color: Colors.amber))
+                                                else if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'accepted')
+                                                 Text("Tassyklanyldy".toString(),style: TextStyle(color: Colors.green))
+                                                else if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'canceled')
+                                                 Text("Gaýtarylan".toString(),style: TextStyle(color: Colors.red)),
+                                                Spacer(),
+                                                Row(children: <Widget>[
+                                                  Icon(Icons.access_time_outlined,color: Colors.white, size: 15),
+                                                  SizedBox(width: 5),
+                                                  Text(data[index]['delta_time'].toString(),style: CustomText.itemText)])
+                                            ]))),
 
                                     ],
                                   ),
@@ -184,10 +186,10 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                 )
               );},),),
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+      
       )
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   void get_my_parts({required customer_id}) async {

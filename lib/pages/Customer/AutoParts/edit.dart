@@ -594,7 +594,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
                                   margin: const EdgeInsets.only(left: 10,bottom: 10),
                                   height: 100, width:100,
                                   alignment: Alignment.topLeft,
-                                  child: Image.network(baseurl + country['img_l'],fit: BoxFit.cover,height: 100,width: 100,
+                                  child: Image.network(baseurl + country['img_m'],fit: BoxFit.cover,height: 100,width: 100,
                                     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                                               return Center(child: CircularProgressIndicator(color: CustomColors.appColors,),);},
                                   )

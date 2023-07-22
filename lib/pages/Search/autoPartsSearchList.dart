@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import '../../dB/constants.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../Awtoparts/awtoPartsDetail.dart';
+import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
 
@@ -25,25 +27,34 @@ class _AutoPartsSearchListState extends State<AutoPartsSearchList> {
   var baseurl = "";
   bool determinate = false;
   List<dynamic> data = [];
+  bool status = true;
 
   bool filter = false;
-  callbackFilter(){setState(() { 
+  callbackFilter(){
+    timers();
+    setState(() { 
     determinate = false;
     getpartslist();
-
   });}
 
   _AutoPartsSearchListState({required this.params});
 
     void initState() {
+      timers();
       getpartslist();
-      print(params);
     super.initState();
+  }
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(
         title: const Text('Gözleg', style:  CustomText.appBarText,),
       ),
@@ -119,7 +130,6 @@ class _AutoPartsSearchListState extends State<AutoPartsSearchList> {
                                             alignment: Alignment.centerLeft,
                                             child: Row(
                                               children:  <Widget>[
-                                                  SizedBox(width: 5,),
                                                   Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
                                                   data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
                                                   SizedBox(width: 5,),
@@ -145,32 +155,18 @@ class _AutoPartsSearchListState extends State<AutoPartsSearchList> {
                 }),
           )
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
-    );
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   void getpartslist() async {
-
     var sort = Provider.of<UserInfo>(context, listen: false).sort;
     var sort_value = "";
     
-    if (int.parse(sort)==2){
-      sort_value = 'sort=price';
-    }
-    
-    if (int.parse(sort)==3){
-      sort_value = 'sort=-price';
-    }
-    
-    if (int.parse(sort)==4){
-      sort_value = 'sort=id';
-    }
-
-    if (int.parse(sort)==4){
-      sort_value = 'sort=-id';
-    }
-
+    if (int.parse(sort)==2){sort_value = 'sort=price';}
+    if (int.parse(sort)==3){sort_value = 'sort=-price';}
+    if (int.parse(sort)==4){sort_value = 'sort=id';}
+    if (int.parse(sort)==4){sort_value = 'sort=-id';}
 
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/parts?';
@@ -198,7 +194,6 @@ class _AutoPartsSearchListState extends State<AutoPartsSearchList> {
     if (params['none_cash']!=null && params['none_cash']=='on'){ url = url + 'none_cash=' + params['none_cash'] + "&"; }
     if (params['new']!=null && params['new']=='on'){ url = url + 'new=' + params['new'] + "&"; }
     url = url + sort_value.toString();
-    print(url);
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
@@ -206,7 +201,6 @@ class _AutoPartsSearchListState extends State<AutoPartsSearchList> {
       data  = json['data'];
       baseurl =  server_url.get_server_url();
       determinate = true;
-      print(data);
     });}
 
   showConfirmationDialog(BuildContext context){

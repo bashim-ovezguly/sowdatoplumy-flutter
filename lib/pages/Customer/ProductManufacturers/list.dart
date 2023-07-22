@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -8,6 +9,7 @@ import 'package:my_app/pages/Customer/ProductManufacturers/getFirst.dart';
 
 import '../../../dB/colors.dart';
 import '../../../dB/textStyle.dart';
+import '../../progressIndicator.dart';
 
 class MyFactories extends StatefulWidget {
   MyFactories({Key? key, required this.customer_id, required this.callbackFunc}) : super(key: key);
@@ -25,8 +27,10 @@ class _MyFactoriesState extends State<MyFactories> {
   List<dynamic> data = [];
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
   
   void initState() {
+    timers();
     widget.callbackFunc();
     get_my_factores(customer_id: customer_id);
     super.initState();
@@ -34,15 +38,23 @@ class _MyFactoriesState extends State<MyFactories> {
 
 
   refreshFunc() async {
+    timers();
     widget.callbackFunc();
     get_my_factores(customer_id: customer_id);
+  }
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
   
   _MyFactoriesState({required this.customer_id});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status? Scaffold(
       appBar: AppBar(title: const Text("Meniň sahypam", style: CustomText.appBarText,),
       
             actions: [
@@ -104,7 +116,6 @@ class _MyFactoriesState extends State<MyFactories> {
                       elevation: 2,
                       child: Container(
                         height: 110,
-                        margin: EdgeInsets.all(5),
                         child: Row(
                           children: <Widget>[
                             Expanded(flex: 1,
@@ -176,10 +187,10 @@ class _MyFactoriesState extends State<MyFactories> {
               );},),),
 
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+      
       ),
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
     void get_my_factores({required customer_id}) async {

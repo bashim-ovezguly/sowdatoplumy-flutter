@@ -46,6 +46,8 @@ class _NewStoreState extends State<NewStore> {
   final open_atController = TextEditingController();
   final close_atController = TextEditingController();
   final addressController = TextEditingController();
+  final delivery_priceController = TextEditingController();
+  
   
   String phoneController = "Telefon" ;
   
@@ -170,6 +172,24 @@ class _NewStoreState extends State<NewStore> {
                 child:  TextFormField(
                   controller: addressController,
                   decoration: const InputDecoration(hintText: 'Address',
+                      border: InputBorder.none,
+                      focusColor: Colors.white,
+                      contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }return null;
+                },),),
+
+              Container(
+                alignment: Alignment.center,
+                height: 35,
+                margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
+                width: double.infinity,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+                child:  TextFormField(
+                  controller: delivery_priceController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(hintText: 'Eltip bermek bahasy:',
                       border: InputBorder.none,
                       focusColor: Colors.white,
                       contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
@@ -350,6 +370,7 @@ class _NewStoreState extends State<NewStore> {
                     request.fields['name_tm'] = nameController.text;
                     request.fields['category'] = categoryController['id'].toString();
                     request.fields['address'] = addressController.text;
+                    request.fields['delivery_price'] = delivery_priceController.text;
 
                     if (phoneController!='Telefon'){ request.fields['phones'] = phoneController; }
                       request.fields['open_at'] = open_atController.text;

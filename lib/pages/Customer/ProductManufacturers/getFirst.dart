@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -10,6 +11,7 @@ import 'package:my_app/pages/Customer/ProductManufacturers/edit.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/textStyle.dart';
 import '../../fullScreenSlider.dart';
+import '../../progressIndicator.dart';
 import '../deleteAlert.dart';
 import '../newProduct.dart';
 import '../productDetail.dart';
@@ -34,10 +36,12 @@ class _FactoriesFirstState extends State<FactoriesFirst> {
   var data = {};
   var s=0;
   bool determinate = false;
+  bool status1 = true;
   List<dynamic> products = [ ];
   List<String> imgList = [ ];
   
   void initState() {
+    timers();
     widget.refreshFunc();
     if (imgList.length==0){
       imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0YmKxREuu1UqGBi9U025dn-IEfCynmxvLng&usqp=CAU');
@@ -48,16 +52,22 @@ class _FactoriesFirstState extends State<FactoriesFirst> {
 
   bool status = false;
   callbackStatus(){setState(() {status = true;});}
-
     callbackStatusDelete(){
       widget.refreshFunc();
     Navigator.pop(context);
+  }
+    timers() async {
+      setState(() {status1 = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
 
   _FactoriesFirstState({required this.id ,required this.customer_id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status1 ? Scaffold(
         appBar: AppBar(title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -362,8 +372,8 @@ class _FactoriesFirstState extends State<FactoriesFirst> {
 
               },)),
           ],
-        ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+        ):  Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+        
            ):
          Container(
           child: AlertDialog(
@@ -387,7 +397,7 @@ class _FactoriesFirstState extends State<FactoriesFirst> {
         )
       ],
     ))
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
   showConfirmationDialog(BuildContext context){
     showDialog(
@@ -413,7 +423,7 @@ class _FactoriesFirstState extends State<FactoriesFirst> {
         print(products);
         imgList = [];
         for ( i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
         determinate = true;
       if (imgList.length==0){

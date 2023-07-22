@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -7,6 +8,7 @@ import 'package:my_app/pages/Customer/AutoParts/add.dart';
 import 'package:my_app/pages/Customer/AutoParts/getFirst.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/textStyle.dart';
+import '../../progressIndicator.dart';
 
 
 class AutoPartsList extends StatefulWidget {
@@ -23,6 +25,7 @@ class _AutoPartsListState extends State<AutoPartsList> {
   List<dynamic> data = [];
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
 
   refreshFunc() async {
     widget.callbackFunc();
@@ -30,15 +33,23 @@ class _AutoPartsListState extends State<AutoPartsList> {
   }
   
   void initState() {
+    timers();
     widget.callbackFunc();
     get_my_parts(customer_id: customer_id);
     super.initState();
   }
-
+  timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
+  
   _AutoPartsListState({required this.customer_id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status? Scaffold(
       appBar: AppBar(title: const Text("Meniň sahypam", style:  CustomText.appBarText,),
       
       actions: [
@@ -173,10 +184,10 @@ class _AutoPartsListState extends State<AutoPartsList> {
               );},),),
 
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+      
       )
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   void get_my_parts({required customer_id}) async {

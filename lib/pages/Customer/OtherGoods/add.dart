@@ -316,7 +316,7 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
                     var token = Provider.of<UserInfo>(context, listen: false).access_token; 
 
                     request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
-                    request.fields['store'] = storesController['id'].toString();
+                    if (storesController['id']!=null){request.fields['store'] = storesController['id'].toString();}
                     request.fields['name_tm'] = name_tmController.text;
                     request.fields['category'] = categoryController['id'].toString();
                     request.fields['price'] = priceController.text;
@@ -334,7 +334,6 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
                        request.files.add(multiport);
                     }
                     showLoaderDialog(context);
-                    
                     final response = await request.send();       
                      if (response.statusCode == 200){
                       widget.refreshFunc();

@@ -14,10 +14,10 @@ class _ErrorAlertState extends State<ErrorAlert> {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Container(
-        width: 200,
-        height: 250,
+        width: 100,
+        height: 100,
         child: Text(
-          'Bagyşlan maglumat goşuldy ýalñyşlyk ýüze çykdy täzeden synanşyp görün!'
+          'Bagyşlan ýalñyşlyk ýüze çykdy täzeden synanşyp görün!'
         ),
       ),
       actions: <Widget>[

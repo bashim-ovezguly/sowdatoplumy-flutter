@@ -150,6 +150,7 @@ class _LoginState extends State<Login> {
                                       DatabaseSQL.columnPassword: passwordController.text.toString()};
                                       final id = await dbHelper.insert(row);
                                       final id1 = await dbHelper.inser1(row1);
+                                      
 
                                       print('-----1--------  $id');
                                       print('-----2--------  $id1');

@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';  
 import 'package:http/http.dart' as http;
@@ -9,6 +10,7 @@ import '../../dB/colors.dart';
 import '../../dB/constants.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
+import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
 
@@ -26,22 +28,33 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
   List<dynamic> data = [];
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
 
   bool filter = false;
-  callbackFilter(){setState(() { 
+  callbackFilter(){
+    timers();
+    setState(() { 
     determinate = false;
     get_stores();
     });}
 
     void initState() {  
+      timers();
     get_stores();
     super.initState();
+  }
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
 
   _OutletsSearchListState({required this.params});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(
         title: const Text('Gözleg', style: CustomText.appBarText,),
       ),
@@ -101,7 +114,6 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
                                     children: <Widget>[
                                       Expanded(
                                         child: Container(
-                                          margin: EdgeInsets.only(left: 5),
                                           alignment: Alignment.centerLeft,
                                           child: Text(
                                             data[index]['name'].toString(),
@@ -114,7 +126,6 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
                                         alignment: Alignment.centerLeft,
                                         child: Row(
                                           children: <Widget>[
-                                            Icon(Icons.place,color: Colors.white,),
                                             SizedBox(
                                               width: 200,
                                               child: Text(data[index]['location'],
@@ -128,7 +139,6 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
                                           alignment: Alignment.centerLeft,
                                           child: Row(
                                             children: <Widget>[
-                                              Icon(Icons.category, color: Colors.white,),
                                               SizedBox(
                                                 child: Text(data[index]['category'],
                                                   style: CustomText.itemText,
@@ -150,9 +160,9 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
               );},)
           )
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
-    );
+      ):Center(child: CircularProgressIndicator(color: CustomColors.appColors)) 
+      
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   void get_stores() async {

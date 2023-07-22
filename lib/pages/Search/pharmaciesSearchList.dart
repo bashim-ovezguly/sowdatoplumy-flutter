@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
+import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
 class PharmaciesSearchList extends StatefulWidget {
@@ -26,21 +28,33 @@ class _PharmaciesSearchListState extends State<PharmaciesSearchList> {
   List<dynamic> data = [];
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
 
   bool filter = false;
-  callbackFilter(){setState(() { 
+  callbackFilter(){
+    timers();
+    setState(() { 
     determinate = false;
     getpharmacieslist();
   });}
 
   void initState() {
+    timers();
     getpharmacieslist();
     super.initState();}
+  
+     timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
 
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(
         title: const Text('Gözleg', style: CustomText.appBarText,),
       ),
@@ -75,7 +89,6 @@ class _PharmaciesSearchListState extends State<PharmaciesSearchList> {
                       child: Card(
                         elevation: 2,
                         child: Container(
-                          margin: const EdgeInsets.all(5),
                           height: 110,
                           child: Row(
                             children: <Widget>[
@@ -101,7 +114,6 @@ class _PharmaciesSearchListState extends State<PharmaciesSearchList> {
                                         children: <Widget>[
                                           Expanded(
                                             child: Container(
-                                              margin: EdgeInsets.only(left: 5),
                                               alignment: Alignment.centerLeft,
                                               child: Text(
                                                 data[index]['name'].toString(),
@@ -132,9 +144,9 @@ class _PharmaciesSearchListState extends State<PharmaciesSearchList> {
                 }),
           )
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
-    );
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors)) 
+      
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
     void getpharmacieslist() async {

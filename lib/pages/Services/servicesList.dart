@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:dots_indicator/dots_indicator.dart';
@@ -11,6 +12,7 @@ import '../../dB/colors.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../Search/search.dart';
+import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
 
@@ -31,33 +33,52 @@ class _ServicesListState extends State<ServicesList> {
   var baseurl = "";
   bool determinate = false;
   bool determinate1 = false;
+  bool status = true;
 
   bool filter = false;
-  callbackFilter(){setState(() { filter=true;});}
+  callbackFilter(){
+    timers();
+    setState(() { filter=true;});
+    }
 
   @override
   void initState() {
+    timers();
     getserviceslist();
     getservices_slider();
     super.initState();
-
+  }
+      timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
  
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
         appBar: AppBar(
           title: const Text("Hyzmatlar", style: CustomText.appBarText,),
           actions: [
             Row(
               children: <Widget>[
                 Container(
-                    padding: const EdgeInsets.all(10),
                     child:  GestureDetector(
                         onTap: (){
                           showConfirmationDialog(context);
                         },
                         child: const Icon(Icons.sort, size: 25,))),
+                Container(
+                padding: const EdgeInsets.all(10),
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:5)));
+                  },
+                  child: Icon(Icons.search, color: Colors.white, size: 25)
+                )
+              ) 
               ],
             )
           ],),
@@ -187,13 +208,11 @@ class _ServicesListState extends State<ServicesList> {
                         elevation: 2,
                         child: Container(
                           height: 110,
-                          margin: const EdgeInsets.all(5),
                           child: Row(
                             children: <Widget>[
                               Expanded(flex: 1,
                                    child: ClipRect(
                                       child: Container(
-                                      
                                       height: 110,
                                       child: FittedBox(
                                         fit: BoxFit.cover,
@@ -213,7 +232,6 @@ class _ServicesListState extends State<ServicesList> {
                                         child: Align(
                                             alignment: Alignment.centerLeft,
                                             child: Container(
-                                              margin: EdgeInsets.only(left: 5),
                                               child: Text(data[index]['name'].toString(), style: CustomText.itemTextBold,),)
                                         ),),
 
@@ -221,9 +239,7 @@ class _ServicesListState extends State<ServicesList> {
                                         alignment: Alignment.centerLeft,
                                         child: Row(
                                           children: <Widget>[
-                                            Icon(Icons.place,color: Colors.white,),
-                                            SizedBox(width: 10,),
-                                            Text(data[index]['location'].toString(), style: CustomText.itemText)],),)),
+                                            Text(data[index]['location'].toString(), overflow: TextOverflow.clip, style: CustomText.itemText)],),)),
                                       
                                       if (data[index]['store_id']==null || data[index]['store_id']=='')
                                           Expanded(
@@ -231,8 +247,6 @@ class _ServicesListState extends State<ServicesList> {
                                             alignment: Alignment.centerLeft,
                                             child: Row(
                                               children: <Widget>[
-                                                Icon(Icons.price_change, color: Colors.white,),
-                                                SizedBox(width: 10,),
                                                 Text(data[index]['price'].toString(), style: CustomText.itemText)],),))
                                         else
                                           Expanded(child:Align(
@@ -259,40 +273,10 @@ class _ServicesListState extends State<ServicesList> {
               ),
             )
           ],
-        ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
-
+        ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
         ),
-
         drawer: const MyDraver(),
-        floatingActionButton: Container(
-          height: 45,
-          width: 45,
-          child: Material(
-            type: MaterialType.transparency,
-            child: Ink(
-              decoration: BoxDecoration(
-                border: Border.all(color: Color.fromARGB(255, 182, 210, 196), width: 2.0),
-                color : Colors.blue[900],
-                shape: BoxShape.circle,
-              ),
-              child: InkWell(
-              
-                borderRadius: BorderRadius.circular(
-                    500.0), 
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:5)));
-                },
-                child: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                  //size: 50,
-                ),
-              ),
-            ),
-          ),
-        ),
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   showConfirmationDialog(BuildContext context){

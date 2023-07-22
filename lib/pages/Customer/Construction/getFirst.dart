@@ -324,7 +324,7 @@ class _GetConstructionFirstState extends State<GetConstructionFirst> {
         baseurl = server_url.get_server_url();
         print(data);   
         for ( i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
         determinate = true;
       if (imgList.length==0){

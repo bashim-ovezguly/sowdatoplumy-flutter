@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
@@ -12,6 +12,7 @@ import '../../dB/colors.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../Search/search.dart';
+import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
 
@@ -33,9 +34,11 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
   var baseurl = "";  
   bool determinate = false;
   bool determinate1 = false;
+  bool status = true;
 
   bool filter = false;
   callbackFilter(){setState(() { 
+    timers();
     determinate = false;
     determinate1 = false;
     getproductlist();
@@ -43,17 +46,24 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
   });}
 
   void initState() {
+    timers();
     getproductlist();
     getslider_products();
     super.initState();
   }
+      timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
         appBar: AppBar(
           title: const Text("Beýleki bildirişler", style: CustomText.appBarText,),
-
           actions: [
             Row(
               children: <Widget>[
@@ -64,6 +74,16 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                           showConfirmationDialog(context);
                         },
                         child: const Icon(Icons.sort, size: 25,))),
+
+                Container(
+                padding: const EdgeInsets.all(10),
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:4)));
+                  },
+                  child: Icon(Icons.search, color: Colors.white, size: 25)
+                )
+              )  
               ],
             )
           ],
@@ -77,19 +97,15 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
             determinate1 = false;
             initState();
           });
-          return Future<void>.delayed(const Duration(seconds: 3));
-
-          },
-          child: determinate && determinate1? CustomScrollView(
+          return Future<void>.delayed(const Duration(seconds: 3));},
+          child: determinate && determinate1 ? CustomScrollView(
           slivers: [
             SliverList(
                 delegate: SliverChildBuilderDelegate(
                   childCount: 1,
                       (BuildContext context, int index) {
                     return GestureDetector(
-                      onTap: (){
-                       
-                      },
+                      onTap: (){},
                       child: Stack(
                       alignment: Alignment.bottomCenter,
                       textDirection: TextDirection.rtl,
@@ -123,7 +139,6 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                     {
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: item['id'].toString(),title: 'Beýleki bildirişler',) ));
                                     }
-                                    
                                   },
                                   child: Container(
                               color: Colors.white,
@@ -136,9 +151,9 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                         width: double.infinity,
                                         child:  FittedBox(
                                           fit: BoxFit.cover,
-                                          child: item['img'] != null && item['img'] != '' ? Image.network(baseurl + item['img'].toString(),):
-                                          Image.asset('assets/images/default16x9.jpg'),),
-                                      ),
+                                          child: item['img'] != null && item['img'] != '' ? Image.network(baseurl + item['img'].toString()):
+                                          Image.asset('assets/images/default16x9.jpg'))
+                                      )
                                     ),
                                       Positioned(top: 130, left: 10,
                                           child: Column(
@@ -163,9 +178,9 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                 Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
                                                   fontSize: 18, color: Colors.white,
                                                   fontStyle: FontStyle.italic,
-                                                  fontWeight: FontWeight.bold),)],))
-                                    ],)),))
-                              ).toList(),),
+                                                  fontWeight: FontWeight.bold))]))
+                                    ]))))
+                              ).toList())
                         ),
                         Container(
                           margin: EdgeInsets.only(bottom: 7),
@@ -176,11 +191,9 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                               color: Colors.white,
                               activeColor: CustomColors.appColors,
                               activeShape:
-                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),),),)
-
-                      ],
-                    ),
-                    );},)),
+                              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)))))
+                      ])
+                    );})),
 
             SliverList(
               delegate: SliverChildBuilderDelegate(
@@ -196,7 +209,6 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                         elevation: 2,
                         child: Container(
                           height: 110,
-                          margin: const EdgeInsets.all(5),
                           child: Row(
                             children: <Widget>[
                                  Expanded(flex: 1,
@@ -257,6 +269,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                 data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
                                               ],),))
                                         else
+
                                           Expanded(child:Align(
                                               alignment: Alignment.centerLeft,
                                               child: ElevatedButton(
@@ -283,39 +296,10 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
               ),
             )
           ],
-        ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+        ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
         ),
-
         drawer: const MyDraver(),
-        floatingActionButton: Container(
-          height: 45,
-          width: 45,
-          child: Material(
-            type: MaterialType.transparency,
-            child: Ink(
-              decoration: BoxDecoration(
-                border: Border.all(color: Color.fromARGB(255, 182, 210, 196), width: 2.0),
-                color : Colors.blue[900],
-                shape: BoxShape.circle,
-              ),
-              child: InkWell(
-              
-                borderRadius: BorderRadius.circular(
-                    500.0), 
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:4)));
-                },
-                child: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                  //size: 50,
-                ),
-              ),
-            ),
-          ),
-        ),
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   showConfirmationDialog(BuildContext context){

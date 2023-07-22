@@ -487,7 +487,7 @@ class _GetCarFirstState extends State<GetCarFirst> {
         var i;
         imgList = [];
         for ( i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
         if (data['mark']!='' && data['mark']!=null){
           name_title = name_title + data['mark'].toString();

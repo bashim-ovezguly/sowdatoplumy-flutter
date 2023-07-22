@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -7,6 +8,7 @@ import 'package:my_app/pages/Customer/RealEstate/add.dart';
 import 'package:my_app/pages/Customer/RealEstate/getFirst.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/textStyle.dart';
+import '../../progressIndicator.dart';
 
 
 class RealEstateList extends StatefulWidget {
@@ -23,22 +25,32 @@ class _RealEstateListState extends State<RealEstateList> {
   List<dynamic> data = [];
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
 
   void initState() {
+    timers();
     widget.callbackFunc();
     get_my_flats(customer_id: customer_id);
     super.initState();
   }
 
   refreshFunc() async {
+    timers();
     widget.callbackFunc();
     get_my_flats(customer_id: customer_id);
+  }
+  timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
 
   _RealEstateListState({required this.customer_id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(title: const Text("Meniň sahypam", style: CustomText.appBarText,),
             actions: [
         PopupMenuButton<String>(
@@ -99,10 +111,9 @@ class _RealEstateListState extends State<RealEstateList> {
                 child: Container(
                   margin: EdgeInsets.only(left: 5, right: 5),
                   child: Card(
-                        elevation: 4,
+                        elevation: 2,
                         child: Container(
                           height: 110,
-                          margin: EdgeInsets.only(bottom: 5, left: 5, right: 5,top: 5),
                           child: Row(
                             children: <Widget>[
 
@@ -181,10 +192,10 @@ class _RealEstateListState extends State<RealEstateList> {
               );},),),
 
         ],
-      ):Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ):Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+      
       )
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   void get_my_flats({required customer_id}) async {

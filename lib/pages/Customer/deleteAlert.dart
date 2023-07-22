@@ -1,9 +1,7 @@
-
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/Customer/login.dart';
 import 'package:provider/provider.dart';
-
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
 import '../../dB/providers.dart';
@@ -70,9 +68,7 @@ class _DeleteAlertState extends State<DeleteAlert> {
                 Urls server_url  =  new Urls();
                 String url = server_url.get_server_url() + '/mob/' + action.toString() +"/delete/" + id.toString();
                 final uri = Uri.parse(url);
-                print(uri);
                 final response = await http.post(uri, headers: {'token': token},);
-                print(response.statusCode);
 
                 if (response.statusCode==200){
                   callbackFunc();

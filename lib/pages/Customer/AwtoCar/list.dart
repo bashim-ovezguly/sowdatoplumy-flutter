@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:my_app/pages/Customer/AwtoCar/getFirst.dart';
 
 import '../../../dB/colors.dart';
 import '../../../dB/textStyle.dart';
+import '../../progressIndicator.dart';
 
 class MyCars extends StatefulWidget {
   MyCars({Key? key,  required this.customer_id}) : super(key: key);
@@ -21,8 +23,10 @@ class _MyCarsState extends State<MyCars> {
   List<dynamic> data = [];
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
 
   void initState() {
+    timers();
     get_my_cars(customer_id: customer_id);
     super.initState();
   }
@@ -30,11 +34,18 @@ class _MyCarsState extends State<MyCars> {
   refreshFunc() async {
     get_my_cars(customer_id: customer_id);
   }
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
   
   _MyCarsState({required this.customer_id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(title: const Text("Meniň sahypam", style: CustomText.appBarText,),
             actions: [
         PopupMenuButton<String>(
@@ -180,10 +191,10 @@ class _MyCarsState extends State<MyCars> {
                 )
               );},),),
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+      
       )
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   void get_my_cars({required customer_id}) async {

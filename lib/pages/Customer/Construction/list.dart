@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -7,6 +8,7 @@ import 'package:my_app/pages/Customer/Construction/add.dart';
 import 'package:my_app/pages/Customer/Construction/getFirst.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/textStyle.dart';
+import '../../progressIndicator.dart';
 
 
 class ConstructionList extends StatefulWidget {
@@ -24,23 +26,34 @@ class _ConstructionListState extends State<ConstructionList> {
   List<dynamic> data = [];
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
   
   void initState() {
+    timers();
     widget.callbackFunc();
     get_my_constructions(customer_id: customer_id);
     super.initState();
   }
   
   refreshFunc() async {
+    timers();
     widget.callbackFunc();
     get_my_constructions(customer_id: customer_id);
   }
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
+  
   
 
   _ConstructionListState({required this.customer_id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(title: Text('Meniň sahypam', style: CustomText.appBarText,),
             actions: [
         PopupMenuButton<String>(
@@ -101,7 +114,6 @@ class _ConstructionListState extends State<ConstructionList> {
                       elevation: 2,
                       child: Container(
                         height: 110,
-                        margin: const EdgeInsets.all(5),
                         child: Row(
                           children: <Widget>[
                             Expanded(flex: 1,
@@ -167,10 +179,10 @@ class _ConstructionListState extends State<ConstructionList> {
               );},),),
 
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+      
       )
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
     

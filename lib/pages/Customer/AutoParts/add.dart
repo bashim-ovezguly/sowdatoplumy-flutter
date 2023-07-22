@@ -593,7 +593,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
 
                     request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
                     
-                    request.fields['store'] = storesController['id'].toString();
+                    if (storesController['id']!=null){request.fields['store'] = storesController['id'].toString();}
                     request.fields['model'] = modelController['id'].toString();
                     request.fields['mark'] = markaController['id'].toString();
                     request.fields['price'] = priceController.text.toString();

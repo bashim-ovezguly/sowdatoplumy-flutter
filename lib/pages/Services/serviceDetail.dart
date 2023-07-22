@@ -1,17 +1,17 @@
-import 'dart:collection';
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-  
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import '../../dB/colors.dart';
 import '../../dB/textStyle.dart';
 import '../call.dart';
 import '../fullScreenSlider.dart';
+import '../progressIndicator.dart';
+
 
 class ServiceDetail extends StatefulWidget {
   ServiceDetail({Key? key,  required this.id}) : super(key: key);
@@ -31,20 +31,28 @@ class _ServiceDetailState extends State<ServiceDetail> {
   bool determinate = false;
   bool slider_img = true;
   List<String> imgList = [ ];
+  bool status = true;
 
   void initState() {
+    timers();
     if (imgList.length==0){
       imgList.add('https://avatars.mds.yandex.net/i?id=2a00000179f8c0294d708c859d65cbc8412e-3985741-images-thumbs&n=13');
     }
     getsingleparts(id: id);
     super.initState();
   }
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
 
   _ServiceDetailState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
+    return status ? Scaffold(
       appBar: AppBar(
         title: const Text("Hyzmatlar", style: CustomText.appBarText,),
         actions: [],),
@@ -287,17 +295,15 @@ class _ServiceDetailState extends State<ServiceDetail> {
         SizedBox(height: 70,),
 
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
       ),
-    
-      floatingActionButton: Container(
+      floatingActionButton: status? Container(
         margin: EdgeInsets.only(top: 30, left: 25),
         alignment: Alignment.bottomCenter,
         padding: EdgeInsets.only(top: 50),
         child: Call(phone: data['phone'].toString()),
-      )
-    );
+      ): Container()
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
       void getsingleparts({required id}) async {
@@ -317,7 +323,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
         var i;
         imgList = [];
         for ( i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
         determinate = true;
       if (imgList.length==0){

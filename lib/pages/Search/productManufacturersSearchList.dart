@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import '../../dB/constants.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../ProductManufacturers/productManufacturersDetail.dart';
+import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
 class ProductManufacturersSearchList extends StatefulWidget {
@@ -24,22 +26,33 @@ class _ProductManufacturersSearchListState extends State<ProductManufacturersSea
   var data = [];
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
 
   bool filter = false;
-  callbackFilter(){setState(() { 
+  callbackFilter(){
+    timers();
+    setState(() { 
     determinate = false;
     getfactorieslist();
   });}
   
   void initState() {
+    timers();
     getfactorieslist();
     super.initState();
+  }
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
 
   _ProductManufacturersSearchListState({required this.params});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(
         title: const Text('Gözleg', style: CustomText.appBarText,),
       ),
@@ -100,7 +113,6 @@ class _ProductManufacturersSearchListState extends State<ProductManufacturersSea
 
                                     Expanded(
                                       child: Container(
-                                        margin: EdgeInsets.only(left: 5),
                                         alignment: Alignment.centerLeft,
                                         child: Text(
                                           data[index]['name'].toString(),
@@ -110,8 +122,6 @@ class _ProductManufacturersSearchListState extends State<ProductManufacturersSea
                                       alignment: Alignment.centerLeft,
                                       child: Row(
                                         children: <Widget>[
-                                          Icon(Icons.place,color: Colors.white,),
-                                          SizedBox(width: 10,),
                                           Text(data[index]['location'].toString(), style: CustomText.itemText)],),)),
 
                                     // Expanded(
@@ -137,9 +147,8 @@ class _ProductManufacturersSearchListState extends State<ProductManufacturersSea
                 }),
           )
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
-    );
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   void getfactorieslist() async {

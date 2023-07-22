@@ -1,8 +1,9 @@
 // ignore_for_file: unused_local_variable
 
+import 'dart:async';
 import 'dart:convert';
+import 'package:badges/badges.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -11,10 +12,14 @@ import 'package:my_app/pages/Awtoparts/awtoPartsDetail.dart';
 import 'package:my_app/pages/Car/carStore.dart';
 import 'package:my_app/pages/Construction/constructionDetail.dart';
 import 'package:my_app/pages/Propertie/propertiesDetail.dart';
+import 'package:my_app/pages/Store/order.dart';
+import 'package:my_app/pages/progressIndicator.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../dB/colors.dart';
 import '../../dB/textStyle.dart';
+import '../../main.dart';
+import '../Customer/login.dart';
 import '../OtherGoods/otherGoodsDetail.dart';
 import '../Services/serviceDetail.dart';
 import '../fullScreenSlider.dart';
@@ -37,10 +42,15 @@ class _MarketDetailState extends State<MarketDetail> {
   final String title;
   final number = '+99364334578';
   var telefon = {};
+  String delivery_price_str = "";
+  var de = {};
   var modules = {};
   int _current = 0;
   var baseurl = "";
   var data = {};
+  String store_name = '';
+  var shoping_carts = [];
+  var shoping_cart_items = [];
   List<dynamic> products = [ ];
   List<dynamic> data_tel = [];
   List<String> imgList = [ ];
@@ -53,28 +63,82 @@ class _MarketDetailState extends State<MarketDetail> {
     if (value.toString()=='3'){ modul_name = 'Emläkler';}
     if (value.toString()=='4'){ modul_name = 'Gurluşyk harytlar';}
     if (value.toString()=='5'){ modul_name = 'Hyzmatlar';}
-    
-    
-    get_products_modul(modul, id); 
-  });}
+      
+  get_products_modul(modul, id); });}
+  int item_count = 0;
+  bool status = true;
+  refresh(){getsinglemarkets(id: id, title: title); get_products_modul(modul, id); timers();}
 
   void initState() {  
+    timers();
     if (imgList.length==0){
-      imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBYAVt1PGvwtPxFwyln-2VL4hyc3ViLcdgYaVFxgnrcK2KP9ywLquGti9teKFEFz4vP1o&usqp=CAU');
+      imgList.add('x');
     }
     getsinglemarkets(id: id, title: title);
-    get_products_modul(modul, id); 
+    get_products_modul(modul, id);
     super.initState();
+  }
+
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
   
   _MarketDetailState({required this.id, required this.title});
   String dropdownValue = list.first;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
 
+    showSuccessAlert(){
+      QuickAlert.show(
+        context: context,
+        title: '',
+        text: 'Haryt sebede goşuldy.',
+        confirmBtnText: 'Dowam et',
+        confirmBtnColor: CustomColors.appColors,
+        type: QuickAlertType.success,
+        onConfirmBtnTap: (){
+          Navigator.pop(context);
+        });
+    }
+
+    showWarningAlert(){
+      QuickAlert.show(
+        context: context,
+        title: '',
+        text: 'Haryt sebetde bar.',
+        confirmBtnText: 'Dowam et',
+        confirmBtnColor: CustomColors.appColors,
+        type: QuickAlertType.warning,
+        onConfirmBtnTap: (){
+          Navigator.pop(context);
+        });
+    }
+
+    return status? Scaffold(
       appBar: AppBar(
-        title: Text(title.toString(), style: CustomText.appBarText,)),
+        title: Text(store_name.toString(), style: CustomText.appBarText,),
+           actions: [
+              Badge(
+                badgeColor: Colors.green,
+                badgeContent: Text(item_count.toString(),
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                position: BadgePosition(start: 30, bottom: 30),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Order(store_name: data['name_tm'].toString(), store_id: data['id'].toString(), refresh: refresh, delivery_price: delivery_price_str)));  
+                  },
+                  icon: const Icon(Icons.shopping_cart),
+                ),
+              ),
+              const SizedBox(
+                width: 20.0,
+              ),
+            ],
+        ),
       body: RefreshIndicator(
         color: Colors.white,
         backgroundColor: CustomColors.appColors,
@@ -126,11 +190,14 @@ class _MarketDetailState extends State<MarketDetail> {
                                 width: double.infinity,
                                 child:  FittedBox(
                                   fit: BoxFit.cover,
-                                  child: item != '' ? Image.network(item.toString(),):
+                                  child: item != 'x' ? Image.network(item.toString(),):
                                   Image.asset('assets/images/default16x9.jpg'),),
                                   ),),
                           ),)).toList(),),
-                      onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => FullScreenSlider(imgList: imgList) )); },),
+                      onTap: (){
+                        if (imgList.length==1 && imgList[0]=='x'){}
+                        else{Navigator.push(context, MaterialPageRoute(builder: (context) => FullScreenSlider(imgList: imgList) ));}
+                    })
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
@@ -189,8 +256,8 @@ class _MarketDetailState extends State<MarketDetail> {
                               SizedBox(width: 10,),
                               Text("Ady ",  style: TextStyle(fontSize: 14, color: Colors.black54),)],),),
                           Expanded(child: Text(data['name_tm'].toString(),  style: TextStyle(fontSize: 14, color: CustomColors.appColors)))],),),
-                      
-                      Container(height: 10, child: Text(''),),
+                            
+                      Container(height: 10, child: Text('')),
                       
                       SizedBox(  
                         child: Row(children: [
@@ -260,10 +327,8 @@ class _MarketDetailState extends State<MarketDetail> {
                               Text("Address", style: TextStyle(fontSize: 14, color: Colors.black54),)],),),
                           Expanded(child: Text(data['address'].toString(),  style: TextStyle(fontSize: 14, color: CustomColors.appColors))),
                           SizedBox(width: 10,),
-                          ],),),
-                      
-                    
-                    ],);},)),
+                          ]))
+                    ]);})),
             
             SliverList(delegate: SliverChildBuilderDelegate(childCount: 1,(BuildContext context, int index) {return Container(height: 10,);},)),
               
@@ -420,7 +485,7 @@ class _MarketDetailState extends State<MarketDetail> {
                       child: Card(
                       elevation: 2,
                       child: Container(
-                        height: 160,
+                        height: 180,
                         width: 100,
                         child: Column(
                           children: [
@@ -437,51 +502,101 @@ class _MarketDetailState extends State<MarketDetail> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    if (modul=='1')
+                                    if (modul=='1') 
                                       Row(
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text(item['mark'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
+                                          Text(item['mark'].toString(), maxLines: 1, style: TextStyle(fontSize: 12, color: CustomColors.appColors, overflow: TextOverflow.clip, ),),
                                           SizedBox(width: 2,),
-                                          Text(item['year'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
+                                          Text(item['year'].toString(), maxLines: 1, style: TextStyle(fontSize: 12, color: CustomColors.appColors, overflow: TextOverflow.clip),),
                                         ],   
                                       ),
                                     if (modul=='0')
-                                      Text(item['name'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
-                                     Text(item['price'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
+                                      Text(item['name'].toString(), maxLines: 1, style: TextStyle(fontSize: 12, color: CustomColors.appColors, overflow: TextOverflow.clip),),
+                                     Text(item['price'].toString(), maxLines: 1, style: TextStyle(fontSize: 12, color: CustomColors.appColors, overflow: TextOverflow.clip),),
+                                  
+                                  if (modul!='1' && data['customer']!='')
+                                  ConstrainedBox(
+                                    constraints: BoxConstraints.tightFor(height: 20),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.green[700]
+                                    ),
+                                      
+                                      child: Text('Sebede goş',
+                                      style: TextStyle(fontSize: 12, color: CustomColors.appColorWhite, overflow: TextOverflow.clip)),
+                                      onPressed: () async {
+                                        var allRows = await dbHelper.queryAllRows();
+                                        var data = [];
+                                        for (final row in allRows) {data.add(row);}
+                                        if (data.length==0){Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));}
+
+                                        setState(() {
+                                          shoping_cart_items = [];
+                                        });
+                                        var shoping_cart = await dbHelper.get_shoping_cart_by_store(id: id);
+                                        var array = [];
+                                          for (final row in shoping_cart) {
+                                            array.add(row);
+                                          }
+
+                                        var shoping_cart_item = await dbHelper.get_shoping_cart_item(soping_cart_id: array[0]['id'].toString(), product_id: item['id'].toString());
+                                        for (final row in shoping_cart_item) {
+                                          shoping_cart_items.add(row);
+                                        }
+                                        if (shoping_cart_items.length==0){
+                                          Map<String, dynamic> row = {'soping_cart_id': array[0]['id'],
+                                                                      'product_id': item['id'],
+                                                                      'product_img': item['img'],
+                                                                      'product_name': item['name'],
+                                                                      'product_price': item['price'].toString(),
+                                                                      'count': 1};
+                                          var shoping_cart = await dbHelper.add_product_shoping_cart(row);
+                                          showSuccessAlert();
+                                            var count = await dbHelper.get_shoping_cart_items(soping_cart_id: array[0]['id'].toString());
+                                            var array1 = [];
+                                            for (final row in count) {
+                                              array1.add(row);
+                                            }
+                                          setState(() {
+                                            item_count = array1.length;
+                                          });
+                                          } else {
+                                            showWarningAlert();
+                                          }
+                                      },
+                                    ),
+                                  ),
+                                  
                                   ],
                                 )
-                            ),
-                          ],
-                        ),
-                      ),  
-                    ),
+                            )
+                          ]
+                        )
+                      )  
+                    )
                     );
                   }).toList(),
-                ),
-              );
-              },)),
+                ));
+              })),
 
-              SliverList(delegate: SliverChildBuilderDelegate(childCount: 1,(BuildContext context, int index) {return Container(height: 50,);},)),
+              SliverList(delegate: SliverChildBuilderDelegate(childCount: 1,(BuildContext context, int index) {return Container(height: 50);})),
           ],
-        ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+        ): Center(child: CircularProgressIndicator(color: CustomColors.appColors)),
       ),
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: myPopMenu(context),
-        backgroundColor: Colors.white,),
-        
-        ); 
+        backgroundColor: Colors.white,),   
+      ):  CustomProgressIndicator(funcInit: initState);
     }
 
 
    Widget myPopMenu(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(colorScheme: Theme.of(context).colorScheme.copyWith(secondary: Colors.blue),),
-
           child: PopupMenuButton(
               offset: const Offset(-90, 100),
               icon: Icon(Icons.menu, color: CustomColors.appColors,),
@@ -553,6 +668,30 @@ class _MarketDetailState extends State<MarketDetail> {
       }
 
   void getsinglemarkets({required id, required title}) async {
+    var shoping_cart = await dbHelper.get_shoping_cart_by_store(id: id);
+    for (final row in shoping_cart) {
+      shoping_carts.add(row);
+    }
+
+    if (shoping_carts.length==0){
+      Map<String, dynamic> row = { 'store_id': int.parse(id)};
+      var shoping_cart = await dbHelper.shoping_cart_inser(row);
+    }
+    var test = await dbHelper.get_shoping_cart_by_store(id: id);
+    var array = [];
+    for (final row in test) {
+      array.add(row);
+    }
+
+    var count = await dbHelper.get_shoping_cart_items(soping_cart_id: array[0]['id'].toString());
+    var array1 = [];
+    for (final row in count) {
+      array1.add(row);
+    }
+    setState(() {
+      item_count = array1.length;
+    });
+
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/markets/' + id;
 
@@ -565,14 +704,21 @@ class _MarketDetailState extends State<MarketDetail> {
     setState(() {
         var i; imgList = [];
         data = json;
+        
+        delivery_price_str = json['delivery_price'];
+        if (delivery_price_str=='0' || delivery_price_str=='0 TMT'){
+          delivery_price_str = 'tölegsiz';
+        }
         baseurl =  server_url.get_server_url();
         data_tel = json['phones'];
+        store_name = data['name_tm'];
         modules = json['modules'];
         if (json['phones'].length!=0){ telefon = json['phones'][0]; }
-        for ( i in data['images']) { imgList.add(baseurl + i['img_l']);}
+        for ( i in data['images']) { imgList.add(baseurl + i['img_m']);}
+
       determinate = true;
       if (imgList.length==0){
-        imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBYAVt1PGvwtPxFwyln-2VL4hyc3ViLcdgYaVFxgnrcK2KP9ywLquGti9teKFEFz4vP1o&usqp=CAU');
+        imgList.add('x');
       }});}
     
     Future<void> get_products_modul(modul, id) async {
@@ -591,8 +737,7 @@ class _MarketDetailState extends State<MarketDetail> {
       final json = jsonDecode(utf8.decode(response.bodyBytes));
        setState(() {
         products = json['data'];
+        
         });
-
-      print(url);
     }
 }

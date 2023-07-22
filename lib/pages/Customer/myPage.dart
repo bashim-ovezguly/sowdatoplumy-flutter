@@ -516,7 +516,7 @@ class _MyPageState extends State<MyPage> {
         print(data);
         imgList = [];
         for ( i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
       if (imgList.length==0){
         imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBYAVt1PGvwtPxFwyln-2VL4hyc3ViLcdgYaVFxgnrcK2KP9ywLquGti9teKFEFz4vP1o&usqp=CAU');

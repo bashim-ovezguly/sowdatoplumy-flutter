@@ -363,7 +363,7 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
                                   margin: const EdgeInsets.only(left: 10,bottom: 10),
                                   height: 100, width:100,
                                   alignment: Alignment.topLeft,
-                                  child: Image.network(baseurl + country['img_l'],fit: BoxFit.cover,height: 100,width: 100,
+                                  child: Image.network(baseurl + country['img_m'],fit: BoxFit.cover,height: 100,width: 100,
                                     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                                               return Center(child: CircularProgressIndicator(color: CustomColors.appColors,),);},
                                   )
@@ -374,7 +374,7 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
                                     barrierDismissible: false,
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return DeleteImage(action: 'cars', image: country, callbackFunc: remove_image,);},);
+                                      return DeleteImage(action: 'products', image: country, callbackFunc: remove_image,);},);
                                 },
                                 child: Container(
                                   height: 100, width:110,

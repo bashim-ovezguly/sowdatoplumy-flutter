@@ -1,17 +1,16 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-  
 import 'package:my_app/dB/constants.dart';
-import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../dB/textStyle.dart';
 import '../OtherGoods/otherGoodsDetail.dart';
 import '../fullScreenSlider.dart';
 import '../../dB/colors.dart';
+import '../progressIndicator.dart';
 
 
 class PharmacieFirst extends StatefulWidget {
@@ -33,19 +32,28 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
   List<String> imgList = [ ];
   bool slider_img = true;
   bool determinate = false;
+  bool status = true;
   
   void initState() {
+    timers();
     if (imgList.length==0){
       imgList.add('https://png.pngtree.com/element_our/20190528/ourmid/pngtree-blue-building-under-construction-image_1141142.jpg');
     }
     getsinglepharmacies(id: id);
     super.initState();
   }
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
 
   _PharmacieFirstState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(
         title: const Text("Dermanhanalar", style: CustomText.appBarText,),
         actions: [
@@ -377,10 +385,9 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
 
               },)),
           ],
-      ):Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ):Center(child: CircularProgressIndicator(color: CustomColors.appColors))
       )
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   void getsinglepharmacies({required id}) async {
@@ -401,7 +408,7 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
         var i;
         imgList = [];
         for ( i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
       if (imgList.length==0){
         slider_img = false;

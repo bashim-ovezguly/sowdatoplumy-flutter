@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import '../../dB/colors.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../Propertie/propertiesDetail.dart';
+import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
 
@@ -26,24 +28,34 @@ class _ProperrieSearchListState extends State<ProperrieSearchList> {
   List<dynamic> data = [];
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
 
   bool filter = false;
-  callbackFilter(){setState(() { 
+  callbackFilter(){
+    timers();
+    setState(() { 
     determinate = false;
     getflatslist();
   });}
 
-
-  _ProperrieSearchListState({required this.params});
-
-    
   void initState() {
+    timers();
     getflatslist();
   super.initState();}
 
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
+
+  _ProperrieSearchListState({required this.params});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(
         title: const Text('Gözleg', style: CustomText.appBarText,),
       ),
@@ -78,7 +90,6 @@ class _ProperrieSearchListState extends State<ProperrieSearchList> {
                         elevation: 4,
                         child: Container(
                           height: 110,
-                          margin: EdgeInsets.only(bottom: 5, left: 5, right: 5,top: 5),
                           child: Row(
                             children: <Widget>[
 
@@ -103,7 +114,7 @@ class _ProperrieSearchListState extends State<ProperrieSearchList> {
                                       Expanded(
                                         child: Container(
                                             alignment: Alignment.centerLeft,
-                                            margin: EdgeInsets.only(left: 5),
+
                                             child: Text(
                                               data[index]['name'].toString(),
                                               style: CustomText.itemTextBold,)),),
@@ -112,7 +123,6 @@ class _ProperrieSearchListState extends State<ProperrieSearchList> {
                                             alignment: Alignment.centerLeft,
                                             child: Row(
                                               children:  <Widget>[
-                                                Icon(Icons.place,color: Colors.white,),
                                                 Text(data[index]['location'].toString() + " " + data[index]['location_status'].toString(),
                                                     style: CustomText.itemText)],),)),
                                       
@@ -146,9 +156,8 @@ class _ProperrieSearchListState extends State<ProperrieSearchList> {
                 }),
           )
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
-    );
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   void getflatslist() async {

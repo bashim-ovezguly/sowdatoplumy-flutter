@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Car/carStore.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
+import 'package:my_app/pages/progressIndicator.dart';
 import '../../dB/textStyle.dart';
 import '../call.dart';
 import '../fullScreenSlider.dart';
@@ -30,8 +32,10 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
   bool determinate = false;
   bool slider_img = true;
   List<String> imgList = [ ];
+  bool status = true;
   
   void initState() {
+    timers();
     if (imgList.length==0){
       imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_kT38o_6efgNspm1kIxkRiw6clWQ5s0D7m9qKCZKu53v8x9pIKjdxbJuhlOqlyhpBtYA&usqp=CAU');
     }
@@ -39,17 +43,21 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
     super.initState();
   }
 
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
+
 
 
   _PropertiesDetailState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-
-      appBar: AppBar(
-        title: const Text("Emläkler", style: CustomText.appBarText,),
-        actions: [
-        ],),
+    return status ? Scaffold(
+      appBar: AppBar(title: const Text("Emläkler", style: CustomText.appBarText)),
       body: RefreshIndicator(
         color: Colors.white,
         backgroundColor: CustomColors.appColors,
@@ -59,7 +67,6 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
             initState();
           });
           return Future<void>.delayed(const Duration(seconds: 3));
-
         },
         child: determinate ? ListView(
         children: <Widget>[
@@ -411,9 +418,7 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
         SizedBox(height: 70,),
 
         ],
-      ):Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
-
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
       ),
       floatingActionButton: Container(
         margin: EdgeInsets.only(top: 30, left: 25),
@@ -421,7 +426,7 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
         padding: EdgeInsets.only(top: 50),
         child: Call(phone: data['phone'].toString()),
       )
-    );    
+    ): CustomProgressIndicator(funcInit: initState);    
   }
 
 

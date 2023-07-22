@@ -542,7 +542,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
                     var document_num = '0';
                     if (document==true){ document_num = '1';}
                     
-                    request.fields['store'] = storesController['id'].toString();
+                    if (storesController['id']!=null){request.fields['store'] = storesController['id'].toString();}
                     request.fields['remont_state'] = remontStateController['id'].toString();
                     request.fields['category'] = typeFlatsController['id'].toString();
                     request.fields['location'] = locationsController['id'].toString();

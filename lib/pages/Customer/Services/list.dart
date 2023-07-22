@@ -1,4 +1,5 @@
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -8,6 +9,7 @@ import 'package:my_app/pages/Customer/Services/add.dart';
 import 'package:my_app/pages/Customer/Services/getFirst.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/textStyle.dart';
+import '../../progressIndicator.dart';
 
 
 class MyServiceList extends StatefulWidget {
@@ -23,22 +25,32 @@ class _MyServiceListState extends State<MyServiceList> {
   List<dynamic> data = [];
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
   
   void initState() {
+    timers();
     widget.callbackFunc();
     get_my_parts(customer_id: customer_id);
     super.initState();
   }
 
   refreshFunc() async {
+    timers();
     widget.callbackFunc();
     get_my_parts(customer_id: customer_id);
+  }
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
 
   _MyServiceListState({required this.customer_id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(title: const Text("Meniň sahypam", style:  CustomText.appBarText,),
             actions: [
         PopupMenuButton<String>(
@@ -103,7 +115,6 @@ class _MyServiceListState extends State<MyServiceList> {
                         elevation: 2,
                         child: Container(
                           height: 110,
-                          margin: const EdgeInsets.all(5),
                           child: Row(
                             children: <Widget>[
                                  Expanded(flex: 1,
@@ -152,19 +163,11 @@ class _MyServiceListState extends State<MyServiceList> {
                                            child: Row(
                                             children: [
                                               Container(
-                                                margin: EdgeInsets.only(left: 5),
-                                                child: Align( alignment: Alignment.centerLeft,
-                                                  child: Text(data[index]['price'].toString(),
-                                                  style: CustomText.itemText),),
-                                              ),
-                                              Spacer(),
-                                              Container(
                                                 margin: EdgeInsets.only(right: 5),
                                                 child: Align(
                                                   alignment: Alignment.centerLeft,
                                                   child: Row(
                                                     children:  <Widget>[
-                                                      Icon(Icons.star_outline_sharp,color: Colors.white,),
                                                       if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'pending')
                                                       Text("Garşylyar".toString(),style: TextStyle(color: Colors.amber))
                                                       else if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'accepted')
@@ -172,6 +175,13 @@ class _MyServiceListState extends State<MyServiceList> {
                                                       else if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'canceled')
                                                       Text("Gaýtarylan".toString(),style: TextStyle(color: Colors.red))
                                                   ],),),
+                                              ),
+                                              Spacer(),
+                                              Container(
+                                                margin: EdgeInsets.only(left: 5),
+                                                child: Align( alignment: Alignment.centerLeft,
+                                                  child: Text(data[index]['price'].toString(),
+                                                  style: CustomText.itemText),),
                                               )
                                             ],
                                            )),
@@ -187,10 +197,10 @@ class _MyServiceListState extends State<MyServiceList> {
                 )
               );},),),
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ):Center(child: CircularProgressIndicator(color: CustomColors.appColors)) 
+      
       )
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   void get_my_parts({required customer_id}) async {
@@ -204,9 +214,7 @@ class _MyServiceListState extends State<MyServiceList> {
       data  = json['data'];
       baseurl =  server_url.get_server_url();
       determinate = true;
-    });
-      print(data);
-      
+    });      
     }
 }
 

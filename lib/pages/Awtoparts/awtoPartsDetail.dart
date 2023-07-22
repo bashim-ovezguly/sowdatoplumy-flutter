@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:carousel_slider/carousel_slider.dart';
@@ -13,6 +14,7 @@ import 'package:my_app/pages/fullScreenSlider.dart';
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
 import '../../dB/textStyle.dart';
+import '../progressIndicator.dart';
 
 
 
@@ -33,22 +35,30 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
   var data = {};
   bool slider_img = true;
   List<String> imgList = [ ];
-  
+  bool status = true;
   bool determinate = false;
   
   void initState() {
+    timers();
     if (imgList.length==0){
       imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXAFCMCaO9NVAPUqo5i8rXVgWB5Qaj_Qthf-KQZNAy0YyJxlAxejBSvSWOK-5PMK3RQQ&usqp=CAU');
     }
     getsingleparts(id: id);
     super.initState();
   }
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
 
 
   _AutoPartsDetailState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status? Scaffold(
       appBar: AppBar(
         title: const Text("Awtoşaylar", style: CustomText.appBarText,),
         actions:  []
@@ -460,21 +470,19 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                 fillColor: Colors.white,),),),
             SizedBox(height: 70,),
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
       ),
       
-      floatingActionButton: Container(
+      floatingActionButton: status? Container(
         margin: EdgeInsets.only(top: 30, left: 25),
         alignment: Alignment.bottomCenter,
         padding: EdgeInsets.only(top: 50),
         child: Call(phone: data['phone'].toString()),
-      )
-    );
+      ): Container()
+    ):CustomProgressIndicator(funcInit: initState);
   }
 
-
-    void getsingleparts({required id}) async {
+  void getsingleparts({required id}) async {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/parts/' + id;
     final uri = Uri.parse(url);
@@ -488,20 +496,16 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
         number = data['phone'].toString();
         imgList = [];
         for ( i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
       if (imgList.length==0){
         slider_img = false;
         imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXAFCMCaO9NVAPUqo5i8rXVgWB5Qaj_Qthf-KQZNAy0YyJxlAxejBSvSWOK-5PMK3RQQ&usqp=CAU');
       }
       determinate = true;
-
     });
   }
 }
-
-
-
 
 class TextKeyWidget extends StatelessWidget {
   const TextKeyWidget({Key? key, required this.text, required this.size}) : super(key: key);
@@ -513,7 +517,6 @@ class TextKeyWidget extends StatelessWidget {
   }
 }
 
-
 class TextValueWidget extends StatelessWidget {
   const TextValueWidget({Key? key, required this.text, required this.size}) : super(key: key);
   final String text;
@@ -522,7 +525,7 @@ class TextValueWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(text, style: TextStyle(fontSize: 14, color: CustomColors.appColors),
            overflow: TextOverflow.clip,
-                                            maxLines: 2,
-                                            softWrap: false,);
+           maxLines: 2,
+           softWrap: false,);
   }
 }

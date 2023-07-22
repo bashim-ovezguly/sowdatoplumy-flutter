@@ -52,90 +52,63 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
                     },
                   )
                   )),
-
                   Spacer(),
-                  // Row(
-                  //   children: [
-                  //     Container(
-                  // margin: const EdgeInsets.only(top: 30),
-                  // child: GestureDetector(
-                  //   child: const Icon(Icons.download, color: Color.fromARGB(255, 255, 255, 255),),
-                  //   onTap: (){
-                  //      print(imgList[index]);
-
-                  //       FileDownloader.downloadFile(url:imgList[index].trim(), onProgress: (name, progress) => {
-                  //         setState(() {
-                  //           _progres = progress;
-                  //         },) 
-                  //       },
-                  //       onDownloadCompleted: (value){
-                  //         print('path $value');
-                  //         setState(() {
-                  //           _progres = null;
-                  //         });
-                  //       }
-                  //       );
-                  //   },
-                  // )
-                  // ),
-                  // Container(
-                  //   margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
-                  //   child: const Icon(Icons.wifi_protected_setup_outlined, color: Color.fromARGB(255, 255, 255, 255),),
-                  // )
-                  //   ],
-                  // )
                 ],
               )),
-              Expanded(flex: 10, child: Align(
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    height: MediaQuery.of(context).size.height,
-                    onPageChanged: (index, reason) => {
-                      change_index(index),
-                      setState((){
-                        _current = index;
-                      })
-                    },
-
-                      aspectRatio: 2.0,
-                      enlargeCenterPage: false,
-                      viewportFraction: 1,
-                      autoPlay: true
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    child: GestureDetector(
+                      child:  CarouselSlider(
+                        options: CarouselOptions(
+                          height: MediaQuery.of(context).size.height-60,
+                          viewportFraction: 1,
+                          initialPage: 0,
+                          enableInfiniteScroll: true,
+                          reverse: false,
+                          autoPlay: true,
+                          autoPlayInterval: const Duration(seconds: 4),
+                          autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          enlargeCenterPage: true,
+                          enlargeFactor: 0.3,
+                          scrollDirection: Axis.horizontal,
+                            onPageChanged: (index, reason) {setState(() {_current = index;});}
+                        ),
+                        items: imgList
+                            .map((item) => Container(
+                          color: Colors.black,
+                          child: Stack(
+                            children: [
+                              PhotoView(
+                            imageProvider: NetworkImage(item.toString()),
+                              backgroundDecoration: BoxDecoration(color: Colors.black),
+                              customSize: MediaQuery.of(context).size,
+                              minScale: PhotoViewComputedScale.contained * 0.8,
+                              maxScale: PhotoViewComputedScale.covered * 1.8,
+                              initialScale: PhotoViewComputedScale.contained,
+                              )       
+                            ]
+                      )
+                      )).toList()),
+                     )
                   ),
-                  items: imgList
-                      .map((item) =>
-                      Stack(
-                        children: [
-                          PhotoView(
-                        imageProvider: NetworkImage(item.toString()),
-                          backgroundDecoration: BoxDecoration(color: Colors.black),
-                          customSize: MediaQuery.of(context).size,
-                          minScale: PhotoViewComputedScale.contained * 0.8,
-                          maxScale: PhotoViewComputedScale.covered * 1.8,
-                          initialScale: PhotoViewComputedScale.contained,
-                          ),
-                          
-                            Container(
-                              alignment: Alignment.bottomCenter,
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: DotsIndicator(
-                              dotsCount: imgList.length,
-                              position: _current.toDouble(),
-                              decorator: DotsDecorator(
-                                color: Colors.white,
-                                activeColor: CustomColors.appColors,
-                                activeShape:
-                                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),),),),
-                          
-                        ],
-                      ),
-                      
-              
-                      ).toList(),),
-              )
-              )
-            ],
-          ),
+                  Positioned(
+                    bottom: 10,
+                    child: Container(
+                    child: DotsIndicator(
+                      dotsCount: imgList.length,
+                      position: _current.toDouble(),
+                      decorator: DotsDecorator(
+                        color: Colors.white,
+                        activeColor: CustomColors.appColors,
+                        activeShape:
+                        RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)))))
+                    )
+                ])
+            ]
+          )
           )
     )
     

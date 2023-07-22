@@ -218,18 +218,17 @@ class _ServiceDetailState extends State<ServiceDetail> {
                   Text("Bahasy", style: CustomText.size_16_black54,)],),),
               Expanded(child: Text(data['price'].toString(),  style: CustomText.size_16))],),),
 
-
-          Container(
-            margin: EdgeInsets.only(left: 10,right: 10),
+          if (data['location']!=null && data['location']!='')
+          SizedBox(
             height: 40,
             child: Row(children: [
               Expanded(child: Row(
                 children: [
-                  SizedBox(width: 10,),
+                  SizedBox(width: 20,),
                   Icon(Icons.location_on, color: Colors.black54,),
                   SizedBox(width: 10,),
                   Text("Ýerleşýän ýeri", style: CustomText.size_16_black54,)],),),
-              Expanded(child: Text(data['location'].toString(),  style: CustomText.size_16))],),),
+              Expanded(child: Text(data['location']['name'].toString(),  style: CustomText.size_16))],),),
 
           Container(
             margin: EdgeInsets.only(left: 10,right: 10),
@@ -311,7 +310,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
         print(data);
         imgList = [];
         for ( i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
         determinate = true;
       if (imgList.length==0){

@@ -279,7 +279,7 @@ class _ServiceAddState extends State<ServiceAdd> {
                     request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
                     request.fields['name_tm'] = name_tmController.text;
                     request.fields['category'] = categoryController['id'].toString();
-                    request.fields['store'] = storesController['id'].toString();
+                    if (storesController['id']!=null){request.fields['store'] = storesController['id'].toString();}
                     request.fields['price'] = priceController.text;
                     request.fields['phone'] = phoneController.text;
                     request.fields['description'] = detailController.text;

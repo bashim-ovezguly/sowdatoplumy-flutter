@@ -372,7 +372,7 @@ class _ProductDetailState extends State<ProductDetail> {
         print(data);
         imgList = [];
         for ( i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
         determinate = true;
       if (imgList.length==0){

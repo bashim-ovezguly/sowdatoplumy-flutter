@@ -45,6 +45,7 @@ class _EditStoreState extends State<EditStore> {
   final open_atController = TextEditingController();
   final close_atController = TextEditingController();
   final addressController = TextEditingController();
+  final delivery_priceController = TextEditingController();
   String phoneController = "Telefon" ;
   
   callbackPhone(new_value){ setState(() { 
@@ -52,12 +53,7 @@ class _EditStoreState extends State<EditStore> {
     else{ phoneController =  phoneController +", " + new_value; }});}
 
   bool status = false;
-  callbackStatus(){
-    setState(() {
-      status = true;
-      initState();
-    });
-  }
+  callbackStatus(){setState(() {status = true;initState();});}
 
   var categoryController = {};
   var locationController = {};
@@ -179,6 +175,24 @@ class _EditStoreState extends State<EditStore> {
                 child:  TextFormField(
                   controller: addressController,
                   decoration: InputDecoration(hintText: old_data['address']!= null ? 'Address :' +  old_data['address'].toString(): 'Address :',
+                      border: InputBorder.none,
+                      focusColor: Colors.white,
+                      contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }return null;
+                },),),
+              
+              Container(
+                alignment: Alignment.center,
+                height: 35,
+                margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
+                width: double.infinity,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+                child:  TextFormField(
+                  controller: delivery_priceController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(hintText: old_data['address']!= null ? 'Eltip bermek bahasy:' +  old_data['address'].toString(): 'Address :',
                       border: InputBorder.none,
                       focusColor: Colors.white,
                       contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
@@ -319,7 +333,7 @@ class _EditStoreState extends State<EditStore> {
                                   margin: const EdgeInsets.only(left: 10,bottom: 10),
                                   height: 100, width:100,
                                   alignment: Alignment.topLeft,
-                                  child: Image.network(baseurl + country['img_l'],fit: BoxFit.cover,height: 100,width: 100,
+                                  child: Image.network(baseurl + country['img_m'],fit: BoxFit.cover,height: 100,width: 100,
                                     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                                               return Center(child: CircularProgressIndicator(color: CustomColors.appColors,),);},
                                   )
@@ -472,11 +486,15 @@ class _EditStoreState extends State<EditStore> {
                     if (phoneController!='' && phoneController!='Telefon'){
                       request.fields['phone'] = phoneController;
                     }
+                    
+                    if (delivery_priceController.text!=''){
+                      request.fields['delivery_price'] = delivery_priceController.text;
+                    }
 
                     if (open_atController.text!=''){
                       request.fields['open_at'] = open_atController.text;
                     }
-
+                    
                     if (close_atController.text!=''){
                       request.fields['close_at'] = close_atController.text;
                     }

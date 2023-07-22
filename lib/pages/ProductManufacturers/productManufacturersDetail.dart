@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -5,6 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';  
 import 'package:my_app/dB/constants.dart';
+import 'package:my_app/pages/progressIndicator.dart';
 import '../../dB/textStyle.dart';
 import '../OtherGoods/otherGoodsDetail.dart';
 import '../fullScreenSlider.dart';
@@ -30,8 +32,10 @@ class _ProductManufacturersDetailState extends State<ProductManufacturersDetail>
   List<String> imgList = [ ];
   bool determinate = false;
   bool slider_img = true;
+  bool status = true;
   
   void initState() {
+    timers();
     if (imgList.length==0){
       imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0YmKxREuu1UqGBi9U025dn-IEfCynmxvLng&usqp=CAU');
     }
@@ -39,10 +43,18 @@ class _ProductManufacturersDetailState extends State<ProductManufacturersDetail>
     super.initState();
   }
 
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
+
   _ProductManufacturersDetailState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(
         title: const Text("Önüm öndürijiler", style: CustomText.appBarText,),
         actions: [],),
@@ -286,11 +298,9 @@ class _ProductManufacturersDetailState extends State<ProductManufacturersDetail>
 
               },)),
         ],
-      ):Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
       )
-
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
 
@@ -311,7 +321,7 @@ class _ProductManufacturersDetailState extends State<ProductManufacturersDetail>
         print(data);
         imgList = [];
         for ( i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
         determinate = true;
       if (imgList.length==0){

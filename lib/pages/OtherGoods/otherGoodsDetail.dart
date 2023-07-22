@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -11,6 +12,7 @@ import '../../dB/textStyle.dart';
 import '../call.dart';
 import '../fullScreenSlider.dart';
 import '../../dB/colors.dart';
+import '../progressIndicator.dart';
 
 class OtherGoodsDetail extends StatefulWidget {
 
@@ -28,9 +30,11 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
   var data = {};
   bool determinate = false;
   bool slider_img = true;
+  bool status = true;
   List<String> imgList = [ ];
 
     void initState() {
+      timers();
     if (imgList.length==0){
       imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXAFCMCaO9NVAPUqo5i8rXVgWB5Qaj_Qthf-KQZNAy0YyJxlAxejBSvSWOK-5PMK3RQQ&usqp=CAU');
     }
@@ -38,11 +42,19 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
     super.initState();
   }
 
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
+
 
   _OtherGoodsDetailState({required this.id, required this.title});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
 
       appBar: AppBar(
         title: Text(title, style: CustomText.appBarText,),
@@ -84,7 +96,6 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                       enlargeFactor: 0.3,
                       scrollDirection: Axis.horizontal,
                         onPageChanged: (index, reason) {setState(() {
-                          print(index);
                           _current = index;});}
                     ),
                     items: imgList
@@ -193,14 +204,17 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                    Expanded(child:Align(
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
                       onPressed: () {
-                        if (data['store_id']!=null && data['store_id']!=''){
+                        if (data['store']!=null && data['store_id']!=''){
                           Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Söwda nokatlar')));
                         }
                       },
-                      child: Text(data['store_name'].toString(),),)))
+                      child: Text(data['store_name'].toString(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: CustomText.itemText,
+                      )))),
+                      SizedBox(width: 10)
                 ],
               ),
             ),
@@ -241,10 +255,8 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                   Icon(Icons.location_on, color: Colors.black54,),
                   SizedBox(width: 10,),
                   Text("Ýerleşýän ýeri", style: CustomText.size_16_black54,)],),),
-
               if (data['location']!=null && data['location']!='')
-              Expanded(child: Text(data['location']['name'].toString(), overflow: TextOverflow.clip,maxLines: 2,softWrap: false,
-               style: CustomText.size_16))],),),
+              Expanded(child: Text(data['location'].toString(), overflow: TextOverflow.clip,maxLines: 2,softWrap: false, style: CustomText.size_16))],),),
 
           Container(
             margin: EdgeInsets.only(left: 10,right: 10),
@@ -283,7 +295,6 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kredit", size:16.0),)],),),
                 Expanded(child: Container(
                   alignment: Alignment.topLeft,
-           
                     child: data['credit'] == null ? MyCheckBox(type: true ): MyCheckBox(type: data['credit'] ),))
               ],),),
 
@@ -371,21 +382,22 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
         SizedBox(height: 70,),
 
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors)) 
+      
       ),
-      floatingActionButton: Container(
+      floatingActionButton: status ? Container(
         margin: EdgeInsets.only(top: 30, left: 25),
         alignment: Alignment.bottomCenter,
         padding: EdgeInsets.only(top: 50),
         child: Call(phone: number),
-      )
+      ): Container()
 
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
-      void getsingleproduct({required id}) async {
+  
+  void getsingleproduct({required id}) async {
     Urls server_url  =  new Urls();
-    String url = server_url.get_server_url() + '/mob/products/' + id.toString();
+    String url = server_url.get_server_url() + '/mob/products/' + id;
     final uri = Uri.parse(url);
     final response = await http.get(uri);
     
@@ -394,13 +406,12 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
         data  = json;
         imgList = [];
         baseurl =  server_url.get_server_url();
-        
         if (data['phone']!=null && data['phone']!=''){
           number = data['phone'].toString();
         }
         
         for (var i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
       if (imgList.length==0){
         slider_img = false;

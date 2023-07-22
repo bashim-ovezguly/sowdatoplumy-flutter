@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -11,6 +12,7 @@ import '../../dB/textStyle.dart';
 import '../call.dart';
 import '../fullScreenSlider.dart';
 import '../../dB/colors.dart';
+import '../progressIndicator.dart';
 
 class ConstructionDetail extends StatefulWidget {
   ConstructionDetail({Key? key, required this.id}) : super(key: key);
@@ -27,22 +29,31 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
   var baseurl = "";
   var data = {};
   bool determinate = false;
+  bool status = true;
   bool slider_img = true;
   List<String> imgList = [ ];
 
   void initState() {
+    timers();
     if (imgList.length==0){
       imgList.add('https://png.pngtree.com/element_our/20190528/ourmid/pngtree-blue-building-under-construction-image_1141142.jpg');
     }
     getsingleparts(id: id);
     super.initState();
   }
+      timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
 
 
   _ConstructionDetailState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status? Scaffold(
 
       appBar: AppBar(
         title: const Text("Gurluşyk harytlar", style: CustomText.appBarText,),
@@ -287,16 +298,16 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
                 fillColor: Colors.white,),),),
         SizedBox(height: 70,),
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+      
       ),
-      floatingActionButton: Container(
+      floatingActionButton: status ? Container(
         margin: EdgeInsets.only(top: 30, left: 25),
         alignment: Alignment.bottomCenter,
         padding: EdgeInsets.only(top: 50),
         child: Call(phone: data['phone'].toString()),
-      )
-    );
+      ): Container()
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
 
@@ -316,7 +327,7 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
         print(data);
         imgList = [];
         for ( i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
       if (imgList.length==0){
         slider_img = false;

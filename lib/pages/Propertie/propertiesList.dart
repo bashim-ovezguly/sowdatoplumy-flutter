@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -12,6 +13,7 @@ import '../../dB/colors.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../Search/search.dart';
+import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
 
@@ -33,9 +35,11 @@ class _PropertiesState extends State<Properties> {
   var baseurl = "";
   bool determinate = false;
   bool determinate1 = false;
+  bool status = true;
 
   bool filter = false;
   callbackFilter(){setState(() { 
+    timers();
     determinate = false;
     determinate1 = false;
     getflatslist();
@@ -43,23 +47,41 @@ class _PropertiesState extends State<Properties> {
     });}
 
   void initState() {
+    timers();
     getflatslist();
     getconstruction_slider();
-    super.initState();}
+    super.initState();  
+  }
+  timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
         appBar: AppBar(
           title: const Text("Emläkler", style: CustomText.appBarText,),
           actions: [
             Row(
               children: <Widget>[
                 Container(
-                    padding: const EdgeInsets.all(10),
                     child:  GestureDetector(
                         onTap: (){showConfirmationDialog(context);},
-                        child: const Icon(Icons.sort, size: 25,))),
+                        child: const Icon(Icons.sort, size: 25))),         
+
+                Container(
+                padding: const EdgeInsets.all(10),
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:3)));
+                  },
+                  child: Icon(Icons.search, color: Colors.white, size: 25)
+                )
+              ) 
               ],
             )
           ],
@@ -195,7 +217,6 @@ class _PropertiesState extends State<Properties> {
                         elevation: 4,
                         child: Container(
                           height: 110,
-                          margin: EdgeInsets.only(bottom: 5, left: 5, right: 5,top: 5),
                           child: Row(
                             children: <Widget>[
 
@@ -278,39 +299,10 @@ class _PropertiesState extends State<Properties> {
               ),
             )
           ],
-        ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+        ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
         ),
-
         drawer: const MyDraver(),
-        floatingActionButton: Container(
-          height: 45,
-          width: 45,
-          child: Material(
-            type: MaterialType.transparency,
-            child: Ink(
-              decoration: BoxDecoration(
-                border: Border.all(color: Color.fromARGB(255, 182, 210, 196), width: 2.0),
-                color : Colors.blue[900],
-                shape: BoxShape.circle,
-              ),
-              child: InkWell(
-              
-                borderRadius: BorderRadius.circular(
-                    500.0), 
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:3)));
-                },
-                child: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                  //size: 50,
-                ),
-              ),
-            ),
-          ),
-        ),
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   showConfirmationDialog(BuildContext context){

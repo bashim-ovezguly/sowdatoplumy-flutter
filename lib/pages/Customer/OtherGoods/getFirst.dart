@@ -393,7 +393,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
         print(data);
         imgList = [];
         for ( i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
         determinate = true;
       if (imgList.length==0){

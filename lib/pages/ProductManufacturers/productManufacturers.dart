@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/ProductManufacturers/productManufacturersDetail.dart';
 import 'package:my_app/pages/homePages.dart';
+import 'package:my_app/pages/progressIndicator.dart';
 import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
@@ -31,6 +33,7 @@ class _ProductManufacturersState extends State<ProductManufacturers> {
   var baseurl = "";
   bool determinate = false;
   bool determinate1 = false;
+  bool status = true;
 
   bool filter = false;
   callbackFilter(){setState(() { 
@@ -42,24 +45,45 @@ class _ProductManufacturersState extends State<ProductManufacturers> {
     });}
 
   void initState() {
+    timers();
     getfactorieslist();
     getfactories_slider();
     super.initState();
-
   }
+  
+  timers() async {
+      print('starting');
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false && determinate1==false){status = false;}});
+      print('done');
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status? Scaffold(
       appBar: AppBar(
         title: const Text("Önüm öndürijiler", style: CustomText.appBarText,),
         actions: [
           Row(
             children: <Widget>[
               Container(
-                  padding: const EdgeInsets.all(10),
+                  
                   child:  GestureDetector(
                       onTap: (){showConfirmationDialog(context);},
                       child: const Icon(Icons.sort, size: 25,))),
+
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:2)));
+                  },
+                  child: Icon(Icons.search, color: Colors.white, size: 25)
+                )
+              ) 
             ],
           )
         ],
@@ -184,7 +208,6 @@ class _ProductManufacturersState extends State<ProductManufacturers> {
                       elevation: 2,
                       child: Container(
                         height: 110,
-                        margin: EdgeInsets.all(5),
                         child: Row(
                           children: <Widget>[
                             Expanded(flex: 1,
@@ -237,38 +260,10 @@ class _ProductManufacturersState extends State<ProductManufacturers> {
             ),
           )
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
       ),
       drawer: const MyDraver(),
-      floatingActionButton: Container(
-          height: 45,
-          width: 45,
-          child: Material(
-            type: MaterialType.transparency,
-            child: Ink(
-              decoration: BoxDecoration(
-                border: Border.all(color: Color.fromARGB(255, 182, 210, 196), width: 2.0),
-                color : Colors.blue[900],
-                shape: BoxShape.circle,
-              ),
-              child: InkWell(
-              
-                borderRadius: BorderRadius.circular(
-                    500.0), 
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:6)));
-                },
-                child: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                  //size: 50,
-                ),
-              ),
-            ),
-          ),
-        ),
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   showConfirmationDialog(BuildContext context){
@@ -284,21 +279,10 @@ class _ProductManufacturersState extends State<ProductManufacturers> {
     var sort = Provider.of<UserInfo>(context, listen: false).sort;
     var sort_value = "";
     
-    if (int.parse(sort)==2){
-      sort_value = 'sort=price';
-    }
-    
-    if (int.parse(sort)==3){
-      sort_value = 'sort=-price';
-    }
-    
-    if (int.parse(sort)==4){
-      sort_value = 'sort=id';
-    }
-
-    if (int.parse(sort)==4){
-      sort_value = 'sort=-id';
-    }
+    if (int.parse(sort)==2){sort_value = 'sort=price';}
+    if (int.parse(sort)==3){sort_value = 'sort=-price';}
+    if (int.parse(sort)==4){sort_value = 'sort=id';}
+    if (int.parse(sort)==4){sort_value = 'sort=-id';}
 
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/factories?'+ sort_value.toString();
@@ -327,7 +311,5 @@ class _ProductManufacturersState extends State<ProductManufacturers> {
       print(data);
       determinate1 = true;
     });}
-
-    
 
 }

@@ -1,5 +1,4 @@
 // ignore_for_file: unused_field, unused_local_variable
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
@@ -52,11 +51,12 @@ class UserInfo extends ChangeNotifier {
     
     if (response.statusCode==200){
       final json = jsonDecode(utf8.decode(response.bodyBytes));
-      Map<String, dynamic> row = { DatabaseSQL.columnName: json['data']['access_token'],
-                                   DatabaseSQL.columnPassword: json['data']['refresh_token'],
-                                   DatabaseSQL.columnUserId: json['data']['id']};
+      Map<String, dynamic> row = { DatabaseSQL.columnName: json['access_token'],
+                                   DatabaseSQL.columnPassword: json['refresh_token'],
+                                   DatabaseSQL.columnUserId: json['id']};
       
       final delete = await dbHelper.deleteAllRows();
+      setAccessToken(json['access_token'], json['refresh_token']);
       final id = await dbHelper.insert(row);
       return true;
     }
@@ -88,6 +88,7 @@ class UserInfo extends ChangeNotifier {
       refresh_token = json['data']['refresh_token'];
       print(json['data']['access_token']);
       print(json['data']['refresh_token']);
+      setAccessToken(json['data']['access_token'], json['data']['refresh_token']);
       return true;
      }
     }

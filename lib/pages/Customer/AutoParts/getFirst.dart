@@ -499,7 +499,7 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
         print(data);
         imgList = [];
         for ( i in data['images']) {
-          imgList.add(baseurl + i['img_l']);
+          imgList.add(baseurl + i['img_m']);
         }
         determinate = true;
       if (imgList.length==0){

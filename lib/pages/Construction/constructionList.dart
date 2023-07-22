@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -12,6 +13,7 @@ import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../Search/search.dart';
 import '../homePages.dart';
+import '../progressIndicator.dart';
 import '../sortWidget.dart';
 import '../../dB/colors.dart';
 
@@ -29,6 +31,7 @@ class _ConstructionsListState extends State<ConstructionsList> {
   var baseurl = "";
   bool determinate = false;
   bool determinate1 = false;
+  bool status = true;
   
 
   bool filter = false;
@@ -40,20 +43,28 @@ class _ConstructionsListState extends State<ConstructionsList> {
     });}
 
   void initState() {
+    timers();
     getconstructionlist();
     getconstruction_slider();
     super.initState();
-
+  }
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status? Scaffold(
       appBar: AppBar(title: Text('Gurluşyk harytlar', style: CustomText.appBarText,),
           actions: [
             Row(
               children: <Widget>[
+                
                 Container(
-                    padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                     child:  GestureDetector(
                         onTap: (){
                           showConfirmationDialog(context);
@@ -191,7 +202,6 @@ class _ConstructionsListState extends State<ConstructionsList> {
                       elevation: 2,
                       child: Container(
                         height: 110,
-                        margin: const EdgeInsets.all(5),
                         child: Row(
                           children: <Widget>[
                             Expanded(flex: 1,
@@ -272,38 +282,11 @@ class _ConstructionsListState extends State<ConstructionsList> {
             ),
           )
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+      
       ),
         drawer: const MyDraver(),
-        floatingActionButton: Container(
-          height: 45,
-          width: 45,
-          child: Material(
-            type: MaterialType.transparency,
-            child: Ink(
-              decoration: BoxDecoration(
-                border: Border.all(color: Color.fromARGB(255, 182, 210, 196), width: 2.0),
-                color : Colors.blue[900],
-                shape: BoxShape.circle,
-              ),
-              child: InkWell(
-              
-                borderRadius: BorderRadius.circular(
-                    500.0), 
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:0)));
-                },
-                child: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                  //size: 50,
-                ),
-              ),
-            ),
-          ),
-        ),
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
   showConfirmationDialog(BuildContext context){
     var sort = Provider.of<UserInfo>(context, listen: false).sort;

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Customer/myPage.dart';
 import '../../dB/textStyle.dart';
+import '../progressIndicator.dart';
 import 'newStore.dart';
 import '../../dB/colors.dart';
 
@@ -22,24 +24,32 @@ class _MyStoresState extends State<MyStores> {
   List<dynamic> data = [];
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
   
   refreshFunc() async {
     widget.callbackFunc();
     get_my_stores(customer_id: customer_id);}
 
   @override
-  void initState() {  
+  void initState() {
+    timers();  
     widget.callbackFunc();
     get_my_stores(customer_id: customer_id);
     super.initState();
   }
-
+      timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
   
 
   _MyStoresState({required this.customer_id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status? Scaffold(
         appBar: AppBar(title: const Text("Meniň sahypam", style: CustomText.appBarText,),
               actions: [
         PopupMenuButton<String>(
@@ -100,7 +110,6 @@ class _MyStoresState extends State<MyStores> {
                         elevation: 2,
                         child: Container(
                           height: 110,
-                          margin: EdgeInsets.all(5),
                           child: Row(
                             children: <Widget>[
                               Expanded(flex: 1,
@@ -170,10 +179,10 @@ class _MyStoresState extends State<MyStores> {
                 )
               );},),),
         ],
-      ):  Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+      
       )
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
   void get_my_stores({required customer_id}) async {

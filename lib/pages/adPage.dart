@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -8,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Awtoparts/awtoPartsDetail.dart';
 import 'package:my_app/pages/fullScreenSlider.dart';
+import 'package:my_app/pages/progressIndicator.dart';
 import '../dB/textStyle.dart';
 
 
@@ -24,20 +27,30 @@ class _AdPageState extends State<AdPage> {
   int _current = 0;
   var baseurl = "";
   bool determinate = false;
+  bool status = true;
   
   @override
   initState() {
+    timers();
     getsinglecar(id: id);
     if (imgList.length==0){
       imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXAFCMCaO9NVAPUqo5i8rXVgWB5Qaj_Qthf-KQZNAy0YyJxlAxejBSvSWOK-5PMK3RQQ&usqp=CAU');
     }
     super.initState();
   }
+
+  timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
+  }
   _AdPageState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Reklama hyzmaty", style: CustomText.appBarText,),),
+    return status ? Scaffold(
+      appBar: AppBar(title: Text(data['title_tm'].toString(), style: CustomText.appBarText,),),
     
       body: determinate? ListView(
         children: [
@@ -89,33 +102,35 @@ class _AdPageState extends State<AdPage> {
                     color: Colors.white,
                     activeColor: CustomColors.appColors,
                     activeShape:
-                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),),),),
-            ],),
+                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)))))
+            ]),
           
-          Container(
-            height: 30,
-            margin: const EdgeInsets.only(left: 10,top: 10),
+          SizedBox(
             child: Row(
               children: <Widget>[
+                SizedBox(width: 10),
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.near_me, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Ady", size: 16.0),)],),),
-                    Expanded(child: SizedBox(child: TextValueWidget(text: data['title_tm'].toString(), size: 16.0),))
-              ],),),
-
-            Container(
-            height: 40,
-            margin: const EdgeInsets.only(left: 10),
+                    const Icon(Icons.near_me, color: Colors.grey,size: 20),
+                    SizedBox(child: const TextKeyWidget(text: "Ady", size: 16.0))])),
+                    Expanded(child: SizedBox(child: Text(data['title_tm'].toString(), style: TextStyle(color: CustomColors.appColors)))),
+                    SizedBox(width: 10)
+              ])),
+            
+            SizedBox(height: 10),
+            SizedBox(
             child: Row(
               children: <Widget>[
+                SizedBox(width: 10),
                 Expanded(child: Row(
                   children: <Widget>[
                     const Icon(Icons.location_on, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Ýerleşýän ýeri", size:16.0),),],),),
-                    Expanded(child: SizedBox(child: TextValueWidget(text: data['location'].toString(), size: 16.0)))
-              ],),),
-                 
+                    SizedBox(child: const TextKeyWidget(text: "Ýerleşýän ýeri", size:16.0))])),
+                    Expanded(child: SizedBox(child: Text( data['location'].toString(), style: TextStyle(color: CustomColors.appColors)))),
+                SizedBox(width: 10)
+              ])),
+
+          SizedBox(height: 10),
           Container(
             height: 30,
             margin: const EdgeInsets.only(left: 10),
@@ -124,26 +139,27 @@ class _AdPageState extends State<AdPage> {
                 Expanded(child: Row(
                   children: <Widget>[
                     const Icon(Icons.phone, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Telefon", size:16.0),),],),),
-                    Expanded(child: SizedBox(child: data['phone']!=null && data['phone']!='' ? TextValueWidget(text: data['phone'].toString(), size: 16.0):
+                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, child: const TextKeyWidget(text: "Telefon", size:16.0),),],),),
+                    Expanded(child: SizedBox(child: data['phone']!=null && data['phone']!='' ? Text(data['phone'].toString(), style: TextStyle(color: CustomColors.appColors)):
                     TextValueWidget(text: '', size: 16.0)
                     ))
-              ],),),
-          Container(
-            height: 100,
-            padding: const EdgeInsets.all(5),
-            margin: const EdgeInsets.all(10),
-            decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.black26)),
-            child: Text(
-              data['body_tm'].toString(),
-              style: TextStyle(fontSize: 17, color: CustomColors.appColors),
-              maxLines: 3,
-              ),),
-        ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
-    );
+              ])),
+          if (data['body_tm']!=null && data['body_tm']!='')
+            SizedBox(
+              width: double.infinity,
+              child: TextField(
+                enabled: false, 
+                decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide.none,),
+                filled: true,
+                hintMaxLines: 10,
+                hintStyle: TextStyle(fontSize: 14, color: CustomColors.appColors),
+                hintText: data['body_tm'].toString(),
+                fillColor: Colors.white,),),),
+        ]
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+    ): CustomProgressIndicator(funcInit: initState);
   }
+
   void getsinglecar({required id}) async {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/ads/' + id;

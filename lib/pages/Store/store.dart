@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -14,6 +15,7 @@ import '../../dB/colors.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../Search/search.dart';
+import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
 const List<String> list = <String>['Ulgama gir', 'ulgamda cyk', 'bilemok', 'ozin karar'];
@@ -42,111 +44,69 @@ class _StoreState extends State<Store> {
   var baseurl = "";
   bool determinate = false;
   bool determinate1 = false;
+  bool status = true;
 
 
   bool filter = false;
-  callbackFilter(){setState(() { 
-    determinate = false;
-    determinate1 = false;
-      var sort = Provider.of<UserInfo>(context, listen: false).sort;
+  callbackFilter(){
+  timers();
+  setState(() { 
+    determinate = false; determinate1 = false;
+    var sort = Provider.of<UserInfo>(context, listen: false).sort;
     var sort_value = "";
     
-    if (int.parse(sort)==2){
-      sort_value = 'sort=price';
-    }
+    if (int.parse(sort)==2){sort_value = 'sort=price';}
+    if (int.parse(sort)==3){sort_value = 'sort=-price';}
+    if (int.parse(sort)==4){sort_value = 'sort=id';}
+    if (int.parse(sort)==4){sort_value = 'sort=-id';}
     
-    if (int.parse(sort)==3){
-      sort_value = 'sort=-price';
-    }
-    
-    if (int.parse(sort)==4){
-      sort_value = 'sort=id';
-    }
-
-    if (int.parse(sort)==4){
-      sort_value = 'sort=-id';
-    }
-    
-    if(title=='Marketler'){
-      getmarketslist(sort_value);
-      getmarkets_slider();}
-
-    if(title=='Söwda merkezler'){
-        getshopping_centerslist(sort_value);
-        getslider_shopping_centers();}
-
-    if(title=='Söwda nokatlar'){
-      getstoreslist(sort_value);
-      getslider_stores();}
-
-    if(title=='Bazarlar'){
-      getbazarlarlist(sort_value);
-      getslider_shopping();}
-
-    
-    
+    if(title=='Marketler'){getmarketslist(sort_value);getmarkets_slider();}
+    if(title=='Söwda merkezler'){getshopping_centerslist(sort_value);getslider_shopping_centers();}
+    if(title=='Söwda nokatlar'){getstoreslist(sort_value);getslider_stores();}
+    if(title=='Bazarlar'){getbazarlarlist(sort_value);getslider_shopping();}
   });}
 
   @override
   void initState() {
-
+    timers();
     var sort = Provider.of<UserInfo>(context, listen: false).sort;
     var sort_value = "";
+    if (int.parse(sort)==2){sort_value = 'sort=price';}
+    if (int.parse(sort)==3){sort_value = 'sort=-price';}
+    if (int.parse(sort)==4){sort_value = 'sort=id';}
+    if (int.parse(sort)==4){sort_value = 'sort=-id';}
     
-    if (int.parse(sort)==2){
-      sort_value = 'sort=price';
-    }
-    
-    if (int.parse(sort)==3){
-      sort_value = 'sort=-price';
-    }
-    
-    if (int.parse(sort)==4){
-      sort_value = 'sort=id';
-    }
-
-    if (int.parse(sort)==4){
-      sort_value = 'sort=-id';
-    }
-    
-    if(title=='Marketler'){
-      getmarketslist(sort_value);
-      getmarkets_slider();}
-
-    if(title=='Söwda merkezler'){
-        getshopping_centerslist(sort_value);
-        getslider_shopping_centers();}
-
-    if(title=='Söwda nokatlar'){
-      getstoreslist(sort_value);
-      getslider_stores();}
-
-    if(title=='Bazarlar'){
-      getbazarlarlist(sort_value);
-      getslider_shopping();}
-
+    if(title=='Marketler'){getmarketslist(sort_value);getmarkets_slider();}
+    if(title=='Söwda merkezler'){getshopping_centerslist(sort_value); getslider_shopping_centers();}
+    if(title=='Söwda nokatlar'){getstoreslist(sort_value);getslider_stores();}
+    if(title=='Bazarlar'){getbazarlarlist(sort_value);getslider_shopping();}
     super.initState();
+  }
+
+    timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
   
   _StoreState({required this.title});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title, style: CustomText.appBarText,),
+    return status ? Scaffold(
+      appBar: AppBar(title: Text(title, style: CustomText.appBarText),
       actions: [
-        Row(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(10),
-                child:  GestureDetector(
-                    onTap: (){
-                      showConfirmationDialog(context);
-                    },
-                    child: const Icon(Icons.sort, size: 25,))),            
-          ],
-        )
+         Container(
+                padding: const EdgeInsets.all(10),
+                child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:2)));
+                  },
+                  child: Icon(Icons.search, color: Colors.white, size: 25)
+                )
+              ) 
       ],
       ),
       body: RefreshIndicator(
@@ -310,13 +270,11 @@ class _StoreState extends State<Store> {
                         elevation: 2,
                         child: Container(
                           height: 110,
-                          margin: EdgeInsets.all(5),
                           child: Row(
                             children: <Widget>[
                               Expanded(flex: 1,
                                    child: ClipRect(
                                       child: Container(
-                                      
                                       height: 110,
                                       child: FittedBox(
                                         fit: BoxFit.cover,
@@ -334,21 +292,17 @@ class _StoreState extends State<Store> {
                                     children: <Widget>[
                                       Expanded(
                                           child: Container(
-                                          margin: EdgeInsets.only(left: 5),
                                           alignment: Alignment.centerLeft,
                                           child: Text(
                                             data[index]['name'].toString(),
                                             overflow: TextOverflow.ellipsis,
-                                            style: CustomText.itemTextBold,)
-                                            
-                                            ,),    
+                                            style: CustomText.itemTextBold))
                                             ),
                                       Expanded(
                                           child:Align(
                                             alignment: Alignment.centerLeft,
                                             child: Row(
                                               children:  <Widget>[
-                                                Icon(Icons.category,color: Colors.white,),
                                                 if (title=='Söwda merkezler') 
                                                   Text(
                                                     ' Söwda merkezi',                                                  
@@ -367,7 +321,6 @@ class _StoreState extends State<Store> {
                                         alignment: Alignment.centerLeft,
                                         child: Row(
                                           children: <Widget>[
-                                            Icon(Icons.place,color: Colors.white,),
                                             Flexible(child: new Container(
                                               child: Text(data[index]['location'].toString(),
                                               overflow: TextOverflow.ellipsis,
@@ -378,48 +331,20 @@ class _StoreState extends State<Store> {
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
+                            ]
+                          )
+                        )
+                      )
                     )
                 );
-              },
-            ),
+              }
+            )
           )
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
       ),
       drawer: const MyDraver(),
-      floatingActionButton: Container(
-          height: 45,
-          width: 45,
-          child: Material(
-            type: MaterialType.transparency,
-            child: Ink(
-              decoration: BoxDecoration(
-                border: Border.all(color: Color.fromARGB(255, 182, 210, 196), width: 2.0),
-                color : Colors.blue[900],
-                shape: BoxShape.circle,
-              ),
-              child: InkWell(
-              
-                borderRadius: BorderRadius.circular(
-                    500.0), 
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:2)));
-                },
-                child: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                  //size: 50,
-                ),
-              ),
-            ),
-          ),
-        ),
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
 

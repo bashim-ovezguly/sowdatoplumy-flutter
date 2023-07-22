@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -10,6 +11,7 @@ import 'package:my_app/pages/Store/merketDetail.dart';
 import '../../dB/colors.dart';
 import '../../dB/textStyle.dart';
 import '../Car/carStore.dart';
+import '../progressIndicator.dart';
 
 
 class StoreFirst extends StatefulWidget {
@@ -27,6 +29,7 @@ class _StoreFirstState extends State<StoreFirst> {
   int _current = 0;
   var baseurl = "";
   var data = {};
+  bool status = true;
   bool determinate = false;
   List<dynamic> stores = [ ];
   List<String> imgList = [ ];
@@ -34,8 +37,16 @@ class _StoreFirstState extends State<StoreFirst> {
   List<dynamic> dataStores = [];
   
   void initState() {
+    timers();
     getsinglemarkets(id: id, title: title);
     super.initState();
+  }
+     timers() async {
+      setState(() {status = true;});
+      final completer = Completer();
+      final t = Timer(Duration(seconds: 5), () => completer.complete());
+      await completer.future;
+      setState(() {if (determinate==false){status = false;}});
   }
 
   
@@ -43,7 +54,7 @@ _StoreFirstState({required this.title, required this.id});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return status ? Scaffold(
       appBar: AppBar(
         title: Text("$title", style: CustomText.appBarText,),
       ),
@@ -220,10 +231,9 @@ _StoreFirstState({required this.title, required this.id});
                 ),
 
         ],
-      ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),),
+      ):Center(child: CircularProgressIndicator(color: CustomColors.appColors))
       )
-    );
+    ): CustomProgressIndicator(funcInit: initState);
   }
 
     void getsinglemarkets({required id, required title}) async {
