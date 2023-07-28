@@ -35,6 +35,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
   bool determinate = false;
   bool determinate1 = false;
   bool status = true;
+  var keyword = TextEditingController();
 
   bool filter = false;
   callbackFilter(){setState(() { 
@@ -63,17 +64,15 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
   Widget build(BuildContext context) {
     return status ? Scaffold(
         appBar: AppBar(
-          title: const Text("Beýleki bildirişler", style: CustomText.appBarText,),
+          title: const Text("Harytlar", style: CustomText.appBarText,),
           actions: [
             Row(
               children: <Widget>[
                 Container(
-                    padding: const EdgeInsets.all(10),
-                    child:  GestureDetector(
-                        onTap: (){
-                          showConfirmationDialog(context);
-                        },
-                        child: const Icon(Icons.sort, size: 25,))),
+                  padding: const EdgeInsets.all(10),
+                  child:  GestureDetector(
+                    onTap: (){showConfirmationDialog(context);},
+                    child: const Icon(Icons.sort, size: 25,))),
 
                 Container(
                 padding: const EdgeInsets.all(10),
@@ -100,6 +99,45 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
           return Future<void>.delayed(const Duration(seconds: 3));},
           child: determinate && determinate1 ? CustomScrollView(
           slivers: [
+            SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  childCount: 1,
+                      (BuildContext context, int index) {
+                    return Container(
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                    width: double.infinity,
+                    height: 40,
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
+                    child: Center(
+                      child: TextFormField(
+                        controller: keyword,
+                        decoration: InputDecoration(
+                            prefixIcon: IconButton(
+                              icon: const Icon(Icons.search), 
+                              onPressed: () {
+                                getproductlist();
+                              },
+                              ),
+                            suffixIcon: IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
+                                setState(() {
+                                  keyword.text = '';
+                                });
+                                getproductlist();
+                              },
+                            ),
+                            hintText: 'Gözleg...',
+                            border: InputBorder.none),
+                      ),
+                    ),
+                  );
+                    
+                    })),
+
+
+
+            
             SliverList(
                 delegate: SliverChildBuilderDelegate(
                   childCount: 1,
@@ -270,7 +308,8 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                               ],),))
                                         else
 
-                                          Expanded(child:Align(
+                                          Expanded(child:Container(
+                                            height: 25,
                                               alignment: Alignment.centerLeft,
                                               child: ElevatedButton(
                                                 onPressed: () {},
@@ -298,7 +337,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
           ],
         ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
         ),
-        drawer: const MyDraver(),
+        drawer: MyDraver(),
     ): CustomProgressIndicator(funcInit: initState);
   }
 
@@ -316,23 +355,14 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
     var sort = Provider.of<UserInfo>(context, listen: false).sort;
     var sort_value = "";
     
-    if (int.parse(sort)==2){
-      sort_value = 'sort=price';
-    }
+    if (int.parse(sort)==2){sort_value = 'sort=price';}
+    if (int.parse(sort)==3){sort_value = 'sort=-price';}
+    if (int.parse(sort)==4){sort_value = 'sort=id';}
+    if (int.parse(sort)==4){sort_value = 'sort=-id';}
     
-    if (int.parse(sort)==3){
-      sort_value = 'sort=-price';
-    }
-    
-    if (int.parse(sort)==4){
-      sort_value = 'sort=id';
-    }
-
-    if (int.parse(sort)==4){
-      sort_value = 'sort=-id';
-    }
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/products?';
+    if (keyword.text!=''){var value = keyword.text; url = server_url.get_server_url() + '/mob/products?name=$value';}
     print(url);
     final uri = Uri.parse(url);
     final response = await http.get(uri);

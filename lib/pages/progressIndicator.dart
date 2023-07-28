@@ -53,17 +53,28 @@ class _HomePageProgressIndicatorState extends State<HomePageProgressIndicator> {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+      body: Container(
       color: CustomColors.appColorWhite,
-      child: Center(
-              child: Column(
+        child: Column(
                 children: [
                   Expanded(
-                    flex: 6,
-                    child: Image.asset('assets/images/logo.png',
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                  )),
+                    flex: 4,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          alignment: Alignment.bottomCenter,
+                          child: Image.asset('assets/images/logo.png',
+                          width: MediaQuery.of(context).size.width / 3,
+                          )),
+                        Container(
+                          child: Text('Söwda toplumy', style: TextStyle(fontSize: 25, color: CustomColors.appColors, decoration: null))
+                        )
+                      ],
+                    )
+                    ),
                   SizedBox(height: 10),
                   Container(height: 5, 
                     child: Container(
@@ -74,7 +85,8 @@ class _HomePageProgressIndicatorState extends State<HomePageProgressIndicator> {
                   Expanded(flex:1, child: Container())
                 ]
               )
-          ),
+          
+    ),
     );
     
   }

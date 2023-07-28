@@ -57,7 +57,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
     return Scaffold(
 
       appBar: AppBar(
-        title: const Text("Beýleki bildirişler", style: CustomText.appBarText,),
+        title: const Text("Harytlar", style: CustomText.appBarText,),
               actions: [
         PopupMenuButton<String>(
               
@@ -66,14 +66,15 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                    PopupMenuItem<String>(
                     child: GestureDetector(
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsEdit(old_data: data, callbackFunc: callbackStatus, title: 'Bildiriş',)));  
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsEdit(old_data: data, callbackFunc: callbackStatus, title: 'Haryt',)));  
                       },
-                      child: Row(
-                        children: [
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [
                           Icon(Icons.edit_road, color: Colors.green,),
                           Text(' Üýtgetmek')
-                        ],
-                      ),
+                        ]))
                     )
                   ),
                   PopupMenuItem<String>(
@@ -84,12 +85,13 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                           builder: (context){
                             return DeleteAlert(action: 'products', id: id, callbackFunc: callbackStatusDelete,);});
                       },
-                      child: Row(
-                        children: [
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [
                           Icon(Icons.delete, color: Colors.red,),
                           Text('Pozmak')
-                        ],
-                      ),
+                        ]))
                     )  
                   ),
                 ];

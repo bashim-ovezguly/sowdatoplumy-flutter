@@ -1,13 +1,15 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/providers.dart';
 import 'package:my_app/dB/textStyle.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/constants.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
+import '../../call.dart';
 
 class ArrivedOrderDetail extends StatefulWidget {
   final String order_id;
@@ -20,7 +22,6 @@ class ArrivedOrderDetail extends StatefulWidget {
 
 class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
   bool determinate = false;
-
   int item_count = 0;
   var shoping_carts = [];
   var array = [];
@@ -41,6 +42,20 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
 
   @override
   Widget build(BuildContext context) {
+    showSuccessAlert(){
+      QuickAlert.show(
+        context: context,
+        title: '',
+        text: 'Sagydyň ýagdaýy üýtgedildi!',
+        confirmBtnText: 'Dowam et',
+        confirmBtnColor: CustomColors.appColors,
+        type: QuickAlertType.success,
+        onConfirmBtnTap: (){
+          Navigator.pop(context);
+          get_order_detail(widget.order_id);
+        });
+    }
+
     showErrorAlert(String text){
       QuickAlert.show(
         text: text,
@@ -50,27 +65,43 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
         context: context, 
         type: QuickAlertType.error);
     }
+
+    showWorningAlert(String text, String id){
+      QuickAlert.show(
+        title: 'Sebet ID: $id',
+        text: text,
+        context: context, 
+        confirmBtnText: 'Tassyklaýaryn',
+        confirmBtnColor: Colors.green,
+        onConfirmBtnTap: () async {
+          
+            Urls server_url  =  new Urls();
+            String url = server_url.get_server_url() + '/mob/orders/delete/$id';
+            final uri = Uri.parse(url);
+            var responsess = Provider.of<UserInfo>(context, listen: false).update_tokenc();
+            if (await responsess){
+              var token = Provider.of<UserInfo>(context, listen: false).access_token;
+              final response = await http.post(uri, headers: {'token': token});
+              if (response.statusCode==200){
+                widget.refresh();
+                Navigator.pop(context);
+                Navigator.pop(context);
+              }
+              else { 
+                Navigator.pop(context);
+                showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');
+              }  
+            setState(() {determinate = false;});
+            get_order_detail(widget.order_id);
+            }
+        },
+        type: QuickAlertType.info);
+    }
+
     return Scaffold(
-      appBar: AppBar(title: Text('Sebet'),
-       actions: [
-              Badge(
-                badgeColor: Colors.green,
-                badgeContent: Text(item_count.toString(),
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                position: BadgePosition(start: 30, bottom: 30),
-                child: IconButton(
-                  onPressed: () {
-                  },
-                  icon: const Icon(Icons.shopping_cart),
-                ),
-              ),
-              const SizedBox(
-                width: 20.0,
-              ),
-            ],
-      ),
+      appBar: AppBar(title: Text('Sargyt: ' + widget.order_id.toString())),
     body: RefreshIndicator(
-        color: Colors.white,
+         color: Colors.white,
         backgroundColor: CustomColors.appColors,
         onRefresh: () async {
           setState(() {
@@ -84,7 +115,7 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
             SliverList(delegate: SliverChildBuilderDelegate(
               childCount: 1,(BuildContext context, int index) {
                 return Container(
-                  padding: EdgeInsets.only(left: 5, right: 5),
+                  padding: EdgeInsets.only(left: 5, right: 5, top: 10),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -92,22 +123,42 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
                       Expanded(flex: 3, child: Row(
                         children: [
                           SizedBox(height: 10),
-                          Expanded(flex: 3, child: Text(order['store'].toString(), overflow: TextOverflow.clip, style: TextStyle(color: CustomColors.appColors, fontSize: 16))),
-                          Spacer(),
-                          TextButton(
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => OrderUpdateStatus(set_order_status: set_order_status, refresh: widget.refresh, id: widget.order_id)));
+                          Expanded(flex: 3, child: GestureDetector(
+                            onTap: () async {
+                              final call = Uri.parse('tel:'+ order['customer']['phone'].toString());
+                              if (await canLaunchUrl(call)) {
+                                launchUrl(call);}
+                              else {
+                                throw 'Could not launch $call';
+                                }
                             },
-                            child: Text('Sargydy üýtget', style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)))
-                        ],
-                      )),
+                            child: Text(order['customer']['name'].toString() + "  " + order['customer']['phone'].toString(), overflow: TextOverflow.clip, style: TextStyle(color: CustomColors.appColors, fontSize: 16))
+                          )),
+                          Spacer(),
+                          if (order['status']=='accepted')
+                           Container(
+                            padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                            decoration: BoxDecoration(border: Border.all(color: CustomColors.appColors)),
+                            child: const Text("Kabul edilen", style: TextStyle(color: Color.fromARGB(255, 160, 121, 3)))),
+                          if (order['status']=='canceled')
+                           Container(
+                            padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                            decoration: BoxDecoration(border: Border.all(color: CustomColors.appColors)),
+                            child: const Text("Gaýtarylan", style: TextStyle(color: Colors.red))),
+                          if (order['status']=='pending')
+                           Container(
+                            padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                            decoration: BoxDecoration(border: Border.all(color: CustomColors.appColors)),
+                            child: const Text("Garaşylýar", style: TextStyle(color: Colors.green)))
+                        ]
+                      ))
                   ]));
             })),
 
             SliverList(delegate: SliverChildBuilderDelegate(
               childCount: 1,(BuildContext context, int index) {
                 return Container(
-                  padding: EdgeInsets.only(left: 5, right: 5),
+                  padding: EdgeInsets.only(left: 5, right: 5, top: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -132,26 +183,14 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
                           Spacer(),
                           Text(order['total'].toString() + " TMT", style: TextStyle(color: CustomColors.appColors, fontSize: 15))
                       ]),
-                      SizedBox(height: 2),
-                      Row(
-                        children: [
-                          Text("Sargyt eden:", style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
-                          Spacer(),
-                          Text(order['customer']['name'].toString(), style: TextStyle(color: CustomColors.appColors, fontSize: 15))
-                      ]),
-                      SizedBox(height: 2),
-                      Row(
-                        children: [
-                          Text("Telefon:", style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
-                          Spacer(),
-                          Text(order['customer']['phone'].toString(), style: TextStyle(color: CustomColors.appColors, fontSize: 15))
-                      ]),
                       SizedBox(height: 5),
                       if (order['note']!='' && order['note']!=null)
                         Column(
                           children: [
-                            Text("Bellik", style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
-                            SizedBox(child: Text(order['note'].toString(), style: TextStyle(color: CustomColors.appColors, fontSize: 15)))
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text("Bellik: " + order['note'].toString(), style: TextStyle(color: CustomColors.appColors, fontSize: 15))
+                            )
                           ]
                         )
                   ]));
@@ -165,7 +204,7 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
                   elevation: 4,
                   child: Row(
                     children: [
-                      Expanded(flex: 3, child: Container(
+                      Expanded(flex: 2, child: Container(
                         child: Image.network(
                           baseurl + products[index]['img'].toString(),
                           loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
@@ -183,124 +222,181 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
                           height: 110,
                           fit: BoxFit.cover)
                       )),
-                      Expanded(flex: 4, child: Container(
+                      Expanded(flex: 5, child: Container(
                         margin: EdgeInsets.only(left: 5),
                         child: Column(
                           children: [
-                            Expanded(child: Container(
-                              alignment: Alignment.bottomLeft,
-                              child: Text('Ady: ' + products[index]['name'].toString() , maxLines: 2, overflow: TextOverflow.clip , style: CustomText.size_16),
+                            Expanded(flex: 2, child: Container(alignment: Alignment.centerLeft,
+                              child: Text(products[index]['name'].toString() , maxLines: 1, overflow: TextOverflow.clip , style: CustomText.size_16)
                             )),
                         
-                            Expanded(child: Container(
-                              alignment: Alignment.topLeft,
-                              child: Text('Baha: ' + products[index]['price'].toString()+ ' TMT' , style: CustomText.size_16),
+                            Expanded(flex: 2, child: Container(alignment: Alignment.centerLeft,
+                                child: Text(products[index]['price'].toString()+ ' TMT' , style: CustomText.size_16))),
+
+                            Expanded(flex: 3, child: Row(
+                              children: [
+                                Text(products[index]['total'].toString()+ ' TMT' , style: CustomText.size_16),
+                                Spacer(),
+                                Expanded(flex: 3, child: Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+                                  children: [
+                                    if (order['status']=='pending')
+                                    Expanded(child: GestureDetector(
+                                      onTap: () async {
+                                        // Decrement Item count ------
+                                          if (products[index]['amount']>1){
+                                            var amount = products[index]['amount'].toInt() - 1;
+                                            var id = products[index]['id'];
+                                            Urls server_url  =  new Urls();
+                                              String url = server_url.get_server_url() + '/mob/orders/products/$id';
+                                              final uri = Uri.parse(url);
+                                              var token = Provider.of<UserInfo>(context, listen: false).access_token;
+
+                                              final response = await http.put(uri, headers: {'token': token}, 
+                                                                              body: {'amount': amount.toString()});
+                                              if (response.statusCode==200){
+                                                get_order_detail(widget.order_id);
+                                              }
+                                              else{
+                                                showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');
+                                              }  
+                                          } else {showErrorAlert('Harydyň sany birden az bolup bilmeýär');}
+                                      },
+                                      child: Container(
+                                      height: 35,
+                                  width: 50,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(color: Color.fromARGB(255, 155, 154, 154))),
+                                  child: Icon(Icons.remove, color: Colors.green, size: 20)),
+                                )),
+                                
+                                Expanded(child: Align(child: Text(products[index]['amount'].toString(), style: CustomText.size_16))),
+
+                                  if (order['status']=='pending')
+                                        Expanded(child: GestureDetector(
+                                          onTap: () async {
+                                              // Increment Item count ++++++
+                                              var id = products[index]['id'];
+                                              var amount = products[index]['amount'].toInt() + 1;
+                                                Urls server_url  =  new Urls();
+                                                  String url = server_url.get_server_url() + '/mob/orders/products/$id';
+                                                  final uri = Uri.parse(url);
+                                                  var token = Provider.of<UserInfo>(context, listen: false).access_token;
+                                                  final response = await http.put(uri, headers: {'token': token}, body: {'amount':amount.toString()});
+                                                  if (response.statusCode==200){
+                                                    get_order_detail(widget.order_id);
+                                                  }
+                                                  else{
+                                                    showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');
+                                                  }  
+                                          },
+                                          child: Container(
+                                            height: 35,
+                                            width: 50,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(5),
+                                              border: Border.all(color: Color.fromARGB(255, 155, 154, 154))),
+                                            child: Icon(Icons.add, color: Colors.green, size: 20))
+                                        ))
+
+                                      ],
+                                    ),
+                                  )),
+                                    if (order['status']=='pending')
+                                    Expanded(flex: 2, child: Container(
+                                  child: GestureDetector(
+                                    onTap: () async {
+
+                                        // Detele Item
+                                        var id = products[index]['id'];
+                                        Urls server_url  =  new Urls();
+                                        String url = server_url.get_server_url() + '/mob/orders/products/delete/$id';
+                                        final uri = Uri.parse(url);
+                                        var token = Provider.of<UserInfo>(context, listen: false).access_token;
+                                        final response = await http.post(uri, headers: {'token': token});
+                                        if (response.statusCode==200){
+                                          setState(() {determinate = false;});
+                                        get_order_detail(widget.order_id);
+                                        }else{showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');}  
+                                      
+                                      },
+                                    child: Icon(Icons.delete, color: Colors.red, size: 30))))
+                              ],
                             ))
                           ]
                         )
                       )),
-                      Expanded(flex: 3, child: Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
-                          children: [
-                            if (order['status']=='pending')
-                            Expanded(child: GestureDetector(
-                              onTap: () async {
-
-                                 // Decrement Item count ------
-                                  if (products[index]['amount']>1){
-                                    var amount = products[index]['amount'].toInt() - 1;
-                                    var id = products[index]['id'];
-                                    Urls server_url  =  new Urls();
-                                      String url = server_url.get_server_url() + '/mob/orders/products/$id';
-                                      final uri = Uri.parse(url);
-                                      var token = Provider.of<UserInfo>(context, listen: false).access_token;
-
-                                      final response = await http.put(uri, headers: {'token': token}, 
-                                                                      body: {'amount': amount.toString()});
-                                      if (response.statusCode==200){
-                                        get_order_detail(widget.order_id);
-                                      }
-                                      else{
-                                        showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');
-                                      }  
-                                      setState(() {
-                                        determinate = false;
-                                      });
-                                  } else {showErrorAlert('Harydyň sany birden az bolup bilmeýär');}
-                              },
-                              child: Container(
-                              height: 35,
-                              width: 50,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: Color.fromARGB(255, 155, 154, 154))),
-                              child: Icon(Icons.remove, color: Colors.green, size: 20)),
-                            )),
-                            
-                            Expanded(child: Align(child: Text(products[index]['amount'].toString(), style: CustomText.size_16))),
-
-                            if (order['status']=='pending')
-                            Expanded(child: GestureDetector(
-                              onTap: () async {
-
-                                  // Increment Item count ++++++
-                                  var id = products[index]['id'];
-                                  var amount = products[index]['amount'].toInt() + 1;
-                                    Urls server_url  =  new Urls();
-                                      String url = server_url.get_server_url() + '/mob/orders/products/$id';
-                                      final uri = Uri.parse(url);
-                                      var token = Provider.of<UserInfo>(context, listen: false).access_token;
-                                      final response = await http.put(uri, headers: {'token': token}, body: {'amount':amount.toString()});
-                                      if (response.statusCode==200){
-                                        setState(() {
-                                          determinate = false;
-                                        });
-                                        get_order_detail(widget.order_id);
-                                      }
-                                      else{
-                                        showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');
-                                      }  
-                              },
-                              child: Container(
-                                height: 35,
-                                width: 50,
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  border: Border.all(color: Color.fromARGB(255, 155, 154, 154))),
-                                child: Icon(Icons.add, color: Colors.green, size: 20))
-                            ))
-
-                          ],
-                        ),
-                      )),
-                      if (order['status']=='pending')
-                      Expanded(flex: 2, child: Container(
-                        child: GestureDetector(
-                          onTap: () async {
-
-                              // Detele Item
-                              var id = products[index]['id'];
-                              Urls server_url  =  new Urls();
-                              String url = server_url.get_server_url() + '/mob/orders/products/delete/$id';
-                              final uri = Uri.parse(url);
-                              var token = Provider.of<UserInfo>(context, listen: false).access_token;
-                              final response = await http.post(uri, headers: {'token': token});
-                              if (response.statusCode==200){
-                                setState(() {determinate = false;});
-                              get_order_detail(widget.order_id);
-                              }else{showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');}  
-                            
-                            },
-                          child: Icon(Icons.delete, color: Colors.red, size: 30,))))
-                    ])));
+                    ]
+                    )));
               })),
           ]
         ): Center(child: CircularProgressIndicator(
         color: CustomColors.appColors))
-    )
+    ),
+  floatingActionButton: Container(
+    margin: EdgeInsets.only(left: 30),
+    height: 40, width: double.infinity,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Expanded(child: FloatingActionButton.extended(
+        onPressed: () async {
+          Urls server_url  =  new Urls();
+          var id = widget.order_id; 
+          String url = server_url.get_server_url() + '/mob/orders/$id';
+          final uri = Uri.parse(url);
+          var token = Provider.of<UserInfo>(context, listen: false).access_token;
+          final response = await http.put(uri, headers: {'token': token}, body: {'status': 'accepted'});
+
+          if (response.statusCode==200){
+            showSuccessAlert();
+            widget.refresh();
+          }
+          else{
+            Navigator.pop(context);
+              showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy!');
+            }  
+
+          },
+        label: Row(children: [Icon(Icons.check, size: 15,), Text('Kabul etmek', style: TextStyle(fontSize: 12))]),
+        backgroundColor: Colors.green,
+        )),
+        Expanded(child: FloatingActionButton.extended(
+        onPressed: () async {
+          Urls server_url  =  new Urls();
+          var id = widget.order_id; 
+          String url = server_url.get_server_url() + '/mob/orders/$id';
+          final uri = Uri.parse(url);
+          var token = Provider.of<UserInfo>(context, listen: false).access_token;
+          final response = await http.put(uri, headers: {'token': token}, body: {'status': 'canceled'});
+
+          if (response.statusCode==200){
+            showSuccessAlert();
+            widget.refresh();
+          }
+          else{
+            Navigator.pop(context);
+              showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy!');
+            } 
+          },
+        label: Row(children: [Icon(Icons.close, size: 15), Text('Gaýtarmak', style: TextStyle(fontSize: 12))]),
+        backgroundColor: Colors.amber,
+        )),
+        
+        Expanded(child: FloatingActionButton.extended(
+        onPressed: () async {
+          showWorningAlert('Sargydy pozmagy tassyklaň!', order['id'].toString());
+          },
+        label: Row(children: [Icon(Icons.delete, size: 15), Text('Pozmak', style: TextStyle(fontSize: 12))]),
+        backgroundColor: Colors.red,
+        )) 
+      ]
+    ),
+  )
     );
   }
     get_order_detail(String order_id)async {
@@ -317,10 +413,7 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
         determinate = true;
     });
   }
-
 }
-
-
 
 class OrderUpdateStatus extends StatefulWidget {
   final Function set_order_status;
@@ -363,7 +456,6 @@ class OorderUpdateSatatuState extends State<OrderUpdateStatus> {
           Navigator.pop(context);
         });
     }
-
     return AlertDialog(
       icon: Row(
         children: [
@@ -424,9 +516,6 @@ class OorderUpdateSatatuState extends State<OrderUpdateStatus> {
                 String url = server_url.get_server_url() + '/mob/orders/$id';
                 final uri = Uri.parse(url);
                 var token = Provider.of<UserInfo>(context, listen: false).access_token;
-                print(uri);
-                print(token);
-                print(gender);
                 final response = await http.put(uri, headers: {'token': token}, 
                                                 body: {'status': gender});
                 if (response.statusCode==200){
@@ -439,7 +528,9 @@ class OorderUpdateSatatuState extends State<OrderUpdateStatus> {
                 }  
                 widget.refresh();
                 widget.set_order_status(gender);
-                Navigator.pop(context);},
+                Navigator.pop(context);
+                
+                },
               child: const Text('OK')
             )
           ],

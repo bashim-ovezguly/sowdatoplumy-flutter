@@ -63,12 +63,13 @@ class _GetConstructionFirstState extends State<GetConstructionFirst> {
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => ConstructionEdit(old_data: data, callbackFunc: callbackStatus)));  
                       },
-                      child: Row(
-                        children: [
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [
                           Icon(Icons.edit_road, color: Colors.green,),
                           Text(' Üýtgetmek')
-                        ],
-                      ),
+                        ]))
                     )
                   ),
                   PopupMenuItem<String>(
@@ -77,14 +78,15 @@ class _GetConstructionFirstState extends State<GetConstructionFirst> {
                         showDialog(
                           context: context,
                           builder: (context){
-                            return DeleteAlert(action: 'materials',id: id, callbackFunc: callbackStatusDelete,);});
+                            return DeleteAlert(action: 'materials', id: id, callbackFunc: callbackStatusDelete,);});
                       },
-                      child: Row(
-                        children: [
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [
                           Icon(Icons.delete, color: Colors.red,),
                           Text('Pozmak')
-                        ],
-                      ),
+                        ]))
                     )  
                   ),
                 ];

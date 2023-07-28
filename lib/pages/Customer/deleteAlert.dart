@@ -23,8 +23,6 @@ class _DeleteAlertState extends State<DeleteAlert> {
   final Function callbackFunc;
   
   void initState() {
-    print(action);
-    print(id);
     super.initState();
   }
   _DeleteAlertState({required this.action, required this.id, required this.callbackFunc});
@@ -69,11 +67,10 @@ class _DeleteAlertState extends State<DeleteAlert> {
                 String url = server_url.get_server_url() + '/mob/' + action.toString() +"/delete/" + id.toString();
                 final uri = Uri.parse(url);
                 final response = await http.post(uri, headers: {'token': token},);
-
                 if (response.statusCode==200){
                   callbackFunc();
                   Navigator.pop(context);
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));  
+                  Navigator.pop(context);
                   }
                 if (response.statusCode != 200){
                   var response  = Provider.of<UserInfo>(context, listen: false).update_tokenc();

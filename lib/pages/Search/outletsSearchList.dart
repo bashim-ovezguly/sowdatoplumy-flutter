@@ -120,7 +120,7 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
                                             overflow: TextOverflow.clip,
                                             maxLines: 2,
                                             softWrap: false,
-                                            style: CustomText.itemText,),),),
+                                            style: CustomText.itemTextBold,),),),
                                   
                                       Expanded(child: Container(
                                         alignment: Alignment.centerLeft,

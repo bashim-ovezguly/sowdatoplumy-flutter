@@ -249,9 +249,9 @@ class _CarState extends State<Car> {
                                              alignment: Alignment.centerLeft,
                                              child: Row(
                                               children: [
-                                                Expanded(flex: 2,child: Text(data[index]['price'].toString(),style: CustomText.itemText)),
+                                                Text(data[index]['price'].toString(),style: CustomText.itemText),
                                                 Spacer(),
-                                                Expanded(flex: 1,child: Text(data[index]['delta_time'].toString(),style: CustomText.itemText))
+                                                Text(data[index]['delta_time'].toString(),style: CustomText.itemText)
                                               ]
                                              ))),
                                         
@@ -297,7 +297,7 @@ class _CarState extends State<Car> {
       ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
       
       ),
-      drawer: const MyDraver(),
+      drawer: MyDraver(),
 
     ):CustomProgressIndicator(funcInit: initState);
   }

@@ -262,7 +262,7 @@ class _ProductManufacturersState extends State<ProductManufacturers> {
         ],
       ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
       ),
-      drawer: const MyDraver(),
+      drawer: MyDraver(),
     ): CustomProgressIndicator(funcInit: initState);
   }
 

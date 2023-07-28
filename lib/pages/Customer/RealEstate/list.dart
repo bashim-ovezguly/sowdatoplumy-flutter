@@ -61,12 +61,13 @@ class _RealEstateListState extends State<RealEstateList> {
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => RealEstateAdd(customer_id:customer_id, refreshFunc: refreshFunc )));  
                       },
-                      child: Row(
-                        children: [
-                          Icon(Icons.add, color: Colors.green,),
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [
+                          Icon(Icons.add, color: Colors.green),
                           Text(' Goşmak')
-                        ],
-                      ),
+                        ]))
                     )
                   ),
          

@@ -174,7 +174,7 @@ class _PharmaciesListState extends State<PharmaciesList> {
         ],
       ): Center(child: CircularProgressIndicator(color: CustomColors.appColors)) 
       ),
-      drawer: const MyDraver(),
+      drawer:  MyDraver(),
       floatingActionButton: Container(
           height: 45,
           width: 45,

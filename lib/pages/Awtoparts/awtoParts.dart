@@ -311,7 +311,7 @@ class _AutoPartsState extends State<AutoParts> {
           ],
         ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
         ),
-        drawer: const MyDraver(),
+        drawer: MyDraver(),
     ):CustomProgressIndicator(funcInit: initState);
   }
 

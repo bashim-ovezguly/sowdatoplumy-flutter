@@ -56,8 +56,7 @@ class _CarSearchListState extends State<CarSearchList> {
   Widget build(BuildContext context) {
     return status ? Scaffold(
       appBar: AppBar(
-        title: const Text('Gözleg', style: CustomText.appBarText,),
-      ),
+        title: const Text('Gözleg', style: CustomText.appBarText)),
       body: determinate ? Column(
         children: <Widget>[
           Container(

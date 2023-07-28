@@ -320,7 +320,7 @@ class _MyPagesState extends State<MyPages> {
                           child: Column(
                             children: [
                               Expanded(child: Icon(Icons.shopping_cart, color: Color.fromARGB(255, 34, 173, 39))),
-                              Expanded(child: Text("Gelen sargytlar: 12", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)))
+                              Expanded(child: Text("Gelen sargytlar: "+ user['orders_in'].toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)))
                           ]))
                         ))),
                       SizedBox(width: 10),
@@ -335,7 +335,7 @@ class _MyPagesState extends State<MyPages> {
                           child: Column(
                             children: [
                               Expanded(child: Icon(Icons.shopping_cart, color: Color.fromARGB(255, 34, 173, 39))),
-                              Expanded(child: Text("Giden sargytlar: 11", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)))
+                              Expanded(child: Text("Giden sargytlar: " + user['orders_out'].toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)))
                           ]))
                         ))),
                     ]

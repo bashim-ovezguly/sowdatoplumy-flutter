@@ -44,7 +44,18 @@ class _LocationWidgetState extends State<LocationWidget> {
           ],
           ),
           if (data[0]!=null && data[0]['parent']!='' && data[0]['parent']!=null)
-            Text(data[0]['parent']['name'], style: TextStyle(fontSize: 18, color: CustomColors.appColors))
+          Row(
+            children: [   
+              if (data.length>0 && data[0]['back_id']=='' || data[0]['have_parent']==true )
+                Container(
+                  child: IconButton(            
+                    icon: Icon(Icons.arrow_back_ios, color:CustomColors.appColors),
+                    onPressed: (){get_locations(data[0]['back_id']);},
+                )
+                ),  
+                Text(data[0]['parent']['name'], style: TextStyle(fontSize: 18, color: CustomColors.appColors)),
+            ]
+          )
         ],
       ),
       content: Container(
@@ -70,62 +81,75 @@ class _LocationWidgetState extends State<LocationWidget> {
                       
                       children: [
                         Expanded(flex: 4 ,child: GestureDetector(
-                          onTap: (){setState(() {
-                            widget.callbackFunc(data[index]);
-                            if (index1==data[index]['id']){
-                              index1 = 0;
-                              widget.callbackFunc({});
-                            }
-                            else{
-                              index1 = data[index]['id'];
-                            }});},
                         child: Container(
                           child: Row(
                           children: [
                             if (data[index]['id'] == index1)
-                               Container(
-                              width: 22,
-                              height: 22,
-                              decoration: BoxDecoration(border: Border.all(color: CustomColors.appColors, width: 1),),
-                              child: Container(
-                                width: 20,
-                                height: 20,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(60)),
-                                child: Icon(Icons.check,size: 22,color: Colors.green,)))
+                               GestureDetector(
+                                onTap: (){
+                                  widget.callbackFunc(data[index]);
+                                  setState(() {
+                                    if (index1==data[index]['id']){
+                                      index1 = 0;
+                                      widget.callbackFunc({});
+                                    }
+                                    else{
+                                      index1 = data[index]['id'];
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  width: 22, height: 22,
+                                  decoration: BoxDecoration(border: Border.all(color: CustomColors.appColors, width: 1),),
+                                  child: Container(
+                                    width: 20,
+                                    height: 20,
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(60)),
+                                    child: Icon(Icons.check,size: 22,color: Colors.green))),
+                               )
                             else
-                              Container(
-                              width: 22,
-                              height: 22,
-                              decoration: BoxDecoration(border: Border.all(color: CustomColors.appColors, width: 1),),
-                              child: Container(
-                                width: 20,
-                                height: 20,
-                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(60)),
-                                child: Container())),
-                              Flexible(child: Text(" " + data[index]['name_tm'], overflow: TextOverflow.ellipsis, maxLines: 1,))
-                          ],
-                        ),
-                        )
-                        ),),
-                        
-                        if (data[index]['childs']!=0)
-                         Expanded(flex: 1 ,child: Row(
-                            children: [
                               GestureDetector(
                                 onTap: (){
-                                  get_locations(data[index]['id']);
+                                  widget.callbackFunc(data[index]);
+                                  setState(() {
+                                    if (index1==data[index]['id']){
+                                      index1 = 0;
+                                      widget.callbackFunc({});
+                                    }
+                                    else{
+                                      index1 = data[index]['id'];
+                                    }
+                                  });
                                 },
-                                child: Image.asset('assets/images/arrow_right.png', height: 30, ),
+                                child: Container(
+                                  width: 22,
+                                  height: 22,
+                                  decoration: BoxDecoration(border: Border.all(color: CustomColors.appColors, width: 1),),
+                                  child: Container(
+                                    width: 20,
+                                    height: 20,
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(60)),
+                                    child: Container())),
                               ),
-                              if (data[index]['childs'].toString().length==1)
-                                Text("   " + data[index]['childs'].toString())
-                              else
-                                Text(" " + data[index]['childs'].toString())
-                            ],
-                          ) ) 
+                              Container(
+                                child: Flexible(child: GestureDetector(
+                                onTap: (){
+                                  if (data[index]['childs']!=0){get_locations(data[index]['id']);}
+                                },
+                                child: Text(" " + data[index]['name_tm'] + "                                              ", overflow: TextOverflow.ellipsis, maxLines: 1),
+                              ))
+                              )
+                          ]
+                        )
+                        )
+                        )),
+                        if (data[index]['childs']!=0)
+                         Expanded(flex: 1 ,child: Container(
+                          alignment: Alignment.centerRight,
+                          child: Text(" " + data[index]['childs'].toString())
+                        ))
                       ],
                     ),
-                  // child: Center(child: Text('Entry ${entries[index]}')),
                 );
               }
             ),),
@@ -148,38 +172,7 @@ class _LocationWidgetState extends State<LocationWidget> {
                   },
                 ),
                 ),
-
-                Spacer(),
-                if (data.length>0 && data[0]['back_id']!= '')
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  alignment: Alignment.centerLeft,
-                  child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                  backgroundColor: CustomColors.appColors,
-                    shadowColor: Colors.white),              
-                    child: Text('Yza', style: TextStyle(color: Colors.white),),
-                    onPressed: (){
-                      get_locations(data[0]['back_id']);
-                  },
-                ),
-                ),
-                if (data.length>0 && data[0]['back_id']=='' && data[0]['have_parent']==true )
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    alignment: Alignment.centerLeft,
-                    child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                    backgroundColor: CustomColors.appColors,
-                      shadowColor: Colors.white),              
-                      child: Text('Yza', style: TextStyle(color: Colors.white),),
-                      onPressed: (){
-                        get_locations(null);
-                    },
-                  ),
-                  ),
-                
-              SizedBox(width: 20,),
+              Spacer(),
               Container(
                   margin: EdgeInsets.only(top: 10),
                   alignment: Alignment.centerRight,

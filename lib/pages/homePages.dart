@@ -15,7 +15,6 @@ import 'package:my_app/pages/regionWidget.dart';
 import 'package:my_app/dB/colors.dart';
 import '../dB/providers.dart';
 import '../main.dart';
-import 'Orders/ordersList.dart';
 import 'Search/search.dart';
 import 'Store/store.dart';
 import 'homePageLocation.dart';
@@ -33,7 +32,8 @@ class _HomeState extends State<Home> {
   List<dynamic> dataSlider1 = [];
   List<dynamic> dataSlider2 = [];
   List<dynamic> dataSlider3 = [];
-  List<dynamic> items= [];  
+  List<dynamic> items= [];
+  String store_count ='';
   var region = {};
   bool determinate = false;
   var baseurl = "";
@@ -304,45 +304,33 @@ class _HomeState extends State<Home> {
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold),),),),
                                 SizedBox(height: 5,),
-                                Expanded(
-                                    child:Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Row(
-                                        children:  <Widget>[
-                                          Icon(Icons.access_time_outlined,color: CustomColors.appColorWhite, size: 14 ,),
-                                          SizedBox(width: 5,),
-                                          Text( items[index]['delta_time'].toString(),
-                                              style: TextStyle(
-                                                  color: CustomColors.appColorWhite,
-                                                  fontSize: 14,))],),)),
-                                SizedBox(height: 5,),
-                                Expanded(child:Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Row(
-                                    children:  <Widget>[
-                                      Icon(Icons.place ,color: CustomColors.appColorWhite, size: 14 ),
-                                      SizedBox(width: 5,),
-                                      Text(items[index]['location'].toString(),
-                                      overflow: TextOverflow.clip,
-                                          style: TextStyle(color: CustomColors.appColorWhite, fontSize: 14,))],),)),
-                              SizedBox(height: 10),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                                Expanded(child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text( items[index]['delta_time'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColorWhite,fontSize: 14)),
+                                )),
+                                SizedBox(height: 5),
+                                Expanded(child: Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(items[index]['location'].toString(), overflow: TextOverflow.clip, maxLines: 1,style: TextStyle(color: CustomColors.appColorWhite, fontSize: 14))
+                                )),
+                              SizedBox(height: 10)
+                              ]
+                            )
+                          )
+                        )
+                      ]
+                    )
+                  )
+                )
                   )
                 );
-              },
-            ),
+              }
+            )
           )
-        ],
+        ]
       ):CustomProgressIndicator(funcInit: initState) 
       ),
-      drawer: const MyDraver(),
+      drawer: MyDraver(),
     ):HomePageProgressIndicator(funcInit: initState);
   }
   
@@ -371,7 +359,6 @@ class _HomeState extends State<Home> {
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       baseurl =  server_url.get_server_url();
-
       dataSlider1  = json['data']['slider1'];
       if ( dataSlider1.length==0){dataSlider1 = [{"img": "", 'name':"", 'location':''}];}
       dataSlider2  = json['data']['slider2'];
@@ -381,14 +368,32 @@ class _HomeState extends State<Home> {
       items  = json['data']['items'];
       if ( items.length==0){items = [{"img": "", 'name':"", 'location':''}];}
       if (dataSlider1.length!=0){setState(() {determinate = true; status = false;});}
+
+      Map<String, dynamic> new_statistic = {"store_count": json['data']['store_count'].toString(),
+                                            "pharmacy_count": json['data']['pharmacy_count'].toString(),
+                                            "bazar_count": json['data']['bazar_count'].toString(),
+                                            "shopping_center_count": json['data']['shopping_center_count'].toString(),
+                                            "market_count": json['data']['market_count'].toString(),
+                                            "car_count": json['data']['car_count'].toString(),
+                                            "part_count": json['data']['part_count'].toString(),
+                                            "service_count": json['data']['service_count'].toString(),
+                                            "product_count": json['data']['product_count'].toString(),
+                                            "factory_count": json['data']['factory_count'].toString(),
+                                            "flat_count": json['data']['flat_count'].toString() };
+
+      Provider.of<UserInfo>(context, listen: false).set_statistic(new_statistic);
     });}
 }
 
-class MyDraver extends StatelessWidget {
-  const MyDraver({Key? key}) : super(key: key);
 
+class MyDraver extends StatelessWidget {
+  MyDraver({Key? key }) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
+    var statistic = Provider.of<UserInfo>(context, listen: false).statistic;
+
+
     return Drawer(
       backgroundColor: Colors.white,
       child: Column(
@@ -476,32 +481,72 @@ class MyDraver extends StatelessWidget {
                   margin: EdgeInsets.only(left: 20, top: 20),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:0)));
+                       Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Söwda nokatlar") ));
                     },
                     child: Container(
                       child: Row(
                         children: [
-                          Icon(Icons.search, size: 25, color: CustomColors.appColors,),
+                          Icon(Icons.store_outlined, size: 25, color: CustomColors.appColors,),
                           SizedBox(width: 14,),
-                          Text('Gözleg', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                          Text('Söwda nokatlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          Spacer(),
+                          Text(statistic['store_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          SizedBox(width: 15),
+                          
                         ],
                       ),
                     ),
                   ),        
                 ),
 
+                Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: GestureDetector(
+                    onTap: () {Navigator.pushNamed(context, "/othergoods/list");},
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Icon(Icons.newspaper, size: 25, color: CustomColors.appColors,),
+                          SizedBox(width: 14,),
+                          Text('Harytlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          Spacer(),
+                          Text(statistic['product_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          SizedBox(width: 15),
+                        ],
+                      ),
+                    ),
+                  ),        
+                ),
+                //  Container(
+                //   margin: EdgeInsets.only(left: 20, top: 20),
+                //   child: GestureDetector(
+                //     onTap: () {
+                //       Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:0)));
+                //     },
+                //     child: Container(
+                //       child: Row(
+                //         children: [
+                //           Icon(Icons.search, size: 25, color: CustomColors.appColors,),
+                //           SizedBox(width: 14,),
+                //           Text('Gözleg', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                //         ],
+                //       ),
+                //     ),
+                //   ),        
+                // ),
                  Container(
                   margin: EdgeInsets.only(left: 20, top: 20),
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, "/pharmacies/list");
-                    },
+                    onTap: () {Navigator.pushNamed(context, "/pharmacies/list");},
                     child: Container(
                       child: Row(
                         children: [
                           Icon(Icons.local_pharmacy_sharp, size: 25, color: CustomColors.appColors,),
                           SizedBox(width: 14,),
-                          Text('Dermanhanalar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                          Text('Dermanhanalar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          Spacer(),
+                          Text(statistic['pharmacy_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          SizedBox(width: 15),
                         ],
                       ),
                     ),
@@ -519,7 +564,10 @@ class MyDraver extends StatelessWidget {
                         children: [
                           Icon(Icons.storefront_sharp, size: 25, color: CustomColors.appColors,),
                           SizedBox(width: 14,),
-                          Text('Bazarlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                          Text('Bazarlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          Spacer(),
+                          Text(statistic['bazar_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          SizedBox(width: 15),
                         ],
                       ),
                     ),
@@ -537,32 +585,15 @@ class MyDraver extends StatelessWidget {
                         children: [
                           Icon(Icons.store, size: 25, color: CustomColors.appColors,),
                           SizedBox(width: 14,),
-                          Text('Söwda merkezler', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                          Text('Söwda merkezler', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          Spacer(),
+                          Text(statistic['shopping_center_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          SizedBox(width: 15),
                         ],
                       ),
                     ),
                   ),        
                 ),
-
-
-                Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () {
-                       Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Söwda nokatlar") ));
-                    },
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.store_outlined, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 14,),
-                          Text('Söwda nokatlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
-                        ],
-                      ),
-                    ),
-                  ),        
-                ),
-
 
                 Container(
                   margin: EdgeInsets.only(left: 20, top: 20),
@@ -575,7 +606,10 @@ class MyDraver extends StatelessWidget {
                         children: [
                           Icon(Icons.storefront_outlined, size: 25, color: CustomColors.appColors,),
                           SizedBox(width: 14,),
-                          Text('Marketler', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                          Text('Marketler', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          Spacer(),
+                          Text(statistic['market_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          SizedBox(width: 15),
                         ],
                       ),
                     ),
@@ -591,7 +625,10 @@ class MyDraver extends StatelessWidget {
                         children: [
                           Icon(Icons.store_outlined, size: 25, color: CustomColors.appColors,),
                           SizedBox(width: 14,),
-                          Text('Önüm öndürijiler', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                          Text('Önüm öndürijiler', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          Spacer(),
+                          Text(statistic['factory_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          SizedBox(width: 15),
                         ],
                       ),
                     ),
@@ -607,7 +644,10 @@ class MyDraver extends StatelessWidget {
                         children: [
                           Icon(Icons.car_repair, size: 25, color: CustomColors.appColors,),
                           SizedBox(width: 14,),
-                          Text('Awtoulaglar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                          Text('Awtoulaglar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          Spacer(),
+                          Text(statistic['car_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          SizedBox(width: 15),
                         ],
                       ),
                     ),
@@ -623,7 +663,10 @@ class MyDraver extends StatelessWidget {
                         children: [
                           Icon(Icons.settings_outlined, size: 25, color: CustomColors.appColors,),
                           SizedBox(width: 14,),
-                          Text('Awtoşaýlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                          Text('Awtoşaýlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          Spacer(),
+                          Text(statistic['part_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          SizedBox(width: 15),
                         ],
                       ),
                     ),
@@ -639,7 +682,10 @@ class MyDraver extends StatelessWidget {
                         children: [
                           Icon(Icons.other_houses, size: 25, color: CustomColors.appColors,),
                           SizedBox(width: 14,),
-                          Text('Emläkler', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                          Text('Emläkler', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          Spacer(),
+                          Text(statistic['flat_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          SizedBox(width: 15),
                         ],
                       ),
                     ),
@@ -655,7 +701,10 @@ class MyDraver extends StatelessWidget {
                         children: [
                           Icon(Icons.build_circle, size: 25, color: CustomColors.appColors,),
                           SizedBox(width: 14,),
-                          Text('Gurluşyk harytlary', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                          Text('Gurluşyk harytlary', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          Spacer(),
+                          Text(statistic['service_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          SizedBox(width: 15),
                         ],
                       ),
                     ),
@@ -671,44 +720,15 @@ class MyDraver extends StatelessWidget {
                         children: [
                           Icon(Icons.home_repair_service, size: 25, color: CustomColors.appColors,),
                           SizedBox(width: 14,),
-                          Text('Hyzmatlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
-                        ],
-                      ),
-                    ),
-                  ),        
+                          Text('Hyzmatlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          Spacer(),
+                          Text(statistic['service_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                          SizedBox(width: 15),
+                        ]
+                      )
+                    )
+                  )        
                 ),
-
-                 Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () {Navigator.pushNamed(context, "/othergoods/list");},
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.newspaper, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 14,),
-                          Text('Beýleki harytlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
-                        ],
-                      ),
-                    ),
-                  ),        
-                ),
-
-                // Container(
-                //   margin: EdgeInsets.only(left: 20, top: 20),
-                //   child: GestureDetector(
-                //     onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => OrdersList()));},
-                //     child: Container(
-                //       child: Row(
-                //         children: [
-                //           Icon(Icons.shopping_cart_outlined, size: 25, color: CustomColors.appColors),
-                //           SizedBox(width: 14),
-                //            Text('Sargytlarym', style: TextStyle(fontSize: 16, color: CustomColors.appColors))
-                //         ],
-                //       ),
-                //     ),
-                //   ),        
-                // ),
                 Container(height: 20)        
               ],
             ),            

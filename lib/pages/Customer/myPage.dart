@@ -86,12 +86,13 @@ class _MyPageState extends State<MyPage> {
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => EditStore(old_data: data, callbackFunc: callbackStatus)));  
                       },
-                      child: Row(
-                        children: [
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [
                           Icon(Icons.edit_road, color: Colors.green,),
                           Text(' Üýtgetmek')
-                        ],
-                      ),
+                        ]))
                     )
                   ),
                   PopupMenuItem<String>(
@@ -102,12 +103,13 @@ class _MyPageState extends State<MyPage> {
                               builder: (context){
                                 return DeleteAlert(action: 'stores', id: id, callbackFunc: callbackStatusDelete,);});
                       },
-                      child: Row(
-                        children: [
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [
                           Icon(Icons.delete, color: Colors.red,),
                           Text('Pozmak')
-                        ],
-                      ),
+                        ]))
                     )  
                   ),
                 ];
@@ -238,25 +240,24 @@ class _MyPageState extends State<MyPage> {
                               SizedBox(width: 20),
                               Icon(Icons.drive_file_rename_outline_outlined, color: Colors.black54,),
                               SizedBox(width: 10,),
-                              Text("Ady ",  style: TextStyle(fontSize: 15, color: Colors.black54),)],)),
+                              Text("Ady ",  style: TextStyle(fontSize: 15, color: Colors.black54))])),
                             Expanded(child: Text(data['name_tm'].toString(),  style: TextStyle(fontSize: 15, color: CustomColors.appColors))),
-                            SizedBox(width: 10,),
-                          ],),),
+                            SizedBox(width: 10)
+                          ])),
                       
-                      Container(height: 15, child: Text(''),),
+                      Container(height: 15, child: Text('')),
                       SizedBox(
                         child: Row(children: [
                           Expanded(child: Row(
                             children: [
-                              SizedBox(width: 20,),
+                              SizedBox(width: 20),
                               Icon(Icons.location_on, color: Colors.black54,),
-                              SizedBox(width: 10,),
+                              SizedBox(width: 10),
                               Text("Ýerleşýän ýeri", style: TextStyle(fontSize: 15, color: Colors.black54),)],),),
-                              Expanded(child: Text(
-                                data['location'].toString(), style: TextStyle(fontSize: 15, color: CustomColors.appColors),
-                                maxLines: 2,),),
-                              SizedBox(width: 10,),
-                            ],),),
+                              if (data['location']!=null && data['location']!='')
+                              Expanded(child: Text(data['location']['name'].toString(), style: TextStyle(fontSize: 15, color: CustomColors.appColors), maxLines: 2)),
+                              SizedBox(width: 10)
+                            ])),
                       
                       Container(height: 15, child: Text(''),),
                       SizedBox(

@@ -9,8 +9,10 @@ import 'package:my_app/dB/colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Awtoparts/awtoPartsDetail.dart';
+import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/fullScreenSlider.dart';
 import 'package:my_app/pages/progressIndicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../dB/textStyle.dart';
 
 
@@ -50,7 +52,7 @@ class _AdPageState extends State<AdPage> {
   @override
   Widget build(BuildContext context) {
     return status ? Scaffold(
-      appBar: AppBar(title: Text(data['title_tm'].toString(), style: CustomText.appBarText,),),
+      appBar: AppBar(title: data['title_tm']!=null && data['title_tm']!='' ? Text(data['title_tm'].toString(), style: CustomText.appBarText): Text('')),
     
       body: determinate? ListView(
         children: [
@@ -129,6 +131,39 @@ class _AdPageState extends State<AdPage> {
                     Expanded(child: SizedBox(child: Text( data['location'].toString(), style: TextStyle(color: CustomColors.appColors)))),
                 SizedBox(width: 10)
               ])),
+            
+            if (data['store']!=null && data['store']!='')
+            SizedBox(height: 10),
+            if (data['store']!=null && data['store']!='')
+            SizedBox(
+              child: Row(
+                children: [
+                  Expanded(child: Row(
+                  children: [
+                    SizedBox(width: 10),
+                    Icon(Icons.store, color: Colors.grey,size: 20),
+                    SizedBox(width: 10),
+                    SizedBox(child: const TextKeyWidget(text: "Söwda nokat", size:16.0))
+                    ],),),
+
+                   Expanded(child:Container(
+                    height: 25,
+                    alignment: Alignment.centerLeft,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (data['store']!=null && data['store_id']!=''){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Söwda nokatlar')));
+                        }
+                      },
+                      child: Text(data['store'].toString(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: CustomText.itemText,
+                      )))),
+                      SizedBox(width: 10)
+                ],
+              ),
+            ),
 
           SizedBox(height: 10),
           Container(
@@ -140,7 +175,17 @@ class _AdPageState extends State<AdPage> {
                   children: <Widget>[
                     const Icon(Icons.phone, color: Colors.grey,size: 20,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, child: const TextKeyWidget(text: "Telefon", size:16.0),),],),),
-                    Expanded(child: SizedBox(child: data['phone']!=null && data['phone']!='' ? Text(data['phone'].toString(), style: TextStyle(color: CustomColors.appColors)):
+                    Expanded(child: SizedBox(child: data['phone']!=null && data['phone']!='' ? GestureDetector(
+                      onTap: () async {
+                        final call = Uri.parse('tel:'+ data['phone'].toString());
+                        if (await canLaunchUrl(call)) {
+                          launchUrl(call);}
+                        else {
+                          throw 'Could not launch $call';
+                          }
+                      },
+                      child: Text(data['phone'].toString(), style: TextStyle(color: CustomColors.appColors))
+                    ):
                     TextValueWidget(text: '', size: 16.0)
                     ))
               ])),

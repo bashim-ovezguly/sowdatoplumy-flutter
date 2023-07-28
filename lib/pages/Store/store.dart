@@ -343,7 +343,7 @@ class _StoreState extends State<Store> {
         ],
       ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
       ),
-      drawer: const MyDraver(),
+      drawer: MyDraver(),
     ): CustomProgressIndicator(funcInit: initState);
   }
 

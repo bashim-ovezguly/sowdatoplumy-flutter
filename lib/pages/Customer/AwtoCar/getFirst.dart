@@ -62,12 +62,13 @@ class _GetCarFirstState extends State<GetCarFirst> {
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => EditCar(old_data: data, callbackFunc: callbackStatus)));
                       },
-                      child: Row(
-                        children: [
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [
                           Icon(Icons.edit_road, color: Colors.green,),
                           Text(' Üýtgetmek')
-                        ],
-                      ),
+                        ]))
                     )
                   ),
                   PopupMenuItem<String>(
@@ -78,12 +79,13 @@ class _GetCarFirstState extends State<GetCarFirst> {
                           builder: (context){
                             return DeleteAlert(action: 'cars',id: id, callbackFunc: callbackStatusDelete,);});
                       },
-                      child: Row(
-                        children: [
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [
                           Icon(Icons.delete, color: Colors.red,),
                           Text('Pozmak')
-                        ],
-                      ),
+                        ]))
                     )  
                   ),
                 ];
@@ -200,9 +202,9 @@ class _GetCarFirstState extends State<GetCarFirst> {
                   children: <Widget>[
                     const Icon(Icons.store, color: Colors.grey,size: 20,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Söwda nokat", size: 16.0),)],),),
-
-                Expanded(child: SizedBox(child: TextValueWidget(text: data['store'].toString(), size: 16.0),))
-              ],),),
+                if(data['store']!=null && data['store']!='')
+                  Expanded(child: SizedBox(child: TextValueWidget(text: data['store']['name'].toString(), size: 16.0)))
+              ])),
               
           Container(
             height: 30,

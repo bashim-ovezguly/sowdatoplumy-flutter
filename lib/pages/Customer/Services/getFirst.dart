@@ -68,12 +68,13 @@ class _ServiceDetailState extends State<ServiceDetail> {
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceEdit(old_data: data, callbackFunc: callbackStatus, title: 'Hyzmat',)));  
                       },
-                      child: Row(
-                        children: [
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [
                           Icon(Icons.edit_road, color: Colors.green,),
                           Text(' Üýtgetmek')
-                        ],
-                      ),
+                        ]))
                     )
                   ),
                   PopupMenuItem<String>(
@@ -84,12 +85,13 @@ class _ServiceDetailState extends State<ServiceDetail> {
                           builder: (context){
                             return DeleteAlert(action: 'services', id: id, callbackFunc: callbackStatusDelete,);});
                       },
-                      child: Row(
-                        children: [
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [
                           Icon(Icons.delete, color: Colors.red,),
                           Text('Pozmak')
-                        ],
-                      ),
+                        ]))
                     )  
                   ),
                 ];

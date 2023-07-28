@@ -153,7 +153,7 @@ class _EditStoreState extends State<EditStore> {
                 Expanded(flex: 4, child: Text(locationController['name_tm']))
                 else
                   if (old_data['location']!=null)
-                    Expanded(flex: 4, child: Text(old_data['location']))
+                    Expanded(flex: 4, child: Text(old_data['location']['name']))
                   else
                     Expanded(flex: 4, child: Text(''))
               ],),),
@@ -579,7 +579,6 @@ class _EditStoreState extends State<EditStore> {
       streets = json['streets'];
     });
     }
-  
 }
 
 

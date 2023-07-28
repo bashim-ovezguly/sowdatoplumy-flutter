@@ -201,7 +201,8 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                     SizedBox(width: 10,),
                     Text("Söwda nokat", style: CustomText.size_16_black54,)],),),
 
-                   Expanded(child:Align(
+                   Expanded(child:Container(
+                    height: 25,
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
                       onPressed: () {

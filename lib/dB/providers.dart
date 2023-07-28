@@ -18,10 +18,25 @@ class Regions extends ChangeNotifier{
 class UserInfo extends ChangeNotifier {
 
   var regionsCode = {};
-  
   String access_token = '';
   String refresh_token = '';
   String sort = "1";
+
+  Map<String, dynamic> statistic = {"store_count": "",
+                                    "pharmacy_count": "",
+                                    "bazar_count": "",
+                                    "shopping_center_count": "",
+                                    "market_count": "",
+                                    "car_count": "",
+                                    "part_count": "",
+                                    "service_count": "",
+                                    "product_count": "",
+                                    "factory_count": "",
+                                    "flat_count": "" };
+  void set_statistic(value){
+    statistic = value;
+    notifyListeners(); 
+  }
 
   void setsort(value){
     sort = value;
@@ -34,6 +49,7 @@ class UserInfo extends ChangeNotifier {
   }
 
   void setAccessToken(value1, value2){
+    print('llkkl');
     access_token = value1;
     refresh_token = value2;
     print('access_token ___ $access_token');
@@ -48,7 +64,6 @@ class UserInfo extends ChangeNotifier {
      final response = await http.post(uri,
                                       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                                       body: { 'refresh_token': refresh_token,},);
-    
     if (response.statusCode==200){
       final json = jsonDecode(utf8.decode(response.bodyBytes));
       Map<String, dynamic> row = { DatabaseSQL.columnName: json['access_token'],
@@ -58,7 +73,7 @@ class UserInfo extends ChangeNotifier {
       final delete = await dbHelper.deleteAllRows();
       setAccessToken(json['access_token'], json['refresh_token']);
       final id = await dbHelper.insert(row);
-      return true;
+      return Future<bool>.value(true);
     }
     if (response.statusCode != 200){
      Urls server_url  =  new Urls();
@@ -70,7 +85,7 @@ class UserInfo extends ChangeNotifier {
         data.add(row);
       }
       if (data.length==0){
-        return false;
+        return Future<bool>.value(false);
       }
      final response = await http.post(uri,
                                       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -86,12 +101,10 @@ class UserInfo extends ChangeNotifier {
       final id = await dbHelper.insert(row);
       access_token = json['data']['access_token'];
       refresh_token = json['data']['refresh_token'];
-      print(json['data']['access_token']);
-      print(json['data']['refresh_token']);
       setAccessToken(json['data']['access_token'], json['data']['refresh_token']);
-      return true;
+      return Future<bool>.value(true);
      }
     }
-    return false;
+    return Future<bool>.value(false);
   }
 }

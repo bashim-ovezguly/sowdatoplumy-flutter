@@ -47,12 +47,13 @@ class _GoneOrdersState extends State<GoneOrders> {
             Urls server_url  =  new Urls();
             String url = server_url.get_server_url() + '/mob/orders/delete/$id';
             final uri = Uri.parse(url);
-            var token = Provider.of<UserInfo>(context, listen: false).access_token;
-            final response = await http.post(uri, headers: {'token': token});
-
-            if (response.statusCode==200){ Navigator.pop(context);}
-            else{Navigator.pop(context);showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');}
-
+            var responsess = Provider.of<UserInfo>(context, listen: false).update_tokenc();
+            if (await responsess){
+              var token = Provider.of<UserInfo>(context, listen: false).access_token;
+              final response = await http.post(uri, headers: {'token': token});
+              if (response.statusCode==200){ Navigator.pop(context);}
+              else{Navigator.pop(context);showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');}
+            }
           }
           else {
             Urls server_url  =  new Urls();
@@ -77,7 +78,7 @@ class _GoneOrdersState extends State<GoneOrders> {
       appBar: AppBar(title: Text('Giden sargytlar'),),
       extendBody: true,
       body: RefreshIndicator(
-        color: CustomColors.appColors,
+        color: Colors.white,
         backgroundColor: CustomColors.appColors,
         onRefresh: ()async{
             setState(() {
@@ -145,51 +146,35 @@ class _GoneOrdersState extends State<GoneOrders> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(child: Container(
-                                      margin: EdgeInsets.only(left: 5),
-                                      child: Row(
-                                        children: [
-                                          Expanded(flex: 4, child:Container(
-                                            child: Text(orders[index]['store'].toString(), overflow: TextOverflow.clip, style: TextStyle(fontSize: 14, color: CustomColors.appColors)))),
-                                          Spacer(),
-                                           Expanded(flex: 3, child: TextButton(
-                                            onPressed: (){showWorningAlert('Sargydy pozmagy tassyklaň!', orders[index]['id'].toString());},
-                                            child: Text('Sargydy poz', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold))))
-                                        ]))),
-                                     Expanded(child: Container(
-                                      margin: EdgeInsets.only(left: 5),
-                                      child: Row(
-                                        children: [
-                                          Expanded(flex: 4, child:Container(
-                                            child: Text(orders[index]['customer'].toString(), overflow: TextOverflow.clip, style: TextStyle(fontSize: 14, color: CustomColors.appColors)))),
-                                          Spacer(),
-                                          if (orders[index]['status']=='pending')
-                                           Expanded(flex: 3, child: TextButton(
-                                            onPressed: (){showWorningAlert('Sargydy ýatyrmagy tassyklaň!', orders[index]['id'].toString());},
-                                            child: Text('Sargydy ýatyr', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold))))
-                                        ]))),
+                                  children: [                                 
+                                    SizedBox(height: 5),
+
+                                    Expanded(child: Container(margin: EdgeInsets.only(left: 5),
+                                            child: Text(orders[index]['customer'].toString() + " "+ orders[index]['phone'].toString(), overflow: TextOverflow.clip, style: TextStyle(fontSize: 14, color: CustomColors.appColors)))),
+                                    
+                                    Expanded(child: Container(margin: EdgeInsets.only(left: 5),
+                                            child: Text(orders[index]['total'].toString() + " TMT", overflow: TextOverflow.clip, style: TextStyle(fontSize: 14, color: CustomColors.appColors)))),
+                                    
+                                    Expanded(child: Container(margin: EdgeInsets.only(left: 5),
+                                            child: Text(orders[index]['product_count'].toString() + " haryt", overflow: TextOverflow.clip, style: TextStyle(fontSize: 14, color: CustomColors.appColors)))),
                                    
                                     Expanded(child: Container(
                                       margin: EdgeInsets.only(left: 5),
                                       child: Row(
                                         children: [
                                           if (orders[index]['status']=='pending')
-                                          Container(child: Text('Garaşylýar', style: TextStyle(fontSize: 14, color: Colors.green))),
+                                            Container(child: Text('Garaşylýar', style: TextStyle(fontSize: 14, color: Colors.green))),
                                           
                                           if (orders[index]['status']=='canceled')
-                                          Container(child: Text('Gaýtarylan', style: TextStyle(fontSize: 14, color: Colors.green))),
+                                            Container(child: Text('Gaýtarylan', style: TextStyle(fontSize: 14, color: Colors.green))),
                                           
                                           if (orders[index]['status']=='accepted')
-                                          Container(child: Text('Kabul edilen', style: TextStyle(fontSize: 14, color: Colors.green))),
-                                          
-                                          Spacer(),
-                                          Container(
-                                            child: Text(orders[index]['product_count'].toString() + ' haryt ' + orders[index]['total'].toString() + " TMT"  , style: TextStyle(fontSize: 14, color: CustomColors.appColors))),
-                                        ])))  
+                                            Container(child: Text('Kabul edilen', style: TextStyle(fontSize: 14, color: Colors.green))),
+
+                                        ]))),
                                   ]
                                 )
-                              )) 
+                              ))  
                             ]
                           ))
                         ]

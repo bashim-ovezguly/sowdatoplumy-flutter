@@ -66,12 +66,13 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                       onTap: (){
                         Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartsEdit(old_data: data, callbackFunc: callbackStatus)));  
                       },
-                      child: Row(
-                        children: [
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [
                           Icon(Icons.edit_road, color: Colors.green,),
                           Text(' Üýtgetmek')
-                        ],
-                      ),
+                        ]))
                     )
                   ),
                   PopupMenuItem<String>(
@@ -82,12 +83,13 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                           builder: (context){
                             return DeleteAlert(action: "parts", id: id, callbackFunc: callbackStatusDelete);});
                       },
-                      child: Row(
-                        children: [
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [
                           Icon(Icons.delete, color: Colors.red,),
                           Text('Pozmak')
-                        ],
-                      ),
+                        ]))
                     )  
                   ),
                 ];

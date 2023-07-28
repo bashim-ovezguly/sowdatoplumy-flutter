@@ -55,6 +55,7 @@ class _MarketDetailState extends State<MarketDetail> {
   List<dynamic> data_tel = [];
   List<String> imgList = [ ];
   bool determinate = false;
+  var keyword = TextEditingController();
   
   change_modul(value){setState(() {modul = value.toString();
     if (value.toString()=='0'){ modul_name = 'Harytlar';}
@@ -350,7 +351,7 @@ class _MarketDetailState extends State<MarketDetail> {
                             if (telefon != {})
                             Expanded(child: Row(
                               children: [
-                                 Icon(Icons.phone_android_outlined, color: CustomColors.appColors,),
+                                 Icon(Icons.phone_android_outlined, color: CustomColors.appColors, size: 15),
                                  SizedBox(width: 10,),
                                  GestureDetector(
                                   onTap: () async {
@@ -383,13 +384,13 @@ class _MarketDetailState extends State<MarketDetail> {
                       if (i!=telefon)
                         Container(
                           width: double.infinity,
-                          padding: EdgeInsets.all(10),
                             child: Row(
                               children: [
+                                SizedBox(height: 2),
                                 Expanded(child: Text('')),
                                 Expanded(child: Row(
                                   children: [
-                                Icon(Icons.phone_android_outlined, color: CustomColors.appColors,),
+                                Icon(Icons.phone_android_outlined, color: CustomColors.appColors, size: 15,),
                                 SizedBox(width: 10,),
                                 GestureDetector(
                                   onTap: () async {
@@ -447,15 +448,48 @@ class _MarketDetailState extends State<MarketDetail> {
                           hintStyle: TextStyle(fontSize: 14, color: CustomColors.appColors),
                           hintText: data['body_tm'].toString(),
                           fillColor: Colors.white,),),);},)),
-            if (products.length > 0)
             SliverList(delegate: SliverChildBuilderDelegate(
               childCount: 1,
                   (BuildContext context, int index) {
-                return  Container(
+                return  Column(
+                  children: [
+                    Container(
                   alignment: Alignment.center,
                   height: 40,
                   margin: EdgeInsets.only(left: 80, right: 80, top: 20),
                   child: Text(modul_name, style: TextStyle(color: CustomColors.appColors, fontSize: 15, fontWeight: FontWeight.bold),),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                    width: double.infinity,
+                    height: 40,
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
+                    child: Center(
+                      child: TextFormField(
+                        controller: keyword,
+                        decoration: InputDecoration(
+                            prefixIcon: IconButton(
+                              icon: const Icon(Icons.search), 
+                              onPressed: () {
+                                get_products_modul(modul, id);
+                              },
+                              ),
+                            suffixIcon: IconButton(
+                              icon: const Icon(Icons.clear),
+                              onPressed: () {
+                                setState(() {
+                                  keyword.text = '';
+                                });
+                                get_products_modul(modul, id);
+                                /* Clear the search field */
+                              },
+                            ),
+                            hintText: 'Gözleg...',
+                            border: InputBorder.none),
+                      ),
+                    ),
+                  )
+                  ],
                 );
               },)),
             SliverList(delegate: SliverChildBuilderDelegate(childCount: 1,(BuildContext context, int index) {return Container(height: 20,);},)),
@@ -466,6 +500,9 @@ class _MarketDetailState extends State<MarketDetail> {
               child: Align(child: Text(modul_name + " ýok! ", style: CustomText.size_16,),
               ),
               );},)),
+
+
+
             SliverList(delegate: SliverChildBuilderDelegate(
             childCount: 1,
                 (BuildContext context, int index) {
@@ -486,16 +523,17 @@ class _MarketDetailState extends State<MarketDetail> {
                       elevation: 2,
                       child: Container(
                         height: 180,
-                        width: 100,
+                        width: MediaQuery.of(context).size.width/3-10,
                         child: Column(
                           children: [
                             Container(
                               alignment: Alignment.topCenter,
                               child: item['img']!=null &&  item['img']!="" ? Image.network(
                                 baseurl + item['img'].toString(),
-                                fit: BoxFit.cover,
-                                height: 120,
-                              ): Image.asset('assets/images/default.jpg', fit: BoxFit.cover, height: 200,)
+                                fit: BoxFit.fill,
+                                width:  MediaQuery.of(context).size.width/3-10,
+                                height: 130,
+                              ): Image.asset('assets/images/default.jpg', height: 200,)
                             ),
                             Container(
                                 alignment: Alignment.center,
@@ -516,7 +554,7 @@ class _MarketDetailState extends State<MarketDetail> {
                                       Text(item['name'].toString(), maxLines: 1, style: TextStyle(fontSize: 12, color: CustomColors.appColors, overflow: TextOverflow.clip),),
                                      Text(item['price'].toString(), maxLines: 1, style: TextStyle(fontSize: 12, color: CustomColors.appColors, overflow: TextOverflow.clip),),
                                   
-                                  if (modul!='1' && data['customer']!='')
+                                  if (modul!='1')
                                   ConstrainedBox(
                                     constraints: BoxConstraints.tightFor(height: 20),
                                     child: ElevatedButton(
@@ -695,9 +733,7 @@ class _MarketDetailState extends State<MarketDetail> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/markets/' + id;
 
-    if (title=="Söwda nokatlar"){
-      url = server_url.get_server_url() + '/mob/stores/' + id;
-    }
+    if (title=="Söwda nokatlar"){url = server_url.get_server_url() + '/mob/stores/' + id;}
     final uri = Uri.parse(url);
     final response = await http.get(uri);    
     final json = jsonDecode(utf8.decode(response.bodyBytes));
@@ -706,9 +742,7 @@ class _MarketDetailState extends State<MarketDetail> {
         data = json;
         
         delivery_price_str = json['delivery_price'];
-        if (delivery_price_str=='0' || delivery_price_str=='0 TMT'){
-          delivery_price_str = 'tölegsiz';
-        }
+        if (delivery_price_str=='0' || delivery_price_str=='0 TMT'){delivery_price_str = 'tölegsiz';}
         baseurl =  server_url.get_server_url();
         data_tel = json['phones'];
         store_name = data['name_tm'];
@@ -717,27 +751,22 @@ class _MarketDetailState extends State<MarketDetail> {
         for ( i in data['images']) { imgList.add(baseurl + i['img_m']);}
 
       determinate = true;
-      if (imgList.length==0){
-        imgList.add('x');
-      }});}
+      if (imgList.length==0){imgList.add('x');}});}
     
     Future<void> get_products_modul(modul, id) async {
-      Urls server_url  =  new Urls();
-      var param = '';
+      Urls server_url  =  new Urls(); var param = '';
       if (modul=='0'){ param = 'products'; }
       if (modul=='1'){ param = 'cars'; }
       if (modul=='2'){ param = 'parts'; }
       if (modul=='3'){ param = 'flats'; }
       if (modul=='4'){ param = 'materials'; }
       if (modul=='5'){ param = 'services'; }
-      
+
       String url = server_url.get_server_url() + '/mob/' + param +'?store='+ id;
-       final uri = Uri.parse(url);
+      if (keyword.text!=''){url = server_url.get_server_url() + '/mob/' + param +'?store='+ id +"&name="+ keyword.text;}
+      final uri = Uri.parse(url);
       final response = await http.get(uri);    
       final json = jsonDecode(utf8.decode(response.bodyBytes));
-       setState(() {
-        products = json['data'];
-        
-        });
+       setState(() {products = json['data'];});
     }
 }

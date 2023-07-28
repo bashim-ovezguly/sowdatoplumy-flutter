@@ -200,16 +200,16 @@ _StoreFirstState({required this.title, required this.id});
                       elevation: 2,
                       child: Container(
                         height: 180,
-                        width: 120,
+                        width: MediaQuery.of(context).size.width/2-10,
                         child: Column(
                           children: [
                            Container(
                               alignment: Alignment.topCenter,
                               child: item['img']!=null &&  item['img']!="" ? Image.network(
                                 baseurl + item['img'].toString(),
-                                fit: BoxFit.cover,
-                                height: 140,
-                              ): Image.asset('assets/images/default.jpg', fit: BoxFit.cover, height: 140,)
+                                fit: BoxFit.fill,
+                                height: 140, width: MediaQuery.of(context).size.width/2-10,
+                              ): Image.asset('assets/images/default.jpg', height: 140,)
                             ),
                             Container(
                                 alignment: Alignment.center,

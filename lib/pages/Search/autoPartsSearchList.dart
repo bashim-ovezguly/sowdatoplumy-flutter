@@ -65,7 +65,7 @@ class _AutoPartsSearchListState extends State<AutoPartsSearchList> {
             child:Row(
               children: <Widget>[
                 Text("Awtoşaylaryň - " + data.length.toString() + " sany",
-                  style:  TextStyle(fontSize: 20,fontWeight: FontWeight.bold, color: CustomColors.appColors),),
+                  style:  TextStyle(fontSize: 20, color: CustomColors.appColors),),
                 const Spacer(),
                 Container(margin: const EdgeInsets.only(right: 20), child: GestureDetector(
                     onTap: (){showConfirmationDialog(context);},

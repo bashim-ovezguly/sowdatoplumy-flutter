@@ -131,9 +131,9 @@ class _ServiceEditState extends State<ServiceEdit> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
               children: <Widget>[SizedBox(width: 10,), 
-                if (old_data['store']!= null && old_data['store']!='')
-                  Expanded(flex: 2,child: Text(old_data['store'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
-                if (old_data['store']==null || old_data['store']=='')
+                if (old_data['store_name']!= null && old_data['store_name']!='')
+                  Expanded(flex: 2,child: Text(old_data['store_name'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                if (old_data['store_name']==null || old_data['store_name']=='')
                   Expanded(flex: 3,child: Text("Söwda nokat : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
 
                 Expanded(flex: 4, child: MyDropdownButton(items: stores, callbackFunc: callbackStores)

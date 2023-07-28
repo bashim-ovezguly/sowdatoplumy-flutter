@@ -32,16 +32,11 @@ import 'package:flutter/services.dart';
 final dbHelper = DatabaseSQL();
 
 Future<void> main() async {
-  
-
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
-    [
-      DeviceOrientation.portraitUp,
-    ]
+    [DeviceOrientation.portraitUp,]
   );
   await dbHelper.init();
-
   runApp(
       MultiProvider(
         providers: [
@@ -53,7 +48,6 @@ Future<void> main() async {
           theme: ThemeData(appBarTheme: const AppBarTheme(color: CustomColors.appColors)),
             routes: {
             '/': (context) => const Home(),
-
             '/services/list' : (context) => ServicesList(),
             '/service/detail': (context) => ServiceDetail(id: '2',),
             '/store': (context) =>  Store(title: "",),
