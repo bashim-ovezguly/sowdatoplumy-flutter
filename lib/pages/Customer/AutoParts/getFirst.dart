@@ -58,7 +58,6 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
       appBar: AppBar(title: Text("Meniň sagypam", style: CustomText.appBarText,),
       actions: [
         PopupMenuButton<String>(
-              
               itemBuilder: (context) {
                 List<PopupMenuEntry<String>> menuEntries2 = [
                    PopupMenuItem<String>(

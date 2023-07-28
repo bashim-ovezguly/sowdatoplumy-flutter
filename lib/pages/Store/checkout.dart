@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 import '../../dB/colors.dart';
 import 'package:http/http.dart' as http;
 import '../../dB/constants.dart';
+import '../../dB/providers.dart';
 import '../../main.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 
@@ -172,10 +174,10 @@ class _CheckoutState extends State<Checkout> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          
-          
           if (addressController.text==''){showWarningAlert('Salgyňyz hökmany!');}
+          if (dateinput.text==''){showWarningAlert('Sargydyň wagty hökmany!');}
           else {
+            
             setState(() {
               dict['note'] = noteController.text;
               dict['address'] = addressController.text;
@@ -185,21 +187,22 @@ class _CheckoutState extends State<Checkout> {
             String url = server_url.get_server_url() + '/mob/orders';
             final uri = Uri.parse(url);
             var body = json.encode(dict);
-            var req = await http.post(uri, headers: {"Content-Type": "application/json"}, body: body);
-            print(req.statusCode);
-            print(req.body);
-            if (req.statusCode==200){
-              var shoping_carts = [];
-              var shoping_cart = await dbHelper.get_shoping_cart_by_store(id: dict['store']);
-              for (final row in shoping_cart) {shoping_carts.add(row);}
-              var delete_shoping_cart_items = await dbHelper.delete_shoping_cart_items(shoping_cart_id: shoping_carts[0]['id']);
-              showSuccessAlert();
+            var responsess = Provider.of<UserInfo>(context, listen: false).update_tokenc();
+            if (await responsess){
+              var token = Provider.of<UserInfo>(context, listen: false).access_token;
+              var req = await http.post(uri, headers: {"Content-Type": "application/json", "token": token}, body: body);
+              if (req.statusCode==200){
+                var shoping_carts = [];
+                var shoping_cart = await dbHelper.get_shoping_cart_by_store(id: dict['store']);
+                for (final row in shoping_cart) {shoping_carts.add(row);}
+                var delete_shoping_cart_items = await dbHelper.delete_shoping_cart_items(shoping_cart_id: shoping_carts[0]['id']);
+                showSuccessAlert();
+              }
+              else{
+                showWarningAlert('Bagyşlaň ýalňyşlyk ýüze çykdy. Täzeden synanşyp görüň!');
+              }
             }
-            else{
-              showWarningAlert('Bagyşlaň ýalňyşlyk ýüze çykdy. Täzeden synanşyp görüň!');
             }
-            
-          }
           },
         label: const Text('Sagyt et'),
         backgroundColor: Colors.green,

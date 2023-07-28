@@ -441,182 +441,204 @@ class MyDraver extends StatelessWidget {
             height: MediaQuery.of(context).size.height-200,
             child: ListView(
               children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(left: 20),
-                  child: GestureDetector(
-                    onTap: (){
-                      Navigator.pushNamed(context, "/");
-                    },
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.home, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 14,),
-                          Text('Baş sahypa', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),),
-                        ],
-                      ),
-                    ),
-                  ),  
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () async {
-                      final allRows = await dbHelper.queryAllRows();
-                      if (allRows.length==0){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login() ));  }
-                      else{Navigator.push(context, MaterialPageRoute(builder: (context) => MyPages() ));  }},
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.person, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 14,),
-                          Text('Meniň sahypam', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
-                        ],
-                      ),
-                    ),
-                  ),        
+                
+                GestureDetector(
+                  onTap: (){Navigator.pushNamed(context, "/");},
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.white,
+                    margin: EdgeInsets.only(left: 20),
+                    child: GestureDetector(
+                      onTap: (){Navigator.pushNamed(context, "/");},
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.home, size: 25, color: CustomColors.appColors,),
+                            SizedBox(width: 14,),
+                            Text('Baş sahypa', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),),
+                          ]
+                        )
+                      )
+                    )  
+                  )
                 ),
 
-                 Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () {
-                       Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Söwda nokatlar") ));
-                    },
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.store_outlined, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 14,),
-                          Text('Söwda nokatlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          Spacer(),
-                          Text(statistic['store_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          SizedBox(width: 15),
-                          
-                        ],
-                      ),
-                    ),
-                  ),        
+                GestureDetector(
+                  onTap: () async {
+                    final allRows = await dbHelper.queryAllRows();
+                    if (allRows.length==0){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));}
+                    else{Navigator.push(context, MaterialPageRoute(builder: (context) => MyPages() ));}},
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.white,
+                    margin: EdgeInsets.only(left: 20, top: 20),
+                    child: GestureDetector(
+                      onTap: () async {
+                        final allRows = await dbHelper.queryAllRows();
+                        if (allRows.length==0){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login() ));  }
+                        else{Navigator.push(context, MaterialPageRoute(builder: (context) => MyPages() ));  }},
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.person, size: 25, color: CustomColors.appColors,),
+                            SizedBox(width: 14,),
+                            Text('Meniň sahypam', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
+                          ]
+                        )
+                      )
+                    )
+                  )
                 ),
 
-                Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () {Navigator.pushNamed(context, "/othergoods/list");},
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.newspaper, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 14,),
-                          Text('Harytlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          Spacer(),
-                          Text(statistic['product_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          SizedBox(width: 15),
-                        ],
-                      ),
-                    ),
-                  ),        
-                ),
-                //  Container(
-                //   margin: EdgeInsets.only(left: 20, top: 20),
-                //   child: GestureDetector(
-                //     onTap: () {
-                //       Navigator.push(context, MaterialPageRoute(builder: (context) => Search(index:0)));
-                //     },
-                //     child: Container(
-                //       child: Row(
-                //         children: [
-                //           Icon(Icons.search, size: 25, color: CustomColors.appColors,),
-                //           SizedBox(width: 14,),
-                //           Text('Gözleg', style: TextStyle(fontSize: 16, color: CustomColors.appColors,),)
-                //         ],
-                //       ),
-                //     ),
-                //   ),        
-                // ),
-                 Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () {Navigator.pushNamed(context, "/pharmacies/list");},
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.local_pharmacy_sharp, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 14,),
-                          Text('Dermanhanalar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          Spacer(),
-                          Text(statistic['pharmacy_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          SizedBox(width: 15),
-                        ],
-                      ),
-                    ),
-                  ),        
+                 GestureDetector(
+                  onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Söwda nokatlar") ));},
+                  child: Container(
+                    color: Colors.white,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(left: 20, top: 20),
+                    child: GestureDetector(
+                      onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Söwda nokatlar") ));},
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.store_outlined, size: 25, color: CustomColors.appColors,),
+                            SizedBox(width: 14,),
+                            Text('Söwda nokatlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            Spacer(),
+                            Text(statistic['store_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            SizedBox(width: 15),
+                          ]
+                        )
+                      )
+                    )
+                  )
+                 ),
+
+                GestureDetector(
+                  onTap: (){Navigator.pushNamed(context, "/othergoods/list");},
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.white,
+                    margin: EdgeInsets.only(left: 20, top: 20),
+                    child: GestureDetector(
+                      onTap: () {Navigator.pushNamed(context, "/othergoods/list");},
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.newspaper, size: 25, color: CustomColors.appColors,),
+                            SizedBox(width: 14,),
+                            Text('Harytlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            Spacer(),
+                            Text(statistic['product_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            SizedBox(width: 15),
+                          ]
+                        )
+                      )
+                    )
+                  )
                 ),
 
-                 Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Bazarlar") )); 
-                    },
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.storefront_sharp, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 14,),
-                          Text('Bazarlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          Spacer(),
-                          Text(statistic['bazar_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          SizedBox(width: 15),
-                        ],
-                      ),
-                    ),
-                  ),        
+                 GestureDetector(
+                  onTap: (){Navigator.pushNamed(context, "/pharmacies/list");},
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.white,
+                    margin: EdgeInsets.only(left: 20, top: 20),
+                    child: GestureDetector(
+                      onTap: () {Navigator.pushNamed(context, "/pharmacies/list");},
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.local_pharmacy_sharp, size: 25, color: CustomColors.appColors,),
+                            SizedBox(width: 14,),
+                            Text('Dermanhanalar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            Spacer(),
+                            Text(statistic['pharmacy_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            SizedBox(width: 15),
+                          ]
+                        )
+                      )
+                    )
+                  )
+                 ),
+
+                 GestureDetector(
+                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Bazarlar") )); },
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.white,
+                    margin: EdgeInsets.only(left: 20, top: 20),
+                    child: GestureDetector(
+                      onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Bazarlar") )); },
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.storefront_sharp, size: 25, color: CustomColors.appColors,),
+                            SizedBox(width: 14,),
+                            Text('Bazarlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            Spacer(),
+                            Text(statistic['bazar_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            SizedBox(width: 15),
+                          ]
+                        )
+                      )
+                    )     
+                  )
+                 ),
+
+                GestureDetector(
+                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Marketler") ));},
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.white,
+                    margin: EdgeInsets.only(left: 20, top: 20),
+                    child: GestureDetector(
+                      onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Söwda merkezler") ));},
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.store, size: 25, color: CustomColors.appColors,),
+                            SizedBox(width: 14,),
+                            Text('Söwda merkezler', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            Spacer(),
+                            Text(statistic['shopping_center_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            SizedBox(width: 15),
+                          ]
+                        )
+                      )
+                    )       
+                  )
                 ),
 
-                Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () {
-                       Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Söwda merkezler") ));
-                    },
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.store, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 14,),
-                          Text('Söwda merkezler', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          Spacer(),
-                          Text(statistic['shopping_center_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          SizedBox(width: 15),
-                        ],
-                      ),
-                    ),
-                  ),        
+                GestureDetector(
+                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Marketler") ));},
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.white,
+                    margin: EdgeInsets.only(left: 20, top: 20),
+                    child: GestureDetector(
+                      onTap: () {Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Marketler") ));},
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.storefront_outlined, size: 25, color: CustomColors.appColors,),
+                            SizedBox(width: 14,),
+                            Text('Marketler', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            Spacer(),
+                            Text(statistic['market_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            SizedBox(width: 15),
+                          ]
+                        )
+                      )
+                    )
+                  )
                 ),
 
-                Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Marketler") ));
-                    },
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.storefront_outlined, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 14,),
-                          Text('Marketler', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          Spacer(),
-                          Text(statistic['market_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          SizedBox(width: 15),
-                        ],
-                      ),
-                    ),
-                  ),        
-                ),
-
-                Container(
+                GestureDetector(
+                  onTap: () { Navigator.pushNamed(context, "/productManufacturers"); },
+                  child: Container(
+                  color: Colors.white,
+                  width: double.infinity,
                   margin: EdgeInsets.only(left: 20, top: 20),
                   child: GestureDetector(
                     onTap: () {Navigator.pushNamed(context, "/productManufacturers");},
@@ -629,32 +651,42 @@ class MyDraver extends StatelessWidget {
                           Spacer(),
                           Text(statistic['factory_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
                           SizedBox(width: 15),
-                        ],
-                      ),
-                    ),
-                  ),        
+                        ]
+                      )
+                    )
+                  )
+                )
+              ),
+
+                GestureDetector(
+                  onTap: () {Navigator.pushNamed(context, "/car");},
+                  child: Container(
+                    color: Colors.white,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(left: 20, top: 20),
+                    child: GestureDetector(
+                      onTap: () {Navigator.pushNamed(context, "/car");},
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.car_repair, size: 25, color: CustomColors.appColors,),
+                            SizedBox(width: 14,),
+                            Text('Awtoulaglar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            Spacer(),
+                            Text(statistic['car_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            SizedBox(width: 15),
+                          ]
+                        )
+                      )
+                    )
+                  )
                 ),
 
-                Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () {Navigator.pushNamed(context, "/car");},
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.car_repair, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 14,),
-                          Text('Awtoulaglar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          Spacer(),
-                          Text(statistic['car_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          SizedBox(width: 15),
-                        ],
-                      ),
-                    ),
-                  ),        
-                ),
-
-                Container(
+               GestureDetector(
+                onTap: () { Navigator.pushNamed(context, "/autoParts"); },
+                child:  Container(
+                  color: Colors.white,
+                  width: double.infinity,
                   margin: EdgeInsets.only(left: 20, top: 20),
                   child: GestureDetector(
                     onTap: () {Navigator.pushNamed(context, "/autoParts");},
@@ -667,74 +699,90 @@ class MyDraver extends StatelessWidget {
                           Spacer(),
                           Text(statistic['part_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
                           SizedBox(width: 15),
-                        ],
-                      ),
-                    ),
-                  ),        
-                ),
-
-                Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () {Navigator.pushNamed(context, "/properties/list");},
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.other_houses, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 14,),
-                          Text('Emläkler', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          Spacer(),
-                          Text(statistic['flat_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          SizedBox(width: 15),
-                        ],
-                      ),
-                    ),
-                  ),        
-                ),
-
-                Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () {Navigator.pushNamed(context, "/constructions/list");},
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.build_circle, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 14,),
-                          Text('Gurluşyk harytlary', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          Spacer(),
-                          Text(statistic['service_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          SizedBox(width: 15),
-                        ],
-                      ),
-                    ),
-                  ),        
-                ),
-                
-                Container(
-                  margin: EdgeInsets.only(left: 20, top: 20),
-                  child: GestureDetector(
-                    onTap: () {Navigator.pushNamed(context, "/services/list");},
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Icon(Icons.home_repair_service, size: 25, color: CustomColors.appColors,),
-                          SizedBox(width: 14,),
-                          Text('Hyzmatlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          Spacer(),
-                          Text(statistic['service_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
-                          SizedBox(width: 15),
                         ]
                       )
                     )
-                  )        
+                  )
+                )
+               ),
+
+                GestureDetector(
+                  onTap: () { Navigator.pushNamed(context, "/properties/list"); },
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.white,
+                    margin: EdgeInsets.only(left: 20, top: 20),
+                    child: GestureDetector(
+                      onTap: () {Navigator.pushNamed(context, "/properties/list");},
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.other_houses, size: 25, color: CustomColors.appColors,),
+                            SizedBox(width: 14,),
+                            Text('Emläkler', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            Spacer(),
+                            Text(statistic['flat_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            SizedBox(width: 15),
+                          ]
+                        )
+                      )
+                    )
+                  )
+                ),
+
+                GestureDetector(
+                  onTap: () {Navigator.pushNamed(context, "/constructions/list");},
+                  child: Container(
+                    color: Colors.white,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(left: 20, top: 20),
+                    child: GestureDetector(
+                      onTap: () {Navigator.pushNamed(context, "/constructions/list");},
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.build_circle, size: 25, color: CustomColors.appColors,),
+                            SizedBox(width: 14,),
+                            Text('Gurluşyk harytlary', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            Spacer(),
+                            Text(statistic['service_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            SizedBox(width: 15),
+                          ]
+                        )
+                      )
+                    )        
+                  )
+                ),
+                
+                GestureDetector(
+                  onTap: () {Navigator.pushNamed(context, "/services/list");},
+                  child: Container(
+                    width: double.infinity,
+                    color: Colors.white,
+                    margin: EdgeInsets.only(left: 20, top: 20),
+                    child: GestureDetector(
+                      onTap: () {Navigator.pushNamed(context, "/services/list");},
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Icon(Icons.home_repair_service, size: 25, color: CustomColors.appColors,),
+                            SizedBox(width: 14,),
+                            Text('Hyzmatlar', style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            Spacer(),
+                            Text(statistic['service_count'], style: TextStyle(fontSize: 16, color: CustomColors.appColors)),
+                            SizedBox(width: 15),
+                          ]
+                        )
+                      )
+                    )        
+                  )
                 ),
                 Container(height: 20)        
-              ],
-            ),            
-          ),
-        ],
-      ),
+              ]
+            )
+          )
+        ]
+      )
     );
   }
 }

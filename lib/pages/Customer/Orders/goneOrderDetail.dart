@@ -13,8 +13,9 @@ import '../../../dB/providers.dart';
 
 class GoneOrderDetail extends StatefulWidget {
   final String order_id;
+  final Function refresh;
  
-  GoneOrderDetail({Key? key, required this.order_id}) : super(key: key);
+  GoneOrderDetail({Key? key, required this.order_id, required this.refresh}) : super(key: key);
 
   @override
   State<GoneOrderDetail> createState() => _GoneOrderDetailState();
@@ -46,8 +47,81 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
         context: context, 
         type: QuickAlertType.error);
     }
+
+    showWorningAlert(String text, String id){
+      QuickAlert.show(
+        title: 'Sebet ID: $id',
+        text: text,
+        context: context, 
+        confirmBtnText: 'Tassyklaýaryn',
+        confirmBtnColor: Colors.green,
+        onConfirmBtnTap: () async {
+          if (text=='Sargydy pozmagy tassyklaň!'){
+            Urls server_url  =  new Urls();
+            String url = server_url.get_server_url() + '/mob/orders/delete/$id';
+            final uri = Uri.parse(url);
+            var responsess = Provider.of<UserInfo>(context, listen: false).update_tokenc();
+            if (await responsess){
+              var token = Provider.of<UserInfo>(context, listen: false).access_token;
+              final response = await http.post(uri, headers: {'token': token});
+              if (response.statusCode==200){ 
+                widget.refresh();
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
+                }
+              else{Navigator.pop(context);showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');}
+            }
+          }
+          else {
+            Urls server_url  =  new Urls();
+            String url = server_url.get_server_url() + '/mob/orders/$id';
+            final uri = Uri.parse(url);
+            var token = Provider.of<UserInfo>(context, listen: false).access_token;
+            final response = await http.put(uri, headers: {'token': token}, body: {'status': 'canceled'});
+            if (response.statusCode==200){
+              widget.refresh();
+              Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.pop(context);}
+            else{Navigator.pop(context);showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');
+            }  
+          }
+            
+            setState(() {
+              determinate = false;
+            });
+        },
+        type: QuickAlertType.info);
+    }
+
     return Scaffold(
-      appBar: AppBar(title: Text('Giden sargyt: ' + widget.order_id.toString())),
+      appBar: AppBar(
+        title: Text('Giden sargyt: ' + widget.order_id.toString()),
+        actions: [
+        PopupMenuButton<String>(
+              itemBuilder: (context) {
+                List<PopupMenuEntry<String>> menuEntries2 = [
+                   PopupMenuItem<String>(
+                    child: GestureDetector(
+                      onTap: (){
+                        showWorningAlert("Sargydy pozmagy tassyklaň!", widget.order_id);
+                      },
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [
+                          Icon(Icons.delete, color: Colors.red,),
+                          Text('Pozmak')
+                        ]))
+                    )
+                  )
+                ];
+                return menuEntries2;
+              },
+            )
+        ]
+      ),
     body: RefreshIndicator(
         color: Colors.white,
         backgroundColor: CustomColors.appColors,
@@ -77,40 +151,33 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
                      Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        
                         Expanded(child: Container(
-                          margin: EdgeInsets.only(left: 5),
-                          alignment: Alignment.centerLeft,
+                          margin: EdgeInsets.only(left: 10),
+                          alignment: Alignment.bottomLeft,
                           child: Text(order['store'].toString(), overflow: TextOverflow.clip, style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
                         )),
-                        
                         Expanded(child: Row(
                           children: [
-                            SizedBox(width: 5),
                             Icon(Icons.person),
                             Text(order['customer']['name'].toString() + " " + order['customer']['phone'].toString(), style: TextStyle(color: CustomColors.appColors, fontSize: 15))
                           ]
                         )),
                         if (order['status']=='accepted')
                            Expanded(child: Container(
+                            alignment: Alignment.topLeft,
                             margin: EdgeInsets.only(left: 5),
-                            alignment: Alignment.centerLeft,
                             padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-                            decoration: BoxDecoration(border: Border.all(color: CustomColors.appColors)),
                             child: const Text("Kabul edilen", style: TextStyle(color: Color.fromARGB(255, 160, 121, 3))))),
                           if (order['status']=='canceled')
                             Expanded(child:  Container(
                               margin: EdgeInsets.only(left: 5),
-                              alignment: Alignment.centerLeft,
+                              alignment: Alignment.topLeft,
                             padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-                            decoration: BoxDecoration(border: Border.all(color: CustomColors.appColors)),
                             child: const Text("Gaýtarylan", style: TextStyle(color: Colors.red)))),
                           if (order['status']=='pending')
                            Expanded(child: Container(
-                            margin: EdgeInsets.only(left: 5),
-                            alignment: Alignment.centerLeft,
+                            alignment: Alignment.topLeft,
                             padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-                            decoration: BoxDecoration(border: Border.all(color: CustomColors.appColors)),
                             child: const Text("Garaşylýar", style: TextStyle(color: Colors.green))))
                       ]
                      )

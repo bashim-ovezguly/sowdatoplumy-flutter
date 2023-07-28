@@ -481,7 +481,6 @@ class _MarketDetailState extends State<MarketDetail> {
                                   keyword.text = '';
                                 });
                                 get_products_modul(modul, id);
-                                /* Clear the search field */
                               },
                             ),
                             hintText: 'Gözleg...',
@@ -530,7 +529,7 @@ class _MarketDetailState extends State<MarketDetail> {
                               alignment: Alignment.topCenter,
                               child: item['img']!=null &&  item['img']!="" ? Image.network(
                                 baseurl + item['img'].toString(),
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
                                 width:  MediaQuery.of(context).size.width/3-10,
                                 height: 130,
                               ): Image.asset('assets/images/default.jpg', height: 200,)

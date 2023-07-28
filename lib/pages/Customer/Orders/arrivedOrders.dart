@@ -191,8 +191,8 @@ class _ArrivedOrdersState extends State<ArrivedOrders> {
   }
   get_my_orders(String customer_id) async {
     Urls server_url  =  new Urls();
-    String url = server_url.get_server_url() + '/mob/orders?accepter=$customer_id';
-      // String url = server_url.get_server_url() + '/mob/orders?accepter=98';
+    // String url = server_url.get_server_url() + '/mob/orders?accepter=$customer_id';
+      String url = server_url.get_server_url() + '/mob/orders?accepter=98';
       final uri = Uri.parse(url);
       final response = await http.get(uri);
       final json = jsonDecode(utf8.decode(response.bodyBytes));

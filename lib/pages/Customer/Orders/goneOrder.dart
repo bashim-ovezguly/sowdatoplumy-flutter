@@ -25,54 +25,12 @@ class _GoneOrdersState extends State<GoneOrders> {
     get_my_orders(widget.customer_id);
     super.initState();
   }
+  refresh(){
+    get_my_orders(widget.customer_id);
+  }
 
   @override
   Widget build(BuildContext context) {
-    showErrorAlert(String text){
-      QuickAlert.show(
-        text: text,
-        context: context, 
-        type: QuickAlertType.error);
-    }
-
-    showWorningAlert(String text, String id){
-      QuickAlert.show(
-        title: 'Sebet ID: $id',
-        text: text,
-        context: context, 
-        confirmBtnText: 'Tassyklaýaryn',
-        confirmBtnColor: Colors.green,
-        onConfirmBtnTap: () async {
-          if (text=='Sargydy pozmagy tassyklaň!'){
-            Urls server_url  =  new Urls();
-            String url = server_url.get_server_url() + '/mob/orders/delete/$id';
-            final uri = Uri.parse(url);
-            var responsess = Provider.of<UserInfo>(context, listen: false).update_tokenc();
-            if (await responsess){
-              var token = Provider.of<UserInfo>(context, listen: false).access_token;
-              final response = await http.post(uri, headers: {'token': token});
-              if (response.statusCode==200){ Navigator.pop(context);}
-              else{Navigator.pop(context);showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');}
-            }
-          }
-          else {
-            Urls server_url  =  new Urls();
-            String url = server_url.get_server_url() + '/mob/orders/$id';
-            final uri = Uri.parse(url);
-            var token = Provider.of<UserInfo>(context, listen: false).access_token;
-            final response = await http.put(uri, headers: {'token': token}, body: {'status': 'canceled'});
-            if (response.statusCode==200){Navigator.pop(context);}
-            else{Navigator.pop(context);showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');
-            }  
-          }
-            
-            setState(() {
-              determinate = false;
-            });
-            get_my_orders(widget.customer_id);
-        },
-        type: QuickAlertType.info);
-    }
 
     return Scaffold(
       appBar: AppBar(title: Text('Giden sargytlar'),),
@@ -104,7 +62,7 @@ class _GoneOrdersState extends State<GoneOrders> {
                   padding: EdgeInsets.only(left: 5, right: 5),
                   child: GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => GoneOrderDetail(order_id: orders[index]['id'].toString())));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => GoneOrderDetail(order_id: orders[index]['id'].toString(), refresh: refresh)));
                     },
                     child: Card(
                     elevation: 5,

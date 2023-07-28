@@ -9,8 +9,6 @@ import '../../../dB/constants.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../../call.dart';
-
 class ArrivedOrderDetail extends StatefulWidget {
   final String order_id;
   final Function refresh;
@@ -99,7 +97,70 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Sargyt: ' + widget.order_id.toString())),
+      appBar: AppBar(
+        title: Text('Sargyt: ' + widget.order_id.toString()),
+        actions: [
+        PopupMenuButton<String>(
+              itemBuilder: (context) {
+                List<PopupMenuEntry<String>> menuEntries2 = [
+                   PopupMenuItem<String>(
+                    child: 
+                    
+                    GestureDetector(
+                      onTap: () async {
+                        Urls server_url  =  new Urls();
+                        var id = widget.order_id; 
+                        String url = server_url.get_server_url() + '/mob/orders/$id';
+                        final uri = Uri.parse(url);
+                        var token = Provider.of<UserInfo>(context, listen: false).access_token;
+                        final response = await http.put(uri, headers: {'token': token}, body: {'status': 'accepted'});
+                        if (response.statusCode==200){showSuccessAlert();widget.refresh();}
+                        else{Navigator.pop(context);showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy!');}  
+                      },
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [Icon(Icons.check, size: 15, color: Colors.green,), Text('  Kabul etmek', style: TextStyle(fontSize: 14, color: Colors.green))])
+                      )
+                    )
+                  ),
+                  PopupMenuItem<String>(
+                    child: GestureDetector(
+                      onTap: () async {
+                        Urls server_url  =  new Urls();
+                        var id = widget.order_id; 
+                        String url = server_url.get_server_url() + '/mob/orders/$id';
+                        final uri = Uri.parse(url);
+                        var token = Provider.of<UserInfo>(context, listen: false).access_token;
+                        final response = await http.put(uri, headers: {'token': token}, body: {'status': 'canceled'});
+                        if (response.statusCode==200){showSuccessAlert();widget.refresh();}
+                        else{Navigator.pop(context);showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy!');} 
+                      },
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [Icon(Icons.close, size: 15, color: Color.fromARGB(255, 201, 159, 31),), Text('  Gaýtarmak', style: TextStyle(fontSize: 14, color: Color.fromARGB(255, 201, 159, 31)))])
+                      )
+                    )
+                  ),
+
+                  PopupMenuItem<String>(
+                    child: GestureDetector(
+                      onTap: (){showWorningAlert('Sargydy pozmagy tassyklaň!', order['id'].toString());},
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [Icon(Icons.delete, size: 15, color: Colors.red,), Text('  Pozmak', style: TextStyle(fontSize: 14, color: Colors.red))]),
+                      )
+                    )
+                  )
+
+                ];
+                return menuEntries2;
+              },
+            )
+        ]
+        ),
     body: RefreshIndicator(
          color: Colors.white,
         backgroundColor: CustomColors.appColors,
@@ -337,66 +398,6 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
         ): Center(child: CircularProgressIndicator(
         color: CustomColors.appColors))
     ),
-  floatingActionButton: Container(
-    margin: EdgeInsets.only(left: 30),
-    height: 40, width: double.infinity,
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Expanded(child: FloatingActionButton.extended(
-        onPressed: () async {
-          Urls server_url  =  new Urls();
-          var id = widget.order_id; 
-          String url = server_url.get_server_url() + '/mob/orders/$id';
-          final uri = Uri.parse(url);
-          var token = Provider.of<UserInfo>(context, listen: false).access_token;
-          final response = await http.put(uri, headers: {'token': token}, body: {'status': 'accepted'});
-
-          if (response.statusCode==200){
-            showSuccessAlert();
-            widget.refresh();
-          }
-          else{
-            Navigator.pop(context);
-              showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy!');
-            }  
-
-          },
-        label: Row(children: [Icon(Icons.check, size: 15,), Text('Kabul etmek', style: TextStyle(fontSize: 12))]),
-        backgroundColor: Colors.green,
-        )),
-        Expanded(child: FloatingActionButton.extended(
-        onPressed: () async {
-          Urls server_url  =  new Urls();
-          var id = widget.order_id; 
-          String url = server_url.get_server_url() + '/mob/orders/$id';
-          final uri = Uri.parse(url);
-          var token = Provider.of<UserInfo>(context, listen: false).access_token;
-          final response = await http.put(uri, headers: {'token': token}, body: {'status': 'canceled'});
-
-          if (response.statusCode==200){
-            showSuccessAlert();
-            widget.refresh();
-          }
-          else{
-            Navigator.pop(context);
-              showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy!');
-            } 
-          },
-        label: Row(children: [Icon(Icons.close, size: 15), Text('Gaýtarmak', style: TextStyle(fontSize: 12))]),
-        backgroundColor: Colors.amber,
-        )),
-        
-        Expanded(child: FloatingActionButton.extended(
-        onPressed: () async {
-          showWorningAlert('Sargydy pozmagy tassyklaň!', order['id'].toString());
-          },
-        label: Row(children: [Icon(Icons.delete, size: 15), Text('Pozmak', style: TextStyle(fontSize: 12))]),
-        backgroundColor: Colors.red,
-        )) 
-      ]
-    ),
-  )
     );
   }
     get_order_detail(String order_id)async {
@@ -412,130 +413,5 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
         item_count = products.length;
         determinate = true;
     });
-  }
-}
-
-class OrderUpdateStatus extends StatefulWidget {
-  final Function set_order_status;
-  final String id;
-  final Function refresh;
-   OrderUpdateStatus({Key? key, required this.set_order_status, required this.refresh, required this.id}) : super(key: key);
-
-  @override
-  State<OrderUpdateStatus> createState() => OorderUpdateSatatuState();
-}
-
-class OorderUpdateSatatuState extends State<OrderUpdateStatus> {
-  String? gender;
-  @override
-  Widget build(BuildContext context) {
-
-    showErrorAlert(String text){
-      QuickAlert.show(
-        text: text,
-        title: "Ýalňyşlyk!",
-        confirmBtnColor: Colors.green,
-        confirmBtnText: 'Dowam et',
-        onConfirmBtnTap: (){
-          Navigator.pop(context);
-        },
-        context: context, 
-        type: QuickAlertType.error);}
-    
-    showSuccessAlert(){
-      QuickAlert.show(
-        context: context,
-        title: '',
-        text: 'Sagydyň ýagdaýy üýtgedildi!',
-        confirmBtnText: 'Dowam et',
-        confirmBtnColor: CustomColors.appColors,
-        type: QuickAlertType.success,
-        onConfirmBtnTap: (){
-          widget.refresh();
-          Navigator.pop(context);
-          Navigator.pop(context);
-        });
-    }
-    return AlertDialog(
-      icon: Row(
-        children: [
-          Icon(Icons.shopping_cart_sharp, color: Colors.green),
-          Text("  Sagydyň ýagdaýyny saýlaň!", style: TextStyle(color: CustomColors.appColors, fontSize: 16))
-        ]),
-      content: Container(
-        decoration: BoxDecoration(border: Border.all(color: Colors.black38)),
-        height: 180,
-        width: 100,
-        child:  Column(
-            children: [  
-              RadioListTile(
-                title: Text("Garaşylýar"),
-                value: "pending", 
-                groupValue: gender, 
-                onChanged: (value){
-                  setState(() {
-                    gender = value.toString();
-                  });
-              }),
-              RadioListTile(
-                title: Text("Tassyklanyldy"),
-                value: "accepted", 
-                groupValue: gender, 
-                onChanged: (value){
-                  setState(() {
-                    gender = value.toString();
-                  });
-                }),
-                RadioListTile(
-                  title: Text("Gaýtarylan"),
-                  value: "canceled", 
-                  groupValue: gender, 
-                  onChanged: (value){
-                    setState(() {
-                      gender = value.toString();
-                    });
-                  })
-            ]
-          )
-      ),
-      actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-              onPressed: (){ Navigator.pop(context);},
-              child: const Text('Goý bolsun')
-            ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-              onPressed: () async { 
-
-                Urls server_url  =  new Urls();
-                var id = widget.id; 
-                String url = server_url.get_server_url() + '/mob/orders/$id';
-                final uri = Uri.parse(url);
-                var token = Provider.of<UserInfo>(context, listen: false).access_token;
-                final response = await http.put(uri, headers: {'token': token}, 
-                                                body: {'status': gender});
-                if (response.statusCode==200){
-                  Navigator.pop(context);
-                  showSuccessAlert();
-                }
-                else{
-                  Navigator.pop(context);
-                  showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');
-                }  
-                widget.refresh();
-                widget.set_order_status(gender);
-                Navigator.pop(context);
-                
-                },
-              child: const Text('OK')
-            )
-          ],
-        )
-      ],
-    );
   }
 }
