@@ -52,8 +52,13 @@ class _LocationWidgetState extends State<LocationWidget> {
                     icon: Icon(Icons.arrow_back_ios, color:CustomColors.appColors),
                     onPressed: (){get_locations(data[0]['back_id']);},
                 )
-                ),  
-                Text(data[0]['parent']['name'], style: TextStyle(fontSize: 18, color: CustomColors.appColors)),
+                ),
+                GestureDetector(
+                  onTap: (){
+                    get_locations(data[0]['back_id']);
+                  },
+                  child: Text(data[0]['parent']['name'], style: TextStyle(fontSize: 18, color: CustomColors.appColors)),
+                )
             ]
           )
         ],
@@ -192,8 +197,7 @@ class _LocationWidgetState extends State<LocationWidget> {
           ],
         )
       ),
-    ): Center(child: CircularProgressIndicator(
-        color: CustomColors.appColors,),);
+    ): Center(child: CircularProgressIndicator(color: CustomColors.appColors));
   }
 
     void get_locations(parent) async {

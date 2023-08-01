@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -181,16 +182,21 @@ class _CheckoutState extends State<Checkout> {
             setState(() {
               dict['note'] = noteController.text;
               dict['address'] = addressController.text;
-              dict['created_at'] = dateinput.text;
+              dict['delivery_time'] = dateinput.text;
             });
+
+            DateTime.parse(dict['delivery_time']);
             Urls server_url  =  new Urls();
-            String url = server_url.get_server_url() + '/mob/orders';
+            String url = server_url.get_server_url() + '/mob/orders/add';
             final uri = Uri.parse(url);
             var body = json.encode(dict);
             var responsess = Provider.of<UserInfo>(context, listen: false).update_tokenc();
             if (await responsess){
               var token = Provider.of<UserInfo>(context, listen: false).access_token;
               var req = await http.post(uri, headers: {"Content-Type": "application/json", "token": token}, body: body);
+              print(body);
+              print(req.statusCode);
+              print(req.body);
               if (req.statusCode==200){
                 var shoping_carts = [];
                 var shoping_cart = await dbHelper.get_shoping_cart_by_store(id: dict['store']);
@@ -213,14 +219,14 @@ class _CheckoutState extends State<Checkout> {
   dateTimePickerWidget(BuildContext context) {
     return DatePicker.showDatePicker(
       context,
-      dateFormat: 'dd MMMM yyyy HH:mm',
+      dateFormat: 'yyyy-MM-dd HH:mm',
       initialDateTime: DateTime.now(),
       minDateTime: DateTime(2000),
       maxDateTime: DateTime(3000),
       onMonthChangeStartWithFirstDate: true,
       onConfirm: (dateTime, List<int> index) {
         DateTime selectdate = dateTime;
-        final selIOS = DateFormat('dd-MMM-yyyy - HH:mm').format(selectdate);
+        final selIOS = DateFormat('yyyy-MM-dd HH:mm').format(selectdate);
         setState(() {
           dateinput.text = selIOS;
         });

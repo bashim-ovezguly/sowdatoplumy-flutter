@@ -175,7 +175,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                   onTap: (){
                                     if (item['id']!=null && item['id']!='')
                                     {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: item['id'].toString(),title: 'Beýleki bildirişler',) ));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: item['id'].toString(),title: 'Harytlar',) ));
                                     }
                                   },
                                   child: Container(
@@ -239,7 +239,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                     (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: (){ 
-                       Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: data[index]['id'].toString(), title: 'Beýleki bildirişler',)));
+                       Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: data[index]['id'].toString(), title: 'Harytlar',)));
                       },
                     child: Container(
                       margin: EdgeInsets.only(left: 5, right: 5),
@@ -290,7 +290,11 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                             child: Row(
                                               children: <Widget>[
                                                 Icon(Icons.access_time_outlined,color: Colors.white, size: 15,),SizedBox(width: 5,),
-                                                Text(data[index]['delta_time'].toString(),style: CustomText.itemText)],),)),
+                                                Text(data[index]['delta_time'].toString(),style: CustomText.itemText),
+                                                Spacer(),
+                                                Text(data[index]['price'].toString(),style: CustomText.itemText),
+                                                ]
+                                                ))),
 
                                       if (data[index]['store_id']==null || data[index]['store_id']=='')
                                           Expanded(child:Align(

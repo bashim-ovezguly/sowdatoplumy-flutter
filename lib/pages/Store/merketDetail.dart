@@ -381,12 +381,12 @@ class _MarketDetailState extends State<MarketDetail> {
                     return Column(
                     children: [
                       for(var i in data_tel)
-                      if (i!=telefon)
+                      if (i != telefon)
                         Container(
+                          margin: EdgeInsets.only(top: 10),
                           width: double.infinity,
                             child: Row(
                               children: [
-                                SizedBox(height: 2),
                                 Expanded(child: Text('')),
                                 Expanded(child: Row(
                                   children: [

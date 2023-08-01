@@ -150,13 +150,39 @@ class _AutoPartsListState extends State<AutoPartsList> {
                                                   maxLines: 2,
                                                   softWrap: false,
                                                 style: CustomText.itemText,),),),
-                                          Expanded(
-                                              child: Container(
+                                          Expanded(child: Row(
+                                                children: [
+
+                                                
+                                              
+                                              Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: Text(
                                                     data[index]['price'].toString(),
                                                     style: CustomText.itemText
-                                                ),)),
+                                                )),
+                                                Spacer(),
+                                              Container(
+                                                margin: EdgeInsets.only(right: 5),
+                                                child: Align(
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Row(
+                                                    children:  <Widget>[
+                                                      Icon(Icons.star_outline_sharp,color: Colors.white,),
+                                                      if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'pending')
+                                                      Text("Garşylyar".toString(),style: TextStyle(color: Colors.amber))
+                                                      else if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'accepted')
+                                                      Text("Tassyklanyldy".toString(),style: TextStyle(color: Colors.green))
+                                                      else if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'canceled')
+                                                      Text("Gaýtarylan".toString(),style: TextStyle(color: Colors.red))
+                                                  ],),),
+                                              )
+                                                ]
+                                          )
+
+                                                
+                                                
+                                                ),
                                           Expanded(child:Align(
                                             alignment: Alignment.centerLeft,
                                             child: Row(

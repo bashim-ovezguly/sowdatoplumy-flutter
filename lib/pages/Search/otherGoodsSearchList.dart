@@ -62,7 +62,7 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
             padding: const EdgeInsets.only(left: 10,top: 10,bottom: 10),
             child:Row(
               children: <Widget>[
-                Text("Beýleki bildirişler - " + data.length.toString() + " sany",
+                Text("Harytlar - " + data.length.toString() + " sany",
                   style: TextStyle(fontSize: 18, color: CustomColors.appColors),),
                 const Spacer(),
                 Container(margin: const EdgeInsets.only(right: 20), child:
@@ -80,7 +80,7 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
                   return GestureDetector(
                     onTap: (){ 
                       if (data[index]['id']!=null){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: data[index]['id'].toString(), title: 'Beýleki bildirişler',)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: data[index]['id'].toString(), title: 'Harytlar',)));
                       }
                        
                       },

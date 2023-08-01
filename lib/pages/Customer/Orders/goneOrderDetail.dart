@@ -28,7 +28,6 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
   var baseurl = "";
   var order = {};
   var products = [];
-  
   int delivery_price_int = 0;
 
   void initState() {
@@ -87,10 +86,9 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
             else{Navigator.pop(context);showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy');
             }  
           }
-            
             setState(() {
-              determinate = false;
-            });
+            determinate = false;
+          });
         },
         type: QuickAlertType.info);
     }
@@ -142,11 +140,14 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
                   padding: EdgeInsets.only(left: 5, right: 5),
                   child: Row(
                     children: [
+                      
                       Container(
                         height: 100,
                         width: 100,
-                        color: Colors.amber,
-                        child: Image.network(baseurl + order['store_img'], height: 100, fit:BoxFit.cover),
+                        color: Colors.white,
+                        child: order['store_img']!=null && order['store_img']!='' && determinate==true ?Image.network(baseurl + order['store_img'], height: 100, fit:BoxFit.cover):
+                        Image.asset('assets/images/default16x9.jpg')
+                        ,
                       ),
                      Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

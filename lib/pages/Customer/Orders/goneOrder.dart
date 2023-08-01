@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/colors.dart';
-import 'package:my_app/dB/providers.dart';
-import 'package:provider/provider.dart';
-import 'package:quickalert/quickalert.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../../dB/constants.dart';
@@ -83,7 +80,7 @@ class _GoneOrdersState extends State<GoneOrders> {
                               Expanded(flex: 2, child: Container(
                                 width: 100,
                                 margin: EdgeInsets.only(left: 5, top: 5, bottom: 5), 
-                                child: Image.network(
+                                child: orders[index]['store_img']!=null && orders[index]['store_img']!='' && determinate==true ?Image.network(
                                   baseurl + orders[index]['store_img'].toString(),
                                   loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                                     if (loadingProgress == null) return child;
@@ -99,7 +96,10 @@ class _GoneOrdersState extends State<GoneOrders> {
                                   },
                                   height: 110,
                                   fit: BoxFit.cover
-                              ))),
+                              ): Image.asset('assets/images/default16x9.jpg')
+                              )
+                              
+                              ),
                               Expanded(flex: 6, child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +108,7 @@ class _GoneOrdersState extends State<GoneOrders> {
                                     SizedBox(height: 5),
 
                                     Expanded(child: Container(margin: EdgeInsets.only(left: 5),
-                                            child: Text(orders[index]['customer'].toString() + " "+ orders[index]['phone'].toString(), overflow: TextOverflow.clip, style: TextStyle(fontSize: 14, color: CustomColors.appColors)))),
+                                            child: Text(orders[index]['store_name'].toString(), overflow: TextOverflow.clip, style: TextStyle(fontSize: 14, color: CustomColors.appColors)))),
                                     
                                     Expanded(child: Container(margin: EdgeInsets.only(left: 5),
                                             child: Text(orders[index]['total'].toString() + " TMT", overflow: TextOverflow.clip, style: TextStyle(fontSize: 14, color: CustomColors.appColors)))),
@@ -154,7 +154,7 @@ class _GoneOrdersState extends State<GoneOrders> {
   }  
   get_my_orders(String customer_id) async {
     Urls server_url  =  new Urls();
-      String url = server_url.get_server_url() + '/mob/orders?customer=$customer_id';
+      String url = server_url.get_server_url() + '/mob/customers/$customer_id/orders/out';
       final uri = Uri.parse(url);
       final response = await http.get(uri);
       final json = jsonDecode(utf8.decode(response.bodyBytes));

@@ -17,7 +17,6 @@ class ArrivedOrderDetail extends StatefulWidget {
   @override
   State<ArrivedOrderDetail> createState() => _ArrivedOrderDetailState();
 }
-
 class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
   bool determinate = false;
   int item_count = 0;
@@ -28,11 +27,12 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
   var products = [];
   int delivery_price_int = 0;
   var status ;
+  final newDeliveryPrice = TextEditingController();
+
   void set_order_status(value){
-    setState(() {
-      status=value;
-    });
+    setState(() {status=value;});
   }
+
   void initState() {
     get_order_detail(widget.order_id);
     super.initState();
@@ -153,7 +153,57 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
                         child: Row(children: [Icon(Icons.delete, size: 15, color: Colors.red,), Text('  Pozmak', style: TextStyle(fontSize: 14, color: Colors.red))]),
                       )
                     )
-                  )
+                  ),
+
+                  PopupMenuItem<String>(
+                    child: GestureDetector(
+                      onTap: () async {
+                             showDialog(
+                              context: context,
+                              builder: (context){
+                                return AlertDialog(
+                                  title: Text("Eltip bermek bahasy."),
+                                  content: Container(
+                                    child: TextFormField(
+                                      controller: newDeliveryPrice,
+                                      decoration: new InputDecoration(labelText: "Täze baha"),
+                                      ),
+                                    ),
+                                    actions: [
+                                      Align(
+                                        child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(backgroundColor: Colors.green, foregroundColor: Colors.white),
+                                        onPressed: () async {
+                                            var token = Provider.of<UserInfo>(context, listen: false).access_token;
+                                            Urls server_url  =  new Urls();
+                                            var id = widget.order_id;
+                                            String url = server_url.get_server_url() + '/mob/orders/$id';
+                                            final uri = Uri.parse(url);
+                                            final response = await http.put(uri, headers: {'token': token}, body: {'delivery_price': newDeliveryPrice.text.toString()});
+                                            print(response.statusCode);
+                                            print(response.body);
+                                            if (response.statusCode==200){
+                                              get_order_detail(widget.order_id);
+                                              Navigator.pop(context);
+                                              }
+                                            else{
+                                              showErrorAlert('Bagyşlaň ýalňyşlyk ýüze çykdy!');
+                                            }
+                                          },
+                                        child: const Text('Tassyklamak'),
+                                      ),
+                                      )
+                                    ],
+                                  );
+                                });
+                      },
+                      child: Container(
+                        color: Colors.white,
+                        height: 40, width: double.infinity,
+                        child: Row(children: [Icon(Icons.edit, size: 15, color: Colors.blueAccent), Text('  Eltip bermek bahasy', style: TextStyle(fontSize: 14, color: Colors.blueAccent))])
+                      )
+                    )
+                  ),
 
                 ];
                 return menuEntries2;
@@ -235,7 +285,7 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
                         children: [
                           Text("Eltip bermek bahasy:", style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
                           Spacer(),
-                          Text(order['delivery_price'].toString(), style: TextStyle(color: CustomColors.appColors, fontSize: 15))
+                          Text(order['delivery_price'].toString() + " TMT", style: TextStyle(color: CustomColors.appColors, fontSize: 15))
                       ]),
                       SizedBox(height: 2),
                       Row(

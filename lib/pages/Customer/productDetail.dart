@@ -94,7 +94,9 @@ class _ProductDetailState extends State<ProductDetail> {
                           showDialog(
                               context: context,
                               builder: (context){
-                                return DeleteAlert(action: 'products', id: id, callbackFunc: callbackStatusDelete,);});},),)
+                                return DeleteAlert(action: 'products', id: id, callbackFunc: callbackStatusDelete,);});
+                                
+                                },),)
                     ],
                   )
                 ],

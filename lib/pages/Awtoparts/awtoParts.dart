@@ -264,7 +264,9 @@ class _AutoPartsState extends State<AutoParts> {
                                                 child: Text(
                                                     data[index]['price'].toString(),
                                                     style: CustomText.itemText
-                                                ),)),
+                                                ),)
+                                                
+                                                ),
 
 
                                     if (data[index]['store_id']==null || data[index]['store_id']=='')
@@ -291,7 +293,8 @@ class _AutoPartsState extends State<AutoParts> {
                                                   maxLines: 1,
                                                   overflow: TextOverflow.ellipsis,
                                                   style: CustomText.itemText,
-                                                ),)))
+                                                ),))
+                                                )
 
 
                                         ],

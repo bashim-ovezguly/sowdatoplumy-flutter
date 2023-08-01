@@ -151,7 +151,7 @@ class _RealEstateListState extends State<RealEstateList> {
                                             alignment: Alignment.centerLeft,
 
 
-                                           child: Container(
+                                          child: Container(
                                           margin: EdgeInsets.only(left: 5),
                                           alignment: Alignment.centerLeft,
                                           child: Text(
@@ -166,14 +166,31 @@ class _RealEstateListState extends State<RealEstateList> {
                                       
                                       Expanded(child: Row(
                                         children: [
-                                          Expanded(child: Align(
+                                        Expanded(child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: Row(
                                           children:  <Widget>[
-                                            Text(data[index]['price'].toString(),style: CustomText.itemText)],),),),
+                                            Text(data[index]['price'].toString(),style: CustomText.itemText),
+                                            Container(
+                                                margin: EdgeInsets.only(right: 5),
+                                                child: Align(
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Row(
+                                                    children:  <Widget>[
+                                                      Icon(Icons.star_outline_sharp,color: Colors.white,),
+                                                      if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'pending')
+                                                      Text("Garşylyar".toString(),style: TextStyle(color: Colors.amber))
+                                                      else if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'accepted')
+                                                      Text("Tassyklanyldy".toString(),style: TextStyle(color: Colors.green))
+                                                      else if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'canceled')
+                                                      Text("Gaýtarylan".toString(),style: TextStyle(color: Colors.red))
+                                                  ]))
+                                                )
+                                            
+                                            ],),),),
                                             
                                           Expanded(child:Align(
-                                            alignment: Alignment.topCenter,
+                                            alignment: Alignment.centerLeft,
                                             child: Row(
                                           children:  <Widget>[
                                             SizedBox(width: 10,),

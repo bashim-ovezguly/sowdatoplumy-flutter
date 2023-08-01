@@ -166,7 +166,28 @@ class _ConstructionListState extends State<ConstructionList> {
                                             children:  <Widget>[
                                               Icon(Icons.attach_money_rounded,color: Colors.white,),
                                               SizedBox(width: 10,),
-                                              Text(data[index]['price'].toString(),style: CustomText.itemText)],),)),
+                                              Text(data[index]['price'].toString(),style: CustomText.itemText),
+                                              Spacer(),
+                                                      Spacer(),
+                                              Container(
+                                                margin: EdgeInsets.only(right: 5),
+                                                child: Align(
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Row(
+                                                    children:  <Widget>[
+                                                      Icon(Icons.star_outline_sharp,color: Colors.white,),
+                                                      if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'pending')
+                                                      Text("Garşylyar".toString(),style: TextStyle(color: Colors.amber))
+                                                      else if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'accepted')
+                                                      Text("Tassyklanyldy".toString(),style: TextStyle(color: Colors.green))
+                                                      else if (data[index]['status']!=null && data[index]['status']!= '' && data[index]['status'] == 'canceled')
+                                                      Text("Gaýtarylan".toString(),style: TextStyle(color: Colors.red))
+                                                  ]))
+                                                )
+                                              ],
+                                              
+                                              
+                                              ),)),
 
                                   ],
                                 ),
