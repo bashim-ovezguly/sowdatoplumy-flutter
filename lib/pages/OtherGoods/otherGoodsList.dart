@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/OtherGoods/otherGoodsDetail.dart';
 import 'package:my_app/pages/homePages.dart';
@@ -47,9 +48,11 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
   });}
 
   void initState() {
-    timers();
-    getproductlist();
-    getslider_products();
+    _pageNumber = 1;
+    _isLastPage = false;
+    _loading = true;
+    _error = false;
+    timers(); getproductlist(); getslider_products();
     super.initState();
   }
       timers() async {
@@ -59,6 +62,13 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
       await completer.future;
       setState(() {if (determinate==false){status = false;}});
   }
+
+  late bool _isLastPage;
+  late int _pageNumber;
+  late bool _error;
+  late bool _loading;
+  final int _numberOfPostPerRequest = 100;
+  final int _nextPageTriger = 3;
   
   @override
   Widget build(BuildContext context) {
@@ -97,22 +107,17 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
             initState();
           });
           return Future<void>.delayed(const Duration(seconds: 3));},
-          child: determinate && determinate1 ? CustomScrollView(
-          slivers: [
-            SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: 1,
-                      (BuildContext context, int index) {
-                    return Container(
-                  margin: EdgeInsets.only(left: 10, right: 10),
-                    width: double.infinity,
-                    height: 40,
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
-                    child: Center(
-                      child: TextFormField(
-                        controller: keyword,
-                        decoration: InputDecoration(
-                            prefixIcon: IconButton(
+          child: determinate && determinate1 ? Column(
+            children: [
+              Container(margin: EdgeInsets.only(left: 10, right: 10),
+                width: double.infinity,
+                height: 40,
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5)),
+                  child: Center(
+                    child: TextFormField(
+                      controller: keyword,
+                      decoration: InputDecoration(
+                        prefixIcon: IconButton(
                               icon: const Icon(Icons.search), 
                               onPressed: () {
                                 getproductlist();
@@ -131,24 +136,40 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                             border: InputBorder.none),
                       ),
                     ),
-                  );
-                    
-                    })),
-
-
-
+                  ),
+        Container(
+          height: MediaQuery.of(context).size.height-125,
+          child: ListView.builder(
+            itemCount: data.length + (_isLastPage ? 0 : 1),
             
-            SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: 1,
-                      (BuildContext context, int index) {
-                    return GestureDetector(
+            itemBuilder: (context, index) {
+            if (index == data.length - _nextPageTriger) {
+              getproductlist();
+            }
+            if (index == data.length) {
+              if (_error) {
+                return Center(
+                    child: errorDialog(size: 15)
+                );
+              } else {
+                return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8),
+                      child: CircularProgressIndicator(),
+                    ));
+              }
+            }
+
+            return Container(
+              child: index==0 ?
+               Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  GestureDetector(
                       onTap: (){},
                       child: Stack(
                       alignment: Alignment.bottomCenter,
-                      textDirection: TextDirection.rtl,
-                      fit: StackFit.loose,
-                      clipBehavior: Clip.hardEdge,
                       children: [
                         Container(
                           margin: const EdgeInsets.all(10),
@@ -174,9 +195,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                 .map((item) => GestureDetector(
                                   onTap: (){
                                     if (item['id']!=null && item['id']!='')
-                                    {
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: item['id'].toString(),title: 'Harytlar',) ));
-                                    }
+                                    {Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: item['id'].toString(),title: 'Harytlar',) ));}
                                   },
                                   child: Container(
                               color: Colors.white,
@@ -231,17 +250,15 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                               activeShape:
                               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)))))
                       ])
-                    );})),
-
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                childCount: data.length,
-                    (BuildContext context, int index) {
-                  return GestureDetector(
+                    ),
+                ],
+               ): 
+               GestureDetector(
                     onTap: (){ 
                        Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: data[index]['id'].toString(), title: 'Harytlar',)));
                       },
                     child: Container(
+                      height: 110,
                       margin: EdgeInsets.only(left: 5, right: 5),
                       child: Card(
                         elevation: 2,
@@ -334,12 +351,20 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
-            )
-          ],
-        ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+                  )
+
+
+               
+                );
+          } 
+          
+          
+          
+          
+          ),
+              )
+            ],
+          ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
         ),
         drawer: MyDraver(),
     ): CustomProgressIndicator(funcInit: initState);
@@ -347,18 +372,16 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
 
   showConfirmationDialog(BuildContext context){
     var sort = Provider.of<UserInfo>(context, listen: false).sort;
-    showDialog(
-      barrierDismissible: false,
+    showDialog(barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return CustomDialog(sort_value: sort, callbackFunc: callbackFilter);},);}
+        return CustomDialog(sort_value: sort, callbackFunc: callbackFilter);},);
+  }
 
-
-    void getproductlist() async {
+  void getproductlist() async {
 
     var sort = Provider.of<UserInfo>(context, listen: false).sort;
-    var sort_value = "";
-    
+    var sort_value = "";    
     if (int.parse(sort)==2){sort_value = 'sort=price';}
     if (int.parse(sort)==3){sort_value = 'sort=-price';}
     if (int.parse(sort)==4){sort_value = 'sort=id';}
@@ -367,15 +390,21 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/products?';
     if (keyword.text!=''){var value = keyword.text; url = server_url.get_server_url() + '/mob/products?name=$value';}
-    print(url);
-    final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    final response = await get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+    print(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest");
     final json = jsonDecode(utf8.decode(response.bodyBytes));
+    var postList = [];
+    for (var i in json['data']){
+      postList.add(i);
+    }
+    
     setState(() {
-      data  = json['data'];
       baseurl =  server_url.get_server_url();
-      print(data);
       determinate = true;
+      _isLastPage = data.length < _numberOfPostPerRequest;
+      _loading = false;
+      _pageNumber = _pageNumber + 1;
+      data.addAll(postList);
     });}
 
 
@@ -387,11 +416,41 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       dataSlider  = json['data'];
-      if ( dataSlider.length==0){
-        dataSlider = [{"img": "", 'name_tm':"", 'price':"", 'location':''}];
-      }
+      if ( dataSlider.length==0){dataSlider = [{"img": "", 'name_tm':"", 'price':"", 'location':''}];}
       baseurl =  server_url.get_server_url();
       determinate1 = true;
-    });}
+    });
+  }
+
+    Widget errorDialog({required double size}){
+    return SizedBox(
+      height: 180,
+      width: 200,
+      child:  Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('An error occurred when fetching the posts.',
+            style: TextStyle(
+                fontSize: size,
+                fontWeight: FontWeight.w500,
+                color: Colors.black
+            ),
+          ),
+          const SizedBox(height: 10,),
+          GestureDetector(
+              onTap:  ()  {
+                setState(() {
+                  _loading = true;
+                  _error = false;
+                  getproductlist();
+                });
+              },
+              child: const Text("Retry", style: TextStyle(fontSize: 20, color: Colors.purpleAccent),)),
+        ],
+      ),
+    );
+  }
+
+
 
 }
