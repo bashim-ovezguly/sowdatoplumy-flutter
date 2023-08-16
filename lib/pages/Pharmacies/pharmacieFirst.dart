@@ -234,7 +234,7 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
                             if (telefon != {})
                             Expanded(child: Row(
                               children: [
-                                 Icon(Icons.phone_android_outlined, color: CustomColors.appColors,),
+                                 Icon(Icons.phone_android_outlined, color: CustomColors.appColors, size: 15),
                                  SizedBox(width: 10,),
                                  GestureDetector(
                                   onTap: () async {
@@ -252,11 +252,10 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
                                     color: CustomColors.appColors,
                                     fontWeight: FontWeight.bold),),
                                 )
-                              ],
-                            )),
-                              
-                              ],)
-                        );},)),
+                              ]
+                            ))
+                          ])
+                        );})),
 
                   SliverList(delegate: SliverChildBuilderDelegate(
                   childCount: 1,
@@ -266,14 +265,14 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
                       for(var i in data_tel)
                       if (i!=telefon)
                         Container(
+                          margin: EdgeInsets.only(top: 10),
                           width: double.infinity,
-                          padding: EdgeInsets.all(10),
                             child: Row(
                               children: [
                                 Expanded(child: Text('')),
                                 Expanded(child: Row(
                                   children: [
-                                Icon(Icons.phone_android_outlined, color: CustomColors.appColors,),
+                                Icon(Icons.phone_android_outlined, color: CustomColors.appColors, size: 15,),
                                 SizedBox(width: 10,),
                                 GestureDetector(
                                   onTap: () async {

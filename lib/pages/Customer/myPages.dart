@@ -10,6 +10,7 @@ import 'package:my_app/pages/Customer/AwtoCar/list.dart';
 import 'package:my_app/pages/Customer/Construction/list.dart';
 import 'package:my_app/pages/Customer/OtherGoods/list.dart';
 import 'package:my_app/pages/Customer/RealEstate/list.dart';
+import 'package:my_app/pages/Customer/Ribbon/list.dart';
 import 'package:my_app/pages/Customer/Services/list.dart';
 import 'package:my_app/pages/Customer/editProfil.dart';
 import 'package:my_app/pages/Customer/login.dart';
@@ -72,280 +73,226 @@ class _MyPagesState extends State<MyPages> {
       appBar: AppBar(title: const Text("Meniň sahypam", style: CustomText.appBarText,),
       actions: [
         GestureDetector(
-          onTap: (){
-            showConfirmationDialog(context);
-          },
+          onTap: (){showConfirmationDialog(context);},
           child: Container(
           margin: EdgeInsets.only(right: 10),
           child: Icon(Icons.login_outlined),
-        ))],),
+        ))]),
       body: 
-         determinate ? Column(
+        determinate ? Column(
         children: <Widget>[
-   
-              Expanded(flex: 2,child: Row(
+
+          Expanded(flex: 2,child: Row(
             children: <Widget>[
-              Expanded(flex: 2,child: SizedBox(
-                height: 150,
-                child: ClipOval(
-                  child: SizedBox.fromSize(
-                    size: const Size.fromRadius(48), // Image radius
-                    child: user['img']!=null && user['img']!='' ? Image.network(baseurl + user['img'].toString(), fit: BoxFit.cover,):
-                    Image.asset('assets/images/default.jpg')
-                  ),))),
-              const SizedBox(width: 10),
-              Expanded(flex: 3,child: Column(
+              
+              Expanded(flex: 3,child: user['img']!='' ? CircleAvatar(
+                radius: 48, // Image radius
+                backgroundImage:  NetworkImage(baseurl + user['img'].toString())): Image.asset('assets/images/default.jpg')),
+
+              Expanded(flex: 5,child: Column(
 
                 children: <Widget>[
-                  Container(
-                    alignment: Alignment.bottomLeft,
-                    padding: const EdgeInsets.only(top: 10),
+                  Expanded(child: Container(
+                    alignment: Alignment.centerLeft,
                     child: user['name'] != null ? Text(user['name'].toString(), style: TextStyle(fontSize: 16, color: CustomColors.appColors),):
-                                                  Text('', style: TextStyle(fontSize: 16, color: CustomColors.appColors),)
-                  ),
-                  Container(
-                    alignment: Alignment.bottomLeft,
-                    padding: const EdgeInsets.only(top: 10),
+                                                  Text('', style: TextStyle(fontSize: 15, color: CustomColors.appColors),)
+                  )),
+                  Expanded(child: Container(
+                    alignment: Alignment.centerLeft,
                     child: user['phone'] != null ? Text(user['phone'].toString(), style: TextStyle(fontSize: 16, color: CustomColors.appColors ),):
-                                                   Text('', style: TextStyle(fontSize: 16, color: CustomColors.appColors),)
-                    ),
-                  Container(
-                    alignment: Alignment.bottomLeft,
-                    padding: const EdgeInsets.only(top: 10),
+                                                   Text('', style: TextStyle(fontSize: 15, color: CustomColors.appColors),)
+                    )),
+                  if (user['email']!='' && user['email']!=null)
+                  Expanded(child: Container(
+                    alignment: Alignment.centerLeft,
                     child: user['email'] != null ? Text(user['email'].toString(), style: TextStyle(fontSize: 16, color: CustomColors.appColors),):
-                                                   Text('', style: TextStyle(fontSize: 16, color: CustomColors.appColors),)
-                    ),
-                  Container(
-                    alignment: Alignment.bottomLeft,
-                    padding: const EdgeInsets.only(top: 10),
+                                                   Text('', style: TextStyle(fontSize: 15, color: CustomColors.appColors),)
+                    )),
+                  Expanded(child: 
+                    Row(
+                    children: [
+                    Container(
                     child: user['id'] != null ? Text(user['id'].toString(),style: TextStyle(fontSize: 16, color: CustomColors.appColors),):
-                                                Text('', style: TextStyle(fontSize: 16, color: CustomColors.appColors),)
+                                                Text('', style: TextStyle(fontSize: 15, color: CustomColors.appColors),)
                     ),
-                  Container(
-                    alignment: Alignment.bottomRight,
-                    margin: const EdgeInsets.only(right: 16),
-                    padding: const EdgeInsets.all(5),
+                    Spacer(),
+                    Container(
                       child: Container(
                         width: 40,
                         height: 40,
-                        decoration: const ShapeDecoration(shape: CircleBorder(), color: CustomColors.appColors,
-                        ),
                         child: IconButton(onPressed: () {
-                          
                           Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfil(customer_id: user['id'].toString(),
                                                                                                      email: user['email'].toString(),
                                                                                                      name: user['name'.toString()],
                                                                                                      phone: user['phone'].toString(),
                                                                                                      img: baseurl + user['img'].toString(),
                                                                                                      callbackFunc: refreshFunc,
-                                                                                                     showSuccessAlert: showSuccessAlert
-                                                                                                     ) )); 
-                          
-                          },
-                          icon: const Icon(Icons.edit, color: Colors.white,),),),),
+                                                                                                     showSuccessAlert: showSuccessAlert ))); },
+                          icon: const Icon(Icons.edit_outlined, color: CustomColors.appColors))))
+                    
+                      ],
+                    )
+                    
+                    
+                    ),
+                  
                 ],),),],),),
 
-          const Divider(color: Colors.black,),
-          
-          Expanded(flex: 5,child: Column(
+          Expanded(flex: 7,child: Column(
             children: <Widget>[
-              GestureDetector(
-                onTap: (){ 
-                     Navigator.push(context, MaterialPageRoute(builder: (context) => MyStores(customer_id: user['id'].toString(),
-                                                                                              callbackFunc: refreshFunc,))); 
-                  },
-                child: Container(
-                  padding: EdgeInsets.only(left: 5,right: 5),
-                  height: 50,
-                  child: Card(
-                    elevation: 2,
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(width: 10,),
-                        Text("Söwda nokatlary", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-                        Spacer(), // use Spacer
-                        if (user['room']!= null)
-                        Text(user['room']['store'].toString() ,style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-                        SizedBox(width: 10,),
-                      ],),
-                  )
-                ),),
-              // GestureDetector(
-              //   onTap: (){  
-              //     Navigator.push(context, MaterialPageRoute(builder: (context) => MyFactories(customer_id: user['id'].toString(), callbackFunc: refreshFunc,)));  
-              //     },
-              //   child: Container(
-              //       padding: EdgeInsets.only(left: 5,right: 5),
-              //       height: 50,
-              //       child: Card(
-              //         elevation: 2,
-              //         child: Row(
-              //           children:  <Widget>[
-              //             SizedBox(width: 10,),
-              //             Text("Önüm öndürijiler",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-              //             Spacer(), // use Spacer
-              //             if (user['room']!= null)
-              //             Text(user['room']['factories'].toString(),style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-              //             SizedBox(width: 10,),
-              //           ],),
-              //       )
-              //   ),),
-              GestureDetector(
-                onTap: (){ 
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => MyCars(customer_id: user['id'].toString(), )));  
-                  },
-                child: Container(
-                    padding: EdgeInsets.only(left: 5,right: 5),
-                    height: 40,
-                    child: Card(
-                      elevation: 2,
-                      child: Row(
-                        children: <Widget>[
-                          SizedBox(width: 10,),
-                          Text("Awtoulaglar",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-                          Spacer(), // use Spacer
-                          if (user['room']!= null)
-                          Text(user['room']['cars'].toString(),style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-                          SizedBox(width: 10,),
-                      ],),
-                  )
+              Container(
+                height: 115,
+                width: double.infinity,
+                margin: EdgeInsets.only(left: 10, right: 10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(child: TextButton(
+                     onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => MyStores(customer_id: user['id'].toString(),
+                                                                                               callbackFunc: refreshFunc))); 
+                     },
+                      child: Column(
+                      children: [
+                        Expanded(flex: 1, child: Text(user['room']['store'].toString(), style: TextStyle(fontSize: 20, color: CustomColors.appColors, fontWeight: FontWeight.bold),)),
+                        Expanded(flex: 2, child: Image.asset('assets/images/store.png', color: CustomColors.appColors, width: 50, height: 50,)),
+                        Expanded(flex: 2, child: Text('Söwda nokatlary', style: TextStyle(fontSize: 15, color: CustomColors.appColors))) ]
+                    ))),
+
+                    Expanded(child: TextButton(
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyCars(customer_id: user['id'].toString(), )));  
+                      },
+                      child: Column(
+                      children: [
+                        Expanded(flex: 1, child: Text(user['room']['cars'].toString(), style: TextStyle(fontSize: 20, color: CustomColors.appColors, fontWeight: FontWeight.bold))),
+                        Expanded(flex: 2, child: Image.asset('assets/images/car.png', color: CustomColors.appColors, width: 50, height: 50,)),
+                        Expanded(flex: 2, child: Text('Awtoulaglar', style: TextStyle(fontSize: 15, color: CustomColors.appColors))) ]
+                    ))),
+
+                    Expanded(child: TextButton(
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartsList(customer_id: user['id'].toString(), callbackFunc: refreshFunc,)));
+                      },
+                      child: Column(
+                      children: [
+                        Expanded(flex: 1, child: Text(user['room']['parts'].toString(), style: TextStyle(fontSize: 20, color: CustomColors.appColors, fontWeight: FontWeight.bold))),
+                        Expanded(flex: 2, child: Image.asset('assets/images/parts.png', color: CustomColors.appColors, width: 50, height: 50,)),
+                        Expanded(flex: 2, child: Text('Awtoşaýlar', style: TextStyle(fontSize: 15, color: CustomColors.appColors))) ]
+                    )))
+                  ]
                 )
               ),
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => AutoPartsList(customer_id: user['id'].toString(), callbackFunc: refreshFunc,)));  
-                  },
-                child: Container(
-                    padding: EdgeInsets.only(left: 5,right: 5),
-                    height: 40,
-                    child: Card(
-                      elevation: 2,
-                      child: Row(
-                        children: <Widget>[
-                          SizedBox(width: 10,),
-                          Text("Awtoşaýlar",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-                          Spacer(), // use Spacer
-                          if (user['room']!= null)
-                          Text(user['room']['parts'].toString(),style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-                          SizedBox(width: 10,),
-                        ],),)),),
-                      
-              GestureDetector(
-                onTap: (){
-                   Navigator.push(context, MaterialPageRoute(builder: (context) => RealEstateList(customer_id: user['id'].toString(), callbackFunc: refreshFunc,)));  
-                  },
-                child: Container(
-                    padding: EdgeInsets.only(left: 5,right: 5),
-                  height: 40,
-                  child: Card(
-                    elevation: 2,
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(width: 10,),
-                        Text("Emläkler",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-                        Spacer(), // use Spacer
-                        if (user['room']!= null)
-                        Text(user['room']['flats'].toString(),style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-                        SizedBox(width: 10,),
-                      ],),)),),
+            
+            Container(
+                height: 115,
+                width: double.infinity,
+                margin: EdgeInsets.only(left: 10, right: 10),
+                child: Row(
+                  children: [
+                    Expanded(child: TextButton( 
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => RealEstateList(customer_id: user['id'].toString(), callbackFunc: refreshFunc,)));  
+                      },
+                      child:Column(
+                      children: [
+                        Expanded(flex: 1, child: Text(user['room']['flats'].toString(), style: TextStyle(fontSize: 20, color: CustomColors.appColors, fontWeight: FontWeight.bold))),
+                        Expanded(flex: 2, child: Image.asset('assets/images/flats.png', color: CustomColors.appColors, width: 50, height: 50,)),
+                        Expanded(flex: 2, child: Text('Gozgalmaýan emläkler', style: TextStyle(fontSize: 15, color: CustomColors.appColors), textAlign: TextAlign.center , maxLines: 2)) ]
+                    ))),
 
-              GestureDetector(
-                onTap: (){
-                   Navigator.push(context, MaterialPageRoute(builder: (context) => ConstructionList(customer_id: user['id'].toString(), callbackFunc: refreshFunc,)));  
-                  },
-                child: Container(
-                    padding: EdgeInsets.only(left: 5,right: 5),
-                  height: 40,
-                  child: Card(
-                    elevation: 2,
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(width: 10,),
-                        Text("Gurluşuk",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-                        Spacer(), // use Spacer
-                        if (user['room']!= null)
-                        Text(user['room']['materials'].toString() ,style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-                        SizedBox(width: 10,)
-                      ],),)),),
+                    Expanded(child: TextButton( 
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ConstructionList(customer_id: user['id'].toString(), callbackFunc: refreshFunc,)));
+                      },
+                      child:Column(
+                      children: [
+                        Expanded(flex: 1, child: Text(user['room']['materials'].toString(), style: TextStyle(fontSize: 20, color: CustomColors.appColors, fontWeight: FontWeight.bold))),
+                        Expanded(flex: 2, child: Image.asset('assets/images/material.png', color: CustomColors.appColors, width: 50, height: 50,)),
+                        Expanded(flex: 2, child: Text('Gurluşuk harytlar', style: TextStyle(fontSize: 15, color: CustomColors.appColors), textAlign: TextAlign.center , maxLines: 2)) ]
+                    ))),
 
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyOtherGoodsList(customer_id: user['id'].toString(), callbackFunc: refreshFunc)));  
-                  },
-                child: Container(
-                    padding: EdgeInsets.only(left: 5,right: 5),
-                  height: 40,
-                  child: Card(
-                    elevation: 2,
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(width: 10,),
-                        Text("Harytlar",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-                        Spacer(), // use Spacer
-                        if (user['room']!= null)
-                        Text(user['room']['products'].toString() ,style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-                        SizedBox(width: 10,)
-                      ],),)),),
+                    Expanded(child: TextButton( 
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyOtherGoodsList(customer_id: user['id'].toString(), callbackFunc: refreshFunc)));  
+                      },
+                      child:Column(
+                      children: [
+                        Expanded(flex: 1, child: Text(user['room']['products'].toString(), style: TextStyle(fontSize: 20, color: CustomColors.appColors, fontWeight: FontWeight.bold))),
+                        Expanded(flex: 2, child: Image.asset('assets/images/products.png', color: CustomColors.appColors, width: 50, height: 50,)),
+                        Expanded(flex: 2, child: Text('Harytlar', style: TextStyle(fontSize: 15, color: CustomColors.appColors))) ]
+                    )))
+                  ]
+                )
+              ),
 
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MyServiceList(customer_id: user['id'].toString(), callbackFunc: refreshFunc)));  
-                  },
-                child: Container(
-                    padding: EdgeInsets.only(left: 5,right: 5),
-                  height: 40,
-                  child: Card(
-                    elevation: 2,
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(width: 10,),
-                        Text("Hyzmatlar",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-                        Spacer(), // use Spacer
-                        if (user['room']!= null)
-                        Text(user['room']['services'].toString() ,style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)),
-                        SizedBox(width: 10,)
-                      ],),)),),
               Container(
-                height: 70,
-                padding: EdgeInsets.only(left: 5, right: 5),
-                  child: Row(
-                    children: [
-                      Expanded(child: Container(
-                        child: GestureDetector(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ArrivedOrders(customer_id: user['id'].toString(), callbackFunc: refreshFunc)));  
-                          },
-                          child: Card(
-                          elevation: 2,
-                          child: Column(
-                            children: [
-                              Expanded(child: Icon(Icons.shopping_cart, color: Color.fromARGB(255, 34, 173, 39))),
-                              Expanded(child: Text("Gelen sargytlar: "+ user['orders_in'].toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)))
-                          ]))
-                        ))),
-                      SizedBox(width: 10),
-                      Expanded(child: Container(
-                        padding: EdgeInsets.only(left: 5, right: 5),
-                        child: GestureDetector(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => GoneOrders(customer_id: user['id'].toString(), callbackFunc: refreshFunc)));  
-                          },
-                          child: Card(
-                          elevation: 2,
-                          child: Column(
-                            children: [
-                              Expanded(child: Icon(Icons.shopping_cart, color: Color.fromARGB(255, 34, 173, 39))),
-                              Expanded(child: Text("Giden sargytlar: " + user['orders_out'].toString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: CustomColors.appColors)))
-                          ]))
-                        ))),
-                    ]
-                  )
-                
+                height: 115,
+                width: double.infinity,
+                margin: EdgeInsets.only(left: 10, right: 10),
+                child: Row(
+                  children: [
+                    Expanded(child: TextButton( 
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyServiceList(customer_id: user['id'].toString(), callbackFunc: refreshFunc)));  
+                      },
+                      child:Column(
+                      children: [
+                        Expanded(flex: 1, child: Text(user['room']['services'].toString(), style: TextStyle(fontSize: 20, color: CustomColors.appColors, fontWeight: FontWeight.bold),)),
+                        Expanded(flex: 2, child: Image.asset('assets/images/service.png', color: CustomColors.appColors, width: 50, height: 50,)),
+                        Expanded(flex: 2, child: Text('Hyzmatlar', style: TextStyle(fontSize: 15, color: CustomColors.appColors), textAlign: TextAlign.center , maxLines: 2,)) ]
+                    ))),
+
+                    Expanded(child: TextButton( 
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ArrivedOrders(customer_id: user['id'].toString(), callbackFunc: refreshFunc)));  
+                      },
+                      child:Column(
+                      children: [
+                        Expanded(flex: 1, child: Text(user['orders_in'].toString(), style: TextStyle(fontSize: 20, color: CustomColors.appColors, fontWeight: FontWeight.bold))),
+                        Expanded(flex: 2, child: Image.asset('assets/images/orders_in.png', color: CustomColors.appColors, width: 50, height: 50,)),
+                        Expanded(flex: 2, child: Text('Gelen sargytlar', style: TextStyle(fontSize: 15, color: CustomColors.appColors))) ]
+                    ))),
+
+                    Expanded(child: TextButton( 
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => GoneOrders(customer_id: user['id'].toString(), callbackFunc: refreshFunc)));  
+                      },
+                      child:Column(
+                      children: [
+                        Expanded(flex: 1, child: Text(user['orders_out'].toString(), style: TextStyle(fontSize: 20, color: CustomColors.appColors, fontWeight: FontWeight.bold))),
+                        Expanded(flex: 2, child: Image.asset('assets/images/orders_out.png', color: CustomColors.appColors, width: 50, height: 50,)),
+                        Expanded(flex: 2, child: Text('Giden sargytlar', style: TextStyle(fontSize: 15, color: CustomColors.appColors))) ]
+                    )))
+                  ]
+                )
+              ),
+              Container(
+                height: 115,
+                width: double.infinity,
+                margin: EdgeInsets.only(left: 10, right: 10),
+                child: Row(
+                  children: [
+                    Expanded(child: TextButton( 
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyRibbonList(customer_id: user['id'].toString(), callbackFunc: refreshFunc)));  
+
+                      },
+                      child:Column(
+                      children: [
+                        Expanded(flex: 1, child: Text(user['room']['lenta'].toString(), style: TextStyle(fontSize: 20, color: CustomColors.appColors, fontWeight: FontWeight.bold),)),
+                        Expanded(flex: 2, child: Image.asset('assets/images/lenta.png', color: CustomColors.appColors, width: 50, height: 50,)),
+                        Expanded(flex: 2, child: Text('Söwda lentasy', style: TextStyle(fontSize: 15, color: CustomColors.appColors), textAlign: TextAlign.center , maxLines: 2,)) ]
+                    )))
+                  ]
+                )
               )
-            ],
+            ]
           ))
         ],
-      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+      )
+      : Center(child: CircularProgressIndicator(color: CustomColors.appColors))
     ): CustomProgressIndicator(funcInit: initState);
   }
     showConfirmationDialog(BuildContext context){
@@ -360,7 +307,7 @@ class _MyPagesState extends State<MyPages> {
   
     var data = [];
     for (final row in allRows) {data.add(row);}
-    if (data.length==0){Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));}
+    if (data.length==0){ Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));}
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString() ;
     final uri = Uri.parse(url);

@@ -23,6 +23,8 @@ class NewProduct extends StatefulWidget {
   State<NewProduct> createState() => _NewProductState(title: title , customer_id: customer_id, id:id , action: action);
 }
 
+
+
 class _NewProductState extends State<NewProduct> {
   List<String> img = [
     "https://www.southernliving.com/thmb/dvvxHbEnU5yOTSV1WKrvvyY7clY=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1205217071-2000-2a26022fe10b4ec8923b109197ea5a69.jpg",
@@ -32,23 +34,30 @@ class _NewProductState extends State<NewProduct> {
   String title;
   List<File> images = [];
 
-    File? image;
-  Future<void> addimages() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if(image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch(e) {
-      print('Failed to pick image: $e');
-    }
-    setState(() {
-      if (image != null){
-        images = [];
-        images.add(image!);
+  List<File> selectedImages = []; 
+  final picker = ImagePicker();
+  
+    Future getImages() async {
+    final pickedFile = await picker.pickMultiImage(
+        imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+    List<XFile> xfilePick = pickedFile;
+ 
+    setState(
+      () {
+        if (xfilePick.isNotEmpty) {
+          for (var i = 0; i < xfilePick.length; i++) {
+            selectedImages.add(File(xfilePick[i].path));
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Surat saýlamadyňyz!')));
         }
-      });
+      },
+    );
   }
+
+
+
   callbackStatus(){
     Navigator.pop(context);
   }
@@ -104,12 +113,12 @@ class _NewProductState extends State<NewProduct> {
             },),),
           SizedBox(height: 300,),
 
-          if (images.length==0)
-            SizedBox(height: 100,),
+          if (selectedImages.length==0)
+            SizedBox(height: 100),
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child:Row(
-                children: images.map((country){
+                children: selectedImages.map((country){
                   return Stack(
                     children: [
                       Container(
@@ -121,7 +130,7 @@ class _NewProductState extends State<NewProduct> {
                       GestureDetector(
                         onTap: (){
                           setState(() {
-                          images.remove(country);
+                          selectedImages.remove(country);
                           });
                         },
                         child: Container(
@@ -142,7 +151,7 @@ class _NewProductState extends State<NewProduct> {
                     backgroundColor: CustomColors.appColors,
                     foregroundColor: Colors.white),
                 onPressed: () {
-                  addimages();
+                  getImages();
                 },
                 child: const Text('Surat goş',style: TextStyle(),),
               ),
@@ -158,7 +167,6 @@ class _NewProductState extends State<NewProduct> {
                     backgroundColor: CustomColors.appColors,
                     foregroundColor: Colors.white),
                 onPressed: () async {
-
                     Urls server_url  =  new Urls();
                     String url = server_url.get_server_url() + '/mob/products';
                     final uri = Uri.parse(url);
@@ -169,19 +177,15 @@ class _NewProductState extends State<NewProduct> {
                     request.fields['name_tm'] = name_tmController.text;
                     request.fields['price'] = priceController.text;
                     request.fields['customer'] =  customer_id.toString();
-                    if (action=='store'){
-                      request.fields['store'] = id;  
-                    }
-                    if (action=='factory'){
-                      request.fields['factory'] = id;  
-                    }
+
+                    if (action=='store'){request.fields['store'] = id;}
+                    if (action=='factory'){request.fields['factory'] = id; }
                     
-                    for (var i in images){
+                    for (var i in selectedImages){
                        var multiport = await http.MultipartFile.fromPath('images', i.path, contentType: MediaType('image', 'jpeg'),);
                        request.files.add(multiport);
                     }
                     showLoaderDialog(context);
-                    
                     final response = await request.send();
                     if (response.statusCode == 200){
                       Navigator.pop(context); 

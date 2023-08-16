@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/progressIndicator.dart';
+import 'package:my_app/pages/ribbon/ribbonList.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
@@ -84,6 +85,20 @@ class _HomeState extends State<Home> {
         actions: [
           Row(
             children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(10),
+                  child:  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => RibbonList()));
+                      },
+                      child: Stack(
+                        children: [
+                          Icon(Icons.bookmark_border),
+                          Positioned(right: 0,
+                            child: Icon(Icons.circle, size: 10, color: Colors.green))
+                        ],
+                      ))),
+
               Container(
                   child:  GestureDetector(
                       onTap: (){
@@ -212,7 +227,9 @@ class _HomeState extends State<Home> {
                                               child: Image.network( baseurl+ item['img'],fit: BoxFit.cover,),
                                               ),),)
                                       )
-                                  ],),)),
+                                  ],)
+                                  
+                                  ,)),
                                   SizedBox(width: 5,),
                             Expanded(child: Container(
                               height: 180,
@@ -587,7 +604,7 @@ class MyDraver extends StatelessWidget {
                  ),
 
                 GestureDetector(
-                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Marketler") ));},
+                  onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context) => Store(title: "Söwda merkezler") ));},
                   child: Container(
                     width: double.infinity,
                     color: Colors.white,

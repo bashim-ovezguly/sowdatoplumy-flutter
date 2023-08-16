@@ -58,18 +58,20 @@ class _DeleteImageState extends State<DeleteImage> {
             onPressed: () async {
               print('$action    ---    $image["id"]');
                  Urls server_url  =  new Urls();
-                 print(image);
                  String url = server_url.get_server_url() + '/mob/' + action + "/img/delete/"+ image['id'].toString();
                  final uri = Uri.parse(url);
-                 print(uri);
                  var  request = new http.MultipartRequest("POST", uri);
                  var token = Provider.of<UserInfo>(context, listen: false).access_token;
                  request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
                  final response = await request.send();
-                 print(response);
-                 print(response.statusCode);
-                 if (response.statusCode == 200){ 
-                    callbackFunc(image);
+                 
+                 if (response.statusCode == 200){
+                    if (action=='lenta'){
+                      callbackFunc(); 
+                    } 
+                    else{
+                      callbackFunc(image);
+                    }
                     Navigator.pop(context, 'Cancel');                         
                   }
                   else{

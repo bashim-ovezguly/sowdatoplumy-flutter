@@ -217,6 +217,7 @@ class _AddCarState extends State<AddCar> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child:  TextFormField(
               controller: yearController,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(hintText: 'Ýyl',
                   border: InputBorder.none,
                   focusColor: Colors.white,
@@ -282,6 +283,7 @@ class _AddCarState extends State<AddCar> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child:  TextFormField(
               controller: engineController,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(hintText: 'Matory : ',
                   border: InputBorder.none,
                   focusColor: Colors.white,

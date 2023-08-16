@@ -43,7 +43,7 @@ class _MyPageState extends State<MyPage> {
   void initState() {
     refreshFunc();
     if (imgList.length==0){
-      imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBYAVt1PGvwtPxFwyln-2VL4hyc3ViLcdgYaVFxgnrcK2KP9ywLquGti9teKFEFz4vP1o&usqp=CAU');
+      imgList.add('x');
     }
     getsinglemarkets(id: id);
     super.initState();
@@ -57,7 +57,7 @@ class _MyPageState extends State<MyPage> {
   callbackDeletePhone(){
     setState(() {
       if (imgList.length==0){
-      imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBYAVt1PGvwtPxFwyln-2VL4hyc3ViLcdgYaVFxgnrcK2KP9ywLquGti9teKFEFz4vP1o&usqp=CAU');
+      imgList.add('x');
     }
     getsinglemarkets(id: id);
       
@@ -152,10 +152,6 @@ class _MyPageState extends State<MyPage> {
             childCount: 1,
                 (BuildContext context, int index) {
               return Stack(
-                alignment: Alignment.bottomCenter,
-                textDirection: TextDirection.rtl,
-                fit: StackFit.loose,
-                clipBehavior: Clip.hardEdge,
                 children: [
                   Container(
                     height: 200,
@@ -167,30 +163,33 @@ class _MyPageState extends State<MyPage> {
                       autoPlayInterval: 6666,
                       isLoop: true,
                       children: [
-                        if (imgList.length==0)
-                              ClipRect(
-                                      child: Container(
-                                        width: MediaQuery.of(context).size.width,
-                                        child:  FittedBox(
-                                          fit: BoxFit.cover,
-                                          child:  Image.asset('assets/images/default.jpg'),
-                                      ),
-                                    ),
-                              ),
+                        // if (imgList.length==0)
+                        //       ClipRect(
+                        //               child: Container(
+                        //                 width: MediaQuery.of(context).size.width,
+                        //                 child:  FittedBox(
+                        //                   child:  Image.asset('assets/images/default16x9.jpg'),
+                        //               ),
+                        //             ),
+                        //       ),
                         for (var item in imgList)
-                          if (item!='')
+                          if (item!='' && item!='x')
                             GestureDetector(
                               onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => FullScreenSlider(imgList: imgList) )); },
-                                      child: Container(
-                                        width: MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: NetworkImage(item),
-                                            fit: BoxFit.cover,    // -> 02
-                                          ),
-                                        ),
-                                    ),
+                                child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: NetworkImage(item),
+                                    fit: BoxFit.cover
+                                  )
+                                )
+                              )
                             )
+                          else
+                          Container(
+                            width: double.infinity, 
+                            child: Image.asset(fit: BoxFit.cover ,'assets/images/default16x9.jpg')),
                       ],),
                   ),
                 ],);},)),
@@ -520,7 +519,7 @@ class _MyPageState extends State<MyPage> {
           imgList.add(baseurl + i['img_m']);
         }
       if (imgList.length==0){
-        imgList.add('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBYAVt1PGvwtPxFwyln-2VL4hyc3ViLcdgYaVFxgnrcK2KP9ywLquGti9teKFEFz4vP1o&usqp=CAU');
+        imgList.add('x');
       }
       determinate = true;
 

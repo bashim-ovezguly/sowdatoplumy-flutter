@@ -185,7 +185,9 @@ class _FactoriesFirstState extends State<FactoriesFirst> {
                               borderRadius: BorderRadius.circular(10), // Image border
                               child: Image.network(item, fit: BoxFit.fill, height: 200,width: double.infinity,),)
                         ),)).toList(),),
-                    onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => FullScreenSlider(imgList: imgList) )); },),
+                    onTap: (){ 
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => FullScreenSlider(imgList: imgList) )); 
+                      },),
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 10),

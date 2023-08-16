@@ -107,7 +107,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
             initState();
           });
           return Future<void>.delayed(const Duration(seconds: 3));},
-          child: determinate && determinate1 ? Column(
+          child: determinate && determinate1 ? Column(  
             children: [
               Container(margin: EdgeInsets.only(left: 10, right: 10),
                 width: double.infinity,
@@ -254,9 +254,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                 ],
                ): 
                GestureDetector(
-                    onTap: (){ 
-                       Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: data[index]['id'].toString(), title: 'Harytlar',)));
-                      },
+                    onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => OtherGoodsDetail(id: data[index]['id'].toString(), title: 'Harytlar',)));},
                     child: Container(
                       height: 110,
                       margin: EdgeInsets.only(left: 5, right: 5),
@@ -391,7 +389,6 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
     String url = server_url.get_server_url() + '/mob/products?';
     if (keyword.text!=''){var value = keyword.text; url = server_url.get_server_url() + '/mob/products?name=$value';}
     final response = await get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
-    print(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest");
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     var postList = [];
     for (var i in json['data']){
@@ -405,7 +402,8 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
       _loading = false;
       _pageNumber = _pageNumber + 1;
       data.addAll(postList);
-    });}
+    });
+    }
 
 
     void getslider_products() async {

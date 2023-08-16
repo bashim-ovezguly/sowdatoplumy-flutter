@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
@@ -285,12 +284,8 @@ class _ConstructionAddState extends State<ConstructionAdd> {
                     showLoaderDialog(context);
                     
                     final response = await request.send();
-                    print(request.fields);
-                    print(response.statusCode);
                     if (response.statusCode == 200){
-                      widget.refreshFunc();
-                      Navigator.pop(context); 
-                        showConfirmationDialogSuccess(context);    
+                      showConfirmationDialogSuccess(context);    
                      }
                      else{
                       Navigator.pop(context); 

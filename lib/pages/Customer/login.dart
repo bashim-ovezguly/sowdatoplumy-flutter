@@ -221,7 +221,7 @@ class _AlertErrorState extends State<AlertError> {
         width: 60,
         height: 60,
         child: Text(
-          'Bagyşlan ulanyjy adyňyzýa-da açar sözünizýalňyş',
+          'Ulanyjy adyňyz ýa-da açar sözüňiz nädogry',
           textAlign: TextAlign.center,
           
         ),

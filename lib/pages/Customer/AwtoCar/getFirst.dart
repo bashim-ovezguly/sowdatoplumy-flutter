@@ -364,6 +364,7 @@ class _GetCarFirstState extends State<GetCarFirst> {
                     child: data['none_cash_pay'] == null ? MyCheckBox(type: true ): MyCheckBox(type: data['none_cash_pay'] ),))
 
               ],),),
+          if (data['customer']!='' && data['customer']!=null)
           Container(
             height: 30,
             margin: const EdgeInsets.only(left: 10),
@@ -374,7 +375,7 @@ class _GetCarFirstState extends State<GetCarFirst> {
                     const Icon(Icons.person, color: Colors.grey,size: 20,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Satyjy", size:16.0),)],),),
                 Expanded(child: Container(
-                    child: SizedBox(child: TextValueWidget(text: data['customer'].toString() , size: 16.0)),))
+                    child: SizedBox(child: TextValueWidget(text: data['customer']['name'].toString() , size: 16.0)),))
               ],),),
 
           Container(

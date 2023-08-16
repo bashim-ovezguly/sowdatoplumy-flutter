@@ -442,7 +442,8 @@ class _MarketDetailState extends State<MarketDetail> {
                     (BuildContext context, int index) {
                       return SizedBox(width: double.infinity,
                       child: TextField(
-                        maxLines:  3 ,
+                        enabled: false,
+                        maxLines:  100 ,
                         decoration: InputDecoration(border: OutlineInputBorder(borderSide: BorderSide.none,),
                           filled: true,
                           hintStyle: TextStyle(fontSize: 14, color: CustomColors.appColors),

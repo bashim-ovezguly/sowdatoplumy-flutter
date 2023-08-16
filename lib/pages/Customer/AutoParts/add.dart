@@ -301,6 +301,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child:  TextFormField(
               controller: engineController,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(hintText: 'Matory',
                   border: InputBorder.none,
                   focusColor: Colors.white,
@@ -360,6 +361,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child:  TextFormField(
               controller: startYearController,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(hintText: 'ýyl başy: ',
                   border: InputBorder.none,
                   focusColor: Colors.white,
@@ -378,6 +380,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child:  TextFormField(
               controller: endYearController,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(hintText: 'ýyl soňy: ',
                   border: InputBorder.none,
                   focusColor: Colors.white,

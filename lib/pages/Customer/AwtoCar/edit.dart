@@ -254,6 +254,7 @@ class _EditCarState extends State<EditCar> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child:  TextFormField(
               controller: yearController,
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(hintText: old_data['year']!= null ? 'Ýyl: ' + old_data['year'].toString(): 'Ýyl',
                   border: InputBorder.none,
                   focusColor: Colors.white,
@@ -324,6 +325,7 @@ class _EditCarState extends State<EditCar> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child:  TextFormField(
               controller: engineController,
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(hintText: old_data['engine']!= null ? 'Matory: ' + old_data['engine'].toString(): 'Matory: ',
                   border: InputBorder.none,
                   focusColor: Colors.white,
