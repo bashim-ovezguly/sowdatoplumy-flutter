@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:my_app/pages/Customer/Ribbon/add.dart';
 import 'package:my_app/pages/Customer/Ribbon/ribbonDetail.dart';
+import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/constants.dart';
+import '../../../dB/providers.dart';
+import '../../../dB/textStyle.dart';
 import '../../../main.dart';
 import '../login.dart';
 import 'dart:convert';
@@ -11,9 +14,13 @@ import 'package:http/http.dart' as http;
 
 class MyRibbonList extends StatefulWidget {
   final String customer_id;
+  final String user_customer_id;
   final Function callbackFunc;
   const MyRibbonList(
-      {Key? key, required this.customer_id, required this.callbackFunc})
+      {Key? key,
+      required this.customer_id,
+      required this.callbackFunc,
+      required this.user_customer_id})
       : super(key: key);
 
   @override
@@ -24,7 +31,6 @@ class _MyRibbonListState extends State<MyRibbonList> {
   bool determinate = false;
   var baseurl = '';
   var datas = [];
-  
 
   @override
   void initState() {
@@ -32,37 +38,50 @@ class _MyRibbonListState extends State<MyRibbonList> {
     super.initState();
   }
 
-  refreshListFunc(){
+  refreshListFunc() {
     get_my_constructions(customer_id: widget.customer_id);
   }
 
-
   @override
   Widget build(BuildContext context) {
+    var user_customer_name =
+        Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return Scaffold(
-        appBar: AppBar(title: Text('Meniň sahypam'), actions: [
-          PopupMenuButton<String>(itemBuilder: (context) {
-            List<PopupMenuEntry<String>> menuEntries2 = [
-              PopupMenuItem<String>(
-                  child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RibbonListAdd( refreshListFunc: refreshListFunc)));
-                      },
-                      child: Container(
-                          color: Colors.white,
-                          height: 40,
-                          width: double.infinity,
-                          child: Row(children: [
-                            Icon(Icons.add, color: Colors.green),
-                            Text(' Goşmak')
-                          ]))))
-            ];
-            return menuEntries2;
-          })
-        ]),
+        appBar: AppBar(
+            title: widget.user_customer_id == ''
+                ? Text(
+                    "Meniň sahypam",
+                    style: CustomText.appBarText,
+                  )
+                : Text(
+                    user_customer_name.toString() + " şahsy otag",
+                    style: CustomText.appBarText,
+                  ),
+            actions: [
+              if (widget.user_customer_id == '')
+                PopupMenuButton<String>(itemBuilder: (context) {
+                  List<PopupMenuEntry<String>> menuEntries2 = [
+                    PopupMenuItem<String>(
+                        child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => RibbonListAdd(
+                                          refreshListFunc: refreshListFunc)));
+                            },
+                            child: Container(
+                                color: Colors.white,
+                                height: 40,
+                                width: double.infinity,
+                                child: Row(children: [
+                                  Icon(Icons.add, color: Colors.green),
+                                  Text(' Goşmak')
+                                ]))))
+                  ];
+                  return menuEntries2;
+                })
+            ]),
         body: determinate
             ? Column(
                 children: [
@@ -89,8 +108,12 @@ class _MyRibbonListState extends State<MyRibbonList> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              MyRibbonDetail(id: i['id'].toString(), refreshListFunc: refreshListFunc)));
+                                          builder: (context) => MyRibbonDetail(
+                                              id: i['id'].toString(),
+                                              user_customer_id:
+                                                  widget.user_customer_id,
+                                              refreshListFunc:
+                                                  refreshListFunc)));
                                 },
                                 child: Container(
                                     margin: EdgeInsets.only(
@@ -136,8 +159,10 @@ class _MyRibbonListState extends State<MyRibbonList> {
                                                                   Navigator.push(
                                                                       context,
                                                                       MaterialPageRoute(
-                                                                          builder: (context) =>
-                                                                              MyRibbonDetail(id: i['id'].toString(), refreshListFunc: refreshListFunc)));
+                                                                          builder: (context) => MyRibbonDetail(
+                                                                              id: i['id'].toString(),
+                                                                              user_customer_id: widget.user_customer_id,
+                                                                              refreshListFunc: refreshListFunc)));
                                                                 },
                                                                 child:
                                                                     Container(
@@ -166,8 +191,11 @@ class _MyRibbonListState extends State<MyRibbonList> {
                                                                     Navigator.push(
                                                                         context,
                                                                         MaterialPageRoute(
-                                                                            builder: (context) =>
-                                                                                MyRibbonDetail(id: i['id'].toString(), refreshListFunc: refreshListFunc)));
+                                                                            builder: (context) => MyRibbonDetail(
+                                                                                  id: i['id'].toString(),
+                                                                                  refreshListFunc: refreshListFunc,
+                                                                                  user_customer_id: widget.user_customer_id,
+                                                                                )));
                                                                   },
                                                                   child: ClipRect(
                                                                       child: Container(
@@ -180,7 +208,6 @@ class _MyRibbonListState extends State<MyRibbonList> {
                                                                                 fit: BoxFit.cover,
                                                                               )))))
                                                         ])),
-                                               
                                               ]),
                                         ),
                                         SizedBox(height: 2),

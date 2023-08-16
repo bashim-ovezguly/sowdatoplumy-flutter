@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:my_app/dB/colors.dart';
 import 'package:my_app/pages/Customer/login.dart';
+import 'package:my_app/pages/Customer/myPages.dart';
 import 'package:my_app/pages/ribbon/ribbonDetail.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:convert';
 import '../../dB/constants.dart';
+import '../../dB/providers.dart';
 import '../../main.dart';
 import 'package:http/http.dart' as http;
-
 
 
 class RibbonList extends StatefulWidget {
@@ -68,24 +70,35 @@ class _RibbonListState extends State<RibbonList> {
                 Expanded(
                     flex: 1,
                     child: Row(children: [
-                      Image.asset('assets/images/person.png',
-                          width: 40, height: 40, color: CustomColors.appColors),
+                      GestureDetector(
+                        onTap: (){
+
+                        },
+                        child: Image.asset('assets/images/person.png',
+                            width: 40, height: 40, color: CustomColors.appColors),
+                      ),
                       SizedBox(width: 5),
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                                child: Text(data[index]['customer'].toString(),
-                                    style: TextStyle(
-                                        color: CustomColors.appColors,
-                                        fontWeight: FontWeight.bold))),
-                            Expanded(
-                                child: Text(
-                                    data[index]['created_at'].toString(),
-                                    style: TextStyle(
-                                        color: CustomColors.appColors,
-                                        fontWeight: FontWeight.bold)))
-                          ]),
+                      GestureDetector(
+                        onTap: (){
+                          Provider.of<UserInfo>(context, listen: false).set_user_customer_name(data[index]['customer']);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MyPages(user_customer_id: data[index]['customer_id'].toString()) ));
+                        },
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                  child: Text(data[index]['customer'].toString(),
+                                      style: TextStyle(
+                                          color: CustomColors.appColors,
+                                          fontWeight: FontWeight.bold))),
+                              Expanded(
+                                  child: Text(
+                                      data[index]['created_at'].toString(),
+                                      style: TextStyle(
+                                          color: CustomColors.appColors,
+                                          fontWeight: FontWeight.bold)))
+                            ]),
+                      ),
                       Spacer(),
                       GestureDetector(
                           onTap: () {

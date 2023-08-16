@@ -4,11 +4,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:my_app/main.dart';
 import 'package:my_app/pages/fullScreenSlider.dart';
-import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
-import '../../dB/providers.dart';
+
 
 class RibbonDetail extends StatefulWidget {
   final String id;

@@ -21,7 +21,7 @@ class UserInfo extends ChangeNotifier {
   String access_token = '';
   String refresh_token = '';
   String sort = "1";
-
+  String user_customer_name = '';
   Map<String, dynamic> statistic = {"store_count": "",
                                     "pharmacy_count": "",
                                     "bazar_count": "",
@@ -38,6 +38,11 @@ class UserInfo extends ChangeNotifier {
     notifyListeners(); 
   }
 
+  void set_user_customer_name(value){
+    user_customer_name=value;
+    notifyListeners();
+  }
+
   void setsort(value){
     sort = value;
     notifyListeners(); 
@@ -49,7 +54,6 @@ class UserInfo extends ChangeNotifier {
   }
 
   void setAccessToken(value1, value2){
-    print('llkkl');
     access_token = value1;
     refresh_token = value2;
     print('access_token ___ $access_token');

@@ -6,15 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Customer/RealEstate/add.dart';
 import 'package:my_app/pages/Customer/RealEstate/getFirst.dart';
+import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
+import '../../../dB/providers.dart';
 import '../../../dB/textStyle.dart';
 import '../../progressIndicator.dart';
 
 class RealEstateList extends StatefulWidget {
   RealEstateList(
-      {Key? key, required this.customer_id, required this.callbackFunc})
+      {Key? key,
+      required this.customer_id,
+      required this.callbackFunc,
+      required this.user_customer_id})
       : super(key: key);
   final String customer_id;
+  final String user_customer_id;
+
   final Function callbackFunc;
   @override
   State<RealEstateList> createState() =>
@@ -59,39 +66,45 @@ class _RealEstateListState extends State<RealEstateList> {
   _RealEstateListState({required this.customer_id});
   @override
   Widget build(BuildContext context) {
+    var user_customer_name = Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return status
         ? Scaffold(
             appBar: AppBar(
-              title: const Text(
+              title: widget.user_customer_id=='' ? Text(
                 "Meniň sahypam",
+                style: CustomText.appBarText,
+              ):
+              Text(
+                user_customer_name.toString() + " şahsy otag",
                 style: CustomText.appBarText,
               ),
               actions: [
-                PopupMenuButton<String>(
-                  itemBuilder: (context) {
-                    List<PopupMenuEntry<String>> menuEntries2 = [
-                      PopupMenuItem<String>(
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => RealEstateAdd(
-                                            customer_id: customer_id,
-                                            refreshFunc: refreshFunc)));
-                              },
-                              child: Container(
-                                  color: Colors.white,
-                                  height: 40,
-                                  width: double.infinity,
-                                  child: Row(children: [
-                                    Icon(Icons.add, color: Colors.green),
-                                    Text(' Goşmak')
-                                  ])))),
-                    ];
-                    return menuEntries2;
-                  },
-                ),
+                if (widget.user_customer_id == '')
+                  PopupMenuButton<String>(
+                    itemBuilder: (context) {
+                      List<PopupMenuEntry<String>> menuEntries2 = [
+                        PopupMenuItem<String>(
+                            child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => RealEstateAdd(
+                                              customer_id: customer_id,
+                                              refreshFunc: refreshFunc)));
+                                },
+                                child: Container(
+                                    color: Colors.white,
+                                    height: 40,
+                                    width: double.infinity,
+                                    child: Row(children: [
+                                      Icon(Icons.add, color: Colors.green),
+                                      Text(' Goşmak')
+                                    ])))),
+                      ];
+                      return menuEntries2;
+                    },
+                  ),
               ],
             ),
             body: RefreshIndicator(
@@ -133,7 +146,7 @@ class _RealEstateListState extends State<RealEstateList> {
                                         padding: const EdgeInsets.only(
                                             left: 10, top: 5),
                                         child: Text(
-                                          "Sizde şu wagtlykça Emläkler yok  ",
+                                          "Emläkler yok  ",
                                           style: TextStyle(
                                               fontSize: 16,
                                               color: CustomColors.appColors),
@@ -154,8 +167,8 @@ class _RealEstateListState extends State<RealEstateList> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   GetRealEstateFirst(
-                                                      id: data[index]['id']
-                                                          .toString(),
+                                                      id: data[index]['id'].toString(),
+                                                      user_customer_id:widget.user_customer_id,
                                                       refreshFunc:
                                                           refreshFunc)));
                                     },
@@ -255,7 +268,8 @@ class _RealEstateListState extends State<RealEstateList> {
                                                               alignment: Alignment
                                                                   .centerLeft,
                                                               child: Row(
-                                                                children: <Widget>[
+                                                                children: <
+                                                                    Widget>[
                                                                   Text(
                                                                       data[index]
                                                                               [
