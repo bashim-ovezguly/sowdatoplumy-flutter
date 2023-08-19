@@ -146,8 +146,8 @@ class _MyRibbonListState extends State<MyRibbonList> {
                                                             Colors.grey,
                                                         onPageChanged:
                                                             (value) {},
-                                                        autoPlayInterval: 5555,
-                                                        isLoop: true,
+                                                        autoPlayInterval: null,
+                                                        isLoop: false,
                                                         children: [
                                                           if (i['images']
                                                                   .length ==

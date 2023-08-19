@@ -84,8 +84,8 @@ class _RibbonDetailState extends State<RibbonDetail> {
                         indicatorColor: CustomColors.appColors,
                         indicatorBackgroundColor: Colors.grey,
                         onPageChanged: (value) {},
-                        autoPlayInterval: 5555,
-                        isLoop: true,
+                        autoPlayInterval: null,
+                        isLoop: false,
                         children: [
                           if (data['images'].length == 0)
                             ClipRect(

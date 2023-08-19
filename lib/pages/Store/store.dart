@@ -144,7 +144,7 @@ class _StoreState extends State<Store> {
                             initialPage: 0,
                             enableInfiniteScroll: true,
                             reverse: false,
-                            autoPlay: true,
+                            autoPlay: dataSlider.length>1 ? true: false,
                             autoPlayInterval: const Duration(seconds: 4),
                             autoPlayAnimationDuration: const Duration(milliseconds: 800),
                             autoPlayCurve: Curves.fastOutSlowIn,

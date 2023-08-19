@@ -62,6 +62,7 @@ class UserInfo extends ChangeNotifier {
   }
 
   Future<bool> update_tokenc() async {
+    print('isledi update');
      Urls server_url  =  new Urls();
      String url = server_url.get_server_url() + '/mob/token/refresh';
      final uri = Uri.parse(url);

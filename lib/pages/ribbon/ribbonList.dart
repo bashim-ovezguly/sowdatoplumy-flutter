@@ -12,7 +12,6 @@ import '../../dB/providers.dart';
 import '../../main.dart';
 import 'package:http/http.dart' as http;
 
-
 class RibbonList extends StatefulWidget {
   const RibbonList({super.key});
   @override
@@ -71,23 +70,41 @@ class _RibbonListState extends State<RibbonList> {
                     flex: 1,
                     child: Row(children: [
                       GestureDetector(
-                        onTap: (){
-
+                        onTap: () {
+                          Provider.of<UserInfo>(context, listen: false)
+                              .set_user_customer_name(data[index]['customer']);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyPages(
+                                      user_customer_id: data[index]
+                                              ['customer_id']
+                                          .toString())));
                         },
                         child: Image.asset('assets/images/person.png',
-                            width: 40, height: 40, color: CustomColors.appColors),
+                            width: 40,
+                            height: 40,
+                            color: CustomColors.appColors),
                       ),
                       SizedBox(width: 5),
                       GestureDetector(
-                        onTap: (){
-                          Provider.of<UserInfo>(context, listen: false).set_user_customer_name(data[index]['customer']);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MyPages(user_customer_id: data[index]['customer_id'].toString()) ));
+                        onTap: () {
+                          Provider.of<UserInfo>(context, listen: false)
+                              .set_user_customer_name(data[index]['customer']);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyPages(
+                                      user_customer_id: data[index]
+                                              ['customer_id']
+                                          .toString())));
                         },
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
-                                  child: Text(data[index]['customer'].toString(),
+                                  child: Text(
+                                      data[index]['customer'].toString(),
                                       style: TextStyle(
                                           color: CustomColors.appColors,
                                           fontWeight: FontWeight.bold))),
@@ -131,9 +148,8 @@ class _RibbonListState extends State<RibbonList> {
                                 initialPage: 0,
                                 indicatorColor: CustomColors.appColors,
                                 indicatorBackgroundColor: Colors.grey,
-                                onPageChanged: (value) {},
-                                autoPlayInterval: 5555,
-                                isLoop: true,
+                                autoPlayInterval: null,
+                                isLoop: false,
                                 children: [
                                   if (data[index]['images'].length == 0)
                                     ClipRect(
@@ -193,7 +209,15 @@ class _RibbonListState extends State<RibbonList> {
                               children: [
                                 SizedBox(width: 10),
                                 if (data[index]['like'])
-                                  Icon(Icons.favorite, color: Colors.red)
+                                  Row(
+                                    children: [
+                                      Icon(Icons.favorite, color: Colors.red),
+                                      SizedBox(width: 5),
+                                      Text(data[index]['like_count'].toString(),
+                                          style: TextStyle(
+                                              color: CustomColors.appColors)),
+                                    ],
+                                  )
                                 else
                                   GestureDetector(
                                       onTap: () async {
@@ -211,7 +235,6 @@ class _RibbonListState extends State<RibbonList> {
                                                 '/like';
 
                                         final uri = Uri.parse(url);
-
                                         var request =
                                             http.MultipartRequest("POST", uri);
 
@@ -225,10 +248,24 @@ class _RibbonListState extends State<RibbonList> {
                                         if (response.statusCode == 200) {
                                           setState(() {
                                             data[index]['like'] = true;
+                                            data[index]['like_count'] =
+                                                data[index]['like_count'] + 1;
                                           });
                                         }
                                       },
-                                      child: Icon(Icons.favorite_border)),
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.favorite_border,
+                                              color: CustomColors.appColors),
+                                          SizedBox(width: 5),
+                                          Text(
+                                              data[index]['like_count']
+                                                  .toString(),
+                                              style: TextStyle(
+                                                  color:
+                                                      CustomColors.appColors)),
+                                        ],
+                                      )),
                                 Spacer(),
                                 Icon(Icons.visibility_sharp,
                                     size: 20, color: CustomColors.appColors),
@@ -265,34 +302,39 @@ class _RibbonListState extends State<RibbonList> {
   void get_ribbonlist() async {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/lenta';
-    var allRows = await dbHelper.queryAllRows();
-    var datas = [];
+    var responsess =
+        Provider.of<UserInfo>(context, listen: false).update_tokenc();
+    if (await responsess) {
+      var allRows = await dbHelper.queryAllRows();
+      var datas = [];
 
-    for (final row in allRows) {
-      datas.add(row);
-    }
-    if (datas.length == 0) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-    }
-    url = url + "?page=$_pageNumber&page_size=$_numberOfPostPerRequest";
-    final uri = Uri.parse(url);
-    final response = await http.get(uri, headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'token': datas[0]['name']
-    });
-    final json = jsonDecode(utf8.decode(response.bodyBytes));
-    var postList = [];
-    for (var i in json['data']) {
-      postList.add(i);
-    }
+      for (final row in allRows) {
+        datas.add(row);
+      }
+      if (datas.length == 0) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Login()));
+      }
+      url = url + "?page=$_pageNumber&page_size=$_numberOfPostPerRequest";
+      final uri = Uri.parse(url);
+      final response = await http.get(uri, headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'token': datas[0]['name']
+      });
+      final json = jsonDecode(utf8.decode(response.bodyBytes));
+      var postList = [];
+      for (var i in json['data']) {
+        postList.add(i);
+      }
 
-    setState(() {
-      baseurl = server_url.get_server_url();
-      _isLastPage = data.length < _numberOfPostPerRequest;
-      _loading = false;
-      _pageNumber = _pageNumber + 1;
-      data.addAll(postList);
-    });
+      setState(() {
+        baseurl = server_url.get_server_url();
+        _isLastPage = data.length < _numberOfPostPerRequest;
+        _loading = false;
+        _pageNumber = _pageNumber + 1;
+        data.addAll(postList);
+      });
+    }
   }
 
   Widget errorDialog({required double size}) {

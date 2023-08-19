@@ -1,16 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 
 import '../../dB/colors.dart';
 import '../../dB/textStyle.dart';
-import '../Car/carStore.dart';
 import '../progressIndicator.dart';
 
 

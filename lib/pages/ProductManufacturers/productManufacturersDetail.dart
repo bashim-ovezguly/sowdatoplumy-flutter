@@ -90,7 +90,7 @@ class _ProductManufacturersDetailState extends State<ProductManufacturersDetail>
                         initialPage: 0,
                         enableInfiniteScroll: true,
                         reverse: false,
-                        autoPlay: true,
+                        autoPlay: imgList.length>1 ? true: false,
                         autoPlayInterval: const Duration(seconds: 4),
                         autoPlayAnimationDuration: const Duration(milliseconds: 800),
                         autoPlayCurve: Curves.fastOutSlowIn,

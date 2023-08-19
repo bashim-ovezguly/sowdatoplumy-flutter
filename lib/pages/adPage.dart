@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ui';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +70,7 @@ class _AdPageState extends State<AdPage> {
                       initialPage: 0,
                       enableInfiniteScroll: true,
                       reverse: false,
-                      autoPlay: true,
+                      autoPlay: imgList.length>1 ? true: false,
                       autoPlayInterval: const Duration(seconds: 4),
                       autoPlayAnimationDuration: const Duration(milliseconds: 800),
                       autoPlayCurve: Curves.fastOutSlowIn,

@@ -55,11 +55,7 @@ class _CarStoreState extends State<CarStore> {
   Widget build(BuildContext context) {
     return status? Scaffold(
       appBar: AppBar(
-        title: data['model']!=null && data['model']!=''? Text(data['model'].toString(), style: CustomText.appBarText,):
-          Text(''),
-        actions:  [
-          // Container(margin: const EdgeInsets.only(right: 10),child: const Icon(Icons.help, size: 30,),),
-        ],),
+        title: data['model']!=null && data['model']!=''? Text(data['model'].toString(), style: CustomText.appBarText): Text('')),
       body: RefreshIndicator(
         color: Colors.white,
         backgroundColor: CustomColors.appColors,
@@ -88,7 +84,7 @@ class _CarStoreState extends State<CarStore> {
                       initialPage: 0,
                       enableInfiniteScroll: true,
                       reverse: false,
-                      autoPlay: true,
+                      autoPlay: imgList.length>1 ? true: false,
                       autoPlayInterval: const Duration(seconds: 4),
                       autoPlayAnimationDuration: const Duration(milliseconds: 800),
                       autoPlayCurve: Curves.fastOutSlowIn,

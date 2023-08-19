@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
@@ -12,6 +11,7 @@ import '../../../dB/providers.dart';
 import '../../../dB/textStyle.dart';
 import '../../fullScreenSlider.dart';
 import '../deleteAlert.dart';
+
 
 class GetConstructionFirst extends StatefulWidget {
   GetConstructionFirst(
@@ -164,7 +164,7 @@ class _GetConstructionFirstState extends State<GetConstructionFirst> {
                                     initialPage: 0,
                                     enableInfiniteScroll: true,
                                     reverse: false,
-                                    autoPlay: true,
+                                    autoPlay: imgList.length>1 ? true: false,
                                     autoPlayInterval:
                                         const Duration(seconds: 4),
                                     autoPlayAnimationDuration:

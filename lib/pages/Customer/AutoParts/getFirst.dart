@@ -12,6 +12,7 @@ import '../../../dB/providers.dart';
 import '../../../dB/textStyle.dart';
 import '../deleteAlert.dart';
 
+
 class GetAutoParthFirst extends StatefulWidget {
   GetAutoParthFirst(
       {Key? key,
@@ -76,6 +77,7 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                 user_customer_name.toString() + " şahsy otag",
                 style: CustomText.appBarText,
               ),
+
           actions: [
             if (widget.user_customer_id == '')
               PopupMenuButton<String>(
@@ -96,10 +98,7 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                                 height: 40,
                                 width: double.infinity,
                                 child: Row(children: [
-                                  Icon(
-                                    Icons.edit_road,
-                                    color: Colors.green,
-                                  ),
+                                  Icon(Icons.edit_road, color: Colors.green, ),
                                   Text(' Üýtgetmek')
                                 ])))),
                     PopupMenuItem<String>(
@@ -140,8 +139,7 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                           margin: EdgeInsets.only(left: 20, right: 10),
                           child: Row(
                             children: <Widget>[
-                              Text(
-                                "Awtoşaýlar",
+                              Text( "Awtoşaýlar",
                                 style: TextStyle(
                                   color: CustomColors.appColors,
                                   fontSize: 18,
@@ -166,7 +164,7 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                                   initialPage: 0,
                                   enableInfiniteScroll: true,
                                   reverse: false,
-                                  autoPlay: true,
+                                  autoPlay: imgList.length>1 ? true: false,
                                   autoPlayInterval: const Duration(seconds: 4),
                                   autoPlayAnimationDuration:
                                       const Duration(milliseconds: 800),

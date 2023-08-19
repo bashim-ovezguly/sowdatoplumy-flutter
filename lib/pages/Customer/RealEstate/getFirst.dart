@@ -168,7 +168,7 @@ class _GetRealEstateFirstState extends State<GetRealEstateFirst> {
                                     initialPage: 0,
                                     enableInfiniteScroll: true,
                                     reverse: false,
-                                    autoPlay: true,
+                                    autoPlay: imgList.length>1 ? true: false,
                                     autoPlayInterval:
                                         const Duration(seconds: 4),
                                     autoPlayAnimationDuration:

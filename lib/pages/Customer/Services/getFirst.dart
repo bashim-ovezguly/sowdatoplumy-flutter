@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-
 import 'package:my_app/dB/colors.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/dB/textStyle.dart';
 import 'package:my_app/pages/Customer/Services/edit.dart';
 import 'package:my_app/pages/fullScreenSlider.dart';
-
 import '../deleteAlert.dart';
 
 class ServiceDetail extends StatefulWidget {
@@ -46,16 +43,11 @@ class _ServiceDetailState extends State<ServiceDetail> {
     super.initState();
   }
 
-  callbackStatusDelete() {
-    widget.refreshFunc();
-    Navigator.pop(context);
-    Navigator.pop(context);
-  }
+  callbackStatusDelete() { widget.refreshFunc(); Navigator.pop(context); Navigator.pop(context); }
 
   bool status = false;
   callbackStatus() {
-    setState(() {
-      status = true;
+    setState(() { status = true;
     });
   }
 
@@ -160,7 +152,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                                     initialPage: 0,
                                     enableInfiniteScroll: true,
                                     reverse: false,
-                                    autoPlay: true,
+                                    autoPlay: imgList.length > 1 ? true : false,
                                     autoPlayInterval:
                                         const Duration(seconds: 4),
                                     autoPlayAnimationDuration:
@@ -527,13 +519,11 @@ class _ServiceDetailState extends State<ServiceDetail> {
     String url = server_url.get_server_url() + '/mob/services/' + id;
     final uri = Uri.parse(url);
     final response = await http.get(uri);
-
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data = json;
       baseurl = server_url.get_server_url();
       var i;
-      print(data);
       imgList = [];
       for (i in data['images']) {
         imgList.add(baseurl + i['img_m']);

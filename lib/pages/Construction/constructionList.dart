@@ -8,10 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Construction/constructionDetail.dart';
 import 'package:provider/provider.dart';
-
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
-import '../Search/search.dart';
 import '../homePages.dart';
 import '../progressIndicator.dart';
 import '../sortWidget.dart';
@@ -110,7 +108,7 @@ class _ConstructionsListState extends State<ConstructionsList> {
                               initialPage: 0,
                               enableInfiniteScroll: true,
                               reverse: false,
-                              autoPlay: true,
+                              autoPlay: dataSlider.length>1 ? true: false,
                               autoPlayInterval: const Duration(seconds: 4),
                               autoPlayAnimationDuration: const Duration(milliseconds: 800),
                               autoPlayCurve: Curves.fastOutSlowIn,
