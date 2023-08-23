@@ -1,8 +1,5 @@
-// ignore_for_file: must_be_immutable
-
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -20,6 +17,8 @@ import '../../customCheckbox.dart';
 import '../../select.dart';
 import '../loadingWidget.dart';
 
+
+
 class EditCar extends StatefulWidget {
   final Function callbackFunc;
   EditCar({Key? key, required this.old_data, required this.callbackFunc}) : super(key: key);
@@ -36,11 +35,9 @@ class _EditCarState extends State<EditCar> {
   List<dynamic> body_types= [];
   List<dynamic> fruits = [];
   List<dynamic> colors = [];
-  List<dynamic> fuels = [];
   List<dynamic> transmissions = [];
   List<dynamic> wheel_drives = [];
   List<File> images = [];
-  List<dynamic> made_in_countries = [];
 
     List<dynamic> stores = [];
   var storesController = {};
@@ -70,11 +67,9 @@ class _EditCarState extends State<EditCar> {
   var modelController = {};
   var colorController = {};
   var body_typeController = {};
-  var fuelController = {};
   var transmissionController = {};
   var wdController = {};
   var locationController = {};
-  var locationDestController = {};
   
   int _mainImg = 0;
 
@@ -93,11 +88,9 @@ class _EditCarState extends State<EditCar> {
   callbackModel(new_value){ setState(() { modelController = new_value; });}
   callbackColor(new_value){ setState(() { colorController = new_value; });}
   callbackBodyType(new_value){ setState(() { body_typeController = new_value; });}
-  callbackFuel(new_value){ setState(() { fuelController = new_value; });}
   callbackTransmission(new_value){ setState(() { transmissionController = new_value; });}
   callbackWd(new_value){ setState(() { wdController = new_value; });}
   callbackLocation(new_value){ setState(() { locationController = new_value; });}
-  callbackLocationDest(new_value){ setState(() { locationDestController = new_value; });}
   
   List<File> selectedImages = []; 
   final picker = ImagePicker();
@@ -229,23 +222,6 @@ class _EditCarState extends State<EditCar> {
             ),
             const SizedBox(height: 15,),
 
-            Container(
-              height: 35,
-              margin: const EdgeInsets.only(left: 20,right: 20),
-              width: double.infinity,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-              child: Row(
-                children: <Widget>[SizedBox(width: 10,),
-                
-                  if (old_data['dest_location']!= null && old_data['dest_location']!='')
-                    Expanded(flex: 2,child: Text(old_data['dest_location'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
-                  if (old_data['dest_location']==null || old_data['dest_location']=='')
-
-                Expanded(flex: 2,child: Text("Ýurdy : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
-                Expanded(flex: 4, child: MyDropdownButton(items: made_in_countries, callbackFunc: callbackLocationDest)
-              ),],),),
-            const SizedBox(height: 15,),
-            
           Container(
             alignment: Alignment.center,
             height: 35,
@@ -383,23 +359,6 @@ class _EditCarState extends State<EditCar> {
                 ),],),),
           const SizedBox(height: 15,),
             
-          Container(
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child: Row(
-              children: <Widget>[SizedBox(width: 10,),
-                if (old_data['fuel']!= null && old_data['fuel']!='')
-                  Expanded(flex: 2,child: Text(old_data['fuel'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
-                if (old_data['fuel']==null || old_data['fuel']=='')
-              
-                  Expanded(flex: 3,child: Text("Ýangyç görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
-                Expanded(flex: 4, child: MyDropdownButton(items: fuels, callbackFunc: callbackFuel)
-                ),],),),
-          const SizedBox(height: 15,),
-
-
           Container(
             alignment: Alignment.center,
             height: 35,
@@ -677,14 +636,6 @@ class _EditCarState extends State<EditCar> {
                       request.fields['location'] = locationController['id'].toString();
                     }
 
-                    if (locationDestController['id']!=null){
-                      request.fields['made_in'] = locationDestController['id'].toString();
-                    }
-                    
-                    if (fuelController['id']!=null){
-                      request.fields['fuel'] = fuelController['id'].toString();
-                    }
-
                     if (wdController['id']!=null){
                       request.fields['wd'] =  wdController['id'].toString();
                     }
@@ -767,10 +718,8 @@ class _EditCarState extends State<EditCar> {
       marks = json['marks'];
       body_types = json['body_types'];
       colors = json['colors'];
-      fuels = json['fuels'];
       transmissions = json['transmissions'];
       wheel_drives = json['wheel_drives']; 
-      made_in_countries = json['countries'];
     });}
 
           

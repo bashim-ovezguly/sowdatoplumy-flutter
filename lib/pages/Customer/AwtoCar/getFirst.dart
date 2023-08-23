@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +62,8 @@ class _GetCarFirstState extends State<GetCarFirst> {
   _GetCarFirstState({required this.id});
   @override
   Widget build(BuildContext context) {
-    var user_customer_name = Provider.of<UserInfo>(context, listen: false).user_customer_name;
+    var user_customer_name =
+        Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return Scaffold(
         appBar: AppBar(
           title: widget.user_customer_id == ''
@@ -165,7 +165,7 @@ class _GetCarFirstState extends State<GetCarFirst> {
                                     initialPage: 0,
                                     enableInfiniteScroll: true,
                                     reverse: false,
-                                    autoPlay: imgList.length>1 ? true: false,
+                                    autoPlay: imgList.length > 1 ? true : false,
                                     autoPlayInterval:
                                         const Duration(seconds: 4),
                                     autoPlayAnimationDuration:
@@ -816,37 +816,6 @@ class _GetCarFirstState extends State<GetCarFirst> {
                         height: 30,
                         margin: const EdgeInsets.only(left: 10),
                         child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Row(
-                                children: <Widget>[
-                                  const Icon(
-                                    Icons.invert_colors_on_sharp,
-                                    color: Colors.grey,
-                                    size: 20,
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 10),
-                                    alignment: Alignment.center,
-                                    height: 100,
-                                    child: const TextKeyWidget(
-                                        text: "Ýangyjyň görnüşi", size: 16.0),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: SizedBox(
-                              child: TextValueWidget(
-                                  text: data['fuel'].toString(), size: 16.0),
-                            ))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 30,
-                        margin: const EdgeInsets.only(left: 10),
-                        child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Expanded(
@@ -961,7 +930,6 @@ class _GetCarFirstState extends State<GetCarFirst> {
         name_title = name_title + " " + data['year'].toString();
       }
 
-      print(data);
       determinate = true;
       if (imgList.length == 0) {
         imgList.add(

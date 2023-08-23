@@ -388,18 +388,6 @@ class _CarStoreState extends State<CarStore> {
 
                 Expanded(child: SizedBox(child: TextValueWidget(text: data['vin'].toString(), size: 16.0),))
               ],),),
-          Container(
-            height: 30,
-            margin: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(child: Row(
-                  children: <Widget>[
-                    const Icon(Icons.invert_colors_on_sharp, color: Colors.grey, size: 18,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Ýangyjyň görnüşi", size:16.0),)],),),
-
-                Expanded(child: SizedBox(child: TextValueWidget(text: data['fuel'].toString(), size: 16.0),))
-              ],),),
 
           Container(
             height: 30,

@@ -132,7 +132,6 @@ class _AdPageState extends State<AdPage> {
             
             if (data['store']!=null && data['store']!='')
             SizedBox(height: 10),
-            if (data['store']!=null && data['store']!='')
             SizedBox(
               child: Row(
                 children: [

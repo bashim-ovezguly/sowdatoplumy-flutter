@@ -45,9 +45,9 @@ class _StoreState extends State<Store> {
   bool determinate = false;
   bool determinate1 = false;
   bool status = true;
-
-
   bool filter = false;
+
+
   callbackFilter(){
   timers();
   setState(() { 
@@ -62,12 +62,19 @@ class _StoreState extends State<Store> {
     
     if(title=='Marketler'){getmarketslist(sort_value);getmarkets_slider();}
     if(title=='Söwda merkezler'){getshopping_centerslist(sort_value);getslider_shopping_centers();}
-    if(title=='Söwda nokatlar'){getstoreslist(sort_value);getslider_stores();}
+    if(title=='Söwda nokatlar'){
+      print('1');
+      getstoreslist(sort_value);getslider_stores();}
     if(title=='Bazarlar'){getbazarlarlist(sort_value);getslider_shopping();}
   });}
 
   @override
   void initState() {
+    _pageNumber = 1;
+    _isLastPage = false;
+    _loading = true;
+    _error = false;
+
     timers();
     var sort = Provider.of<UserInfo>(context, listen: false).sort;
     var sort_value = "";
@@ -78,9 +85,17 @@ class _StoreState extends State<Store> {
     
     if(title=='Marketler'){getmarketslist(sort_value);getmarkets_slider();}
     if(title=='Söwda merkezler'){getshopping_centerslist(sort_value); getslider_shopping_centers();}
-    if(title=='Söwda nokatlar'){getstoreslist(sort_value);getslider_stores();}
+    if(title=='Söwda nokatlar'){
+      print('2');
+      getstoreslist(sort_value);getslider_stores();}
     if(title=='Bazarlar'){getbazarlarlist(sort_value);getslider_shopping();}
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
     timers() async {
@@ -89,6 +104,23 @@ class _StoreState extends State<Store> {
       final t = Timer(Duration(seconds: 5), () => completer.complete());
       await completer.future;
       setState(() {if (determinate==false){status = false;}});
+  }
+
+  late bool _isLastPage;
+  late int _pageNumber;
+  late bool _error;
+  late bool _loading;
+  final int _numberOfPostPerRequest = 100;
+  final int _nextPageTriger = 3;
+  final ScrollController _controller = ScrollController();
+  final double _height = 100.0;
+  
+  void _animateToIndex(int index) {
+    _controller.animateTo(
+      index * 1,
+      duration: Duration(seconds: 2),
+      curve: Curves.fastOutSlowIn,
+    );
   }
   
   _StoreState({required this.title});
@@ -109,6 +141,7 @@ class _StoreState extends State<Store> {
               ) 
       ],
       ),
+      
       body: RefreshIndicator(
         color: Colors.white,
         backgroundColor: CustomColors.appColors,
@@ -119,13 +152,50 @@ class _StoreState extends State<Store> {
           });
           return Future<void>.delayed(const Duration(seconds: 3));
         },
-        child: determinate && determinate1? CustomScrollView(
-        slivers: [
-          SliverList(
-              delegate: SliverChildBuilderDelegate(
-                childCount: 1,
-                    (BuildContext context, int index) {
-                  return GestureDetector(
+        child: determinate && determinate1? Container(
+          height: MediaQuery.of(context).size.height-85,
+          child: ListView.builder(
+            controller: _controller,
+            itemCount: data.length + (_isLastPage ? 0 : 1),
+            
+            itemBuilder: (context, index) {
+            if (index == data.length - _nextPageTriger && _error==false) {
+              
+              var sort_value = "";
+              var sort = Provider.of<UserInfo>(context, listen: false).sort;
+              if (int.parse(sort)==2){sort_value = 'sort=price';}
+              if (int.parse(sort)==3){sort_value = 'sort=-price';}
+              if (int.parse(sort)==4){sort_value = 'sort=id';}
+              if (int.parse(sort)==4){sort_value = 'sort=-id';}
+              if(title=='Marketler'){getmarketslist(sort_value);getmarkets_slider();}
+              if(title=='Söwda merkezler'){getshopping_centerslist(sort_value);getslider_shopping_centers();}
+              if(title=='Söwda nokatlar'){
+                print('1');
+                getstoreslist(sort_value);getslider_stores();}
+              if(title=='Bazarlar'){getbazarlarlist(sort_value);getslider_shopping();}
+            }
+
+            if (index == data.length) {
+              if (_error) {
+                return Center(
+                    child: errorDialog(size: 15)
+                );
+              } else {
+                return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(8),
+                      child: CircularProgressIndicator(),
+                    ));
+              }
+            }
+
+            return Container(
+              child: index==0 ?
+               Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  GestureDetector(
                     onTap: (){},
                     child: Stack(
                     alignment: Alignment.bottomCenter,
@@ -247,14 +317,9 @@ class _StoreState extends State<Store> {
                     ],
                   ),
                   )
-                  
-                  ;},)),
-
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: data.length,
-                  (BuildContext context, int index) {
-                return GestureDetector(
+                ],
+               ): 
+               GestureDetector(
                   onTap: (){
 
                     if (title=='Marketler' || title=='Söwda nokatlar'){
@@ -336,12 +401,14 @@ class _StoreState extends State<Store> {
                         )
                       )
                     )
+                )
+
                 );
-              }
-            )
-          )
-        ],
-      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors))
+          }
+          ),
+              )
+        
+        : Center(child: CircularProgressIndicator(color: CustomColors.appColors))
       ),
       drawer: MyDraver(),
     ): CustomProgressIndicator(funcInit: initState);
@@ -358,18 +425,32 @@ class _StoreState extends State<Store> {
 
 
   void getmarketslist(sort_value) async {
-    Urls server_url  =  new Urls();
-    String url = server_url.get_server_url() + '/mob/markets?'+ sort_value.toString();
-    final uri = Uri.parse(url);
-    final response = await http.get(uri);
-    final json = jsonDecode(utf8.decode(response.bodyBytes));
-    setState(() {
-      data  = json['data'];
+    try{
+      Urls server_url  =  new Urls();
+      String url = server_url.get_server_url() + '/mob/markets?'+ sort_value.toString();
+      final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+      final json = jsonDecode(utf8.decode(response.bodyBytes));
+      
+      var postList = [];
+        for (var i in json['data']){
+          postList.add(i);
+        }
+      setState(() {
       baseurl =  server_url.get_server_url();
-      print(data);
       determinate = true;
-
-    });}
+      _isLastPage = data.length < _numberOfPostPerRequest;
+      _loading = false;
+      _pageNumber = _pageNumber + 1;
+      data.addAll(postList);
+    });
+    
+    } catch(e){
+      setState(() {
+        _loading = false;
+        _error = true;
+      });
+    } 
+    }
 
   void getmarkets_slider() async {
     Urls server_url  =  new Urls();
@@ -389,17 +470,33 @@ class _StoreState extends State<Store> {
 
 
   void getstoreslist(sort_value) async {
-    Urls server_url  =  new Urls();
+    print('isledi');
+    try{
+      Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/stores?'+ sort_value;
-    final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
     final json = jsonDecode(utf8.decode(response.bodyBytes));
+
+    var postList = [];
+    for (var i in json['data']){
+        postList.add(i);
+      }
     setState(() {
-      data  = json['data'];
       baseurl =  server_url.get_server_url();
-      print(data);
       determinate = true;
-    });}
+      _isLastPage = data.length < _numberOfPostPerRequest;
+      _loading = false;
+      _pageNumber = _pageNumber + 1;
+      data.addAll(postList);
+    });
+    } catch(e){
+        setState(() {
+        _loading = false;
+        _error = true;
+      });
+    }
+    
+    }
 
   void getslider_stores() async {
     Urls server_url  =  new Urls();
@@ -410,26 +507,36 @@ class _StoreState extends State<Store> {
     setState(() {
       dataSlider  = json['data'];
       baseurl =  server_url.get_server_url();
-      if ( dataSlider.length==0){
-        dataSlider = [{"img": "", 'name':"", 'location':''}];
-      }
+      if ( dataSlider.length==0){dataSlider = [{"img": "", 'name':"", 'location':''}];}
       determinate1 = true;
-      print(dataSlider);
     });}
 
 
   void getshopping_centerslist(sort_value) async {
-    Urls server_url  =  new Urls();
+    try{
+      Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/shopping_centers?'+sort_value;
-    final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
     final json = jsonDecode(utf8.decode(response.bodyBytes));
+    var postList = [];
+    for (var i in json['data']){
+        postList.add(i);
+      }
     setState(() {
-      data  = json['data'];
       baseurl =  server_url.get_server_url();
-      print(data);
       determinate= true;
-    });}
+      _isLastPage = data.length < _numberOfPostPerRequest;
+      _loading = false;
+      _pageNumber = _pageNumber + 1;
+      data.addAll(postList);
+    });
+    } catch(e){
+        setState(() {
+        _loading = false;
+        _error = true;
+      });
+    }
+    }
 
   void getslider_shopping_centers() async {
     Urls server_url  =  new Urls();
@@ -446,17 +553,30 @@ class _StoreState extends State<Store> {
 
 
   void getbazarlarlist(sort_value) async {
-    Urls server_url  =  new Urls();
-    String url = server_url.get_server_url() + '/mob/bazarlar?'+sort_value;
-    final uri = Uri.parse(url);
-    final response = await http.get(uri);
-    final json = jsonDecode(utf8.decode(response.bodyBytes));
+    try{
+      Urls server_url  =  new Urls();
+      String url = server_url.get_server_url() + '/mob/bazarlar?'+sort_value;
+      final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+      final json = jsonDecode(utf8.decode(response.bodyBytes));
+      var postList = [];
+      for (var i in json['data']){
+          postList.add(i);
+        }
     setState(() {
-      data  = json['data'];
       baseurl =  server_url.get_server_url();
-      print(data);
       determinate = true;
-    });}
+      _isLastPage = data.length < _numberOfPostPerRequest;
+      _loading = false;
+      _pageNumber = _pageNumber + 1;
+      data.addAll(postList);
+    });
+    } catch(e){
+        setState(() {
+        _loading = false;
+        _error = true;
+      }); 
+    }
+    }
 
   void getslider_shopping() async {
     Urls server_url  =  new Urls();
@@ -467,10 +587,27 @@ class _StoreState extends State<Store> {
     setState(() {
       dataSlider  = json['data'];
       baseurl =  server_url.get_server_url();
-      print(dataSlider);
       determinate1 = true;
     });}
 
+
+  Widget errorDialog({required double size}){
+    return 
+      GestureDetector(
+        onTap: (){
+          _animateToIndex(1);
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(title , style: TextStyle(color: CustomColors.appColors)),
+            SizedBox(width: 5),
+            Icon(Icons.arrow_upward, color: CustomColors.appColors,)
+          ]
+        )
+    );
+  }
 }
 
 

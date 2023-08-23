@@ -281,6 +281,8 @@ class _MyPagesState extends State<MyPages> {
                                                               .appColors,
                                                           fontWeight:
                                                               FontWeight.bold),
+                                                        textAlign: TextAlign.center,
+                                                        maxLines: 2
                                                     )),
                                                 Expanded(
                                                     flex: 2,

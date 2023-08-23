@@ -33,10 +33,8 @@ class _AddCarState extends State<AddCar> {
   List<dynamic> body_types= [];
   List<dynamic> fruits = [];
   List<dynamic> colors = [];
-  List<dynamic> fuels = [];
   List<dynamic> transmissions = [];
   List<dynamic> wheel_drives = [];
-  List<dynamic> made_in_countries = [];
   
   int s = 0;
   List<dynamic> stores = [];
@@ -67,11 +65,9 @@ class _AddCarState extends State<AddCar> {
   var modelController = {};
   var colorController = {};
   var body_typeController = {};
-  var fuelController = {};
   var transmissionController = {};
   var wdController = {};
   var locationController = {};
-  var locationDestController = {};
   
   callbackMarka(new_value) async { setState(() { markaController = new_value; });
     Urls server_url  =  new Urls();
@@ -86,11 +82,9 @@ class _AddCarState extends State<AddCar> {
   callbackModel(new_value){ setState(() { modelController = new_value; });}
   callbackColor(new_value){ setState(() { colorController = new_value; });}
   callbackBodyType(new_value){ setState(() { body_typeController = new_value; });}
-  callbackFuel(new_value){ setState(() { fuelController = new_value; });}
   callbackTransmission(new_value){ setState(() { transmissionController = new_value; });}
   callbackWd(new_value){ setState(() { wdController = new_value; });}
   callbackLocation(new_value){ setState(() { locationController = new_value; });}
-  callbackLocationDest(new_value){ setState(() { locationDestController = new_value; });}
   
   callbackStatus(){
     Navigator.pop(context);
@@ -198,17 +192,6 @@ class _AddCarState extends State<AddCar> {
             
             const SizedBox(height: 15,),
 
-            Container(
-              height: 35,
-              margin: const EdgeInsets.only(left: 20,right: 20),
-              width: double.infinity,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-              child: Row(
-                children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Ýurdy : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
-                Expanded(flex: 4, child: MyDropdownButton(items: made_in_countries, callbackFunc: callbackLocationDest)
-              ),],),),
-            const SizedBox(height: 15,),
-            
           Container(
             alignment: Alignment.center,
             height: 35,
@@ -236,6 +219,7 @@ class _AddCarState extends State<AddCar> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child:  TextFormField(
               controller: priceController,
+              keyboardType: TextInputType.number,
               decoration: const InputDecoration(hintText: 'Bahasy',
                   border: InputBorder.none,
                   focusColor: Colors.white,
@@ -327,17 +311,6 @@ class _AddCarState extends State<AddCar> {
                 ),],),),
           const SizedBox(height: 15,),
             
-          Container(
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 3,child: Text("Ýangyç görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
-                Expanded(flex: 4, child: MyDropdownButton(items: fuels, callbackFunc: callbackFuel)
-                ),],),),
-          const SizedBox(height: 15,),
-
           Container(
             alignment: Alignment.center,
             height: 35,
@@ -518,8 +491,6 @@ class _AddCarState extends State<AddCar> {
                     request.fields['vin'] = vinCodeController.text;
                     request.fields['engine'] = engineController.text;
                     request.fields['location'] = locationController['id'].toString();
-                    request.fields['made_in'] = locationDestController['id'].toString();
-                    request.fields['fuel'] = fuelController['id'].toString();
                     request.fields['transmission'] = transmissionController['id'].toString();
                     request.fields['color'] = colorController['id'].toString();
                     request.fields['body_type'] = body_typeController['id'].toString();
@@ -587,10 +558,8 @@ class _AddCarState extends State<AddCar> {
       marks = json['marks'];
       body_types = json['body_types'];
       colors = json['colors'];
-      fuels = json['fuels'];
       transmissions = json['transmissions'];
       wheel_drives = json['wheel_drives'];
-      made_in_countries = json['countries'];
     });}          
 
     void get_userinfo() async {
