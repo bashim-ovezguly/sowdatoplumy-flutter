@@ -170,7 +170,6 @@ class _StoreState extends State<Store> {
               if(title=='Marketler'){getmarketslist(sort_value);getmarkets_slider();}
               if(title=='Söwda merkezler'){getshopping_centerslist(sort_value);getslider_shopping_centers();}
               if(title=='Söwda nokatlar'){
-                print('1');
                 getstoreslist(sort_value);getslider_stores();}
               if(title=='Bazarlar'){getbazarlarlist(sort_value);getslider_shopping();}
             }
