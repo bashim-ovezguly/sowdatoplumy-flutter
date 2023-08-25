@@ -18,10 +18,15 @@ class Regions extends ChangeNotifier{
 class UserInfo extends ChangeNotifier {
 
   var regionsCode = {};
+  var storeProducts = [];
+  var storeModul = '';
+  var storeProductStatus ;
+
   String access_token = '';
   String refresh_token = '';
   String sort = "1";
   String user_customer_name = '';
+  
   Map<String, dynamic> statistic = {"store_count": "",
                                     "pharmacy_count": "",
                                     "bazar_count": "",
@@ -38,8 +43,25 @@ class UserInfo extends ChangeNotifier {
     notifyListeners(); 
   }
 
+  void set_storeProducts(value){
+    storeProducts = value;
+    notifyListeners(); 
+  }
+
+  void set_storeProductStatus(value){
+    storeProductStatus = value;
+    print(value);
+    notifyListeners(); 
+  }
+
+  void set_storeModul(value){
+    storeModul = value;
+    notifyListeners(); 
+  }
+
+
   void set_user_customer_name(value){
-    user_customer_name=value;
+    user_customer_name = value;
     notifyListeners();
   }
 

@@ -161,25 +161,7 @@ class _AdPageState extends State<AdPage> {
                                     color: CustomColors.appColors,
                                     fontSize: 14))
                           ])),
-                    // if (data['phone'] != '' && data['phone'] != null)
-                    //   TextButton(onPressed: () async {
-                    //     final call = Uri.parse('tel:'+ data['phone']);
-                    //       if (await canLaunchUrl(call)) {
-                    //         launchUrl(call);}
-                    //       else {
-                    //         throw 'Could not launch $call';
-                    //         }
-                    //     },
-                    //     child: Container(
-                    //         child: Row(
-                    //           children: [
-                    //             Icon(Icons.phone, color: CustomColors.appColors, size: 25),
-                    //             SizedBox(width: 5),
-                    //             Text(data['phone'].toString(), style: TextStyle(color: CustomColors.appColors, fontSize: 14))
-                    //           ]
-                    //         )
-                    //       )
-                    //     ),
+
                     if (data['body_tm'] != null && data['body_tm'] != '')
                       SizedBox(
                           width: double.infinity,
