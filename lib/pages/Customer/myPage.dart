@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
+import '../../main.dart';
 import '../fullScreenSlider.dart';
 import 'deleteAlert.dart';
 import 'newProduct.dart';
@@ -884,6 +885,7 @@ class _MyPageState extends State<MyPage> {
     );
   }
 
+
   void getsinglemarkets({required id}) async {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/stores/' + id;
@@ -1001,4 +1003,7 @@ class _DeliveryState extends State<Delivery> {
       ],
     );
   }
+
+
+
 }

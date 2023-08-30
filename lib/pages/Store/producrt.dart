@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'dart:convert';
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
+import '../../dB/providers.dart';
 import '../../main.dart';
 import '../Customer/login.dart';
 import '../OtherGoods/otherGoodsDetail.dart';
@@ -66,6 +68,36 @@ class _StoreProductsState extends State<StoreProducts> {
 
     return ListView(
       children: [
+        Container(
+          margin: EdgeInsets.only(left: 10, right: 10),
+          width: double.infinity,
+          height: 40,
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: Center(
+            child: TextFormField(
+              controller: keyword,
+              decoration: InputDecoration(
+                  prefixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      get_products_modul(id);
+                    },
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      setState(() {
+                        keyword.text = '';
+                      });
+                      get_products_modul(id);
+                    },
+                  ),
+                  hintText: 'Gözleg...',
+                  border: InputBorder.none),
+            ),
+          ),
+        ),
         Wrap(
           alignment: WrapAlignment.spaceAround,
           children: products.map((item) {
@@ -78,35 +110,6 @@ class _StoreProductsState extends State<StoreProducts> {
                                 id: item['id'].toString(),
                                 title: 'Harytlar',
                               )));
-
-                  // if (modul == '1') {
-                  //   Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //           builder: (context) =>
-                  //               CarStore(id: item['id'].toString())));
-                  // }
-                  // if (modul == '2') {
-                  //   Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //           builder: (context) =>
-                  //               AutoPartsDetail(id: item['id'].toString())));
-                  // }
-                  // if (modul == '3') {
-                  //   Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //           builder: (context) =>
-                  //               PropertiesDetail(id: item['id'].toString())));
-                  // }
-                  // if (modul == '4') {
-                  //   Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //           builder: (context) =>
-                  //               ConstructionDetail(id: item['id'].toString())));
-                  // }
                 },
                 child: Card(
                     elevation: 2,
@@ -252,7 +255,8 @@ class _StoreProductsState extends State<StoreProducts> {
           keyword.text;
     }
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       products = json['data'];

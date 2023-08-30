@@ -19,6 +19,7 @@ class RibbonList extends StatefulWidget {
 }
 
 class _RibbonListState extends State<RibbonList> {
+  
   late bool _isLastPage;
   late int _pageNumber;
   late bool _error;
@@ -81,10 +82,15 @@ class _RibbonListState extends State<RibbonList> {
                                               ['customer_id']
                                           .toString())));
                         },
-                        child: Image.asset('assets/images/person.png',
-                            width: 40,
-                            height: 40,
-                            color: CustomColors.appColors),
+                        child: CircleAvatar(
+                          backgroundColor: Color.fromARGB(255, 206, 204, 204),
+                          radius: 20,
+                          backgroundImage: NetworkImage(baseurl+ data[index]['customer_photo'],
+                          ),
+                        )
+                        
+                        
+                        
                       ),
                       SizedBox(width: 5),
                       GestureDetector(
@@ -235,12 +241,13 @@ class _RibbonListState extends State<RibbonList> {
                                                 '/like';
 
                                         final uri = Uri.parse(url);
+                                            var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
                                         var request =
                                             http.MultipartRequest("POST", uri);
 
                                         request.headers.addAll({
-                                          'Content-Type':
-                                              'application/x-www-form-urlencoded',
+                                          'Content-Type':'application/x-www-form-urlencoded',
+                                          'device_id': device_id,
                                           'token': datar[0]['name']
                                         });
 
@@ -317,8 +324,10 @@ class _RibbonListState extends State<RibbonList> {
       }
       url = url + "?page=$_pageNumber&page_size=$_numberOfPostPerRequest";
       final uri = Uri.parse(url);
+      var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
       final response = await http.get(uri, headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
+        'device_id': device_id,
         'token': datas[0]['name']
       });
       final json = jsonDecode(utf8.decode(response.bodyBytes));

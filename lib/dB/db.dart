@@ -9,6 +9,7 @@ class DatabaseSQL {
 
   static const table = 'my_table';
   static const table1 = 'my_table1';
+  static const table2 = 'divice_id';
   static const columnId = '_id';
   static const columnName = 'name';
   static const columnPassword = 'age';
@@ -66,6 +67,12 @@ class DatabaseSQL {
           ''');
 
     await db.execute('''
+          CREATE TABLE $table2 (
+            id TEXT NOT NULL
+          )
+          ''');
+
+    await db.execute('''
           CREATE TABLE $shoping_cart (
             id INTEGER PRIMARY KEY,
             store_id INTEGER NOT NULL)''');
@@ -85,14 +92,23 @@ class DatabaseSQL {
       await _db.insert(table, row);
       return 0;
     }
+
     Future<int> inser1(Map<String, dynamic> row) async{
       await _db.insert(table1, row);
       return 0;
     }
 
+    Future<int> insert2(Map<String, dynamic> row) async{
+      await _db.insert(table2, row);
+      return 0;
+    }
 
     Future<List<Map<String, dynamic>>> queryAllRows() async {
       return await _db.rawQuery('SELECT * FROM "my_table"');
+    }
+
+    Future<List<Map<String, dynamic>>> get_all_divive_id() async {
+      return await _db.rawQuery('SELECT * FROM "divice_id"');
     }
 
     Future<List<Map<String, dynamic>>> get_shoping_cart_by_store({required String id}) async {

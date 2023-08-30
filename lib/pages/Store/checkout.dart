@@ -191,12 +191,11 @@ class _CheckoutState extends State<Checkout> {
             final uri = Uri.parse(url);
             var body = json.encode(dict);
             var responsess = Provider.of<UserInfo>(context, listen: false).update_tokenc();
+            var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+  
             if (await responsess){
               var token = Provider.of<UserInfo>(context, listen: false).access_token;
-              var req = await http.post(uri, headers: {"Content-Type": "application/json", "token": token}, body: body);
-              print(body);
-              print(req.statusCode);
-              print(req.body);
+              var req = await http.post(uri, headers: {"Content-Type": "application/json", "token": token, "device_id": device_id}, body: body);
               if (req.statusCode==200){
                 var shoping_carts = [];
                 var shoping_cart = await dbHelper.get_shoping_cart_by_store(id: dict['store']);

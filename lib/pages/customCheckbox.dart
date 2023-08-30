@@ -16,8 +16,6 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
   
   @override
   void initState() {
-    print(widget.status);
-    print(widget.status.runtimeType);
     setState(() {
       isChecked = widget.status;
     });

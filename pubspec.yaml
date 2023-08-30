@@ -120,6 +120,7 @@ flutter:
      - assets/images/orders_in.png
      - assets/images/orders_out.png
      - assets/images/lenta.png
+     - assets/images/playmarket.png
      
      
   # An image asset can refer to one or more resolution-specific "variants", see

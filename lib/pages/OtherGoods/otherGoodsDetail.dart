@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Car/carStore.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
+import 'package:provider/provider.dart';
+import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../call.dart';
 import '../fullScreenSlider.dart';
@@ -204,17 +206,30 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                    Expanded(child:Container(
                     height: 25,
                     alignment: Alignment.centerLeft,
-                    child: ElevatedButton(
-                      onPressed: () {
+                    child: GestureDetector(
+                      onTap: () {
                         if (data['store']!=null && data['store_id']!=''){
                           Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Söwda nokatlar')));
                         }
                       },
-                      child: Text(data['store_name'].toString(),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: CustomText.itemText,
-                      )))),
+                      child: Row(mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [Image.asset(
+                                                      'assets/images/store.png',
+                                                      color: CustomColors.appColors,
+                                                      width: 25,
+                                                      height: 25,
+                                                    ),
+                                                    Text(
+                                                      data['store_name'],
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: CustomText.size_16
+                                                    )
+                                                  ],
+                                                ),
+                    )
+                      
+                      )),
                       SizedBox(width: 10)
                 ],
               ),
@@ -400,8 +415,8 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/products/' + id;
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
-    
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
         data  = json;

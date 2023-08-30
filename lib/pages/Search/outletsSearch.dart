@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/pages/Customer/locationWidget.dart';
 import 'package:my_app/pages/Search/outletsSearchList.dart';
+import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
+import '../../dB/providers.dart';
 import '../customCheckbox.dart';
 import '../select.dart';
 import 'package:intl/intl.dart';
@@ -337,7 +339,8 @@ class _OutletsSearchState extends State<OutletsSearch> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/index/store';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data  = json;

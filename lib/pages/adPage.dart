@@ -286,8 +286,8 @@ class _AdPageState extends State<AdPage> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/ads/' + id;
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
-
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data = json;

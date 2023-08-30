@@ -122,6 +122,7 @@ class _MyPagesState extends State<MyPages> {
                             Expanded(
                               flex: 5,
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Expanded(
                                       child: Container(
@@ -198,44 +199,55 @@ class _MyPagesState extends State<MyPages> {
                                                       color: CustomColors
                                                           .appColors),
                                                 )),
-                                      Spacer(),
-                                      if (widget.user_customer_id == '')
-                                        Container(
-                                            child: Container(
-                                                width: 40,
-                                                height: 40,
-                                                child: IconButton(
-                                                    onPressed: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) => EditProfil(
-                                                                  customer_id: user[
-                                                                          'id']
-                                                                      .toString(),
-                                                                  email: user[
-                                                                          'email']
-                                                                      .toString(),
-                                                                  name:
-                                                                      user['name'
-                                                                          .toString()],
-                                                                  phone: user[
-                                                                          'phone']
-                                                                      .toString(),
-                                                                  img: baseurl +
-                                                                      user['img']
-                                                                          .toString(),
-                                                                  callbackFunc:
-                                                                      refreshFunc,
-                                                                  showSuccessAlert:
-                                                                      showSuccessAlert)));
-                                                    },
-                                                    icon: const Icon(
-                                                        Icons.edit_outlined,
-                                                        color: CustomColors
-                                                            .appColors))))
                                     ],
                                   )),
+                                  if (widget.user_customer_id == '')
+                                    Expanded(child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EditProfil(
+                                                        customer_id: user['id']
+                                                            .toString(),
+                                                        email: user['email']
+                                                            .toString(),
+                                                        name: user[
+                                                            'name'.toString()],
+                                                        phone: user['phone']
+                                                            .toString(),
+                                                        img: baseurl +
+                                                            user['img']
+                                                                .toString(),
+                                                        callbackFunc:
+                                                            refreshFunc,
+                                                        showSuccessAlert:
+                                                            showSuccessAlert)));
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        height: 30,
+                                        width: 120,
+                                        color: CustomColors.appColors,
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text("Sazlamalar",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: CustomColors
+                                                        .appColorWhite)),
+                                            SizedBox(width: 10),
+                                            Icon(
+                                              Icons.settings,
+                                              color: CustomColors.appColorWhite,
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ))
                                 ],
                               ),
                             ),
@@ -273,17 +285,18 @@ class _MyPagesState extends State<MyPages> {
                                                 Expanded(
                                                     flex: 1,
                                                     child: Text(
-                                                      user['room']['store']
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 20,
-                                                          color: CustomColors
-                                                              .appColors,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                        textAlign: TextAlign.center,
-                                                        maxLines: 2
-                                                    )),
+                                                        user['room']['store']
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 20,
+                                                            color: CustomColors
+                                                                .appColors,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        maxLines: 2)),
                                                 Expanded(
                                                     flex: 2,
                                                     child: Image.asset(
@@ -854,6 +867,7 @@ class _MyPagesState extends State<MyPages> {
     });
     Provider.of<UserInfo>(context, listen: false)
         .setAccessToken(data[0]['name'], data[0]['age']);
+    Provider.of<UserInfo>(context, listen: false).set_user_info(json['data']);
   }
 }
 
@@ -896,7 +910,7 @@ class _CustomDialogLogoutState extends State<CustomDialogLogout> {
             onPressed: () async {
               final deleteallRows = await dbHelper.deleteAllRows();
               final deleteallRows1 = await dbHelper.deleteAllRows();
-
+              Provider.of<UserInfo>(context, listen: false).set_user_info({});
               Navigator.pop(context);
               Navigator.pushReplacement(
                   context, MaterialPageRoute(builder: (context) => Login()));

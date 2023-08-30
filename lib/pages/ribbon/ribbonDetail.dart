@@ -4,10 +4,11 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:my_app/main.dart';
 import 'package:my_app/pages/fullScreenSlider.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
-
+import '../../dB/providers.dart';
 
 class RibbonDetail extends StatefulWidget {
   final String id;
@@ -43,10 +44,13 @@ class _RibbonDetailState extends State<RibbonDetail> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset('assets/images/person.png',
-                              width: 40,
-                              height: 40,
-                              color: CustomColors.appColors),
+                          CircleAvatar(
+                            backgroundColor: Color.fromARGB(255, 206, 204, 204),
+                            radius: 20,
+                            backgroundImage: NetworkImage(
+                              baseurl + data['customer_photo'],
+                            ),
+                          ),
                           SizedBox(width: 5),
                           Column(children: [
                             Expanded(
@@ -63,9 +67,7 @@ class _RibbonDetailState extends State<RibbonDetail> {
                           Spacer(),
                           GestureDetector(
                               onTap: () {
-                                var url =
-                                    'http://business-complex.com.tm/lenta/' +
-                                        data['id'].toString();
+                                var url ='http://business-complex.com.tm/lenta/' +data['id'].toString();
                                 Share.share(url, subject: 'Söwda Toplumy');
                               },
                               child: Image.asset('assets/images/send_link.png',
@@ -103,8 +105,12 @@ class _RibbonDetailState extends State<RibbonDetail> {
                             if (item['img'] != null && item['img'] != '')
                               GestureDetector(
                                   onTap: () {
-
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => FullScreenSlider(imgList: imgList) ));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                FullScreenSlider(
+                                                    imgList: imgList)));
                                   },
                                   child: ClipRect(
                                     child: Container(
@@ -140,14 +146,14 @@ class _RibbonDetailState extends State<RibbonDetail> {
                               Urls server_url = new Urls();
                               String url = server_url.get_server_url() +
                                   "/mob/lenta/" +
-                                  widget.id+'/like';
+                                  widget.id +
+                                  '/like';
                               final uri = Uri.parse(url);
-                              var request = http.MultipartRequest("POST", uri);
-                              
-                              request.headers.addAll({
-                                'Content-Type':
-                                    'application/x-www-form-urlencoded',
-                                'token':  data[0]['name']
+                              var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+                              var request = http.MultipartRequest("POST", uri); request.headers.addAll(
+                                {'Content-Type':'application/x-www-form-urlencoded',
+                                'device_id': device_id,
+                                'token': data[0]['name']
                               });
 
                               final response = await request.send();
@@ -187,17 +193,17 @@ class _RibbonDetailState extends State<RibbonDetail> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/lenta/' + id;
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
-
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data = json['msg'];
       baseurl = server_url.get_server_url();
       determinate = true;
       imgList = [];
-        for ( var i in data['images']) {
-          imgList.add(baseurl + i['img']);
-        }
+      for (var i in data['images']) {
+        imgList.add(baseurl + i['img']);
+      }
     });
   }
 }

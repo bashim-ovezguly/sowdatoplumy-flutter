@@ -5,7 +5,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../OtherGoods/otherGoodsDetail.dart';
 import '../fullScreenSlider.dart';
@@ -393,7 +395,9 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/pharmacies/' + id;
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {

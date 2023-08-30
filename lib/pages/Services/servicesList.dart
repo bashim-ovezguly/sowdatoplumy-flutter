@@ -153,30 +153,6 @@ class _ServicesListState extends State<ServicesList> {
                                       ),
                                     ),
 
-
-                                     Positioned(top: 130, left: 10,
-                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                           children: [
-                                             Text(item['name_tm'].toString(),
-                                               style: TextStyle(shadows: [
-                                                 Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
-                                                 Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
-                                                   fontSize: 20, color: Colors.white,
-                                                   fontStyle: FontStyle.italic,
-                                                   fontWeight: FontWeight.bold),),
-                                             Text(item['price'].toString(), style: TextStyle(shadows: [
-                                               Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
-                                               Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
-                                                 fontSize: 18, color: Colors.white,
-                                                 fontStyle: FontStyle.italic,
-                                                 fontWeight: FontWeight.bold),),
-                                             Text(item['location'].toString(), style: TextStyle(shadows: [
-                                               Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
-                                               Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
-                                                 fontSize: 18, color: Colors.white,
-                                                 fontStyle: FontStyle.italic,
-                                                 fontWeight: FontWeight.bold),)],))
                                    ],)),),
                                )
                                    
@@ -310,12 +286,12 @@ class _ServicesListState extends State<ServicesList> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/services?' + sort_value;
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data  = json['data'];
       baseurl =  server_url.get_server_url();
-      print(data);
       determinate = true;
     });}
 
@@ -323,15 +299,13 @@ class _ServicesListState extends State<ServicesList> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/services?on_slider=1';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       dataSlider  = json['data'];
       baseurl =  server_url.get_server_url();
-      if ( dataSlider.length==0){
-        dataSlider = [{"img": "", 'name_tm':"", 'price':"", 'location':''}];
-      }
-      print(dataSlider);
+      if ( dataSlider.length==0){dataSlider = [{"img": "", 'name_tm':"", 'price':"", 'location':''}];}
       determinate1 = true;
     });}
 

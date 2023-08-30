@@ -9,9 +9,11 @@ import 'package:my_app/dB/db.dart';
 import 'package:my_app/pages/Customer/myPages.dart';
 import 'package:my_app/pages/Customer/newPassword.dart';
 import 'package:my_app/pages/register.dart';
+import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
+import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../../main.dart';
 
@@ -205,7 +207,7 @@ class _LoginState extends State<Login> {
 
                               print('-----1--------  $id');
                               print('-----2--------  $id1');
-
+                              
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

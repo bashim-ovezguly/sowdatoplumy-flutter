@@ -570,6 +570,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                           ))
                       ],
                     ),
+                
                     SizedBox(
                       height: MediaQuery.of(context).size.height - 130,
                       child: TabBarView(
@@ -637,7 +638,8 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
       url = server_url.get_server_url() + '/mob/stores/' + id;
     }
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       var i;

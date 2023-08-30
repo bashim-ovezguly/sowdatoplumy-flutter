@@ -187,9 +187,6 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
       sort_value = 'sort=-id';
     }
     
-    
-
-
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/stores?';
 
@@ -207,8 +204,8 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
     url = url + sort_value; 
 
     final uri = Uri.parse(url);
-    print(uri);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data  = json['data'];

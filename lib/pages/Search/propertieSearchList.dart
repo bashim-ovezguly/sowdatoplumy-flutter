@@ -181,8 +181,6 @@ class _ProperrieSearchListState extends State<ProperrieSearchList> {
       sort_value = 'sort=-id';
     }
     
-    
-
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/flats?';
     if (params['id']!=null){ url = url + 'id=' + params['id'] + "&"; }
@@ -200,13 +198,12 @@ class _ProperrieSearchListState extends State<ProperrieSearchList> {
     if (params['own']!=null && params['own']=='on'){ url = url + 'own=' + params['own'] + "&"; }
     url = url + sort_value; 
     final uri = Uri.parse(url);
-    print(uri);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data  = json['data'];
       baseurl =  server_url.get_server_url();
-      print(data);
       determinate = true;
     });}
 

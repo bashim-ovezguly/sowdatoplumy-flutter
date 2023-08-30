@@ -193,9 +193,11 @@ class _AutoPartsSearchListState extends State<AutoPartsSearchList> {
     if (params['swap']!=null && params['swap']=='on'){ url = url + 'swap=' + params['swap'] + "&"; }
     if (params['none_cash']!=null && params['none_cash']=='on'){ url = url + 'none_cash=' + params['none_cash'] + "&"; }
     if (params['new']!=null && params['new']=='on'){ url = url + 'new=' + params['new'] + "&"; }
+    
     url = url + sort_value.toString();
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data  = json['data'];

@@ -4,8 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
+import 'package:provider/provider.dart';
 
 import '../../dB/colors.dart';
+import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../progressIndicator.dart';
 
@@ -146,7 +148,8 @@ _StoreFirstState({required this.title, required this.id});
     }
 
     final uri = Uri.parse(url);
-    final response = await http.get(uri);    
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
         data  = json;

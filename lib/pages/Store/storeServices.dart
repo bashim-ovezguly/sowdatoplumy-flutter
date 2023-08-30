@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/Services/serviceDetail.dart';
+import 'package:provider/provider.dart';
 import 'dart:convert';
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
 import 'package:http/http.dart' as http;
+
+import '../../dB/providers.dart';
 
 class StoreServices extends StatefulWidget {
   StoreServices({Key? key, required this.id}) : super(key: key);
@@ -34,6 +37,36 @@ class _StoreServicesState extends State<StoreServices> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
+        Container(
+          margin: EdgeInsets.only(left: 10, right: 10),
+          width: double.infinity,
+          height: 40,
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: Center(
+            child: TextFormField(
+              controller: keyword,
+              decoration: InputDecoration(
+                  prefixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      get_products_modul(id);
+                    },
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      setState(() {
+                        keyword.text = '';
+                      });
+                      get_products_modul(id);
+                    },
+                  ),
+                  hintText: 'Gözleg...',
+                  border: InputBorder.none),
+            ),
+          ),
+        ),
         Wrap(
           alignment: WrapAlignment.spaceAround,
           children: products.map((item) {
@@ -111,7 +144,8 @@ class _StoreServicesState extends State<StoreServices> {
           keyword.text;
     }
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       products = json['data'];

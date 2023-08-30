@@ -18,10 +18,11 @@ class Regions extends ChangeNotifier{
 class UserInfo extends ChangeNotifier {
 
   var regionsCode = {};
+  var user_info = {};
   var storeProducts = [];
   var storeModul = '';
   var storeProductStatus ;
-
+  String device_id ='';
   String access_token = '';
   String refresh_token = '';
   String sort = "1";
@@ -38,8 +39,20 @@ class UserInfo extends ChangeNotifier {
                                     "product_count": "",
                                     "factory_count": "",
                                     "flat_count": "" };
+
   void set_statistic(value){
     statistic = value;
+    notifyListeners(); 
+  }
+
+  void set_device_id(value){
+    device_id = value;
+    notifyListeners(); 
+  }
+
+  void set_user_info(value){
+    print('set-user-info isledi!');
+    user_info = value;
     notifyListeners(); 
   }
 

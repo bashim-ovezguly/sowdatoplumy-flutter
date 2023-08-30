@@ -10,6 +10,8 @@ import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Car/carStore.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/progressIndicator.dart';
+import 'package:provider/provider.dart';
+import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../call.dart';
 import '../fullScreenSlider.dart';
@@ -435,15 +437,13 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/flats/' + id;
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
-    
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
         data  = json;
         baseurl =  server_url.get_server_url();
-        // ignore: unused_local_variable
         var i;
-        print(data);
         imgList = [];
         for ( i in data['images']) {
           imgList.add(baseurl + i['img']);

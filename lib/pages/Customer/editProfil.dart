@@ -122,8 +122,9 @@ class _EditProfilState extends State<EditProfil> {
                         child: TextFormField(
                           controller: newNameController,
                           decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.edit_note),
+                            prefixIconColor: CustomColors.appColors,
                           border: const OutlineInputBorder(),
-                          labelText: 'Täze adyñyz',
                           hintText: name,
                         ),
                       ),
@@ -134,8 +135,9 @@ class _EditProfilState extends State<EditProfil> {
                         child: TextFormField(
                           controller: newPhoneController,
                         decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.mail),
+                          prefixIconColor: CustomColors.appColors,
                           border: const OutlineInputBorder(),
-                          labelText: "Täze elektron poçtaňyz",
                           hintText: email,
                         ),),),),
 
@@ -145,7 +147,6 @@ class _EditProfilState extends State<EditProfil> {
                           readOnly: true,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
-                            labelText: phone,
                             hintText: phone,
                         ),
                       ),

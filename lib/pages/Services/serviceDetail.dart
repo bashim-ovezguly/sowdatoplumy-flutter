@@ -6,8 +6,10 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../dB/colors.dart';
+import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../call.dart';
 import '../fullScreenSlider.dart';
@@ -570,8 +572,8 @@ class _ServiceDetailState extends State<ServiceDetail> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/services/' + id;
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
-
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data = json;
@@ -579,7 +581,6 @@ class _ServiceDetailState extends State<ServiceDetail> {
         data['phone'] = '';
       }
       baseurl = server_url.get_server_url();
-      // ignore: unused_local_variable
       var i;
       imgList = [];
       for (i in data['images']) {

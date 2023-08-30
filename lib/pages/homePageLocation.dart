@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/colors.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import '../dB/constants.dart';
 import 'dart:convert';
+
+import '../dB/providers.dart';
 
 
 class LocationWidget extends StatefulWidget {
@@ -207,7 +210,8 @@ class _LocationWidgetState extends State<LocationWidget> {
     if (parent!=null){url = url + "?parent=" + parent.toString();}
 
     final uri = Uri.parse(url);  
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data  = json;

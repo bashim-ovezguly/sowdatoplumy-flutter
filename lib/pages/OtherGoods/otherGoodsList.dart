@@ -213,30 +213,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                           Image.asset('assets/images/default16x9.jpg'))
                                       )
                                     ),
-                                      Positioned(top: 130, left: 10,
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              if (item['name']!=null)
-                                              Text(item['name'].toString(),
-                                                style: TextStyle(shadows: [
-                                                  Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
-                                                  Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
-                                                    fontSize: 20, color: Colors.white,
-                                                    fontStyle: FontStyle.italic,
-                                                    fontWeight: FontWeight.bold),),
-                                              Text(item['price'].toString() , style: TextStyle(shadows: [
-                                                Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
-                                                Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
-                                                  fontSize: 18, color: Colors.white,
-                                                  fontStyle: FontStyle.italic,
-                                                  fontWeight: FontWeight.bold),),
-                                              Text(item['location'].toString(), style: TextStyle(shadows: [
-                                                Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
-                                                Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
-                                                  fontSize: 18, color: Colors.white,
-                                                  fontStyle: FontStyle.italic,
-                                                  fontWeight: FontWeight.bold))]))
+                                      
                                     ]))))
                               ).toList())
                         ),
@@ -330,16 +307,24 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
 
                                           Expanded(child:Container(
                                             height: 25,
-                                              alignment: Alignment.centerLeft,
-                                              child: ElevatedButton(
-                                                onPressed: () {},
-                                                child: Text(
-                                                  data[index]['store_name'],
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: CustomText.itemText,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/store.png',
+                                                      color: CustomColors.appColorWhite,
+                                                      width: 30,
+                                                      height: 30,
+                                                    ),
+                                                    Text(
+                                                      data[index]['store_name'],
+                                                      maxLines: 1,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: CustomText.itemText,
+                                                    )
+                                                  ],
                                                 ),
-                                              )))
+                                              ))
 
                                     ],
                                   ),
@@ -383,13 +368,14 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/products?';
     if (keyword.text!=''){var value = keyword.text; url = server_url.get_server_url() + '/mob/products?name=$value';}
-    final response = await get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"), headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     var postList = [];
     for (var i in json['data']){
       postList.add(i);
     }
-    
+
     setState(() {
       baseurl =  server_url.get_server_url();
       determinate = true;
@@ -400,12 +386,12 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
     });
     }
 
-
     void getslider_products() async {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/products?on_slider=1';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       dataSlider  = json['data'];
@@ -443,7 +429,4 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
       ),
     );
   }
-
-
-
 }

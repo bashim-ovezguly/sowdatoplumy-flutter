@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
 import 'package:my_app/pages/Search/pharmaciesSearchList.dart';
+import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
-import '../select.dart';
 import 'package:http/http.dart' as http;
+
+import '../../dB/providers.dart';
 
 
 class PharmaciesSerach extends StatefulWidget {
@@ -158,11 +160,11 @@ class _PharmaciesSerachState extends State<PharmaciesSerach> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/index/product';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
   
     setState(() {
-      print(json);
       });
   }
 

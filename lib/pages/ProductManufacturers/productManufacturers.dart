@@ -160,25 +160,6 @@ class _ProductManufacturersState extends State<ProductManufacturers> {
                                           Image.asset('assets/images/default16x9.jpg'),),
                                       ),
                                     ),
-
-                                      
-                                    Positioned(top: 150, left: 10,
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            if (item['name']!=null)
-                                            Text(item['name'].toString(), style: TextStyle(shadows: [
-                                              Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
-                                              Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
-                                                fontSize: 18, color: Colors.white,
-                                                fontStyle: FontStyle.italic,
-                                                fontWeight: FontWeight.bold),),
-                                            Text(item['location'].toString(), style: TextStyle(shadows: [
-                                              Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
-                                              Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
-                                                fontSize: 16, color: Colors.white,
-                                                fontStyle: FontStyle.italic,
-                                                fontWeight: FontWeight.bold),)],))
                                   ],)),),
                               )).toList(),),),
                       Container(
@@ -287,12 +268,12 @@ class _ProductManufacturersState extends State<ProductManufacturers> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/factories?'+ sort_value.toString();
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data  = json['data'];
       baseurl =  server_url.get_server_url();
-      print(data);
       determinate = true;
     });}
 
@@ -300,7 +281,8 @@ class _ProductManufacturersState extends State<ProductManufacturers> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/factories?on_slider=1';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       dataSlider  = json['data'];
@@ -308,7 +290,6 @@ class _ProductManufacturersState extends State<ProductManufacturers> {
         dataSlider = [{"img": "", 'name_tm':"", 'price':"", 'location':''}];
       }
       baseurl =  server_url.get_server_url();
-      print(data);
       determinate1 = true;
     });}
 

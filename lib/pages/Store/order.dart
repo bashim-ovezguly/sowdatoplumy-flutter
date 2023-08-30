@@ -255,9 +255,6 @@ class _OrderState extends State<Order> {
       array1.add(row);
       String ss =  row['product_price'].substring(0, row['product_price'].length - 4);
       ss = ss.replaceAll(RegExp(' '), '');
-      print(row['product_price']);
-      print(ss);
-      
       int qq = row['count'] * int.parse(ss);
       total_price1 = total_price1 + qq;
     }

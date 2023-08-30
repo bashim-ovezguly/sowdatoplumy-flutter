@@ -6,8 +6,10 @@ import 'package:my_app/pages/Customer/locationWidget.dart';
   
 import 'package:my_app/pages/Search/productManufacturersSearchList.dart';
 import 'package:my_app/pages/select.dart';
+import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
+import '../../dB/providers.dart';
 
 
 class ProductManufacturersSerarch extends StatefulWidget {
@@ -226,7 +228,8 @@ class _ProductManufacturersSerarchState extends State<ProductManufacturersSerarc
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/index/factory';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     
     setState(() {

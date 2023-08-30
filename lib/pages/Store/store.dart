@@ -249,59 +249,6 @@ class _StoreState extends State<Store> {
                                               child: item['img'] != '' ? Image.network(baseurl + item['img'].toString(),):
                                               Image.asset('assets/images/default16x9.jpg'),),
                                               ),
-                                      
-                                    Positioned(top: 130, left: 10,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          if (item['name']!=null  && item['name']!='')
-                                          Text(item['name'].toString(),
-                                            style: TextStyle(shadows: [
-                                                Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
-                                                Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
-                                                  fontSize: 20, color: Colors.white,
-                                                  fontStyle: FontStyle.italic,
-                                                  fontWeight: FontWeight.bold),),
-                                           if (title=='Marketler')
-                                           if (item['category']!=null  && item['category']!='')
-                                            Text(item['category'].toString(), style: TextStyle(shadows: [
-                                              Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
-                                              Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
-                                                fontSize: 18, color: Colors.white,
-                                                fontStyle: FontStyle.italic,
-                                                fontWeight: FontWeight.bold),),
-                                          if (title=='Bazarlar')
-                                            Text("Bazar", style: TextStyle(shadows: [
-                                              Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
-                                              Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
-                                                fontSize: 18, color: Colors.white,
-                                                fontStyle: FontStyle.italic,
-                                                fontWeight: FontWeight.bold),),
-
-                                          if (title=='Söwda merkezler')
-                                            Text("Söwda merkez", style: TextStyle(shadows: [
-                                              Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
-                                              Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
-                                                fontSize: 18, color: Colors.white,
-                                                fontStyle: FontStyle.italic,
-                                                fontWeight: FontWeight.bold),),
-                                          if (title=='Söwda nokatlar')
-                                            if (item['category']!=null  && item['category']!='')
-                                            Text(item['category'].toString(), style: TextStyle(shadows: [
-                                              Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
-                                              Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
-                                                fontSize: 18, color: Colors.white,
-                                                fontStyle: FontStyle.italic,
-                                                fontWeight: FontWeight.bold),),
-
-                                            Text(item['location'].toString(), style: TextStyle(shadows: [
-                                              Shadow(blurRadius: 10.0, color: Colors.black45, offset: Offset(5.0, 5.0),),
-                                              Shadow(color: Colors.white10, blurRadius: 10.0, offset: Offset(-10.0, 5.0),),],
-                                                fontSize: 18, color: Colors.white,
-                                                fontStyle: FontStyle.italic,
-                                                fontWeight: FontWeight.bold),)],))
-
-
                                   ],),)).toList(),),),
                       Container(
                         margin: EdgeInsets.only(bottom: 7),
@@ -315,7 +262,90 @@ class _StoreState extends State<Store> {
                             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),),),)
                     ],
                   ),
-                  )
+                  ),
+                   GestureDetector(
+                  onTap: (){
+
+                    if (title=='Marketler' || title=='Söwda nokatlar'){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data[index]['id'].toString(), title: title), ));
+                    }
+                    else {
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => StoreFirst(id: data[index]['id'].toString(), title: title,) ));
+                    }
+                  },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 5, right: 5),
+                      child: Card(
+                        elevation: 2,
+                        child: Container(
+                          height: 110,
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(flex: 1,
+                                   child: ClipRect(
+                                      child: Container(
+                                      height: 110,
+                                      child: FittedBox(
+                                        fit: BoxFit.cover,
+                                        child: data[index]['img'] != '' ? Image.network(baseurl + data[index]['img'].toString(),):
+                                        Image.asset('assets/images/default.jpg', ),),),
+                                     )),
+                              Expanded(
+                                flex: 2,
+                                child: Container(
+                                  color: CustomColors.appColors,
+                                  margin: EdgeInsets.only(left: 2),
+                                  padding: const EdgeInsets.all(10),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      Expanded(
+                                          child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            data[index]['name'].toString(),
+                                            overflow: TextOverflow.ellipsis,
+                                            style: CustomText.itemTextBold))
+                                            ),
+                                      Expanded(
+                                          child:Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: Row(
+                                              children:  <Widget>[
+                                                if (title=='Söwda merkezler') 
+                                                  Text(
+                                                    ' Söwda merkezi',                                                  
+                                                    style: CustomText.itemText ),
+                                                if (title=='Bazarlar') 
+                                                  Text(
+                                                    ' Bazary',                                                  
+                                                    style: CustomText.itemText ),
+                                                if (title=='Marketler' || title=='Söwda nokatlar') 
+                                                 Text(
+                                                    data[index]['category'].toString(),
+                                                    overflow: TextOverflow.clip,
+                                                    style: CustomText.itemText )
+                                                    ],),)),
+                                      Expanded(child:Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Row(
+                                          children: <Widget>[
+                                            Flexible(child: new Container(
+                                              child: Text(data[index]['location'].toString(),
+                                              overflow: TextOverflow.ellipsis,
+                                                style: CustomText.itemText),
+                                            ))
+                                                ],),)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ]
+                          )
+                        )
+                      )
+                    )
+                )
                 ],
                ): 
                GestureDetector(
@@ -427,7 +457,10 @@ class _StoreState extends State<Store> {
     try{
       Urls server_url  =  new Urls();
       String url = server_url.get_server_url() + '/mob/markets?'+ sort_value.toString();
-      final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+      var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+      final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"), 
+       headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id}
+      );
       final json = jsonDecode(utf8.decode(response.bodyBytes));
       
       var postList = [];

@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/pages/Customer/locationWidget.dart';
 import 'package:my_app/pages/Search/serviceSearchList.dart';
+import 'package:provider/provider.dart';
   
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
+import '../../dB/providers.dart';
 import '../select.dart';
 
 
@@ -223,12 +225,12 @@ class _ServiceSearchState extends State<ServiceSearch> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/index/service';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     
     setState(() {
       data  = json;
       categories = json['categories'];
-      print(data);
     });}
 }

@@ -9,6 +9,8 @@ import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/call.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/dB/constants.dart';
+import 'package:provider/provider.dart';
+import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../fullScreenSlider.dart';
 import '../../dB/colors.dart';
@@ -452,8 +454,8 @@ class _CarStoreState extends State<CarStore> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/cars/' + id;
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
-    
+    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
         data  = json;
