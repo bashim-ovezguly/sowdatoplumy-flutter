@@ -393,25 +393,26 @@ class _AutoPartsListState extends State<AutoPartsList> {
                           ),
                         ],
                       )
-                    : Center(
-                        child: CircularProgressIndicator(
-                            color: CustomColors.appColors))))
+                    : Center(child: CircularProgressIndicator(color: CustomColors.appColors))))
         : CustomProgressIndicator(funcInit: initState);
   }
 
   void get_my_parts({required customer_id}) async {
-    print(customer_id);
     Urls server_url = new Urls();
-    String url =
-        server_url.get_server_url() + '/mob/parts?customer=$customer_id';
+    String url = server_url.get_server_url() + '/mob/parts?customer=$customer_id';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+
+    // create request headers
+    Map<String, String> headers = {};  
+    for (var i in global_headers.entries){
+      headers[i.key] = i.value.toString(); 
+    }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data = json['data'];
       baseurl = server_url.get_server_url();
       determinate = true;
     });
-    print(data);
   }
 }

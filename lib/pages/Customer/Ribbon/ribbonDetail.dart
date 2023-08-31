@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/Customer/Ribbon/edit.dart';
 import 'package:my_app/pages/Customer/deleteAlert.dart';
-import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/constants.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import '../../../dB/providers.dart';
 
 class MyRibbonDetail extends StatefulWidget {
   final String id;
@@ -157,7 +155,11 @@ class _MyRibbonDetailState extends State<MyRibbonDetail> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/lenta/' + id;
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data = json['msg'];

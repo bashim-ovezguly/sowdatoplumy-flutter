@@ -56,7 +56,12 @@ class _ArrivedOrdersState extends State<ArrivedOrders> {
             var responsess = Provider.of<UserInfo>(context, listen: false).update_tokenc();
             if (await responsess){
               var token = Provider.of<UserInfo>(context, listen: false).access_token;
-              final response = await http.post(uri, headers: {'token': token});
+                Map<String, String> headers = {};  
+                for (var i in global_headers.entries){
+                  headers[i.key] = i.value.toString(); 
+                }
+                headers['token'] = token;
+              final response = await http.post(uri, headers: headers);
               if (response.statusCode==200){
                 Navigator.pop(context);
               }
@@ -191,12 +196,13 @@ class _ArrivedOrdersState extends State<ArrivedOrders> {
   }
   get_my_orders(String customer_id) async {
     Urls server_url  =  new Urls();
-    // String url = server_url.get_server_url() + '/mob/orders?accepter=$customer_id';
-    // /mob/customers/$customer_id/orders/out
       String url = server_url.get_server_url() + '/mob/customers/$customer_id/orders/in';
-      // String url = server_url.get_server_url() + '/mob/customers/97/orders/in';
       final uri = Uri.parse(url);
-      final response = await http.get(uri);
+        Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+      final response = await http.get(uri, headers: headers);
       final json = jsonDecode(utf8.decode(response.bodyBytes));
         setState(() {
         orders  = json['data'];

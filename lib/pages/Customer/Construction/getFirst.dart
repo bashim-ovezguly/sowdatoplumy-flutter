@@ -576,15 +576,16 @@ class _GetConstructionFirstState extends State<GetConstructionFirst> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/materials/' + id;
     final uri = Uri.parse(url);
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
     final response = await http.get(uri);
 
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
-      data = json;
-      var i;
-      imgList = [];
+      data = json; var i; imgList = [];
       baseurl = server_url.get_server_url();
-      print(data);
       for (i in data['images']) {
         imgList.add(baseurl + i['img_m']);
       }

@@ -310,24 +310,6 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
                 ),],),),
           const SizedBox(height: 15,),
 
-          // Container(
-          //   alignment: Alignment.center,
-          //   height: 35,
-          //   margin: const EdgeInsets.only(left: 20,right: 20),
-          //   width: double.infinity,
-          //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-          //   child:  TextFormField(
-          //     controller: usernameController,
-          //     decoration: const InputDecoration(hintText: 'Satyjynyň ady',
-          //         border: InputBorder.none,
-          //         focusColor: Colors.white,
-          //         contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-          //     if (value == null || value.isEmpty) {
-          //       return 'Please enter some text';
-          //     }return null;
-          //   },),),
-          // const SizedBox(height: 15,),
-
           Container(
             alignment: Alignment.center,
             height: 35,
@@ -724,8 +706,13 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
 
                     var none_cash_pay_num = '0';
                     if (none_cash_pay==true){ none_cash_pay_num = '1';}
-
-                    request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+                      // create request headers
+                      Map<String, String> headers = {};  
+                      for (var i in global_headers.entries){
+                        headers[i.key] = i.value.toString(); 
+                      }
+                      headers['token'] = token;
+                    request.headers.addAll(headers);
 
                     if (storesController['id']!=null){
                       request.fields['store'] = storesController['id'].toString();
@@ -854,6 +841,11 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/index/part';
     final uri = Uri.parse(url);
+      // create request headers
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
     final response = await http.get(uri);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
@@ -878,7 +870,13 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString() ;
     final uri = Uri.parse(url);
-    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded','token': data[0]['name']},);
+    // create request headers
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+      headers['token'] = data[0]['name'];
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {stores = json['data']['stores'];});
     Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);}

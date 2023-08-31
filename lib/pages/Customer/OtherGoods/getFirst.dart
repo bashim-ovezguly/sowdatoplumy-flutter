@@ -727,14 +727,16 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/products/' + id.toString();
     final uri = Uri.parse(url);
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
     final response = await http.get(uri);
-
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data = json;
       baseurl = server_url.get_server_url();
       var i;
-      print(data);
       imgList = [];
       for (i in data['images']) {
         imgList.add(baseurl + i['img_m']);

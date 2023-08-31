@@ -148,8 +148,11 @@ _StoreFirstState({required this.title, required this.id});
     }
 
     final uri = Uri.parse(url);
-    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
-    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
+      Map<String, String> headers = {};  
+        for (var i in global_headers.entries){
+          headers[i.key] = i.value.toString(); 
+        }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
         data  = json;

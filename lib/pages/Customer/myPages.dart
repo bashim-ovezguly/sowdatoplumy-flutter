@@ -262,9 +262,6 @@ class _MyPagesState extends State<MyPages> {
                                 width: double.infinity,
                                 margin: EdgeInsets.only(left: 10, right: 10),
                                 child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Expanded(
                                           child: TextButton(
@@ -294,9 +291,8 @@ class _MyPagesState extends State<MyPages> {
                                                             fontWeight:
                                                                 FontWeight
                                                                     .bold),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        maxLines: 2)),
+                                                         textAlign: TextAlign.center,
+                                                    maxLines: 2)),
                                                 Expanded(
                                                     flex: 2,
                                                     child: Image.asset(
@@ -841,21 +837,22 @@ class _MyPagesState extends State<MyPages> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Login()));
       }
-      url = server_url.get_server_url() +
-          '/mob/customer/' +
-          data[0]['userId'].toString();
+      url = server_url.get_server_url() +'/mob/customer/' + data[0]['userId'].toString();
       final uri = Uri.parse(url);
-      response = await http.get(uri, headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'token': data[0]['name']
-      });
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+      headers['token'] = data[0]['name'];
+      response = await http.get(uri, headers: headers);
     } else {
-      url = server_url.get_server_url() +
-          '/mob/customer/' +
-          widget.user_customer_id;
+      url = server_url.get_server_url() +'/mob/customer/' + widget.user_customer_id;
       final uri = Uri.parse(url);
-      response = await http.get(uri,
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'});
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+      response = await http.get(uri, headers: headers);
     }
 
     final json = jsonDecode(utf8.decode(response.bodyBytes));
@@ -865,8 +862,7 @@ class _MyPagesState extends State<MyPages> {
       stores = json['data']['stores'];
       baseurl = server_url.get_server_url();
     });
-    Provider.of<UserInfo>(context, listen: false)
-        .setAccessToken(data[0]['name'], data[0]['age']);
+    Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);
     Provider.of<UserInfo>(context, listen: false).set_user_info(json['data']);
   }
 }

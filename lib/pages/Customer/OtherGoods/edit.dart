@@ -2,10 +2,8 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_app/dB/constants.dart';
@@ -483,8 +481,13 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
                     final uri = Uri.parse(url);
                     var  request = new http.MultipartRequest("PUT", uri);
                     var token = Provider.of<UserInfo>(context, listen: false).access_token; 
+                      Map<String, String> headers = {};  
+                      for (var i in global_headers.entries){
+                        headers[i.key] = i.value.toString(); 
+                      }
+                      headers['token'] = token;
 
-                    request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+                    request.headers.addAll(headers);
                     
                     var swap_num = '0';
                     if (swap==true){ swap_num = '1';}
@@ -586,7 +589,11 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/index/product';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       baseurl =  server_url.get_server_url();
@@ -603,7 +610,12 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString() ;
     final uri = Uri.parse(url);
-    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded','token': data[0]['name']},);
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+      headers['token'] = data[0]['name'];
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {stores = json['data']['stores'];});
     Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);}

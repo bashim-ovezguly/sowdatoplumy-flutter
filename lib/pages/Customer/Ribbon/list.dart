@@ -258,10 +258,13 @@ class _MyRibbonListState extends State<MyRibbonList> {
     String url =
         server_url.get_server_url() + '/mob/lenta?customer=$customer_id';
     final uri = Uri.parse(url);
-    final response = await http.get(uri, headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'token': data[0]['name']
-    });
+
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+      headers['token'] = data[0]['name'];
+    final response = await http.get(uri, headers: headers);
 
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {

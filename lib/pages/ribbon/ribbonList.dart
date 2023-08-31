@@ -324,12 +324,12 @@ class _RibbonListState extends State<RibbonList> {
       }
       url = url + "?page=$_pageNumber&page_size=$_numberOfPostPerRequest";
       final uri = Uri.parse(url);
-      var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
-      final response = await http.get(uri, headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'device_id': device_id,
-        'token': datas[0]['name']
-      });
+        Map<String, String> headers = {};  
+          for (var i in global_headers.entries){
+            headers[i.key] = i.value.toString(); 
+          }
+        headers['token'] = datas[0]['name'];
+      final response = await http.get(uri, headers: headers);
       final json = jsonDecode(utf8.decode(response.bodyBytes));
       var postList = [];
       for (var i in json['data']) {

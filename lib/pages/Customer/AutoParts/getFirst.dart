@@ -936,7 +936,12 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/parts/' + id;
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    // create request headers
+    Map<String, String> headers = {};  
+    for (var i in global_headers.entries){
+      headers[i.key] = i.value.toString(); 
+    }
+    final response = await http.get(uri, headers: headers);
 
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {

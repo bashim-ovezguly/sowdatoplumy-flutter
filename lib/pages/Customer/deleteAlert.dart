@@ -81,22 +81,17 @@ class _DeleteAlertState extends State<DeleteAlert> {
                   var token = Provider.of<UserInfo>(context, listen: false)
                       .access_token;
                   Urls server_url = new Urls();
-                  String url = server_url.get_server_url() +
-                      '/mob/' +
-                      action.toString() +
-                      "/delete/" +
-                      id.toString();
+                  String url = server_url.get_server_url() + '/mob/' + action.toString() + "/delete/" + id.toString();
                   if (action == 'lenta') {
-                    url = server_url.get_server_url() +
-                        '/mob/' +
-                        action.toString() +
-                        "/" +
-                        id.toString() +
-                        "/delete";
+                    url = server_url.get_server_url() + '/mob/' + action.toString() + "/" + id.toString() + "/delete";
                   }
                   final uri = Uri.parse(url);
-                  final response =
-                      await http.post(uri, headers: {'token': token});
+                  Map<String, String> headers = {};  
+                    for (var i in global_headers.entries){
+                      headers[i.key] = i.value.toString(); 
+                    }
+                    headers['token'] = token;
+                  final response = await http.post(uri, headers: headers);
                   if (response.statusCode == 200) {
                     callbackFunc();
                     Navigator.pop(context);
@@ -139,7 +134,6 @@ class _DeletePhoneAlertState extends State<DeletePhoneAlert> {
   final Function callbackFunc;
 
   void initState() {
-    print(id);
     super.initState();
   }
 
@@ -196,12 +190,15 @@ class _DeletePhoneAlertState extends State<DeletePhoneAlert> {
                       '/mob/stores/phone/delete/' +
                       id.toString();
                   final uri = Uri.parse(url);
-                  print(uri);
+                  Map<String, String> headers = {};  
+                  for (var i in global_headers.entries){
+                    headers[i.key] = i.value.toString(); 
+                  }
+                  headers['token'] = token;
                   final response = await http.post(
                     uri,
-                    headers: {'token': token},
+                    headers: headers,
                   );
-                  print(response.statusCode);
 
                   if (response.statusCode == 200) {
                     callbackFunc();

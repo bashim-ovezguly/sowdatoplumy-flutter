@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
 import 'package:http/http.dart' as http;
-
 import '../../dB/providers.dart';
 
 class DeleteImage extends StatefulWidget {
@@ -56,13 +55,18 @@ class _DeleteImageState extends State<DeleteImage> {
               backgroundColor: Colors.green,
               foregroundColor: Colors.white),
             onPressed: () async {
-              print('$action    ---    $image["id"]');
                  Urls server_url  =  new Urls();
                  String url = server_url.get_server_url() + '/mob/' + action + "/img/delete/"+ image['id'].toString();
                  final uri = Uri.parse(url);
                  var  request = new http.MultipartRequest("POST", uri);
                  var token = Provider.of<UserInfo>(context, listen: false).access_token;
-                 request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+
+                 Map<String, String> headers = {};  
+                    for (var i in global_headers.entries){
+                      headers[i.key] = i.value.toString(); 
+                    }
+                    headers['token'] = token;
+                 request.headers.addAll(headers);
                  final response = await request.send();
                  
                  if (response.statusCode == 200){

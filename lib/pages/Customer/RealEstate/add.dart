@@ -364,42 +364,6 @@ class _RealEstateAddState extends State<RealEstateAdd> {
             },),),
           const SizedBox(height: 15,),
 
-          // Container(
-          //   alignment: Alignment.center,
-          //   height: 35,
-          //   margin: const EdgeInsets.only(left: 20,right: 20),
-          //   width: double.infinity,
-          //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-          //   child:  TextFormField(
-          //     controller: documentsController,
-          //     decoration: const InputDecoration(hintText: 'Resminamalary',
-          //         border: InputBorder.none,
-          //         focusColor: Colors.white,
-          //         contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-          //     if (value == null || value.isEmpty) {
-          //       return 'Please enter some text';
-          //     }return null;
-          //   },),),
-          // const SizedBox(height: 15,),
-
-          // Container(
-          //   alignment: Alignment.center,
-          //   height: 35,
-          //   margin: const EdgeInsets.only(left: 20,right: 20),
-          //   width: double.infinity,
-          //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-          //   child:  TextFormField(
-          //     controller: usernameController,
-          //     decoration: const InputDecoration(hintText: 'Karz ýagdaýy :',
-          //         border: InputBorder.none,
-          //         focusColor: Colors.white,
-          //         contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-          //     if (value == null || value.isEmpty) {
-          //       return 'Please enter some text';
-          //     }return null;
-          //   },),),
-          // const SizedBox(height: 15,),
-
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.end,
@@ -525,8 +489,13 @@ class _RealEstateAddState extends State<RealEstateAdd> {
                     final uri = Uri.parse(url);
                     var  request = new http.MultipartRequest("POST", uri);
                     var token = Provider.of<UserInfo>(context, listen: false).access_token;
+                      Map<String, String> headers = {};  
+                      for (var i in global_headers.entries){
+                        headers[i.key] = i.value.toString(); 
+                      }
+                      headers['token'] = token;
 
-                    request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+                    request.headers.addAll(headers);
                     var own_num = '0';
                     if (own==true){ own_num = '1';}
 
@@ -606,7 +575,11 @@ class _RealEstateAddState extends State<RealEstateAdd> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/index/flat';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data  = json;
@@ -621,7 +594,11 @@ class _RealEstateAddState extends State<RealEstateAdd> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString() ;
     final uri = Uri.parse(url);
-    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded','token': data[0]['name']},);
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {stores = json['data']['stores'];});
     Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);}

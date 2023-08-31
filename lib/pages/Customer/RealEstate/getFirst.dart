@@ -997,15 +997,17 @@ class _GetRealEstateFirstState extends State<GetRealEstateFirst> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/flats/' + id;
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+    final response = await http.get(uri, headers: headers);
 
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data = json;
       baseurl = server_url.get_server_url();
-      // ignore: unused_local_variable
       var i;
-      print(data);
       imgList = [];
       for (i in data['images']) {
         imgList.add(baseurl + i['img']);

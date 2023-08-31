@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
-import '../../main.dart';
 import '../fullScreenSlider.dart';
 import 'deleteAlert.dart';
 import 'newProduct.dart';
@@ -890,7 +889,11 @@ class _MyPageState extends State<MyPage> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/stores/' + id;
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data = json;

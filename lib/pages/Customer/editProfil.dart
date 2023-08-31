@@ -175,8 +175,12 @@ class _EditProfilState extends State<EditProfil> {
                                 final uri = Uri.parse(url);
                                 var  request = new http.MultipartRequest("PUT", uri);
                                 var token = Provider.of<UserInfo>(context, listen: false).access_token;
-
-                                request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+                                Map<String, String> headers = {};  
+                                  for (var i in global_headers.entries){
+                                    headers[i.key] = i.value.toString(); 
+                                  }
+                                  headers['token'] = token;
+                                request.headers.addAll(headers);
                                 
                                 request.fields['name'] = newNameController.text;
                                 request.fields['email'] = newPhoneController.text;

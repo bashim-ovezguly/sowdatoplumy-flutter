@@ -449,11 +449,14 @@ class _EditStoreState extends State<EditStore> {
                     Urls server_url  =  new Urls();
                     String url = server_url.get_server_url() + '/mob/stores/' + old_data['id'].toString();
                     final uri = Uri.parse(url);
-                    print(uri);
                     var  request = new http.MultipartRequest("PUT", uri);
                     var token = Provider.of<UserInfo>(context, listen: false).access_token;
-
-                    request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+                    Map<String, String> headers = {};  
+                    for (var i in global_headers.entries){
+                      headers[i.key] = i.value.toString(); 
+                    }
+                    headers['token'] = token;
+                    request.headers.addAll(headers);
                     
                     if (nameController.text!=''){
                       request.fields['name_tm'] = nameController.text;
@@ -508,7 +511,6 @@ class _EditStoreState extends State<EditStore> {
                        request.files.add(multiport);
                        }
                     }
-                    print(request.fields);
                     showLoaderDialog(context);
                     final response = await request.send();         
                     if (response.statusCode == 200){ 
@@ -568,7 +570,11 @@ class _EditStoreState extends State<EditStore> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/index/store';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data  = json;

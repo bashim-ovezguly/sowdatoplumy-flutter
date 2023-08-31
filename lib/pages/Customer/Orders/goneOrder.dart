@@ -156,7 +156,11 @@ class _GoneOrdersState extends State<GoneOrders> {
     Urls server_url  =  new Urls();
       String url = server_url.get_server_url() + '/mob/customers/$customer_id/orders/out';
       final uri = Uri.parse(url);
-      final response = await http.get(uri);
+        Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+      final response = await http.get(uri, headers: headers);
       final json = jsonDecode(utf8.decode(response.bodyBytes));
         setState(() {
         baseurl =  server_url.get_server_url();

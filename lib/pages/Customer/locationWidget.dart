@@ -198,7 +198,6 @@ class _LocationWidgetState extends State<LocationWidget> {
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data  = json;
-      print(data[0]);
       determinate = true;
     });
     }

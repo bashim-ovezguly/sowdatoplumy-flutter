@@ -177,12 +177,13 @@ class _RibbonListAddState extends State<RibbonListAdd> {
             String url = server_url.get_server_url() + '/mob/lenta';
             final uri = Uri.parse(url);
             var request = new http.MultipartRequest("POST", uri);
-            var token =
-                Provider.of<UserInfo>(context, listen: false).access_token;
-            request.headers.addAll({
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'token': token
-            });
+            var token =Provider.of<UserInfo>(context, listen: false).access_token;
+              Map<String, String> headers = {};  
+              for (var i in global_headers.entries){
+                headers[i.key] = i.value.toString(); 
+              }
+              headers['token'] = token;
+            request.headers.addAll(headers);
 
             request.fields['text'] = textController.text;
             for (var i in selectedImages) {

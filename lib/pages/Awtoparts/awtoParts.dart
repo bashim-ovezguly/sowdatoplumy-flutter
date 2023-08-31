@@ -491,14 +491,16 @@ class _AutoPartsState extends State<AutoParts> {
     String url =server_url.get_server_url() + '/mob/parts?' + sort_value.toString();
     
     final uri = Uri.parse(url);
-    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
-    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
+    Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data = json['data'];
       baseurl = server_url.get_server_url();
       determinate = true;
-      print(data);
     });
   }
 
@@ -506,8 +508,11 @@ class _AutoPartsState extends State<AutoParts> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/parts?on_slider=1';
     final uri = Uri.parse(url);
-    var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
-    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       dataSlider = json['data'];

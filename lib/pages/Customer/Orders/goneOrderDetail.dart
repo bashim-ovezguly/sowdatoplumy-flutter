@@ -62,7 +62,12 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
             var responsess = Provider.of<UserInfo>(context, listen: false).update_tokenc();
             if (await responsess){
               var token = Provider.of<UserInfo>(context, listen: false).access_token;
-              final response = await http.post(uri, headers: {'token': token});
+                Map<String, String> headers = {};  
+                  for (var i in global_headers.entries){
+                    headers[i.key] = i.value.toString(); 
+                  }
+                  headers['token'] = token;
+              final response = await http.post(uri, headers: headers);
               if (response.statusCode==200){ 
                 widget.refresh();
                 Navigator.pop(context);
@@ -77,7 +82,12 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
             String url = server_url.get_server_url() + '/mob/orders/$id';
             final uri = Uri.parse(url);
             var token = Provider.of<UserInfo>(context, listen: false).access_token;
-            final response = await http.put(uri, headers: {'token': token}, body: {'status': 'canceled'});
+              Map<String, String> headers = {};  
+              for (var i in global_headers.entries){
+                headers[i.key] = i.value.toString(); 
+              }
+              headers['token'] = token;
+            final response = await http.put(uri, headers: headers, body: {'status': 'canceled'});
             if (response.statusCode==200){
               widget.refresh();
               Navigator.pop(context);
@@ -279,8 +289,13 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
                                               String url = server_url.get_server_url() + '/mob/orders/products/$id';
                                               final uri = Uri.parse(url);
                                               var token = Provider.of<UserInfo>(context, listen: false).access_token;
+                                                Map<String, String> headers = {};  
+                                                for (var i in global_headers.entries){
+                                                  headers[i.key] = i.value.toString(); 
+                                                }
+                                                headers['token'] = token;
 
-                                              final response = await http.put(uri, headers: {'token': token}, 
+                                              final response = await http.put(uri, headers: headers, 
                                                                               body: {'amount': amount.toString()});
                                               if (response.statusCode==200){
                                                 get_order_detail(widget.order_id);
@@ -312,7 +327,12 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
                                                   String url = server_url.get_server_url() + '/mob/orders/products/$id';
                                                   final uri = Uri.parse(url);
                                                   var token = Provider.of<UserInfo>(context, listen: false).access_token;
-                                                  final response = await http.put(uri, headers: {'token': token}, body: {'amount':amount.toString()});
+                                                    Map<String, String> headers = {};  
+                                                    for (var i in global_headers.entries){
+                                                      headers[i.key] = i.value.toString(); 
+                                                    }
+                                                    headers['token'] = token;
+                                                  final response = await http.put(uri, headers: headers, body: {'amount':amount.toString()});
                                                   if (response.statusCode==200){
                                                     get_order_detail(widget.order_id);
                                                   }
@@ -369,7 +389,11 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
     Urls server_url  =  new Urls();
       String url = server_url.get_server_url() + '/mob/orders/$order_id';
       final uri = Uri.parse(url);
-      final response = await http.get(uri);
+        Map<String, String> headers = {};  
+        for (var i in global_headers.entries){
+          headers[i.key] = i.value.toString(); 
+        }
+      final response = await http.get(uri, headers: headers);
       final json = jsonDecode(utf8.decode(response.bodyBytes));
         setState(() {
         baseurl =  server_url.get_server_url();

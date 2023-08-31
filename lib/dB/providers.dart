@@ -27,7 +27,7 @@ class UserInfo extends ChangeNotifier {
   String refresh_token = '';
   String sort = "1";
   String user_customer_name = '';
-  
+
   Map<String, dynamic> statistic = {"store_count": "",
                                     "pharmacy_count": "",
                                     "bazar_count": "",
@@ -47,11 +47,11 @@ class UserInfo extends ChangeNotifier {
 
   void set_device_id(value){
     device_id = value;
+    setHeadersDevice_id(value);
     notifyListeners(); 
   }
 
   void set_user_info(value){
-    print('set-user-info isledi!');
     user_info = value;
     notifyListeners(); 
   }
@@ -63,7 +63,6 @@ class UserInfo extends ChangeNotifier {
 
   void set_storeProductStatus(value){
     storeProductStatus = value;
-    print(value);
     notifyListeners(); 
   }
 
@@ -85,6 +84,7 @@ class UserInfo extends ChangeNotifier {
 
   void chang_Region_Code(value){
     regionsCode = value;
+    setHeadersLocation_id(value['id']);
     notifyListeners(); 
   }
 

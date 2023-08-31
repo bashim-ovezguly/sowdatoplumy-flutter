@@ -457,10 +457,11 @@ class _StoreState extends State<Store> {
     try{
       Urls server_url  =  new Urls();
       String url = server_url.get_server_url() + '/mob/markets?'+ sort_value.toString();
-      var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
-      final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"), 
-       headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id}
-      );
+            Map<String, String> headers = {};  
+              for (var i in global_headers.entries){
+                headers[i.key] = i.value.toString(); 
+              }
+      final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"), headers: headers);
       final json = jsonDecode(utf8.decode(response.bodyBytes));
       
       var postList = [];
@@ -488,7 +489,11 @@ class _StoreState extends State<Store> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/markets?on_slider=1';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+      Map<String, String> headers = {}; 
+              for (var i in global_headers.entries){
+                headers[i.key] = i.value.toString(); 
+              }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       dataSlider  = json['data'];
@@ -497,16 +502,18 @@ class _StoreState extends State<Store> {
         dataSlider = [{"img": "", 'name':"", 'location':''}];
       }
       determinate1 = true; 
-      print(dataSlider);
     });}
 
 
   void getstoreslist(sort_value) async {
-    print('isledi');
     try{
       Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/stores?'+ sort_value;
-    final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+        Map<String, String> headers = {};  
+          for (var i in global_headers.entries){
+            headers[i.key] = i.value.toString(); 
+          }
+    final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"), headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
 
     var postList = [];
@@ -534,7 +541,11 @@ class _StoreState extends State<Store> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/stores?on_slider=1';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    Map<String, String> headers = {};  
+          for (var i in global_headers.entries){
+            headers[i.key] = i.value.toString(); 
+          }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       dataSlider  = json['data'];
@@ -548,7 +559,11 @@ class _StoreState extends State<Store> {
     try{
       Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/shopping_centers?'+sort_value;
-    final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+    Map<String, String> headers = {};  
+          for (var i in global_headers.entries){
+            headers[i.key] = i.value.toString(); 
+          }
+    final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"), headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     var postList = [];
     for (var i in json['data']){
@@ -574,12 +589,15 @@ class _StoreState extends State<Store> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/shopping_centers?on_slider=1';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+      Map<String, String> headers = {};  
+          for (var i in global_headers.entries){
+            headers[i.key] = i.value.toString(); 
+          }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       dataSlider  = json['data'];
       baseurl =  server_url.get_server_url();
-      print(dataSlider);
       determinate1 =true;
     });}
 
@@ -588,7 +606,11 @@ class _StoreState extends State<Store> {
     try{
       Urls server_url  =  new Urls();
       String url = server_url.get_server_url() + '/mob/bazarlar?'+sort_value;
-      final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+      Map<String, String> headers = {};  
+          for (var i in global_headers.entries){
+            headers[i.key] = i.value.toString(); 
+          }
+      final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"), headers: headers);
       final json = jsonDecode(utf8.decode(response.bodyBytes));
       var postList = [];
       for (var i in json['data']){
@@ -614,7 +636,11 @@ class _StoreState extends State<Store> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/bazarlar?on_slider=1';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+      Map<String, String> headers = {};  
+          for (var i in global_headers.entries){
+            headers[i.key] = i.value.toString(); 
+          }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       dataSlider  = json['data'];

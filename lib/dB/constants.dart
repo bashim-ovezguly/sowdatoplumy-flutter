@@ -11,3 +11,19 @@ class Urls{
     return server_url;
   }
 }
+
+
+var global_headers = {
+  'app_version': 1,
+  'device_id': '',
+  'location_id': '',
+  'Content-Type': 'application/x-www-form-urlencoded',
+};
+
+void setHeadersDevice_id(value){
+  global_headers['device_id'] = value;
+}
+
+void setHeadersLocation_id(value){
+  global_headers['location_id'] = value.toString();
+}

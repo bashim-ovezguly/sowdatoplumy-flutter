@@ -570,30 +570,26 @@ class _HomeState extends State<Home> {
       final uri = Uri.parse(url);
       var response1 = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded'});
       final json = jsonDecode(utf8.decode(response1.bodyBytes));
-      print(response1.statusCode);
       Map<String, dynamic> row = {'id': json['device_id']};
       var device = await dbHelper.insert2(row);
       Provider.of<UserInfo>(context, listen: false).set_device_id(json['device_id']);
     }
     else{
-      Provider.of<UserInfo>(context, listen: false).set_device_id(_allids[0]);
+      Provider.of<UserInfo>(context, listen: false).set_device_id(_allids[0]['id']);
     }
 
     var allRows = await dbHelper.queryAllRows();
     Urls server_url = new Urls();
     for (final row in allRows) {data.add(row);}
-
     if (data.length > 0) {
       url = server_url.get_server_url() +'/mob/customer/' + data[0]['userId'].toString();
       final uri = Uri.parse(url);
       response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded','token': data[0]['name']});
       final json = jsonDecode(utf8.decode(response.bodyBytes));
-
       setState(() {
         Provider.of<UserInfo>(context, listen: false).set_user_info(json['data']);
         baseurl = server_url.get_server_url();
       });
-
       Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);
     }
   }
@@ -611,10 +607,7 @@ class _MyDraverState extends State<MyDraver> {
   void initState() {
     Urls server_url = new Urls();
 
-    setState(() {
-      base_url = server_url.get_server_url();
-    });
-
+    setState(() {base_url = server_url.get_server_url();});
     super.initState();
   }
 
@@ -741,7 +734,7 @@ class _MyDraverState extends State<MyDraver> {
                     }
                   },
                   child: Container(
-                    margin: EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+                    margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
                     height: 40,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -760,7 +753,7 @@ class _MyDraverState extends State<MyDraver> {
                         Image.asset("assets/images/playmarket.png", width: 30, height: 30, fit: BoxFit.cover,),
                         SizedBox(width: 10),
                         Text(
-                          'Täze wesiýasyny ýükläp alyň!',
+                          'Täze wersiýasyny ýükläp alyň!',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 15,

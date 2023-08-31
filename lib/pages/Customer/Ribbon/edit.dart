@@ -269,8 +269,7 @@ class _MyRibbonEditState extends State<MyRibbonEdit> {
                       )),
               ],
             )
-          : Center(
-              child: CircularProgressIndicator(color: CustomColors.appColors)),
+          : Center(child: CircularProgressIndicator(color: CustomColors.appColors)),
       floatingActionButton: Container(
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
@@ -291,12 +290,13 @@ class _MyRibbonEditState extends State<MyRibbonEdit> {
                 server_url.get_server_url() + '/mob/lenta/' + widget.id;
             final uri = Uri.parse(url);
             var request = new http.MultipartRequest("PUT", uri);
-            var token =
-                Provider.of<UserInfo>(context, listen: false).access_token;
-            request.headers.addAll({
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'token': token
-            });
+            var token = Provider.of<UserInfo>(context, listen: false).access_token;
+              Map<String, String> headers = {};  
+              for (var i in global_headers.entries){
+                headers[i.key] = i.value.toString(); 
+              }
+              headers['token'] = token;
+            request.headers.addAll(headers);
             request.fields['text'] = textController.text;
             for (var i in selectedImages) {
               var multiport = await http.MultipartFile.fromPath(
@@ -328,7 +328,11 @@ class _MyRibbonEditState extends State<MyRibbonEdit> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/lenta/' + id;
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data = json['msg'];

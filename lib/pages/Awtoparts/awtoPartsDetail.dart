@@ -485,8 +485,13 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
   void getsingleparts({required id}) async {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/parts/' + id;
+    
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+       Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+    final response = await http.get(uri, headers: headers);
     
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {

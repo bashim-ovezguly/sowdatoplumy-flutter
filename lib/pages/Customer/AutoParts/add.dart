@@ -593,8 +593,13 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
 
                     var none_cash_pay_num = '0';
                     if (none_cash_pay==true){ none_cash_pay_num = '1';}
-
-                    request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+                   
+                    Map<String, String> headers = {};  
+                    for (var i in global_headers.entries){
+                      headers[i.key] = i.value.toString(); 
+                    }
+                    headers['token'] = token;
+                    request.headers.addAll(headers);
                     
                     if (storesController['id']!=null){request.fields['store'] = storesController['id'].toString();}
                     request.fields['model'] = modelController['id'].toString();
@@ -628,10 +633,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
                        request.files.add(multiport);
                     }
 
-                    print(request.fields);
-
                     showLoaderDialog(context);
-
                     final response = await request.send();
                     if (response.statusCode == 200){
                       widget.refreshFunc();
@@ -671,7 +673,11 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/index/part';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+    Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data  = json;
@@ -693,6 +699,13 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString() ;
     final uri = Uri.parse(url);
+
+    Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+      headers['token'] = data[0]['name'];
+
     final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded','token': data[0]['name']},);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {stores = json['data']['stores'];});

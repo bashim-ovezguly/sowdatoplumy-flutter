@@ -313,9 +313,14 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
                     String url = server_url.get_server_url() + '/mob/products';
                     final uri = Uri.parse(url);
                     var  request = new http.MultipartRequest("POST", uri);
-                    var token = Provider.of<UserInfo>(context, listen: false).access_token; 
+                    var token = Provider.of<UserInfo>(context, listen: false).access_token;
+                      Map<String, String> headers = {};  
+                      for (var i in global_headers.entries){
+                        headers[i.key] = i.value.toString(); 
+                      }
+                      headers['token'] = token;
 
-                    request.headers.addAll({'Content-Type': 'application/x-www-form-urlencoded', 'token': token});
+                    request.headers.addAll(headers);
                     if (storesController['id']!=null){request.fields['store'] = storesController['id'].toString();}
                     request.fields['name_tm'] = name_tmController.text;
                     request.fields['category'] = categoryController['id'].toString();
@@ -373,7 +378,11 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
     Urls server_url  =  new Urls();
     String url = server_url.get_server_url() + '/mob/index/product';
     final uri = Uri.parse(url);
-    final response = await http.get(uri);
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data  = json;
@@ -391,7 +400,12 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
       Urls server_url  =  new Urls();
       String url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString() ;
       final uri = Uri.parse(url);
-      final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded','token': data[0]['name']},);
+        Map<String, String> headers = {};  
+        for (var i in global_headers.entries){
+          headers[i.key] = i.value.toString(); 
+        }
+      headers['token'] = data[0]['name'];
+      final response = await http.get(uri, headers: headers);
       final json = jsonDecode(utf8.decode(response.bodyBytes));
       setState(() {stores = json['data']['stores'];});
       Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);}
