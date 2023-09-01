@@ -22,7 +22,6 @@ import '../Customer/login.dart';
 import '../Customer/myPages.dart';
 import '../fullScreenSlider.dart';
 
-
 class MarketDetail extends StatelessWidget {
   MarketDetail({Key? key, required this.id, required this.title})
       : super(key: key);
@@ -79,6 +78,8 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
   refresh() {
     getsinglemarkets(id: widget.id, title: widget.title);
   }
+
+  late ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -169,6 +170,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
           ),
           body: determinate
               ? ListView(
+                  controller: _scrollController,
                   children: <Widget>[
                     Stack(
                         alignment: Alignment.bottomCenter,
@@ -344,20 +346,26 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                         color: CustomColors.appColors,
                                         fontSize: 14))
                               ]))),
-                    Container(
-                        margin: EdgeInsets.only(left: 7, top: 10),
-                        child: Row(children: [
-                          Icon(Icons.lock_clock,
-                              color: CustomColors.appColors, size: 25),
-                          SizedBox(width: 5),
-                          Text(data['open_at'].toString(),
-                              style: TextStyle(
-                                  fontSize: 14, color: CustomColors.appColors)),
-                          SizedBox(width: 10),
-                          Text(data['close_at'].toString(),
-                              style: TextStyle(
-                                  fontSize: 14, color: CustomColors.appColors))
-                        ])),
+                    if (data['open_at'] != null &&
+                        data['open_at'] != '' &&
+                        data['close_at'] != null &&
+                        data['close_at'] != '')
+                      Container(
+                          margin: EdgeInsets.only(left: 7, top: 10),
+                          child: Row(children: [
+                            Icon(Icons.lock_clock,
+                                color: CustomColors.appColors, size: 25),
+                            SizedBox(width: 5),
+                            Text(data['open_at'].toString(),
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: CustomColors.appColors)),
+                            SizedBox(width: 10),
+                            Text(data['close_at'].toString(),
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: CustomColors.appColors))
+                          ])),
                     Wrap(
                         direction: Axis.vertical,
                         crossAxisAlignment: WrapCrossAlignment.start,
@@ -570,38 +578,32 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                           ))
                       ],
                     ),
-                
                     SizedBox(
                       height: MediaQuery.of(context).size.height - 130,
                       child: TabBarView(
                         controller: _tabController,
                         children: <Widget>[
                           if (data['modules']['products'] > 0)
-                            StoreProducts(id: widget.id,refresh_item_count: refresh_item_count),
-                          
+                            StoreProducts(
+                                id: widget.id,
+                                refresh_item_count: refresh_item_count,
+                                isTopList: isTopList),
                           if (data['modules']['cars'] > 0)
-                            StoreCars(id: widget.id),
-                          
+                            StoreCars(id: widget.id, isTopList: isTopList),
                           if (data['modules']['services'] > 0)
-                            StoreServices(id: widget.id),
-
+                            StoreServices(id: widget.id, isTopList: isTopList),
                           if (data['modules']['flats'] > 0)
-                            StoreFlats(id: widget.id),
-
+                            StoreFlats(id: widget.id, isTopList: isTopList),
                           if (data['modules']['parts'] > 0)
-                            StoreParts(id: widget.id),
-
+                            StoreParts(id: widget.id, isTopList: isTopList),
                           if (data['modules']['materials'] > 0)
-                            StoreMaterials(id: widget.id),
-
+                            StoreMaterials(id: widget.id, isTopList: isTopList),
                         ],
                       ),
                     )
                   ],
                 )
-              : Center(
-                  child:
-                      CircularProgressIndicator(color: CustomColors.appColors)),
+              : Center(child: CircularProgressIndicator(color: CustomColors.appColors)),
         ));
   }
 
@@ -638,10 +640,10 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
       url = server_url.get_server_url() + '/mob/stores/' + id;
     }
     final uri = Uri.parse(url);
-      Map<String, String> headers = {};  
-        for (var i in global_headers.entries){
-          headers[i.key] = i.value.toString(); 
-        }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
@@ -698,5 +700,11 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
         imgList.add('x');
       }
     });
+  }
+
+  void isTopList() {
+    double position = 0.0;
+    _scrollController.position.animateTo(position,
+        duration: Duration(milliseconds: 100), curve: Curves.easeInCirc);
   }
 }

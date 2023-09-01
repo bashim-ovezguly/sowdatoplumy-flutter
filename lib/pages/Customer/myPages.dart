@@ -1,4 +1,3 @@
-// ignore_for_file: unused_local_variable
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -863,7 +862,6 @@ class _MyPagesState extends State<MyPages> {
       baseurl = server_url.get_server_url();
     });
     Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);
-    Provider.of<UserInfo>(context, listen: false).set_user_info(json['data']);
   }
 }
 
@@ -892,24 +890,22 @@ class _CustomDialogLogoutState extends State<CustomDialogLogout> {
         children: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: CustomColors.appColors,
-                foregroundColor: Colors.white),
+              backgroundColor: CustomColors.appColors,
+              foregroundColor: Colors.white),
             onPressed: () => Navigator.pop(context, 'Cancel'),
             child: const Text('Goý bolsun'),
           ),
-          SizedBox(
-            width: 10,
-          ),
+          SizedBox(width: 10),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green, foregroundColor: Colors.white),
+              backgroundColor: Colors.green, foregroundColor: Colors.white),
             onPressed: () async {
               final deleteallRows = await dbHelper.deleteAllRows();
               final deleteallRows1 = await dbHelper.deleteAllRows();
               Provider.of<UserInfo>(context, listen: false).set_user_info({});
               Navigator.pop(context);
               Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => Login()));
+                context, MaterialPageRoute(builder: (context) => Login()));
             },
             child: const Text('Ulgamdan çyk'),
           ),
