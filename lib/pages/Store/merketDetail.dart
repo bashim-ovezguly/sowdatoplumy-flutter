@@ -109,8 +109,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
 
     super.initState();
     getsinglemarkets(id: widget.id, title: widget.title);
-    _tabController =
-        TabController(length: _tabCount + 1, vsync: this, initialIndex: 0);
+    _tabController = TabController(length: _tabCount + 1, vsync: this, initialIndex: 0);
   }
 
   @override

@@ -152,7 +152,7 @@ class _EditStoreState extends State<EditStore> {
                 if (locationController['name_tm']!=null)
                 Expanded(flex: 4, child: Text(locationController['name_tm']))
                 else
-                  if (old_data['location']!=null)
+                  if (old_data['location']!=null && old_data['location']!='')
                     Expanded(flex: 4, child: Text(old_data['location']['name']))
                   else
                     Expanded(flex: 4, child: Text(''))

@@ -27,6 +27,7 @@ class UserInfo extends ChangeNotifier {
   String refresh_token = '';
   String sort = "1";
   String user_customer_name = '';
+  bool updateApp = false;
 
   Map<String, dynamic> statistic = {"store_count": "",
                                     "pharmacy_count": "",
@@ -43,6 +44,12 @@ class UserInfo extends ChangeNotifier {
   void set_statistic(value){
     statistic = value;
     notifyListeners(); 
+  }
+
+  void set_update_app(value){
+    print('update_App $value');
+    updateApp = value;
+    notifyListeners();
   }
 
   void set_device_id(value){
