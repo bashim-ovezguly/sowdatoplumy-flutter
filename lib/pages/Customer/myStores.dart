@@ -132,7 +132,7 @@ class _MyStoresState extends State<MyStores> {
                                         padding: const EdgeInsets.only(
                                             left: 10, top: 5),
                                         child: Text(
-                                          "Söwda nokatlar " +
+                                          "Dükanlar " +
                                               data.length.toString(),
                                           style: TextStyle(
                                               fontSize: 18,
@@ -147,7 +147,7 @@ class _MyStoresState extends State<MyStores> {
                                         padding: const EdgeInsets.only(
                                             left: 10, top: 5),
                                         child: Text(
-                                          "Söwda nokat ýok ",
+                                          "Dükan ýok ",
                                           style: TextStyle(
                                               fontSize: 16,
                                               color: CustomColors.appColors),

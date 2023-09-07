@@ -218,7 +218,7 @@ class _AdPageState extends State<AdPage> {
                                 MaterialPageRoute(
                                     builder: (context) => MarketDetail(
                                         id: data['store_id'].toString(),
-                                        title: 'Söwda nokatlar')));
+                                        title: 'Dükanlar')));
                           },
                           child: Container(
                             margin: EdgeInsets.only(left: 10, top: 10),

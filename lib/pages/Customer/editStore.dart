@@ -105,7 +105,7 @@ class _EditStoreState extends State<EditStore> {
       children: <Widget>[
         Container(alignment: Alignment.topLeft,
           padding: const EdgeInsets.only(left: 10,top: 10),
-          child: Text("Söwda nokat üýtgetmek",
+          child: Text("Dükan üýtgetmek",
               style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold, color: CustomColors.appColors)),),
 
             Container(

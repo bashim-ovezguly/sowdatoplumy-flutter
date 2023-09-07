@@ -137,7 +137,7 @@ class _AddCarState extends State<AddCar> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Söwda nokat : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Dükan : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
                 Expanded(flex: 5, child:MyDropdownButton(items: stores, callbackFunc: callbackStores)
                 ),],),),
           const SizedBox(height: 15,),
@@ -485,7 +485,7 @@ class _AddCarState extends State<AddCar> {
                       for (var i in global_headers.entries){
                         headers[i.key] = i.value.toString(); 
                       }
-                      headers['token'] = token;
+                    headers['token'] = token;
                     request.headers.addAll(headers);
                     if (storesController['id']!=null){request.fields['store'] = storesController['id'].toString();}
 

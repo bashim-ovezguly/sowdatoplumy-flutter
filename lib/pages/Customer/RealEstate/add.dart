@@ -165,7 +165,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Söwda nokat : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Dükan : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: stores, callbackFunc: callbackStores)
                 ),],),),
           const SizedBox(height: 15,),

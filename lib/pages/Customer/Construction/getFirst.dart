@@ -359,7 +359,7 @@ class _GetConstructionFirstState extends State<GetConstructionFirst> {
                                     width: 10,
                                   ),
                                   Text(
-                                    "Söwda nokat",
+                                    "Dükan",
                                     style: TextStyle(
                                         fontSize: 14, color: Colors.black54),
                                   )

@@ -334,7 +334,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                                     width: 10,
                                   ),
                                   Text(
-                                    "Söwda nokat",
+                                    "Dükan",
                                     style: CustomText.size_16_black54,
                                   )
                                 ],

@@ -98,7 +98,7 @@ _StoreFirstState({required this.title, required this.id});
             children: dataStores.map((item) {
               return GestureDetector(
                       onTap: (){
-                         Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: item['id'].toString(), title: 'Söwda nokatlar',) ));
+                         Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: item['id'].toString(), title: 'Dükanlar',) ));
                       },
                       child: Card(
                       elevation: 2,

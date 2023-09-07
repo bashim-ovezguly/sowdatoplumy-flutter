@@ -64,7 +64,7 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
             padding: const EdgeInsets.only(left: 10,top: 10,bottom: 10),
             child:Row(
               children: <Widget>[
-                Text("Söwda nokatlary - " + data.length.toString() + " sany",
+                Text("Dükanlary - " + data.length.toString() + " sany",
                   style:  TextStyle(fontSize: 18, color: CustomColors.appColors),),
                 const Spacer(),
                 Container(margin: const EdgeInsets.only(right: 20), child:
@@ -83,7 +83,7 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
               return GestureDetector(
                 onTap: (){ 
                   
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(title: 'Söwda nokatlar', id: data[index]['id'].toString() )));  
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(title: 'Dükanlar', id: data[index]['id'].toString() )));  
                   
                   },
                 child: Container(

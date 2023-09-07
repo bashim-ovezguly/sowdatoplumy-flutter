@@ -197,7 +197,7 @@ class _CarStoreState extends State<CarStore> {
                     SizedBox(width: 10,),
                     Icon(Icons.store, color: Colors.grey,size: 18,),
                     SizedBox(width: 10,),
-                    Text("Söwda nokat", style: CustomText.size_16_black54,)],),),
+                    Text("Dükan", style: CustomText.size_16_black54,)],),),
 
                    Expanded(child:Align(
                     alignment: Alignment.centerLeft,
@@ -206,7 +206,7 @@ class _CarStoreState extends State<CarStore> {
                         textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
                       onPressed: () {
                         if (data['store_id']!=null && data['store_id']!=''){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Söwda nokatlar')));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Dükanlar')));
                         }
                       },
                       child: Text(data['store'].toString(),),)))

@@ -108,7 +108,7 @@ class _NewStoreState extends State<NewStore> {
       children: <Widget>[
         Container(alignment: Alignment.topLeft,
           padding: const EdgeInsets.only(left: 10,top: 10),
-          child: Text("Söwda nokat goşmak",
+          child: Text("Dükan goşmak",
               style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold, color: CustomColors.appColors)),),
 
             Container(

@@ -14,9 +14,9 @@ class Urls{
 
 
 var global_headers = {
-  'app_version': 1,
-  'device_id': '',
-  'location_id': '',
+  'App-Version': 1,
+  'Device-Id': '',
+  'Location-Id': '',
   'Content-Type': 'application/x-www-form-urlencoded',
 };
 

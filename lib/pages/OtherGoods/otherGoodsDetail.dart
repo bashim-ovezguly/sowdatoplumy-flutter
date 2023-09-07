@@ -280,7 +280,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                                         MaterialPageRoute(
                                             builder: (context) => MarketDetail(
                                                 id: data['store_id'].toString(),
-                                                title: 'Söwda nokatlar')));
+                                                title: 'Dükanlar')));
                                   }
                                 },
                                 child: Row(

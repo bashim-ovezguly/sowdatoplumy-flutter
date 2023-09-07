@@ -136,7 +136,7 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
                 if (old_data['store_name']!= null && old_data['store_name']!='')
                   Expanded(flex: 2,child: Text(old_data['store_name'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
                 if (old_data['store_name']==null || old_data['store_name']=='')
-                  Expanded(flex: 2,child: Text("Söwda nokat : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text("Dükan : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
 
                 Expanded(flex: 4, child: MyDropdownButton(items: stores, callbackFunc: callbackStores)
                 ),],),),

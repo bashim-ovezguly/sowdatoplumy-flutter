@@ -635,7 +635,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/markets/' + id;
 
-    if (title == "Söwda nokatlar") {
+    if (title == "Dükanlar") {
       url = server_url.get_server_url() + '/mob/stores/' + id;
     }
     final uri = Uri.parse(url);

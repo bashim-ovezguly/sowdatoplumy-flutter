@@ -83,7 +83,7 @@ class _StoreState extends State<Store> {
         getshopping_centerslist(sort_value);
         getslider_shopping_centers();
       }
-      if (title == 'Söwda nokatlar') {
+      if (title == 'Dükanlar') {
         print('1');
         getstoreslist(sort_value);
         getslider_stores();
@@ -126,7 +126,7 @@ class _StoreState extends State<Store> {
       getshopping_centerslist(sort_value);
       getslider_shopping_centers();
     }
-    if (title == 'Söwda nokatlar') {
+    if (title == 'Dükanlar') {
       print('2');
       getstoreslist(sort_value);
       getslider_stores();
@@ -258,7 +258,7 @@ class _StoreState extends State<Store> {
                                         .map((item) => GestureDetector(
                                               onTap: () {
                                                 if (title == 'Marketler' ||
-                                                    title == 'Söwda nokatlar') {
+                                                    title == 'Dükanlar') {
                                                   if (item['id'] != null) {
                                                     Navigator.push(
                                                         context,
@@ -359,7 +359,7 @@ class _StoreState extends State<Store> {
                                     getshopping_centerslist(sort_value);
                                     getslider_shopping_centers();
                                   }
-                                  if (title == 'Söwda nokatlar') {
+                                  if (title == 'Dükanlar') {
                                     getstoreslist(sort_value);
                                     getslider_stores();
                                   }
@@ -385,7 +385,7 @@ class _StoreState extends State<Store> {
                                     child: GestureDetector(
                                         onTap: () {
                                           if (title == 'Marketler' ||
-                                              title == 'Söwda nokatlar') {
+                                              title == 'Dükanlar') {
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(

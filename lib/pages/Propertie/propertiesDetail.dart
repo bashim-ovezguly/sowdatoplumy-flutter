@@ -182,7 +182,7 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
                         textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
                       onPressed: () {
                         if (data['store_id']!=null && data['store_id']!=''){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Söwda nokatlar')));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Dükanlar')));
                         }
                       },
                       child: Text(data['store'].toString(),),)))

@@ -304,7 +304,7 @@ class _MyPagesState extends State<MyPages> {
                                                 Expanded(
                                                     flex: 2,
                                                     child: Text(
-                                                        'Söwda nokatlary',
+                                                        'Dükanlary',
                                                         style: TextStyle(
                                                             fontSize: 15,
                                                             color: CustomColors

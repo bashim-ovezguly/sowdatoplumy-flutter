@@ -363,7 +363,7 @@ class _GetRealEstateFirstState extends State<GetRealEstateFirst> {
                                     width: 10,
                                   ),
                                   Text(
-                                    "Söwda nokat",
+                                    "Dükan",
                                     style: TextStyle(
                                         fontSize: 14, color: Colors.black54),
                                   )

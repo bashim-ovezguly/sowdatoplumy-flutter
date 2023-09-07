@@ -300,7 +300,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                                           width: 10,
                                         ),
                                         Text(
-                                          "Söwda nokat",
+                                          "Dükan",
                                           style: CustomText.size_16_black54,
                                         )
                                       ],
@@ -327,7 +327,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                                                                         'store_name']
                                                                     .toString(),
                                                                 title:
-                                                                    'Söwda nokatlar')));
+                                                                    'Dükanlar')));
                                               }
                                             },
                                             child: Text(

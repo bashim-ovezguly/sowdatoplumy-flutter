@@ -492,19 +492,15 @@ class _HomeState extends State<Home> {
   }
 
   void getHomePage() async {
-    var region_code = Provider.of<UserInfo>(context, listen: false).regionsCode;
-    Map<String, String> _header = {};
+    Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
 
-    if (region_code != {} && region_code['id'] != null) {
-      _header = <String, String>{
-        "Region-Id": region_code['id'].toString(),
-        "Source": "Android"
-      };
-    }
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/home_ads';
     final uri = Uri.parse(url);
-    final response = await http.get(uri, headers: _header);
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       baseurl = server_url.get_server_url();
@@ -558,7 +554,6 @@ class _HomeState extends State<Home> {
       Provider.of<UserInfo>(context, listen: false).set_update_app(json['data']['update']);
     });
   }
-
   void get_userinfo() async {
     var all_ids = await dbHelper.get_all_divive_id();
     var _allids = [];
@@ -573,8 +568,11 @@ class _HomeState extends State<Home> {
       Urls server_url = new Urls();
       url = server_url.get_server_url() + '/mob/device_id';
       final uri = Uri.parse(url);
-      var response1 = await http.get(uri,
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'});
+      Map<String, String> headers = {};  
+        for (var i in global_headers.entries){
+          headers[i.key] = i.value.toString(); 
+        }
+      var response1 = await http.get(uri, headers: headers);
       final json = jsonDecode(utf8.decode(response1.bodyBytes));
       Map<String, dynamic> row = {'id': json['device_id']};
       var device = await dbHelper.insert2(row);
@@ -593,10 +591,13 @@ class _HomeState extends State<Home> {
     if (data.length > 0) {
       url = server_url.get_server_url() +'/mob/customer/' + data[0]['userId'].toString();
       final uri = Uri.parse(url);
-      response = await http.get(uri, headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'token': data[0]['name']
-      });
+
+      Map<String, String> headers = {};  
+      for (var i in global_headers.entries){
+        headers[i.key] = i.value.toString(); 
+      }
+      headers['Token'] = data[0]['name'];
+      response = await http.get(uri, headers: headers);
       final json = jsonDecode(utf8.decode(response.bodyBytes));
       setState(() {
         Provider.of<UserInfo>(context, listen: false)
@@ -827,7 +828,7 @@ class _MyDraverState extends State<MyDraver> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  Store(title: "Söwda nokatlar")));
+                                  Store(title: "Dükanlar")));
                     },
                     child: Container(
                         color: Colors.white,
@@ -839,7 +840,7 @@ class _MyDraverState extends State<MyDraver> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          Store(title: "Söwda nokatlar")));
+                                          Store(title: "Dükanlar")));
                             },
                             child: Container(
                                 child: Row(children: [
@@ -851,7 +852,7 @@ class _MyDraverState extends State<MyDraver> {
                               SizedBox(
                                 width: 14,
                               ),
-                              Text('Söwda nokatlar',
+                              Text('Dükanlar',
                                   style: TextStyle(
                                       fontSize: 16,
                                       color: CustomColors.appColors)),

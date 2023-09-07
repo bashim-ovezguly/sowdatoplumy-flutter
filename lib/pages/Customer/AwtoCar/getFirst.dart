@@ -320,7 +320,7 @@ class _GetCarFirstState extends State<GetCarFirst> {
                                     alignment: Alignment.center,
                                     height: 100,
                                     child: const TextKeyWidget(
-                                        text: "Söwda nokat", size: 16.0),
+                                        text: "Dükan", size: 16.0),
                                   )
                                 ],
                               ),

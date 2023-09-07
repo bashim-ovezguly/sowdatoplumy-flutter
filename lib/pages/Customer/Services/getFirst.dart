@@ -288,7 +288,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                                     width: 10,
                                   ),
                                   Text(
-                                    "Söwda nokat",
+                                    "Dükan",
                                     style: CustomText.size_16_black54,
                                   )
                                 ],
