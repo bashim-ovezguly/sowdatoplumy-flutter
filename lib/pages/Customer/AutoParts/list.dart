@@ -277,8 +277,7 @@ class _AutoPartsListState extends State<AutoPartsList> {
                                                                   color: Colors
                                                                       .white,
                                                                 ),
-                                                                if (data[index]['status'] !=
-                                                                        null &&
+                                                                if (data[index]['status'] != null && widget.user_customer_id == '' &&
                                                                     data[index]['status'] !=
                                                                         '' &&
                                                                     data[index]['status'] ==
@@ -292,7 +291,7 @@ class _AutoPartsListState extends State<AutoPartsList> {
                                                                                   .amber))
                                                                 else if (data[index]['status'] != null &&
                                                                     data[index]['status'] !=
-                                                                        '' &&
+                                                                        '' && widget.user_customer_id == '' &&
                                                                     data[index]['status'] ==
                                                                         'accepted')
                                                                   Text("Tassyklanyldy".toString(),
@@ -300,7 +299,7 @@ class _AutoPartsListState extends State<AutoPartsList> {
                                                                           color: Colors
                                                                               .green))
                                                                 else if (data[index]['status'] != null &&
-                                                                    data[index]['status'] != '' &&
+                                                                    data[index]['status'] != '' && widget.user_customer_id == '' &&
                                                                     data[index]['status'] == 'canceled')
                                                                   Text("Gaýtarylan".toString(), style: TextStyle(color: Colors.red))
                                                               ],

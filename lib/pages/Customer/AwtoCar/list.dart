@@ -276,17 +276,14 @@ class _MyCarsState extends State<MyCars> {
                                                                     color: Colors
                                                                         .white,
                                                                   ),
-                                                                  if (data[index]['status'] != null &&
-                                                                      data[index]['status'] !=
-                                                                          '' &&
-                                                                      data[index]['status'] ==
-                                                                          'pending')
+                                                                  if (data[index]['status'] != null && data[index]['status'] != '' && widget.user_customer_id == '' &&
+                                                                      data[index]['status'] == 'pending')
                                                                     Text("Garşylyar".toString(),
                                                                         style: TextStyle(
                                                                             color: Colors
                                                                                 .amber))
                                                                   else if (data[index]['status'] !=
-                                                                          null &&
+                                                                          null && widget.user_customer_id == '' &&
                                                                       data[index]['status'] !=
                                                                           '' &&
                                                                       data[index]['status'] ==
@@ -299,7 +296,7 @@ class _MyCarsState extends State<MyCars> {
                                                                                 Colors
                                                                                     .green))
                                                                   else if (data[index]['status'] != null &&
-                                                                      data[index]['status'] != '' &&
+                                                                      data[index]['status'] != '' && widget.user_customer_id == '' &&
                                                                       data[index]['status'] == 'canceled')
                                                                     Text("Gaýtarylan".toString(), style: TextStyle(color: Colors.red))
                                                                 ],

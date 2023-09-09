@@ -1,8 +1,6 @@
 import 'dart:convert';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:http/http.dart' as http;
-
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Car/carStore.dart';
@@ -44,8 +42,7 @@ class _GetRealEstateFirstState extends State<GetRealEstateFirst> {
   void initState() {
     widget.refreshFunc();
     if (imgList.length == 0) {
-      imgList.add(
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_kT38o_6efgNspm1kIxkRiw6clWQ5s0D7m9qKCZKu53v8x9pIKjdxbJuhlOqlyhpBtYA&usqp=CAU');
+      imgList.add('x');
     }
     getsingleparts(id: id);
     super.initState();
@@ -66,18 +63,19 @@ class _GetRealEstateFirstState extends State<GetRealEstateFirst> {
   _GetRealEstateFirstState({required this.id});
   @override
   Widget build(BuildContext context) {
-    var user_customer_name = Provider.of<UserInfo>(context, listen: false).user_customer_name;
+    var user_customer_name =
+        Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return Scaffold(
         appBar: AppBar(
           title: widget.user_customer_id == ''
-                  ? Text(
-                      "Meniň sahypam",
-                      style: CustomText.appBarText,
-                    )
-                  : Text(
-                      user_customer_name.toString() + " şahsy otag",
-                      style: CustomText.appBarText,
-                    ),
+              ? Text(
+                  "Meniň sahypam",
+                  style: CustomText.appBarText,
+                )
+              : Text(
+                  user_customer_name.toString() + " şahsy otag",
+                  style: CustomText.appBarText,
+                ),
           actions: [
             if (widget.user_customer_id == '')
               PopupMenuButton<String>(
@@ -153,74 +151,45 @@ class _GetRealEstateFirstState extends State<GetRealEstateFirst> {
                             ],
                           )),
                       Stack(
-                        alignment: Alignment.bottomCenter,
-                        textDirection: TextDirection.rtl,
-                        fit: StackFit.loose,
-                        clipBehavior: Clip.hardEdge,
                         children: [
                           Container(
+                            height: 200,
                             margin: const EdgeInsets.all(10),
-                            child: GestureDetector(
-                              child: CarouselSlider(
-                                options: CarouselOptions(
-                                    height: 200,
-                                    viewportFraction: 1,
-                                    initialPage: 0,
-                                    enableInfiniteScroll: true,
-                                    reverse: false,
-                                    autoPlay: imgList.length>1 ? true: false,
-                                    autoPlayInterval:
-                                        const Duration(seconds: 4),
-                                    autoPlayAnimationDuration:
-                                        const Duration(milliseconds: 800),
-                                    autoPlayCurve: Curves.fastOutSlowIn,
-                                    enlargeCenterPage: true,
-                                    enlargeFactor: 0.3,
-                                    scrollDirection: Axis.horizontal,
-                                    onPageChanged: (index, reason) {
-                                      setState(() {
-                                        _current = index;
-                                      });
-                                    }),
-                                items: imgList
-                                    .map((item) => Container(
-                                          color: Colors.white,
-                                          child: Center(
-                                              child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                                10), // Image border
-                                            child: Image.network(
-                                              item,
-                                              fit: BoxFit.fill,
-                                              height: 200,
-                                              width: double.infinity,
-                                            ),
-                                          )),
-                                        ))
-                                    .toList(),
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FullScreenSlider(
-                                            imgList: imgList)));
-                              },
+                            child: ImageSlideshow(
+                              indicatorColor: CustomColors.appColors,
+                              indicatorBackgroundColor: Colors.grey,
+                              onPageChanged: (value) {},
+                              autoPlayInterval: 6666,
+                              isLoop: true,
+                              children: [
+                                for (var item in imgList)
+                                  if (item != '' && item != 'x')
+                                    GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      FullScreenSlider(
+                                                          imgList: imgList)));
+                                        },
+                                        child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    image: NetworkImage(item),
+                                                    fit: BoxFit.cover))))
+                                  else
+                                    Container(
+                                        width: double.infinity,
+                                        child: Image.asset(
+                                            fit: BoxFit.cover,
+                                            'assets/images/default16x9.jpg')),
+                              ],
                             ),
                           ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: DotsIndicator(
-                              dotsCount: imgList.length,
-                              position: _current.toDouble(),
-                              decorator: DotsDecorator(
-                                color: Colors.white,
-                                activeColor: CustomColors.appColors,
-                                activeShape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0)),
-                              ),
-                            ),
-                          )
                         ],
                       ),
                       Row(
@@ -997,10 +966,10 @@ class _GetRealEstateFirstState extends State<GetRealEstateFirst> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/flats/' + id;
     final uri = Uri.parse(url);
-      Map<String, String> headers = {};  
-      for (var i in global_headers.entries){
-        headers[i.key] = i.value.toString(); 
-      }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri, headers: headers);
 
     final json = jsonDecode(utf8.decode(response.bodyBytes));
@@ -1013,8 +982,7 @@ class _GetRealEstateFirstState extends State<GetRealEstateFirst> {
         imgList.add(baseurl + i['img']);
       }
       if (imgList.length == 0) {
-        imgList.add(
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_kT38o_6efgNspm1kIxkRiw6clWQ5s0D7m9qKCZKu53v8x9pIKjdxbJuhlOqlyhpBtYA&usqp=CAU');
+        imgList.add('x');
       }
       determinate = true;
     });

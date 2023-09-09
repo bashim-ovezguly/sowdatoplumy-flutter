@@ -270,14 +270,14 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                                                               child: Row(
                                                                   children: <
                                                                       Widget>[
-                                                                    if (data[index]['status'] != null && data[index]['status'] != '' && data[index]['status'] == 'pending')
+                                                                    if (data[index]['status'] != null && data[index]['status'] != '' && widget.user_customer_id == '' && data[index]['status'] == 'pending' )
                                                                       Text(
                                                                           "Garşylýar"
                                                                               .toString(),
                                                                           style: TextStyle(
                                                                               color: Colors
                                                                                   .amber))
-                                                                    else if (data[index]['status'] != null &&
+                                                                    else if (data[index]['status'] != null && widget.user_customer_id == '' &&
                                                                         data[index]['status'] !=
                                                                             '' &&
                                                                         data[index]['status'] ==
@@ -288,7 +288,7 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                                                                           style: TextStyle(
                                                                               color: Colors
                                                                                   .green))
-                                                                    else if (data[index]['status'] != null &&
+                                                                    else if (data[index]['status'] != null && widget.user_customer_id == '' &&
                                                                         data[index]['status'] !=
                                                                             '' &&
                                                                         data[index]['status'] ==

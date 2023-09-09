@@ -263,6 +263,7 @@ class _MyStoresState extends State<MyStores> {
                                                           ],
                                                         ),
                                                       )),
+                                                      if (widget.user_customer_id == '')
                                                       Expanded(
                                                           child: Align(
                                                         alignment: Alignment

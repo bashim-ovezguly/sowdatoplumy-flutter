@@ -389,7 +389,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                               ),
                               Expanded(
                                   child: Text(
-                                      data['location']['name'].toString(),
+                                      data['location'].toString(),
                                       style: CustomText.size_16))
                             ],
                           ),

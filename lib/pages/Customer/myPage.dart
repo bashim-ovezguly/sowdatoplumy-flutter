@@ -209,15 +209,6 @@ class _MyPageState extends State<MyPage> {
                                     autoPlayInterval: 6666,
                                     isLoop: true,
                                     children: [
-                                      // if (imgList.length==0)
-                                      //       ClipRect(
-                                      //               child: Container(
-                                      //                 width: MediaQuery.of(context).size.width,
-                                      //                 child:  FittedBox(
-                                      //                   child:  Image.asset('assets/images/default16x9.jpg'),
-                                      //               ),
-                                      //             ),
-                                      //       ),
                                       for (var item in imgList)
                                         if (item != '' && item != 'x')
                                           GestureDetector(

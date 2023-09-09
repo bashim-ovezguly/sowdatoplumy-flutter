@@ -44,7 +44,6 @@ class _RealEstateListState extends State<RealEstateList> {
   }
 
   refreshFunc() async {
-    timers();
     widget.callbackFunc();
     get_my_flats(customer_id: customer_id);
   }
@@ -285,13 +284,11 @@ class _RealEstateListState extends State<RealEstateList> {
                                                                       child: Align(
                                                                           alignment: Alignment.centerLeft,
                                                                           child: Row(children: <Widget>[
-                                                                            if (data[index]['status'] != null &&
-                                                                                data[index]['status'] != '' &&
-                                                                                data[index]['status'] == 'pending')
+                                                                            if (data[index]['status'] != null && widget.user_customer_id == '' && data[index]['status'] != '' && data[index]['status'] == 'pending')
                                                                               Text("Garşylyar".toString(), style: TextStyle(color: Colors.amber))
-                                                                            else if (data[index]['status'] != null && data[index]['status'] != '' && data[index]['status'] == 'accepted')
+                                                                            else if (data[index]['status'] != null && data[index]['status'] != '' &&  widget.user_customer_id == '' && data[index]['status'] == 'accepted')
                                                                               Text("Tassyklanyldy".toString(), style: TextStyle(color: Colors.green))
-                                                                            else if (data[index]['status'] != null && data[index]['status'] != '' && data[index]['status'] == 'canceled')
+                                                                            else if (data[index]['status'] != null && data[index]['status'] != '' &&  widget.user_customer_id == '' && data[index]['status'] == 'canceled')
                                                                               Text("Gaýtarylan".toString(), style: TextStyle(color: Colors.red))
                                                                           ])))
                                                                 ],

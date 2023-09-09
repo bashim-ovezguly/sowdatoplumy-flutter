@@ -21,9 +21,9 @@ var global_headers = {
 };
 
 void setHeadersDevice_id(value){
-  global_headers['device_id'] = value;
+  global_headers['Device-Id'] = value;
 }
 
 void setHeadersLocation_id(value){
-  global_headers['location_id'] = value.toString();
+  global_headers['Location-Id'] = value.toString();
 }
