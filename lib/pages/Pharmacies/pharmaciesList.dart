@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
-  
+
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Pharmacies/pharmacieFirst.dart';
 import 'package:my_app/pages/homePages.dart';
@@ -13,7 +15,6 @@ import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../progressIndicator.dart';
 import '../sortWidget.dart';
-
 
 class PharmaciesList extends StatefulWidget {
   const PharmaciesList({Key? key}) : super(key: key);
@@ -26,226 +27,355 @@ class _PharmaciesListState extends State<PharmaciesList> {
 
   List<dynamic> data = [];
   var baseurl = "";
+  int _current = 0;
+  late int total_page;
+  late int current_page;
+  bool _getRequest = false;
   bool determinate = false;
   bool status = true;
-  
+  bool determinate1 = true;
+  List<dynamic> dataSlider = [{"img": "", 'name': "", 'location': ''}];
+  final ScrollController _controller = ScrollController();
   bool filter = false;
-  callbackFilter(){
+  late bool _isLastPage;
+  late int _pageNumber;
+  late bool _error;
+  late bool _loading;
+  final int _numberOfPostPerRequest = 12;
+
+  callbackFilter() {
     timers();
-    setState(() { 
-    determinate = false;
-    getpharmacieslist();
-    });}
-  
+    setState(() {
+      determinate = false;
+      getpharmacieslist();
+    });
+  }
+
   void initState() {
+    _pageNumber = 1;
+    _isLastPage = false;
+    _loading = true;
+    _error = false;
+    _controller.addListener(_controllListener);
     timers();
     getpharmacieslist();
-    super.initState();}
-  
+    getslider_shopping_centers();
+    super.initState();
+  }
+
   timers() async {
-      setState(() {status = true;});
-      final completer = Completer();
-      final t = Timer(Duration(seconds: 5), () => completer.complete());
-      await completer.future;
-      setState(() {if (determinate==false){status = false;}});
+    setState(() {status = true;});
+    final completer = Completer();
+    final t = Timer(Duration(seconds: 5), () => completer.complete());
+    await completer.future;
+    setState(() {
+      if (determinate == false) {status = false;}
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return status ? Scaffold(
-      appBar: AppBar(
-        title: const Text("Dermanhanalar", style: CustomText.appBarText,),
-        actions: [
-          Row(
-            children: <Widget>[
-
-              Container(
-                  padding: const EdgeInsets.all(10),
-                  child:  GestureDetector(
-                      onTap: (){
-                        showConfirmationDialog(context);
-                      },
-                      child: const Icon(Icons.sort, size: 25,))),
-
-    
-              ],)],),
-
-      body: RefreshIndicator(
-        color: Colors.white,
-        backgroundColor: CustomColors.appColors,
-        onRefresh: () async{
-            setState(() {
-            determinate = false;
-            initState();
-          });
-          return Future<void>.delayed(const Duration(seconds: 3));
-        },
-        child: determinate? Column(
-        children: <Widget>[
-          Expanded(flex: 1, child: Container(
-              alignment: Alignment.topLeft,
-              padding: const EdgeInsets.only(top: 10, left: 10),
-              child:  Text("Jemi " + data.length.toString() + " dermanhana",
-                  style: TextStyle(fontSize: 18, color: CustomColors.appColors, fontWeight: FontWeight.bold)))),
-          Expanded(flex:12, child:
-            ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => PharmacieFirst(id: data[index]['id'].toString()) ));
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(left: 5, right: 5),
-                      child: Card(
-                        elevation: 2,
-                        child: Container(
-                          height: 110,
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(flex: 1,
-                                   child: ClipRect(
-                                      child: Container(
-                                      height: 110,
-                                      child: FittedBox(
-                                        fit: BoxFit.cover,
-                                        child: data[index]['img'] != '' ? Image.network(baseurl + data[index]['img'].toString(),):
-                                        Image.asset('assets/images/default16x9.jpg', ),),),
-                                     )),
-
-                                  Expanded(
-                                    flex: 2,
-                                    child: Container(
-                                      margin: EdgeInsets.only(left: 2),
-                                      padding: const EdgeInsets.all(10),
-                                      color: CustomColors.appColors,
+    return status
+        ? Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                "Dermanhanalar",
+                style: CustomText.appBarText,
+              ),
+              actions: [
+                Row(
+                  children: <Widget>[
+                    Container(
+                        padding: const EdgeInsets.all(10),
+                        child: GestureDetector(
+                            onTap: () {
+                              showConfirmationDialog(context);
+                            },
+                            child: const Icon(
+                              Icons.sort,
+                              size: 25,
+                            ))),
+                  ],
+                )
+              ],
+            ),
+            body: RefreshIndicator(
+                color: Colors.white,
+                backgroundColor: CustomColors.appColors,
+                onRefresh: () async {
+                  setState(() {
+                    determinate = false;
+                    initState();
+                  });
+                  return Future<void>.delayed(const Duration(seconds: 3));
+                },
+                child: determinate && determinate1
+                    ? SingleChildScrollView(
+                        controller: _controller,
+                        child: Column(
+                          children: [
+                            Stack(
+                              alignment: Alignment.bottomCenter,
+                              textDirection: TextDirection.rtl,
+                              fit: StackFit.loose,
+                              clipBehavior: Clip.hardEdge,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.all(10),
+                                  height: 200,
+                                  color: Colors.white,
+                                  child: CarouselSlider(
+                                    options: CarouselOptions(
+                                        height: 200,
+                                        viewportFraction: 1,
+                                        initialPage: 0,
+                                        enableInfiniteScroll: true,
+                                        reverse: false,
+                                        autoPlay: dataSlider.length > 1
+                                            ? true
+                                            : false,
+                                        autoPlayInterval:
+                                            const Duration(seconds: 4),
+                                        autoPlayAnimationDuration:
+                                            const Duration(milliseconds: 800),
+                                        autoPlayCurve: Curves.fastOutSlowIn,
+                                        enlargeCenterPage: true,
+                                        enlargeFactor: 0.3,
+                                        scrollDirection: Axis.horizontal,
+                                        onPageChanged: (index, reason) {
+                                          setState(() {
+                                            _current = index;
+                                          });
+                                        }),
+                                    items: dataSlider
+                                        .map((item) => GestureDetector(
+                                              onTap: () {
+                                                if (item['id'] != null) {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>PharmacieFirst(id: item['id'].toString())));
+                                                }
+                                              },
+                                              child: Stack(
+                                                children: [
+                                                  Container(
+                                                    height: 200,
+                                                    width: double.infinity,
+                                                    child: FittedBox(
+                                                      fit: BoxFit.cover,
+                                                      child: item['img'] != ''
+                                                          ? Image.network(
+                                                              baseurl +
+                                                                  item['img']
+                                                                      .toString(),
+                                                            )
+                                                          : Image.asset(
+                                                              'assets/images/default16x9.jpg'),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ))
+                                        .toList(),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 7),
+                                  child: DotsIndicator(
+                                    dotsCount: dataSlider.length,
+                                    position: _current.toDouble(),
+                                    decorator: DotsDecorator(
+                                      color: Colors.white,
+                                      activeColor: CustomColors.appColors,
+                                      activeShape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0)),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Wrap(
+                              alignment: WrapAlignment.start,
+                              children: data.map((item) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>PharmacieFirst(id: item['id'].toString())));
+                                  },
+                                  child: Container(
+                                    height: 160,
+                                    width:
+                                        MediaQuery.of(context).size.width / 3,
+                                    child: Card(
+                                      elevation: 7,
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Expanded(
+                                        children: [
+                                          Container(
+                                            height: 120,
                                             child: Container(
-                                              margin: EdgeInsets.only(left: 5),
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                data[index]['name'].toString(),
-                                                style: CustomText.itemTextBold,),),),
-                                          Expanded(
-                                            child: Container(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                 data[index]['location'].toString(),
-                                                style: CustomText.itemText,),),),
-                                          Expanded(
-                                              child: Container(
-                                                alignment: Alignment.centerLeft,
-                                                child: Text(
-                                                    data[index]['phone'].toString(),
-                                                    style: CustomText.itemText
-                                                ),)),
-                                          // Expanded(child:Align(
-                                          //   alignment: Alignment.centerLeft,
-                                          //   child: Row(
-                                          //     children:  <Widget>[
-                                          //         SizedBox(width: 5,),
-                                          //         Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                          //         data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                          //         SizedBox(width: 5,),
-                                          //         Text('Obmen',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                          //         data[index]['swap'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                          //         SizedBox(width: 5,),
-                                          //         Text('Nagt däl',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                          //         data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                
-                                          //     ],)
-                                          //   ,)),
+                                              height: 120,
+                                              child: item['img'] != ''
+                                                  ? Image.network(
+                                                      baseurl +
+                                                          item['img']
+                                                              .toString(),
+                                                      fit: BoxFit.cover,
+                                                      height: 120,
+                                                      width: double.infinity,
+                                                    )
+                                                  : Image.asset(
+                                                      'assets/images/default.jpg',
+                                                    ),
+                                            ),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.all(5),
+                                            child: Text(
+                                              item['name'].toString(),
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color:
+                                                      CustomColors.appColors),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ),
                                   ),
-
-                            ],
-                          ),
+                                );
+                              }).toList(),
+                            )
+                          ],
                         ),
-                      ),
-                    )
-                  );
-                }),
+                      )
+                    : Center(
+                        child: CircularProgressIndicator(
+                            color: CustomColors.appColors))),
+            drawer: MyDraver(),
           )
-        ],
-      ): Center(child: CircularProgressIndicator(color: CustomColors.appColors)) 
-      ),
-      drawer:  MyDraver(),
-      floatingActionButton: Container(
-          height: 45,
-          width: 45,
-          child: Material(
-            type: MaterialType.transparency,
-            child: Ink(
-              decoration: BoxDecoration(
-                border: Border.all(color: Color.fromARGB(255, 182, 210, 196), width: 2.0),
-                color : Colors.blue[900],
-                shape: BoxShape.circle,
-              ),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(500.0), 
-                onTap: () {
-                  Navigator.pushNamed(context, "/search");
-                },
-                child: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                  //size: 50,
-                ),
-              ),
-            ),
-          ),
-        ),
-
-    ): CustomProgressIndicator(funcInit: initState);
+        : CustomProgressIndicator(funcInit: initState);
   }
 
-  showConfirmationDialog(BuildContext context){
+  showConfirmationDialog(BuildContext context) {
     var sort = Provider.of<UserInfo>(context, listen: false).sort;
     showDialog(
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return CustomDialog(sort_value: sort, callbackFunc: callbackFilter,);},);}
-
+        return CustomDialog(
+          sort_value: sort,
+          callbackFunc: callbackFilter,
+        );
+      },
+    );
+  }
 
   void getpharmacieslist() async {
-
     var sort = Provider.of<UserInfo>(context, listen: false).sort;
     var sort_value = "";
-    
-    if (int.parse(sort)==2){
+
+    if (int.parse(sort) == 2) {
       sort_value = 'sort=price';
     }
-    
-    if (int.parse(sort)==3){
+
+    if (int.parse(sort) == 3) {
       sort_value = 'sort=-price';
     }
-    
-    if (int.parse(sort)==4){
+
+    if (int.parse(sort) == 4) {
       sort_value = 'sort=id';
     }
 
-    if (int.parse(sort)==4){
+    if (int.parse(sort) == 4) {
       sort_value = 'sort=-id';
     }
-    Urls server_url  =  new Urls();
-    String url = server_url.get_server_url() + '/mob/pharmacies?'+ sort_value.toString();
-    final uri = Uri.parse(url);
-       Map<String, String> headers = {};  
-      for (var i in global_headers.entries){
-        headers[i.key] = i.value.toString(); 
+    try{
+
+    if (_getRequest == false) {
+      Urls server_url = new Urls();
+      String url = server_url.get_server_url() + '/mob/pharmacies?' + sort_value.toString();
+      
+      Map<String, String> headers = {};
+      for (var i in global_headers.entries) {
+        headers[i.key] = i.value.toString();
       }
+      print(Uri.parse(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+      final response = await http.get(Uri.parse(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"), headers: headers);
+      
+      final json = jsonDecode(utf8.decode(response.bodyBytes));
+      var postList = [];
+        for (var i in json['data']) {
+          postList.add(i);
+        }
+
+      setState(() {
+        current_page = json['current_page'];
+        total_page = json['total_page'];
+        baseurl = server_url.get_server_url();
+        determinate = true;
+        determinate = true;
+        _isLastPage = data.length < _numberOfPostPerRequest;
+        _loading = false;
+        _pageNumber = _pageNumber + 1;
+        data.addAll(postList);
+      });
+    }
+    } catch (e) {
+      setState(() {
+        _loading = false;
+        _error = true;
+      });
+    }
+
+  }
+
+  void getslider_shopping_centers() async {
+    Urls server_url = new Urls();
+    String url = server_url.get_server_url() + '/mob/pharmacies?on_slider=1';
+    final uri = Uri.parse(url);
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
-      data  = json['data'];
-      baseurl =  server_url.get_server_url();
-      determinate = true;
-    });}
-}
+      dataSlider = json['data'];
+      baseurl = server_url.get_server_url();
+      determinate1 = true;
+    });
+  }
 
+
+  void _controllListener() {
+    if (_controller.offset > _controller.position.maxScrollExtent - 1000 && total_page > current_page && _getRequest == false) {
+      
+      var sort_value = "";
+      var sort = Provider.of<UserInfo>(context, listen: false).sort;
+      if (int.parse(sort) == 2) {
+        sort_value = 'sort=price';
+      }
+      if (int.parse(sort) == 3) {
+        sort_value = 'sort=-price';
+      }
+      if (int.parse(sort) == 4) {
+        sort_value = 'sort=id';
+      }
+      if (int.parse(sort) == 4) {
+        sort_value = 'sort=-id';
+      }
+     getpharmacieslist();
+      setState(() {
+        _getRequest = true;
+      });
+    }
+  }
+
+
+}

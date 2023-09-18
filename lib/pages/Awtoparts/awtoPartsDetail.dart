@@ -1,5 +1,3 @@
-// ignore_for_file: unused_import
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -10,7 +8,6 @@ import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/call.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:my_app/pages/fullScreenSlider.dart';
-// import 'package:url_launcher/url_launcher.dart';
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
 import '../../dB/textStyle.dart';

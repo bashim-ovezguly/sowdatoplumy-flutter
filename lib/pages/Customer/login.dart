@@ -9,11 +9,7 @@ import 'package:my_app/dB/db.dart';
 import 'package:my_app/pages/Customer/myPages.dart';
 import 'package:my_app/pages/Customer/newPassword.dart';
 import 'package:my_app/pages/register.dart';
-import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
-
-import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../../main.dart';
 
@@ -92,6 +88,7 @@ class _LoginState extends State<Login> {
                       flex: 2,
                       child: TextFormField(
                           controller: usernameController,
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                               labelText: "Telefon",
                               labelStyle:

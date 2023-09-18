@@ -64,7 +64,7 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
             padding: const EdgeInsets.only(left: 10,top: 10,bottom: 10),
             child:Row(
               children: <Widget>[
-                Text("Dükanlary - " + data.length.toString() + " sany",
+                Text("Dükanlar - " + data.length.toString() + " sany",
                   style:  TextStyle(fontSize: 18, color: CustomColors.appColors),),
                 const Spacer(),
                 Container(margin: const EdgeInsets.only(right: 20), child:

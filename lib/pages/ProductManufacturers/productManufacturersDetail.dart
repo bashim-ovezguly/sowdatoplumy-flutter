@@ -7,8 +7,6 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';  
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/progressIndicator.dart';
-import 'package:provider/provider.dart';
-import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../OtherGoods/otherGoodsDetail.dart';
 import '../fullScreenSlider.dart';

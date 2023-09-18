@@ -545,6 +545,7 @@ class _HomeState extends State<Home> {
         "car_count": json['data']['car_count'].toString(),
         "part_count": json['data']['part_count'].toString(),
         "service_count": json['data']['service_count'].toString(),
+        "material_count": json['data']['material_count'].toString(),
         "product_count": json['data']['product_count'].toString(),
         "factory_count": json['data']['factory_count'].toString(),
         "flat_count": json['data']['flat_count'].toString()
@@ -1211,7 +1212,7 @@ class _MyDraverState extends State<MyDraver> {
                                       fontSize: 16,
                                       color: CustomColors.appColors)),
                               Spacer(),
-                              Text(statistic['service_count'],
+                              Text(statistic['material_count'],
                                   style: TextStyle(
                                       fontSize: 16,
                                       color: CustomColors.appColors)),

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/colors.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import '../dB/constants.dart';
 import 'dart:convert';
 
-import '../dB/providers.dart';
 
 
 class LocationWidget extends StatefulWidget {

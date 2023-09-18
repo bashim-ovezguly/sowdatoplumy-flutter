@@ -72,7 +72,6 @@ class _RegionWidgetState extends State<RegionWidget> {
         ),
       ),
       actions: <Widget>[
-
         Align(
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(

@@ -91,6 +91,7 @@ class _RegisterState extends State<Register> {
                       )),
                       Expanded(flex: 2,child: TextFormField(
                         controller: phoneController,
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           labelText: "Telefon belgiňiz",
                           fillColor: CustomColors.appColors,

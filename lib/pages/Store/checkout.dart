@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -198,7 +197,8 @@ class _CheckoutState extends State<Checkout> {
               for (var i in global_headers.entries){
                 headers[i.key] = i.value.toString(); 
               }
-              headers['token'] = token;
+              headers['Token'] = token;
+              headers['Content-Type'] = "application/json";
               var req = await http.post(uri, headers: headers, body: body);
               if (req.statusCode==200){
                 var shoping_carts = [];

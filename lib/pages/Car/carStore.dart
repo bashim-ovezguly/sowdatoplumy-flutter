@@ -1,16 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
-  
 import 'package:my_app/pages/call.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/dB/constants.dart';
-import 'package:provider/provider.dart';
-import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../fullScreenSlider.dart';
 import '../../dB/colors.dart';

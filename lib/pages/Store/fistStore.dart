@@ -4,10 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
-import 'package:provider/provider.dart';
-
 import '../../dB/colors.dart';
-import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../progressIndicator.dart';
 

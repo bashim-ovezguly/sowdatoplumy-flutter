@@ -10,8 +10,6 @@ import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Car/carStore.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/progressIndicator.dart';
-import 'package:provider/provider.dart';
-import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../call.dart';
 import '../fullScreenSlider.dart';
@@ -224,7 +222,7 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
                   SizedBox(width: 10,),
                   Text("Ýerleşýän ýeri", style: CustomText.size_16_black54,)],),),
               if (data['location']!=null && data['location']!='')
-              Expanded(child: Text(data['location']['name'].toString(),  style: CustomText.size_16))],),),
+              Expanded(child: Text(data['location'].toString(),  style: CustomText.size_16))],),),
 
           Container(
             margin: EdgeInsets.only(left: 10,right: 10),

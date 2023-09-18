@@ -88,7 +88,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
                 Tab(
                   child: Row(children: const <Widget>[
                     Icon(Icons.storefront_outlined,color: CustomColors.appColors,),
-                    Text("Dükanlary",style: TextStyle(color: CustomColors.appColors, fontWeight: FontWeight.bold,fontSize: 15),)],),),
+                    Text("Dükanlar",style: TextStyle(color: CustomColors.appColors, fontWeight: FontWeight.bold,fontSize: 15),)],),),
                 Tab(
                   child: Row(children: const <Widget>[
                     Icon(Icons.holiday_village,color: CustomColors.appColors,),

@@ -51,6 +51,7 @@ class _StoreState extends State<Store> {
   var baseurl = "";
   bool determinate = false;
   bool determinate1 = false;
+  bool _getRequest = false;
   bool status = true;
   bool filter = false;
 
@@ -84,7 +85,6 @@ class _StoreState extends State<Store> {
         getslider_shopping_centers();
       }
       if (title == 'Dükanlar') {
-        print('1');
         getstoreslist(sort_value);
         getslider_stores();
       }
@@ -127,7 +127,6 @@ class _StoreState extends State<Store> {
       getslider_shopping_centers();
     }
     if (title == 'Dükanlar') {
-      print('2');
       getstoreslist(sort_value);
       getslider_stores();
     }
@@ -137,19 +136,14 @@ class _StoreState extends State<Store> {
     }
     super.initState();
   }
-  late ScrollController _lScrollController = ScrollController();
-  late ScrollController _gVScrollController = ScrollController();
 
   @override
   void dispose() {
     super.dispose();
-    _gVScrollController.dispose();
-     _lScrollController.dispose();
   }
-  int _tabCount = 0;
 
   timers() async {
-    _gVScrollController.addListener(_controllListener);
+    _controller.addListener(_controllListener);
 
     setState(() {
       status = true;
@@ -168,12 +162,12 @@ class _StoreState extends State<Store> {
   late int _pageNumber;
   late bool _error;
   late bool _loading;
-  final int _numberOfPostPerRequest = 100;
-  final int _nextPageTriger = 3;
+  final int _numberOfPostPerRequest = 12;
   final ScrollController _controller = ScrollController();
   final double _height = 100.0;
 
-  
+  late int total_page;
+  late int current_page;
 
   void _animateToIndex(int index) {
     _controller.animateTo(
@@ -216,12 +210,11 @@ class _StoreState extends State<Store> {
                   return Future<void>.delayed(const Duration(seconds: 3));
                 },
                 child: determinate && determinate1
-                    ? ListView(
-                      controller: _lScrollController,
-                        children: [
-                          GestureDetector(
-                            onTap: () {},
-                            child: Stack(
+                    ? SingleChildScrollView(
+                        controller: _controller,
+                        child: Column(
+                          children: [
+                            Stack(
                               alignment: Alignment.bottomCenter,
                               textDirection: TextDirection.rtl,
                               fit: StackFit.loose,
@@ -326,141 +319,77 @@ class _StoreState extends State<Store> {
                                 )
                               ],
                             ),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height - 85,
-                            child: GridView.builder(
-                              controller: _gVScrollController,
-                              itemCount: data.length + (_isLastPage ? 0 : 1),
-                              itemBuilder: (context, index) {
-                                if (index == data.length - _nextPageTriger &&
-                                    _error == false) {
-                                  var sort_value = "";
-                                  var sort = Provider.of<UserInfo>(context,
-                                          listen: false)
-                                      .sort;
-                                  if (int.parse(sort) == 2) {
-                                    sort_value = 'sort=price';
-                                  }
-                                  if (int.parse(sort) == 3) {
-                                    sort_value = 'sort=-price';
-                                  }
-                                  if (int.parse(sort) == 4) {
-                                    sort_value = 'sort=id';
-                                  }
-                                  if (int.parse(sort) == 4) {
-                                    sort_value = 'sort=-id';
-                                  }
-                                  if (title == 'Marketler') {
-                                    getmarketslist(sort_value);
-                                    getmarkets_slider();
-                                  }
-                                  if (title == 'Söwda merkezler') {
-                                    getshopping_centerslist(sort_value);
-                                    getslider_shopping_centers();
-                                  }
-                                  if (title == 'Dükanlar') {
-                                    getstoreslist(sort_value);
-                                    getslider_stores();
-                                  }
-                                  if (title == 'Bazarlar') {
-                                    getbazarlarlist(sort_value);
-                                    getslider_shopping();
-                                  }
-                                }
-
-                                if (index == data.length) {
-                                  if (_error) {
-                                    return Center(child: errorDialog(size: 15));
-                                  } else {
-                                    return const Center(
-                                        child: Padding(
-                                      padding: EdgeInsets.all(8),
-                                      child: CircularProgressIndicator(),
-                                    ));
-                                  }
-                                }
-
-                                return Container(
-                                    child: GestureDetector(
-                                        onTap: () {
-                                          if (title == 'Marketler' ||
-                                              title == 'Dükanlar') {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MarketDetail(
-                                                          id: data[index]['id']
+                            Wrap(
+                              alignment: WrapAlignment.start,
+                              children: data.map((item) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    if (title == 'Marketler' ||
+                                        title == 'Dükanlar') {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => MarketDetail(
+                                                id: item['id'].toString(),
+                                                title: title),
+                                          ));
+                                    } else {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => StoreFirst(
+                                                    id: item['id'].toString(),
+                                                    title: title,
+                                                  )));
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 160,
+                                    width:
+                                        MediaQuery.of(context).size.width / 3,
+                                    child: Card(
+                                      elevation: 7,
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            height: 120,
+                                            child: Container(
+                                              height: 120,
+                                              child: item['img'] != ''
+                                                  ? Image.network(
+                                                      baseurl +
+                                                          item['img']
                                                               .toString(),
-                                                          title: title),
-                                                ));
-                                          } else {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        StoreFirst(
-                                                          id: data[index]['id']
-                                                              .toString(),
-                                                          title: title,
-                                                        )));
-                                          }
-                                        },
-                                        child: Container(
-                                            child: Card(
-                                                elevation: 2,
-                                                child: Container(
-                                                    height: 110,
-                                                    child: Column(children: <
-                                                        Widget>[
-                                                      ClipRect(
-                                                        child: Container(
-                                                          height: 100,
-                                                          child: data[index]
-                                                                      ['img'] !=
-                                                                  ''
-                                                              ? Image.network(
-                                                                  baseurl +
-                                                                      data[index]
-                                                                               [
-                                                                              'img']
-                                                                          .toString(),
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                  height: 100,
-                                                                  width: double
-                                                                      .infinity,
-                                                                )
-                                                              : Image.asset(
-                                                                  'assets/images/default.jpg',
-                                                                ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Text(
-                                                          data[index]['name']
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              color: CustomColors
-                                                                  .appColors),
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                      )
-                                                    ]))))));
-                              },
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                              ),
-                            ),
-                          )
-                        ],
+                                                      fit: BoxFit.cover,
+                                                      height: 120,
+                                                      width: double.infinity,
+                                                    )
+                                                  : Image.asset(
+                                                      'assets/images/default.jpg',
+                                                    ),
+                                            ),
+                                          ),
+                                          Container(
+                                            padding: EdgeInsets.all(5),
+                                            child: Text(
+                                              item['name'].toString(),
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color:
+                                                      CustomColors.appColors),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            )
+                          ],
+                        ),
                       )
                     : Center(
                         child: CircularProgressIndicator(
@@ -493,24 +422,26 @@ class _StoreState extends State<Store> {
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
-      final response = await http.get(
-          Uri.parse(
-              url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
-          headers: headers);
-      final json = jsonDecode(utf8.decode(response.bodyBytes));
+      if (_getRequest == false) {
+        final response = await http.get(
+            Uri.parse(
+                url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
+            headers: headers);
+        final json = jsonDecode(utf8.decode(response.bodyBytes));
 
-      var postList = [];
-      for (var i in json['data']) {
-        postList.add(i);
+        var postList = [];
+        for (var i in json['data']) {
+          postList.add(i);
+        }
+        setState(() {
+          baseurl = server_url.get_server_url();
+          determinate = true;
+          _isLastPage = data.length < _numberOfPostPerRequest;
+          _loading = false;
+          _pageNumber = _pageNumber + 1;
+          data.addAll(postList);
+        });
       }
-      setState(() {
-        baseurl = server_url.get_server_url();
-        determinate = true;
-        _isLastPage = data.length < _numberOfPostPerRequest;
-        _loading = false;
-        _pageNumber = _pageNumber + 1;
-        data.addAll(postList);
-      });
     } catch (e) {
       setState(() {
         _loading = false;
@@ -549,24 +480,29 @@ class _StoreState extends State<Store> {
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
-      final response = await http.get(
-          Uri.parse(
-              url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
-          headers: headers);
-      final json = jsonDecode(utf8.decode(response.bodyBytes));
+      if (_getRequest == false) {
+        final response = await http.get(
+            Uri.parse(
+                url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
+            headers: headers);
 
-      var postList = [];
-      for (var i in json['data']) {
-        postList.add(i);
+        final json = jsonDecode(utf8.decode(response.bodyBytes));
+        var postList = [];
+        for (var i in json['data']) {
+          postList.add(i);
+        }
+        setState(() {
+          current_page = json['current_page'];
+          total_page = json['total_page'];
+          baseurl = server_url.get_server_url();
+          determinate = true;
+          _isLastPage = data.length < _numberOfPostPerRequest;
+          _loading = false;
+          _pageNumber = _pageNumber + 1;
+          data.addAll(postList);
+          _getRequest = false;
+        });
       }
-      setState(() {
-        baseurl = server_url.get_server_url();
-        determinate = true;
-        _isLastPage = data.length < _numberOfPostPerRequest;
-        _loading = false;
-        _pageNumber = _pageNumber + 1;
-        data.addAll(postList);
-      });
     } catch (e) {
       setState(() {
         _loading = false;
@@ -606,23 +542,26 @@ class _StoreState extends State<Store> {
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
-      final response = await http.get(
-          Uri.parse(
-              url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
-          headers: headers);
-      final json = jsonDecode(utf8.decode(response.bodyBytes));
-      var postList = [];
-      for (var i in json['data']) {
-        postList.add(i);
+      if (_getRequest == false) {
+        final response = await http.get(
+            Uri.parse(
+                url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
+            headers: headers);
+        final json = jsonDecode(utf8.decode(response.bodyBytes));
+        var postList = [];
+        for (var i in json['data']) {
+          postList.add(i);
+        }
+        setState(() {
+          baseurl = server_url.get_server_url();
+          determinate = true;
+          _isLastPage = data.length < _numberOfPostPerRequest;
+          _loading = false;
+          _pageNumber = _pageNumber + 1;
+          data.addAll(postList);
+          _getRequest == false;
+        });
       }
-      setState(() {
-        baseurl = server_url.get_server_url();
-        determinate = true;
-        _isLastPage = data.length < _numberOfPostPerRequest;
-        _loading = false;
-        _pageNumber = _pageNumber + 1;
-        data.addAll(postList);
-      });
     } catch (e) {
       setState(() {
         _loading = false;
@@ -657,23 +596,26 @@ class _StoreState extends State<Store> {
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
-      final response = await http.get(
-          Uri.parse(
-              url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
-          headers: headers);
-      final json = jsonDecode(utf8.decode(response.bodyBytes));
-      var postList = [];
-      for (var i in json['data']) {
-        postList.add(i);
+      if (_getRequest == false) {
+        final response = await http.get(
+            Uri.parse(
+                url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
+            headers: headers);
+        final json = jsonDecode(utf8.decode(response.bodyBytes));
+        var postList = [];
+        for (var i in json['data']) {
+          postList.add(i);
+        }
+        setState(() {
+          baseurl = server_url.get_server_url();
+          determinate = true;
+          _isLastPage = data.length < _numberOfPostPerRequest;
+          _loading = false;
+          _pageNumber = _pageNumber + 1;
+          data.addAll(postList);
+        });
+        _getRequest = false;
       }
-      setState(() {
-        baseurl = server_url.get_server_url();
-        determinate = true;
-        _isLastPage = data.length < _numberOfPostPerRequest;
-        _loading = false;
-        _pageNumber = _pageNumber + 1;
-        data.addAll(postList);
-      });
     } catch (e) {
       setState(() {
         _loading = false;
@@ -717,10 +659,43 @@ class _StoreState extends State<Store> {
             ]));
   }
 
-
-    void _controllListener() {
-    if (_gVScrollController.offset > 0 && _gVScrollController.offset < 217) {
-      _lScrollController.position.jumpTo(_gVScrollController.offset+10);
+  void _controllListener() {
+    if (_controller.offset > _controller.position.maxScrollExtent - 1000 &&
+        total_page > current_page &&
+        _getRequest == false) {
+      var sort_value = "";
+      var sort = Provider.of<UserInfo>(context, listen: false).sort;
+      if (int.parse(sort) == 2) {
+        sort_value = 'sort=price';
+      }
+      if (int.parse(sort) == 3) {
+        sort_value = 'sort=-price';
+      }
+      if (int.parse(sort) == 4) {
+        sort_value = 'sort=id';
+      }
+      if (int.parse(sort) == 4) {
+        sort_value = 'sort=-id';
+      }
+      if (title == 'Marketler') {
+        getmarketslist(sort_value);
+        getmarkets_slider();
+      }
+      if (title == 'Söwda merkezler') {
+        getshopping_centerslist(sort_value);
+        getslider_shopping_centers();
+      }
+      if (title == 'Dükanlar') {
+        getstoreslist(sort_value);
+        getslider_stores();
+      }
+      if (title == 'Bazarlar') {
+        getbazarlarlist(sort_value);
+        getslider_shopping();
+      }
+      setState(() {
+        _getRequest = true;
+      });
     }
   }
 }

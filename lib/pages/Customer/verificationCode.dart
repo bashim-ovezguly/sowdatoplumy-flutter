@@ -160,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                                  if (response.statusCode==200){
                                   final deleteallRows = await dbHelper.deleteAllRows();
-                                  final deleteallRows1 = await dbHelper.queryAllRows1();
+                                  final deleteallRows1 = await dbHelper.deleteAllRows1();
                                   print('-----1--------  $deleteallRows');
                                   print('-----2--------  $deleteallRows1');
                                   

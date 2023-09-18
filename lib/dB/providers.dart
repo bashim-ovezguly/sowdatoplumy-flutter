@@ -37,6 +37,7 @@ class UserInfo extends ChangeNotifier {
                                     "car_count": "",
                                     "part_count": "",
                                     "service_count": "",
+                                    "material_count":"",
                                     "product_count": "",
                                     "factory_count": "",
                                     "flat_count": "" };
@@ -111,6 +112,10 @@ class UserInfo extends ChangeNotifier {
      final response = await http.post(uri,
                                       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                                       body: { 'refresh_token': refresh_token,},);
+
+    print('Url----- $uri');
+    print('Url----- $refresh_token');
+    print(response.statusCode);
     if (response.statusCode==200){
       final json = jsonDecode(utf8.decode(response.bodyBytes));
       Map<String, dynamic> row = { DatabaseSQL.columnName: json['access_token'],
@@ -138,7 +143,12 @@ class UserInfo extends ChangeNotifier {
                                       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                                       body: { 'phone': data[0]['name'],
                                               'password': data[0]['age'],},);
+      print('Url----- $uri');
+      print(data[0]['name']);
+      print( data[0]['age']);
+      print(response.statusCode);
      final json = jsonDecode(utf8.decode(response.bodyBytes));
+     
      if (json['status']=='success'){
       Map<String, dynamic> row = {DatabaseSQL.columnName: json['data']['access_token'],
                                   DatabaseSQL.columnPassword: json['data']['refresh_token'],

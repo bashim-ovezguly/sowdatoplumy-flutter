@@ -1,15 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
-import 'package:provider/provider.dart';
-  
 import '../../dB/constants.dart';
-import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
 import '../call.dart';
 import '../fullScreenSlider.dart';
