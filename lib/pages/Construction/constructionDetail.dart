@@ -51,7 +51,7 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
   _ConstructionDetailState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return status? Scaffold(
+    return status? Scaffold(backgroundColor: CustomColors.appColorWhite,
 
       appBar: AppBar(
         title: const Text("Gurluşyk harytlar", style: CustomText.appBarText,),
@@ -199,13 +199,14 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
                     alignment: Alignment.centerLeft,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
+                        backgroundColor: CustomColors.appColors,
                         textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
                       onPressed: () {
                         if (data['store_id']!=null && data['store_id']!=''){
                           Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Dükanlar')));
                         }
                       },
-                      child: Text(data['store_name'].toString(),),)))
+                      child: Text(data['store_name'].toString(),style: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),)))
                 ],
               ),
             ),

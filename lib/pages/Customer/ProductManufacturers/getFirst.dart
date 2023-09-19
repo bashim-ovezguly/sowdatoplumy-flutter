@@ -67,7 +67,7 @@ class _FactoriesFirstState extends State<FactoriesFirst> {
   _FactoriesFirstState({required this.id ,required this.customer_id});
   @override
   Widget build(BuildContext context) {
-    return status1 ? Scaffold(
+    return status1 ? Scaffold(backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

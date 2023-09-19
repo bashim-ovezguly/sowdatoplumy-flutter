@@ -81,7 +81,7 @@ class _MyPageState extends State<MyPage> {
   Widget build(BuildContext context) {
         var user_customer_name =
         Provider.of<UserInfo>(context, listen: false).user_customer_name;
-    return Scaffold(
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,7 +97,7 @@ class _MyPageState extends State<MyPage> {
                     ),
             Text(
               'Söwda nokady',
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: CustomColors.appColors),
             ),
           ],
         ),

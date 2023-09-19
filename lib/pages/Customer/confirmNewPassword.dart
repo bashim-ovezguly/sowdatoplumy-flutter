@@ -57,7 +57,7 @@ class _ConfirmNewPasswordState extends State<ConfirmNewPassword> {
   _ConfirmNewPasswordState({required this.phone, required this.access_token, required this.refresh_token, required this.customer_id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: Text('Täze açar sözi'),
       ),

@@ -68,6 +68,7 @@ class _ConstructionsListState extends State<ConstructionsList> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
+            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
                 title: Text(
                   'Gurluşyk harytlar',
@@ -229,148 +230,148 @@ class _ConstructionsListState extends State<ConstructionsList> {
                                                         .toString())));
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(left: 5, right: 5),
-                                    child: Card(
-                                      elevation: 2,
-                                      child: Container(
-                                        height: 110,
-                                        child: Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                                flex: 1,
-                                                child: ClipRect(
-                                                  child: Container(
-                                                    height: 110,
-                                                    child: FittedBox(
-                                                      fit: BoxFit.cover,
-                                                      child: data[index]
-                                                                  ['img'] !=
-                                                              ''
-                                                          ? Image.network(
-                                                              baseurl +
-                                                                  data[index][
-                                                                          'img']
-                                                                      .toString(),
-                                                            )
-                                                          : Image.asset(
-                                                              'assets/images/default.jpg',
-                                                            ),
-                                                    ),
+                                    margin: EdgeInsets.only(left: 5, right: 5, bottom: 8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                         BoxShadow(
+                                            color: Color.fromARGB( 255, 153, 153, 153),
+                                            blurRadius: 2,
+                                            offset: Offset(0.0, 0.75)
+                                          ),
+                                      ],
+                                    ),
+                                    child: Container(
+                                      color: Colors.white,
+                                      height: 110,
+                                      child: Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                              flex: 1,
+                                              child: ClipRect(
+                                                child: Container(
+                                                  height: 110,
+                                                  child: FittedBox(
+                                                    fit: BoxFit.cover,
+                                                    child: data[index]['img'] !=
+                                                            ''
+                                                        ? Image.network(
+                                                            baseurl +
+                                                                data[index]
+                                                                        ['img']
+                                                                    .toString(),
+                                                          )
+                                                        : Image.asset(
+                                                            'assets/images/default.jpg',
+                                                          ),
                                                   ),
-                                                )),
-                                            Expanded(
-                                              flex: 2,
-                                              child: Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 2),
-                                                padding:
-                                                    const EdgeInsets.all(5),
-                                                color: CustomColors.appColors,
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    if (data[index]
-                                                                ['name_tm'] !=
-                                                            null &&
-                                                        data[index]
-                                                                ['name_tm'] !=
-                                                            '')
-                                                      Expanded(
+                                                ),
+                                              )),
+                                          Expanded(
+                                            flex: 2,
+                                            child: Container(
+                                              margin: EdgeInsets.only(left: 2),
+                                              padding: const EdgeInsets.all(5),
+                                              color: CustomColors.appColors,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: <Widget>[
+                                                  if (data[index]['name_tm'] !=
+                                                          null &&
+                                                      data[index]['name_tm'] !=
+                                                          '')
+                                                    Expanded(
+                                                      child: Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Container(
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    left: 5),
+                                                            child: Text(
+                                                              data[index][
+                                                                      'name_tm']
+                                                                  .toString(),
+                                                              style: CustomText
+                                                                  .itemTextBold,
+                                                            ),
+                                                          )),
+                                                    ),
+                                                  Expanded(
+                                                      child: Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Text(
+                                                            data[index]
+                                                                    ['location']
+                                                                .toString(),
+                                                            style: CustomText
+                                                                .itemText)
+                                                      ],
+                                                    ),
+                                                  )),
+                                                  Expanded(
+                                                      child: Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                                data[index][
+                                                                        'price']
+                                                                    .toString(),
+                                                                style: CustomText
+                                                                    .itemText)
+                                                          ],
+                                                        ),
+                                                        Spacer(),
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  right: 5),
+                                                          child: Text(
+                                                            data[index][
+                                                                    'delta_time']
+                                                                .toString(),
+                                                            style: CustomText
+                                                                .itemText,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )),
+                                                  if (data[index]['store_id'] !=
+                                                          null &&
+                                                      data[index]['store_id'] !=
+                                                          '')
+                                                    Expanded(
                                                         child: Align(
                                                             alignment: Alignment
                                                                 .centerLeft,
-                                                            child: Container(
-                                                              margin: EdgeInsets
-                                                                  .only(
-                                                                      left: 5),
+                                                            child:
+                                                                TextButton(
+                                                              onPressed: () {},
                                                               child: Text(
                                                                 data[index][
-                                                                        'name_tm']
-                                                                    .toString(),
+                                                                    'store_name'],
+                                                                maxLines: 1,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
                                                                 style: CustomText
-                                                                    .itemTextBold,
+                                                                    .itemText,
                                                               ),
-                                                            )),
-                                                      ),
-                                                    Expanded(
-                                                        child: Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Row(
-                                                        children: <Widget>[
-                                                          Text(
-                                                              data[index][
-                                                                      'location']
-                                                                  .toString(),
-                                                              style: CustomText
-                                                                  .itemText)
-                                                        ],
-                                                      ),
-                                                    )),
-                                                    Expanded(
-                                                        child: Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Row(
-                                                        children: <Widget>[
-                                                          Row(
-                                                            children: [
-                                                              Text(
-                                                                  data[index][
-                                                                          'price']
-                                                                      .toString(),
-                                                                  style: CustomText
-                                                                      .itemText)
-                                                            ],
-                                                          ),
-                                                          Spacer(),
-                                                          Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    right: 5),
-                                                            child: Text(
-                                                              data[index][
-                                                                      'delta_time']
-                                                                  .toString(),
-                                                              style: CustomText
-                                                                  .itemText,
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    )),
-                                                    if (data[index]
-                                                                ['store_id'] !=
-                                                            null &&
-                                                        data[index]
-                                                                ['store_id'] !=
-                                                            '')
-                                                      Expanded(
-                                                          child: Align(
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              child:
-                                                                  ElevatedButton(
-                                                                onPressed:
-                                                                    () {},
-                                                                child: Text(
-                                                                  data[index][
-                                                                      'store_name'],
-                                                                  maxLines: 1,
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style: CustomText
-                                                                      .itemText,
-                                                                ),
-                                                              )))
-                                                  ],
-                                                ),
+                                                            )))
+                                                ],
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -426,10 +427,10 @@ class _ConstructionsListState extends State<ConstructionsList> {
     String url =
         server_url.get_server_url() + '/mob/materials?' + sort_value.toString();
     final uri = Uri.parse(url);
-       Map<String, String> headers = {};  
-      for (var i in global_headers.entries){
-        headers[i.key] = i.value.toString(); 
-      }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
@@ -443,10 +444,10 @@ class _ConstructionsListState extends State<ConstructionsList> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/materials?on_slider=1';
     final uri = Uri.parse(url);
-       Map<String, String> headers = {};  
-      for (var i in global_headers.entries){
-        headers[i.key] = i.value.toString(); 
-      }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {

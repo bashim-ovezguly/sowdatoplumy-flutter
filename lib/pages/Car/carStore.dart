@@ -51,7 +51,7 @@ class _CarStoreState extends State<CarStore> {
   _CarStoreState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return status? Scaffold(
+    return status? Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: data['model']!=null && data['model']!=''? Text(data['model'].toString(), style: CustomText.appBarText): Text('')),
       body: RefreshIndicator(

@@ -55,7 +55,7 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
   _AutoPartsDetailState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return status? Scaffold(
+    return status? Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: const Text("Awtoşaylar", style: CustomText.appBarText,),
         actions:  []

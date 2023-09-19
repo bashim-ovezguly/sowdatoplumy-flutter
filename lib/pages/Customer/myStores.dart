@@ -68,6 +68,7 @@ class _MyStoresState extends State<MyStores> {
         Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return status
         ? Scaffold(
+            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: widget.user_customer_id == ''
                   ? Text(
@@ -132,8 +133,7 @@ class _MyStoresState extends State<MyStores> {
                                         padding: const EdgeInsets.only(
                                             left: 10, top: 5),
                                         child: Text(
-                                          "Dükanlar " +
-                                              data.length.toString(),
+                                          "Dükanlar " + data.length.toString(),
                                           style: TextStyle(
                                               fontSize: 18,
                                               color: CustomColors.appColors),
@@ -162,157 +162,159 @@ class _MyStoresState extends State<MyStores> {
                               itemCount: data.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
-                                    onTap: () async {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => MyPage(
-                                                  id: data[index]['id']
-                                                      .toString(),
-                                                  customer_id: customer_id,
-                                                  user_customer_id: widget.user_customer_id,
-                                                  refreshFunc: refreshFunc)));
-                                    },
+                                  onTap: () async {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyPage(
+                                                id: data[index]['id']
+                                                    .toString(),
+                                                customer_id: customer_id,
+                                                user_customer_id:
+                                                    widget.user_customer_id,
+                                                refreshFunc: refreshFunc)));
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 5, right: 5),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Color.fromARGB(
+                                              255, 207, 207, 207),
+                                          blurRadius: 0.2,
+                                        ),
+                                      ],
+                                    ),
                                     child: Container(
-                                      margin:
-                                          EdgeInsets.only(left: 5, right: 5),
-                                      child: Card(
-                                        elevation: 2,
-                                        child: Container(
-                                          height: 110,
-                                          child: Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                  flex: 1,
-                                                  child: ClipRect(
-                                                    child: Container(
-                                                      height: 110,
-                                                      child: FittedBox(
-                                                        fit: BoxFit.cover,
-                                                        child: data[index]
-                                                                    ['img'] !=
-                                                                ''
-                                                            ? Image.network(
-                                                                baseurl +
-                                                                    data[index][
-                                                                            'img']
-                                                                        .toString(),
-                                                              )
-                                                            : Image.asset(
-                                                                'assets/images/default.jpg',
-                                                              ),
-                                                      ),
-                                                    ),
-                                                  )),
-                                              Expanded(
-                                                flex: 2,
+                                      height: 110,
+                                      child: Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                              flex: 1,
+                                              child: ClipRect(
                                                 child: Container(
-                                                  color: CustomColors.appColors,
-                                                  margin:
-                                                      EdgeInsets.only(left: 2),
-                                                  padding:
-                                                      const EdgeInsets.all(10),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  left: 5),
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Text(
-                                                            data[index]['name']
-                                                                .toString(),
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .clip,
-                                                            maxLines: 2,
-                                                            softWrap: false,
-                                                            style: CustomText
-                                                                .itemTextBold,
+                                                  height: 110,
+                                                  child: FittedBox(
+                                                    fit: BoxFit.cover,
+                                                    child: data[index]['img'] !=
+                                                            ''
+                                                        ? Image.network(
+                                                            baseurl +
+                                                                data[index]
+                                                                        ['img']
+                                                                    .toString(),
+                                                          )
+                                                        : Image.asset(
+                                                            'assets/images/default.jpg',
                                                           ),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                          child: Container(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Row(
-                                                          children: <Widget>[
-                                                            Icon(
-                                                              Icons.place,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 200,
-                                                              child: Text(
-                                                                data[index][
-                                                                    'location'],
-                                                                style: CustomText
-                                                                    .itemText,
-                                                                maxLines: 1,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      )),
-                                                      if (widget.user_customer_id == '')
-                                                      Expanded(
-                                                          child: Align(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        child: Row(
-                                                          children: <Widget>[
-                                                            Icon(
-                                                              Icons
-                                                                  .star_outline_sharp,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                            if (data[index]['status'] != null &&
-                                                                data[index]['status'] !=
-                                                                    '' &&
-                                                                data[index]['status'] ==
-                                                                    'pending')
-                                                              Text("Garşylýar".toString(),
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .amber))
-                                                            else if (data[index]['status'] !=
-                                                                    null &&
-                                                                data[index]['status'] !=
-                                                                    '' &&
-                                                                data[index]['status'] ==
-                                                                    'accepted')
-                                                              Text("Tassyklanyldy".toString(),
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .green))
-                                                            else if (data[index]
-                                                                        ['status'] !=
-                                                                    null &&
-                                                                data[index]['status'] != '' &&
-                                                                data[index]['status'] == 'canceled')
-                                                              Text("Gaýtarylan".toString(), style: TextStyle(color: Colors.red))
-                                                          ],
-                                                        ),
-                                                      )),
-                                                    ],
                                                   ),
                                                 ),
+                                              )),
+                                          Expanded(
+                                            flex: 2,
+                                            child: Container(
+                                              color: CustomColors.appColors,
+                                              margin: EdgeInsets.only(left: 2),
+                                              padding: const EdgeInsets.all(10),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    child: Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 5),
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Text(
+                                                        data[index]['name']
+                                                            .toString(),
+                                                        overflow:
+                                                            TextOverflow.clip,
+                                                        maxLines: 2,
+                                                        softWrap: false,
+                                                        style: CustomText
+                                                            .itemTextBold,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                      child: Container(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Row(
+                                                      children: <Widget>[
+                                                        Icon(
+                                                          Icons.place,
+                                                          color: Colors.white,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 200,
+                                                          child: Text(
+                                                            data[index]
+                                                                ['location'],
+                                                            style: CustomText
+                                                                .itemText,
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  )),
+                                                  if (widget.user_customer_id ==
+                                                      '')
+                                                    Expanded(
+                                                        child: Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Icon(
+                                                            Icons
+                                                                .star_outline_sharp,
+                                                            color: Colors.white,
+                                                          ),
+                                                          if (data[index]['status'] != null &&
+                                                              data[index]['status'] !=
+                                                                  '' &&
+                                                              data[index]['status'] ==
+                                                                  'pending')
+                                                            Text("Garşylýar".toString(),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .amber))
+                                                          else if (data[index]['status'] !=
+                                                                  null &&
+                                                              data[index]['status'] !=
+                                                                  '' &&
+                                                              data[index]['status'] ==
+                                                                  'accepted')
+                                                            Text("Tassyklanyldy".toString(),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .green))
+                                                          else if (data[index]
+                                                                      ['status'] !=
+                                                                  null &&
+                                                              data[index]['status'] != '' &&
+                                                              data[index]['status'] == 'canceled')
+                                                            Text("Gaýtarylan".toString(), style: TextStyle(color: Colors.red))
+                                                        ],
+                                                      ),
+                                                    )),
+                                                ],
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                    ));
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           ),
@@ -326,12 +328,13 @@ class _MyStoresState extends State<MyStores> {
 
   void get_my_stores({required customer_id}) async {
     Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/stores?customer=$customer_id';
+    String url =
+        server_url.get_server_url() + '/mob/stores?customer=$customer_id';
     final uri = Uri.parse(url);
-    Map<String, String> headers = {};  
-      for (var i in global_headers.entries){
-        headers[i.key] = i.value.toString(); 
-      }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {

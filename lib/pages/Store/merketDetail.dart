@@ -122,7 +122,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: _tabCount + 1,
-        child: Scaffold(
+        child: Scaffold(backgroundColor: CustomColors.appColorWhite,
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             title: Text(
@@ -130,38 +130,38 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
               style: CustomText.appBarText,
             ),
             actions: [
-              Badge(
-                badgeColor: Colors.green,
-                badgeContent: Text(
-                  item_count.toString(),
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                position: BadgePosition(start: 30, bottom: 30),
-                child: IconButton(
-                  onPressed: () async {
-                    var allRows = await dbHelper.queryAllRows();
-                    var data1 = [];
-                    for (final row in allRows) {
-                      data1.add(row);
-                    }
-                    if (data1.length == 0) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Order(
-                                  store_name: data['name_tm'].toString(),
-                                  store_id: data['id'].toString(),
-                                  refresh: refresh,
-                                  delivery_price: delivery_price_str)));
-                    }
-                  },
-                  icon: const Icon(Icons.shopping_cart),
-                ),
-              ),
+              // Badge(
+              //   badgeColor: Colors.green,
+              //   badgeContent: Text(
+              //     item_count.toString(),
+              //     style: const TextStyle(
+              //         color: Colors.white, fontWeight: FontWeight.bold),
+              //   ),
+              //   position: BadgePosition(start: 30, bottom: 30),
+              //   child: IconButton(
+              //     onPressed: () async {
+              //       var allRows = await dbHelper.queryAllRows();
+              //       var data1 = [];
+              //       for (final row in allRows) {
+              //         data1.add(row);
+              //       }
+              //       if (data1.length == 0) {
+              //         Navigator.push(context,
+              //             MaterialPageRoute(builder: (context) => Login()));
+              //       } else {
+              //         Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //                 builder: (context) => Order(
+              //                     store_name: data['name_tm'].toString(),
+              //                     store_id: data['id'].toString(),
+              //                     refresh: refresh,
+              //                     delivery_price: delivery_price_str)));
+              //       }
+              //     },
+              //     icon: const Icon(Icons.shopping_cart),
+              //   ),
+              // ),
               const SizedBox(
                 width: 20.0,
               ),

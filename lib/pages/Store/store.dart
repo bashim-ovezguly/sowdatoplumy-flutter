@@ -182,7 +182,7 @@ class _StoreState extends State<Store> {
   @override
   Widget build(BuildContext context) {
     return status
-        ? Scaffold(
+        ? Scaffold(backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: Text(title, style: CustomText.appBarText),
               actions: [
@@ -344,50 +344,61 @@ class _StoreState extends State<Store> {
                                     }
                                   },
                                   child: Container(
+                                    margin: EdgeInsets.all(3),
                                     height: 160,
-                                    width:
-                                        MediaQuery.of(context).size.width / 3,
-                                    child: Card(
-                                      elevation: 7,
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: 120,
-                                            child: Container(
-                                              height: 120,
-                                              child: item['img'] != ''
-                                                  ? Image.network(
-                                                      baseurl +
-                                                          item['img']
-                                                              .toString(),
-                                                      fit: BoxFit.cover,
-                                                      height: 120,
-                                                      width: double.infinity,
-                                                    )
-                                                  : Image.asset(
-                                                      'assets/images/default.jpg',
-                                                    ),
-                                            ),
+                                    width:MediaQuery.of(context).size.width / 3 -10,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Color.fromARGB( 255, 153, 153, 153),
+                                            blurRadius: 2,
+                                            offset: Offset(0.0, 0.75)
                                           ),
-                                          Container(
-                                            padding: EdgeInsets.all(5),
-                                            child: Text(
-                                              item['name'].toString(),
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color:
-                                                      CustomColors.appColors),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          color: Colors.white,
+                                          height: 120,
+                                          child: item['img'] != ''
+                                              ? Image.network(
+                                                  baseurl +
+                                                      item['img'].toString(),
+                                                  fit: BoxFit.cover,
+                                                  height: 120,
+                                                  width: double.infinity,
+                                                )
+                                              : Image.asset(
+                                                  'assets/images/default.jpg',
+                                                ),
+                                        ),
+                                        Container(
+                                          color: Colors.white,
+                                          padding: EdgeInsets.all(5),
+                                          child: Text(
+                                            item['name'].toString(),
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: CustomColors.appColors),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
                                 );
                               }).toList(),
-                            )
+                            ),
+                            if (total_page > current_page && _getRequest == true)
+                              Container(
+                                height: 100,
+                                child: Center(
+                                    child: CircularProgressIndicator(
+                                        color: CustomColors.appColors)),
+                              )
                           ],
                         ),
                       )
@@ -434,6 +445,8 @@ class _StoreState extends State<Store> {
           postList.add(i);
         }
         setState(() {
+          current_page = json['current_page'];
+          total_page = json['total_page'];
           baseurl = server_url.get_server_url();
           determinate = true;
           _isLastPage = data.length < _numberOfPostPerRequest;
@@ -553,6 +566,8 @@ class _StoreState extends State<Store> {
           postList.add(i);
         }
         setState(() {
+          current_page = json['current_page'];
+          total_page = json['total_page'];
           baseurl = server_url.get_server_url();
           determinate = true;
           _isLastPage = data.length < _numberOfPostPerRequest;
@@ -607,6 +622,8 @@ class _StoreState extends State<Store> {
           postList.add(i);
         }
         setState(() {
+          current_page = json['current_page'];
+          total_page = json['total_page'];
           baseurl = server_url.get_server_url();
           determinate = true;
           _isLastPage = data.length < _numberOfPostPerRequest;

@@ -76,6 +76,7 @@ class _CarState extends State<Car> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
+            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: const Text(
                 "Awtoulaglar",
@@ -231,215 +232,207 @@ class _CarState extends State<Car> {
                               childCount: data.length,
                               (BuildContext context, int index) {
                                 return GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => CarStore(
-                                                  id: data[index]['id']
-                                                      .toString())));
-                                    },
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => CarStore(
+                                                id: data[index]['id']
+                                                    .toString())));
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 5, right: 5, top: 8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                         BoxShadow(
+                                            color: Color.fromARGB( 255, 153, 153, 153),
+                                            blurRadius: 2,
+                                            offset: Offset(0.0, 0.75)
+                                          ),
+                                      ],
+                                    ),
                                     child: Container(
-                                      margin:
-                                          EdgeInsets.only(left: 5, right: 5),
-                                      child: Card(
-                                        elevation: 2,
-                                        child: Container(
-                                          height: 110,
-                                          child: Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                  flex: 1,
-                                                  child: ClipRect(
-                                                    child: Container(
-                                                      height: 110,
-                                                      child: FittedBox(
-                                                        fit: BoxFit.cover,
-                                                        child: data[index]
-                                                                    ['img'] !=
-                                                                ''
-                                                            ? Image.network(
-                                                                baseurl +
-                                                                    data[index][
-                                                                            'img']
-                                                                        .toString(),
-                                                              )
-                                                            : Image.asset(
-                                                                'assets/images/default.jpg',
-                                                              ),
+                                      height: 110,
+                                      child: Row(
+                                        children: <Widget>[
+                                          Expanded(
+                                              flex: 1,
+                                              child: ClipRect(
+                                                child: Container(
+                                                  height: 110,
+                                                  child: FittedBox(
+                                                    fit: BoxFit.cover,
+                                                    child: data[index]['img'] !=
+                                                            ''
+                                                        ? Image.network(
+                                                            baseurl +
+                                                                data[index]
+                                                                        ['img']
+                                                                    .toString(),
+                                                          )
+                                                        : Image.asset(
+                                                            'assets/images/default.jpg',
+                                                          ),
+                                                  ),
+                                                ),
+                                              )),
+                                          Expanded(
+                                            flex: 2,
+                                            child: Container(
+                                              color: CustomColors.appColors,
+                                              margin: EdgeInsets.only(left: 2),
+                                              padding: const EdgeInsets.all(5),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Text(
+                                                        data[index]['mark']
+                                                                .toString() +
+                                                            " " +
+                                                            data[index]['model']
+                                                                .toString() +
+                                                            " " +
+                                                            data[index]['year']
+                                                                .toString(),
+                                                        style: CustomText
+                                                            .itemTextBold,
                                                       ),
                                                     ),
-                                                  )),
-                                              Expanded(
-                                                flex: 2,
-                                                child: Container(
-                                                  color: CustomColors.appColors,
-                                                  margin:
-                                                      EdgeInsets.only(left: 2),
-                                                  padding:
-                                                      const EdgeInsets.all(5),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: <Widget>[
-                                                      Expanded(
-                                                        child: Align(
+                                                  ),
+                                                  Expanded(
+                                                      child: Align(
                                                           alignment: Alignment
                                                               .centerLeft,
                                                           child: Text(
-                                                            data[index]['mark']
-                                                                    .toString() +
-                                                                " " +
-                                                                data[index][
-                                                                        'model']
-                                                                    .toString() +
-                                                                " " +
-                                                                data[index]
-                                                                        ['year']
-                                                                    .toString(),
-                                                            style: CustomText
-                                                                .itemTextBold,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                          child: Align(
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              child: Text(
-                                                                  data[index][
-                                                                          'location']
-                                                                      .toString(),
-                                                                  style: CustomText
-                                                                      .itemText))),
-                                                      Expanded(
-                                                          child: Align(
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              child: Row(
-                                                                  children: [
-                                                                    Text(
-                                                                        data[index]['price']
-                                                                            .toString(),
-                                                                        style: CustomText
-                                                                            .itemText),
-                                                                    Spacer(),
-                                                                    Text(
-                                                                        data[index]['delta_time']
-                                                                            .toString(),
-                                                                        style: CustomText
-                                                                            .itemText)
-                                                                  ]))),
-                                                      if (data[index][
-                                                                  'store_id'] ==
-                                                              null ||
-                                                          data[index][
-                                                                  'store_id'] ==
-                                                              '')
-                                                        Expanded(
-                                                            child: Align(
+                                                              data[index][
+                                                                      'location']
+                                                                  .toString(),
+                                                              style: CustomText
+                                                                  .itemText))),
+                                                  Expanded(
+                                                      child: Align(
                                                           alignment: Alignment
                                                               .centerLeft,
-                                                          child: Row(
-                                                            children: <Widget>[
-                                                              Text('Kredit',
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          12)),
-                                                              data[index]
-                                                                      ['credit']
-                                                                  ? Icon(
-                                                                      Icons
-                                                                          .check,
-                                                                      color: Colors
-                                                                          .green,
-                                                                    )
-                                                                  : Icon(
-                                                                      Icons
-                                                                          .close,
-                                                                      color: Colors
-                                                                          .red,
-                                                                    ),
-                                                              SizedBox(
-                                                                width: 5,
-                                                              ),
-                                                              Text('Obmen',
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          12)),
-                                                              data[index]
-                                                                      ['swap']
-                                                                  ? Icon(
-                                                                      Icons
-                                                                          .check,
-                                                                      color: Colors
-                                                                          .green,
-                                                                    )
-                                                                  : Icon(
-                                                                      Icons
-                                                                          .close,
-                                                                      color: Colors
-                                                                          .red,
-                                                                    ),
-                                                              SizedBox(
-                                                                width: 5,
-                                                              ),
-                                                              Text('Nagt däl',
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          12)),
-                                                              data[index][
-                                                                      'none_cash_pay']
-                                                                  ? Icon(
-                                                                      Icons
-                                                                          .check,
-                                                                      color: Colors
-                                                                          .green,
-                                                                    )
-                                                                  : Icon(
-                                                                      Icons
-                                                                          .close,
-                                                                      color: Colors
-                                                                          .red,
-                                                                    ),
-                                                            ],
+                                                          child: Row(children: [
+                                                            Text(
+                                                                data[index][
+                                                                        'price']
+                                                                    .toString(),
+                                                                style: CustomText
+                                                                    .itemText),
+                                                            Spacer(),
+                                                            Text(
+                                                                data[index][
+                                                                        'delta_time']
+                                                                    .toString(),
+                                                                style: CustomText
+                                                                    .itemText)
+                                                          ]))),
+                                                  if (data[index]['store_id'] ==
+                                                          null ||
+                                                      data[index]['store_id'] ==
+                                                          '')
+                                                    Expanded(
+                                                        child: Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Text('Kredit',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      12)),
+                                                          data[index]['credit']
+                                                              ? Icon(
+                                                                  Icons.check,
+                                                                  color: Colors
+                                                                      .green,
+                                                                )
+                                                              : Icon(
+                                                                  Icons.close,
+                                                                  color: Colors
+                                                                      .red,
+                                                                ),
+                                                          SizedBox(
+                                                            width: 5,
                                                           ),
-                                                        ))
-                                                      else
-                                                        Expanded(
-                                                            child: Align(
-                                                                alignment: Alignment
-                                                                    .centerLeft,
-                                                                child:
-                                                                    ElevatedButton(
-                                                                  onPressed:
-                                                                      () {},
-                                                                  child: Text(
-                                                                    data[index][
-                                                                        'store_name'],
-                                                                    maxLines: 1,
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    style: CustomText
-                                                                        .itemText,
-                                                                  ),
-                                                                )))
-                                                    ],
-                                                  ),
-                                                ),
+                                                          Text('Obmen',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      12)),
+                                                          data[index]['swap']
+                                                              ? Icon(
+                                                                  Icons.check,
+                                                                  color: Colors
+                                                                      .green,
+                                                                )
+                                                              : Icon(
+                                                                  Icons.close,
+                                                                  color: Colors
+                                                                      .red,
+                                                                ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Text('Nagt däl',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      12)),
+                                                          data[index][
+                                                                  'none_cash_pay']
+                                                              ? Icon(
+                                                                  Icons.check,
+                                                                  color: Colors
+                                                                      .green,
+                                                                )
+                                                              : Icon(
+                                                                  Icons.close,
+                                                                  color: Colors
+                                                                      .red,
+                                                                ),
+                                                        ],
+                                                      ),
+                                                    ))
+                                                  else
+                                                    Expanded(
+                                                        child: Align(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            child:
+                                                                ElevatedButton(
+                                                              onPressed: () {},
+                                                              child: Text(
+                                                                data[index][
+                                                                    'store_name'],
+                                                                maxLines: 1,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style: CustomText
+                                                                    .itemText,
+                                                              ),
+                                                            )))
+                                                ],
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
+                                        ],
                                       ),
-                                    ));
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                           )
@@ -482,12 +475,13 @@ class _CarState extends State<Car> {
     }
 
     Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/cars?' + sort_value.toString();
+    String url =
+        server_url.get_server_url() + '/mob/cars?' + sort_value.toString();
     final uri = Uri.parse(url);
-      Map<String, String> headers = {};  
-      for (var i in global_headers.entries){
-        headers[i.key] = i.value.toString(); 
-      }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
@@ -501,10 +495,10 @@ class _CarState extends State<Car> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/cars?on_slider=1';
     final uri = Uri.parse(url);
-       Map<String, String> headers = {};  
-      for (var i in global_headers.entries){
-        headers[i.key] = i.value.toString(); 
-      }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {

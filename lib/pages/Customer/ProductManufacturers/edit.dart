@@ -79,7 +79,7 @@ class _FactoriesEditState extends State<FactoriesEdit> {
   _FactoriesEditState({required this.old_data, required this.callbackFunc});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar( title: const Text("Meniň sahypam", style: CustomText.appBarText,),),
       body: ListView(
         scrollDirection: Axis.vertical,

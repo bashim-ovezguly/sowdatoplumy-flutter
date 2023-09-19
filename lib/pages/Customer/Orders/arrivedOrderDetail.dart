@@ -101,9 +101,9 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
         type: QuickAlertType.info);
     }
 
-    return Scaffold(
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
-        title: Text('Sargyt: ' + widget.order_id.toString()),
+        title: Text('Sargyt: ' + widget.order_id.toString(), style: TextStyle(color: CustomColors.appColorWhite),),
         actions: [
         PopupMenuButton<String>(
               itemBuilder: (context) {

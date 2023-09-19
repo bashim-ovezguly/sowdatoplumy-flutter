@@ -9,7 +9,7 @@ class Help extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(title: const Text("Sazlamalar", style: CustomText.appBarText,),),
       body: Column(
         children: <Widget>[

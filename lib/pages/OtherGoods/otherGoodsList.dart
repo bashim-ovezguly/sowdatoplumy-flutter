@@ -72,7 +72,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
   
   @override
   Widget build(BuildContext context) {
-    return status ? Scaffold(
+    return status ? Scaffold(backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
           title: const Text("Harytlar", style: CustomText.appBarText,),
           actions: [

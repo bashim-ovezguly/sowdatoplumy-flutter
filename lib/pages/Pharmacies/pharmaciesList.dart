@@ -24,7 +24,6 @@ class PharmaciesList extends StatefulWidget {
 }
 
 class _PharmaciesListState extends State<PharmaciesList> {
-
   List<dynamic> data = [];
   var baseurl = "";
   int _current = 0;
@@ -34,7 +33,9 @@ class _PharmaciesListState extends State<PharmaciesList> {
   bool determinate = false;
   bool status = true;
   bool determinate1 = true;
-  List<dynamic> dataSlider = [{"img": "", 'name': "", 'location': ''}];
+  List<dynamic> dataSlider = [
+    {"img": "", 'name': "", 'location': ''}
+  ];
   final ScrollController _controller = ScrollController();
   bool filter = false;
   late bool _isLastPage;
@@ -64,19 +65,23 @@ class _PharmaciesListState extends State<PharmaciesList> {
   }
 
   timers() async {
-    setState(() {status = true;});
+    setState(() {
+      status = true;
+    });
     final completer = Completer();
     final t = Timer(Duration(seconds: 5), () => completer.complete());
     await completer.future;
     setState(() {
-      if (determinate == false) {status = false;}
+      if (determinate == false) {
+        status = false;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return status
-        ? Scaffold(
+        ? Scaffold(backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: const Text(
                 "Dermanhanalar",
@@ -154,7 +159,10 @@ class _PharmaciesListState extends State<PharmaciesList> {
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) =>PharmacieFirst(id: item['id'].toString())));
+                                                          builder: (context) =>
+                                                              PharmacieFirst(
+                                                                  id: item['id']
+                                                                      .toString())));
                                                 }
                                               },
                                               child: Stack(
@@ -202,55 +210,71 @@ class _PharmaciesListState extends State<PharmaciesList> {
                                 return GestureDetector(
                                   onTap: () {
                                     Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>PharmacieFirst(id: item['id'].toString())));
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PharmacieFirst(
+                                                    id: item['id']
+                                                        .toString())));
                                   },
                                   child: Container(
+                                    margin: EdgeInsets.all(3),
                                     height: 160,
                                     width:
-                                        MediaQuery.of(context).size.width / 3,
-                                    child: Card(
-                                      elevation: 7,
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            height: 120,
-                                            child: Container(
-                                              height: 120,
-                                              child: item['img'] != ''
-                                                  ? Image.network(
-                                                      baseurl +
-                                                          item['img']
-                                                              .toString(),
-                                                      fit: BoxFit.cover,
-                                                      height: 120,
-                                                      width: double.infinity,
-                                                    )
-                                                  : Image.asset(
-                                                      'assets/images/default.jpg',
-                                                    ),
-                                            ),
+                                        MediaQuery.of(context).size.width / 3 -
+                                            10,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                         BoxShadow(
+                                            color: Color.fromARGB( 255, 153, 153, 153),
+                                            blurRadius: 2,
+                                            offset: Offset(0.0, 0.75)
                                           ),
-                                          Container(
-                                            padding: EdgeInsets.all(5),
-                                            child: Text(
-                                              item['name'].toString(),
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color:
-                                                      CustomColors.appColors),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          )
-                                        ],
-                                      ),
+                                      ],
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          color: Colors.white,
+                                          height: 120,
+                                          child: item['img'] != ''
+                                              ? Image.network(
+                                                  baseurl +
+                                                      item['img'].toString(),
+                                                  fit: BoxFit.cover,
+                                                  height: 120,
+                                                  width: double.infinity,
+                                                )
+                                              : Image.asset(
+                                                  'assets/images/default.jpg',
+                                                ),
+                                        ),
+                                        Container(
+                                          color: Colors.white,
+                                          padding: EdgeInsets.all(5),
+                                          child: Text(
+                                            item['name'].toString(),
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: CustomColors.appColors),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
                                 );
                               }).toList(),
-                            )
+                            ),
+                            if (total_page > current_page && _getRequest == true)
+                              Container(
+                                height: 100,
+                                child: Center(
+                                    child: CircularProgressIndicator(
+                                        color: CustomColors.appColors)),
+                              )
                           ],
                         ),
                       )
@@ -295,44 +319,48 @@ class _PharmaciesListState extends State<PharmaciesList> {
     if (int.parse(sort) == 4) {
       sort_value = 'sort=-id';
     }
-    try{
+    try {
+      if (_getRequest == false) {
+        Urls server_url = new Urls();
+        String url = server_url.get_server_url() +
+            '/mob/pharmacies?' +
+            sort_value.toString();
 
-    if (_getRequest == false) {
-      Urls server_url = new Urls();
-      String url = server_url.get_server_url() + '/mob/pharmacies?' + sort_value.toString();
-      
-      Map<String, String> headers = {};
-      for (var i in global_headers.entries) {
-        headers[i.key] = i.value.toString();
-      }
-      print(Uri.parse(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
-      final response = await http.get(Uri.parse(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"), headers: headers);
-      
-      final json = jsonDecode(utf8.decode(response.bodyBytes));
-      var postList = [];
+        Map<String, String> headers = {};
+        for (var i in global_headers.entries) {
+          headers[i.key] = i.value.toString();
+        }
+        print(Uri.parse(
+            url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+        final response = await http.get(
+            Uri.parse(
+                url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
+            headers: headers);
+
+        final json = jsonDecode(utf8.decode(response.bodyBytes));
+        var postList = [];
         for (var i in json['data']) {
           postList.add(i);
         }
 
-      setState(() {
-        current_page = json['current_page'];
-        total_page = json['total_page'];
-        baseurl = server_url.get_server_url();
-        determinate = true;
-        determinate = true;
-        _isLastPage = data.length < _numberOfPostPerRequest;
-        _loading = false;
-        _pageNumber = _pageNumber + 1;
-        data.addAll(postList);
-      });
-    }
+        setState(() {
+          current_page = json['current_page'];
+          total_page = json['total_page'];
+          baseurl = server_url.get_server_url();
+          determinate = true;
+          determinate = true;
+          _isLastPage = data.length < _numberOfPostPerRequest;
+          _loading = false;
+          _pageNumber = _pageNumber + 1;
+          data.addAll(postList);
+        });
+      }
     } catch (e) {
       setState(() {
         _loading = false;
         _error = true;
       });
     }
-
   }
 
   void getslider_shopping_centers() async {
@@ -352,10 +380,8 @@ class _PharmaciesListState extends State<PharmaciesList> {
     });
   }
 
-
   void _controllListener() {
     if (_controller.offset > _controller.position.maxScrollExtent - 1000 && total_page > current_page && _getRequest == false) {
-      
       var sort_value = "";
       var sort = Provider.of<UserInfo>(context, listen: false).sort;
       if (int.parse(sort) == 2) {
@@ -370,12 +396,10 @@ class _PharmaciesListState extends State<PharmaciesList> {
       if (int.parse(sort) == 4) {
         sort_value = 'sort=-id';
       }
-     getpharmacieslist();
+      getpharmacieslist();
       setState(() {
         _getRequest = true;
       });
     }
   }
-
-
 }

@@ -76,8 +76,8 @@ class _ArrivedOrdersState extends State<ArrivedOrders> {
         type: QuickAlertType.info);
     }
     
-    return Scaffold(
-      appBar: AppBar(title: Text('Gelen sargytlar'),),
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+      appBar: AppBar(title: Text('Gelen sargytlar', style: TextStyle(color: CustomColors.appColorWhite)),),
       extendBody: true,
       body: RefreshIndicator(
         color: Colors.white,

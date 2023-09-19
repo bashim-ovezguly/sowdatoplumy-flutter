@@ -52,7 +52,7 @@ class _LoginState extends State<Login> {
           type: QuickAlertType.info);
     }
 
-    return Scaffold(
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
           title: Text(
             "Içeri gir",

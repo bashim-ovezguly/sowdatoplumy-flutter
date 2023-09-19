@@ -56,7 +56,7 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
   _PropertiesDetailState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return status ? Scaffold(
+    return status ? Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(title: const Text("Emläkler", style: CustomText.appBarText)),
       body: RefreshIndicator(
         color: Colors.white,
@@ -162,31 +162,33 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
                     SizedBox(width: 10,),
                     Text("Kategoriýa", style: CustomText.size_16_black54,)],),),
                 Expanded(child: Text(data['category'].toString(),  style: CustomText.size_16))],),),
-            
-            SizedBox(
-              child: Row(
-                children: [
-                  Expanded(child: Row(
-                  children: [
-                    SizedBox(width: 10,),
-                    Icon(Icons.store, color: Colors.grey,size: 18,),
-                    SizedBox(width: 10,),
-                    Text("Dükan", style: CustomText.size_16_black54,)],),),
 
-                   Expanded(child:Align(
-                    alignment: Alignment.centerLeft,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
-                      onPressed: () {
-                        if (data['store_id']!=null && data['store_id']!=''){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Dükanlar')));
-                        }
-                      },
-                      child: Text(data['store'].toString(),),)))
-                ],
+            if (data['store_name']!='' && data['store_id'!=''])
+              SizedBox(
+                child: Row(
+                  children: [
+                    Expanded(child: Row(
+                    children: [
+                      SizedBox(width: 20,),
+                      Icon(Icons.store, color: Colors.black26, size: 18,),
+                      SizedBox(width: 10,),
+                      Text("Dükan", style: CustomText.size_16_black54,)],),),
+
+                    Expanded(child:Align(
+                      alignment: Alignment.centerLeft,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: CustomColors.appColors,
+                          textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
+                        onPressed: () {
+                          if (data['store_id']!=null && data['store_id']!=''){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Dükanlar')));
+                          }
+                        },
+                        child: Text(data['store'].toString(),),)))
+                  ],
+                ),
               ),
-            ),
           Container(
             margin: EdgeInsets.only(left: 10,right: 10),
             height: 35,

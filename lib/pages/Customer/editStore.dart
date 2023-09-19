@@ -99,7 +99,7 @@ class _EditStoreState extends State<EditStore> {
   _EditStoreState({required this.old_data, required this.callbackFunc});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar( title: Text("Meniň sahypam", style: CustomText.appBarText,),),
     body: ListView(
       children: <Widget>[

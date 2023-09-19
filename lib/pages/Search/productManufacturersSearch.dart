@@ -43,7 +43,7 @@ class _ProductManufacturersSerarchState extends State<ProductManufacturersSerarc
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
       body: Column(
 
       children: <Widget>[

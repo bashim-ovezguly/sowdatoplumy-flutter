@@ -121,7 +121,7 @@ class _AddCarState extends State<AddCar> {
   _AddCarState({required this.customer_id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar( title: const Text("Meniň sahypam", style: CustomText.appBarText,),),
       body: ListView(
         scrollDirection: Axis.vertical,

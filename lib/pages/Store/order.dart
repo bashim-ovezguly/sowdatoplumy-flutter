@@ -58,20 +58,20 @@ class _OrderState extends State<Order> {
   _OrderState({required this.store_name, required this.store_id, required this.delivery_price});
   @override
   Widget build(BuildContext context) {
-    return status ? Scaffold(
+    return status ? Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(title: Text('Sebet'),
        actions: [
-              Badge(
-                badgeColor: Colors.green,
-                badgeContent: Text(item_count.toString(),
-                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                position: BadgePosition(start: 30, bottom: 30),
-                child: IconButton(
-                  onPressed: () {
-                  },
-                  icon: const Icon(Icons.shopping_cart),
-                ),
-              ),
+              // Badge(
+              //   badgeColor: Colors.green,
+              //   badgeContent: Text(item_count.toString(),
+              //     style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+              //   position: BadgePosition(start: 30, bottom: 30),
+              //   child: IconButton(
+              //     onPressed: () {
+              //     },
+              //     icon: const Icon(Icons.shopping_cart),
+              //   ),
+              // ),
               const SizedBox(
                 width: 20.0,
               ),

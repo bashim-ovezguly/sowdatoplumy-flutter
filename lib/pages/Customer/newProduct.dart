@@ -69,7 +69,7 @@ class _NewProductState extends State<NewProduct> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar( title: Text("Meniň sahypam", style: CustomText.appBarText,),),
       body: ListView(
         children: <Widget>[

@@ -103,9 +103,9 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
         type: QuickAlertType.info);
     }
 
-    return Scaffold(
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
-        title: Text('Giden sargyt: ' + widget.order_id.toString()),
+        title: Text('Giden sargyt: ' + widget.order_id.toString(), style: TextStyle(color: CustomColors.appColorWhite)),
         actions: [
         PopupMenuButton<String>(
               itemBuilder: (context) {

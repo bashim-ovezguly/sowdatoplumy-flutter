@@ -86,7 +86,7 @@ class _AutoPartsSearchState extends State<AutoPartsSearch> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
       body: ListView(
       scrollDirection: Axis.vertical,
       children: <Widget>[

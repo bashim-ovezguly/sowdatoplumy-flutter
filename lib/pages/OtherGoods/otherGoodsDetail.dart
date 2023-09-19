@@ -60,7 +60,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
   @override
   Widget build(BuildContext context) {
     return status
-        ? Scaffold(
+        ? Scaffold(backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: Text(
                 title,

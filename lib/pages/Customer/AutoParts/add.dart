@@ -126,7 +126,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
   
   _AutoPartsAddState({required this.customer_id});
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar( title: Text("Meniň sahypam", style: CustomText.appBarText,),),
       body: ListView(
         scrollDirection: Axis.vertical,

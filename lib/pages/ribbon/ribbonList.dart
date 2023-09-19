@@ -42,8 +42,8 @@ class _RibbonListState extends State<RibbonList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Söwda lentasy')),
+    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+      appBar: AppBar(title: Text('Söwda lentasy', style: TextStyle(color: CustomColors.appColorWhite))),
       body: RefreshIndicator(
                color: Colors.white,
                 backgroundColor: CustomColors.appColors,
@@ -98,9 +98,6 @@ class _RibbonListState extends State<RibbonList> {
                             backgroundImage: NetworkImage(baseurl+ data[index]['customer_photo'],
                             ),
                           )
-                          
-                          
-                          
                         ),
                         SizedBox(width: 5),
                         GestureDetector(

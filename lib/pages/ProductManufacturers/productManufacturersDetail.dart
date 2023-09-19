@@ -54,7 +54,7 @@ class _ProductManufacturersDetailState extends State<ProductManufacturersDetail>
   _ProductManufacturersDetailState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return status ? Scaffold(
+    return status ? Scaffold(backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: const Text("Önüm öndürijiler", style: CustomText.appBarText,),
         actions: [],),

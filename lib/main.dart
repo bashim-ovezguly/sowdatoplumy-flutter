@@ -45,7 +45,13 @@ Future<void> main() async {
         ],
         child: MaterialApp(  
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(appBarTheme: const AppBarTheme(color: CustomColors.appColors)),
+          theme: ThemeData(
+            textTheme: TextTheme().apply(
+                bodyColor: const Color.fromARGB(255, 255, 255, 255), 
+                displayColor: const Color.fromARGB(255, 255, 255, 255), 
+              ),
+            appBarTheme: AppBarTheme(backgroundColor: CustomColors.appColors, iconTheme: IconThemeData(color: Colors.white)),
+            ),
             routes: {
             '/': (context) => const Home(),
             '/services/list' : (context) => ServicesList(),
