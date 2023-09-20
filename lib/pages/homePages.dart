@@ -67,6 +67,7 @@ class _HomeState extends State<Home> {
     });
     final completer = Completer();
     final t = Timer(Duration(seconds: 5), () => completer.complete());
+      print(t);
     await completer.future;
     setState(() {
       status = false;

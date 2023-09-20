@@ -150,6 +150,7 @@ class _StoreState extends State<Store> {
     });
     final completer = Completer();
     final t = Timer(Duration(seconds: 5), () => completer.complete());
+      print(t);
     await completer.future;
     setState(() {
       if (determinate == false) {

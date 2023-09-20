@@ -46,6 +46,7 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
       setState(() {status = true;});
       final completer = Completer();
       final t = Timer(Duration(seconds: 5), () => completer.complete());
+      print(t);
       await completer.future;
       setState(() {if (determinate==false){status = false;}});
   }
