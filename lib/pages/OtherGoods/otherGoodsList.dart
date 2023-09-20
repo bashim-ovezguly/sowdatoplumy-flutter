@@ -464,8 +464,9 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
 
   void getproductlist() async {
 
-    var sort = Provider.of<UserInfo>(context, listen: false).sort;
-    var sort_value = "";    
+        var sort = Provider.of<UserInfo>(context, listen: false).sort;
+    var sort_value = "";
+    print(sort_value);    
     if (int.parse(sort)==2){sort_value = 'sort=price';}
     if (int.parse(sort)==3){sort_value = 'sort=-price';}
     if (int.parse(sort)==4){sort_value = 'sort=id';}

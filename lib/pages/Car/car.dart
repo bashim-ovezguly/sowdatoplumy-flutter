@@ -477,8 +477,9 @@ class _CarState extends State<Car> {
   }
 
   void getcarlist() async {
-    var sort = Provider.of<UserInfo>(context, listen: false).sort;
+        var sort = Provider.of<UserInfo>(context, listen: false).sort;
     var sort_value = "";
+    print(sort_value);
     if (int.parse(sort) == 2) {
       sort_value = 'sort=price';
     }
