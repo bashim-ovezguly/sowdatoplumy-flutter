@@ -20,7 +20,7 @@ class _RegionWidgetState extends State<RegionWidget> {
     int _selectedIndex = 6;
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return AlertDialog(backgroundColor: CustomColors.appColorWhite,
       title: Row(
         children: <Widget>[
           Text("Welaýatlar", style: TextStyle(color: CustomColors.appColors),),

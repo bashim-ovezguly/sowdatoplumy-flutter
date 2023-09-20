@@ -135,7 +135,7 @@ class _EditCarState extends State<EditCar> {
   _EditCarState({required this.old_data, required this.callbackFunc});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       appBar: AppBar( title: const Text("Meniň sahypam", style: CustomText.appBarText,),),
       body: ListView(
         scrollDirection: Axis.vertical,

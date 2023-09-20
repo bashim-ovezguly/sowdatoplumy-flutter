@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/dB/colors.dart';
 
 
 class ErrorAlert extends StatefulWidget {
@@ -13,6 +14,7 @@ class _ErrorAlertState extends State<ErrorAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: CustomColors.appColorWhite,
       content: Container(
         width: 100,
         height: 100,

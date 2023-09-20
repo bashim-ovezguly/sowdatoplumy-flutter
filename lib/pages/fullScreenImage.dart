@@ -42,7 +42,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
           });
     }
 
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       body: Container(
           color: Colors.black,
           child: Column(children: <Widget>[

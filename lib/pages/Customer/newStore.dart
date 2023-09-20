@@ -101,7 +101,7 @@ class _NewStoreState extends State<NewStore> {
   @override
   Widget build(BuildContext context) {
   
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
        key: _scaffoldKey,
       appBar: AppBar( title: Text("Meniň sahypam", style: CustomText.appBarText,),),
     body: ListView(

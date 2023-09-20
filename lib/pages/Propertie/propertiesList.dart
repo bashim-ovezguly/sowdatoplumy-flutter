@@ -78,7 +78,6 @@ class _PropertiesState extends State<Properties> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
-            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: const Text(
                 "Emläkler",

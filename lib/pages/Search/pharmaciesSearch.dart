@@ -36,7 +36,7 @@ class _PharmaciesSerachState extends State<PharmaciesSerach> {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       body: Column(
 
       children: <Widget>[

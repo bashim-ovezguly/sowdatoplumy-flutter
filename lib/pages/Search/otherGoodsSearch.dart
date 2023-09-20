@@ -59,7 +59,7 @@ class _OtherGoodsSearchState extends State<OtherGoodsSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       body: Column(
 
       children: <Widget>[

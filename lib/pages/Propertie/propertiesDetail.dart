@@ -56,7 +56,7 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
   _PropertiesDetailState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return status ? Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return status ? Scaffold(
       appBar: AppBar(title: const Text("Emläkler", style: CustomText.appBarText)),
       body: RefreshIndicator(
         color: Colors.white,

@@ -55,7 +55,7 @@ class _ServiceSearchListState extends State<ServiceSearchList> {
   _ServiceSearchListState({required this.params});
   @override
   Widget build(BuildContext context) {
-    return status ? Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return status ? Scaffold(
       appBar: AppBar(
         title: const Text('Gözleg', style: CustomText.appBarText,),
       ),

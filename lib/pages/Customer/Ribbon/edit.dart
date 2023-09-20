@@ -94,7 +94,7 @@ class _MyRibbonEditState extends State<MyRibbonEdit> {
         });
     }
 
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       appBar: AppBar(title: Text('Söwda lenta - 12 üýtget')),
       body: determinate
           ? ListView(

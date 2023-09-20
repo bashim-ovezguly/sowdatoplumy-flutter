@@ -23,7 +23,7 @@ class _StoreDetailState extends State<StoreDetail> {
   int _current = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       appBar: AppBar(title: Text("Dükanlar", style: CustomText.appBarText,),),
       body: CustomScrollView(
         slivers: [

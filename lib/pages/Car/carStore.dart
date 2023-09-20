@@ -31,6 +31,7 @@ class _CarStoreState extends State<CarStore> {
   bool determinate = false;
   bool slider_img = true;
   bool status = true;
+  String titleAppBar = "";
 
   void initState() {
     timers();
@@ -51,9 +52,9 @@ class _CarStoreState extends State<CarStore> {
   _CarStoreState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return status? Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return status? Scaffold(
       appBar: AppBar(
-        title: data['model']!=null && data['model']!=''? Text(data['model'].toString(), style: CustomText.appBarText): Text('')),
+        title: Text(titleAppBar, style: CustomText.appBarText)),
       body: RefreshIndicator(
         color: Colors.white,
         backgroundColor: CustomColors.appColors,
@@ -73,11 +74,10 @@ class _CarStoreState extends State<CarStore> {
             clipBehavior: Clip.hardEdge,
             children: [
               Container(
-                padding: const EdgeInsets.all(5),
                 child: GestureDetector(
                   child:  CarouselSlider(
                     options: CarouselOptions(
-                      height: 200,
+                      height: 220,
                       viewportFraction: 1,
                       initialPage: 0,
                       enableInfiniteScroll: true,
@@ -97,7 +97,7 @@ class _CarStoreState extends State<CarStore> {
                       child: Center(
                           child: ClipRect(
                             child: Container(
-                              height: 200,
+                              height: 220,
                               width: double.infinity,
                               child:  FittedBox(
                                 fit: BoxFit.cover,
@@ -458,6 +458,14 @@ class _CarStoreState extends State<CarStore> {
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
         data  = json;
+        if (data['model']!="" && data['model']!=null){
+          titleAppBar = titleAppBar + data['model'];
+        }
+        if (data['mark']!="" && data['mark']!=null){
+         
+          titleAppBar = titleAppBar + " " + data['mark'];
+        }
+
         baseurl =  server_url.get_server_url();
         // ignore: unused_local_variable
         var i;

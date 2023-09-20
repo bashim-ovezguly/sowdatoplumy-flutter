@@ -35,7 +35,7 @@ class _DeleteAlertState extends State<DeleteAlert> {
       {required this.action, required this.id, required this.callbackFunc});
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return AlertDialog(backgroundColor: CustomColors.appColorWhite,
       title: Row(
         children: [
           Text(
@@ -140,7 +140,7 @@ class _DeletePhoneAlertState extends State<DeletePhoneAlert> {
   _DeletePhoneAlertState({required this.id, required this.callbackFunc});
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return AlertDialog(backgroundColor: CustomColors.appColorWhite,
       title: Row(
         children: [
           Text(

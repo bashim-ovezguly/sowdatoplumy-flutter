@@ -60,7 +60,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
   @override
   Widget build(BuildContext context) {
     return status
-        ? Scaffold(backgroundColor: CustomColors.appColorWhite,
+        ? Scaffold(
             appBar: AppBar(
               title: const Text(
                 "Hyzmatlar",

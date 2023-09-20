@@ -77,7 +77,7 @@ class _AutoPartsState extends State<AutoParts> {
   @override
   Widget build(BuildContext context) {
     return status
-        ? Scaffold(backgroundColor: CustomColors.appColorWhite,
+        ? Scaffold(
             appBar: AppBar(
               title: const Text(
                 "Awtoşaýlar",

@@ -29,6 +29,7 @@ class _LocationWidgetState extends State<LocationWidget> {
   @override
   Widget build(BuildContext context) {
     return determinate ? AlertDialog(
+      backgroundColor: CustomColors.appColorWhite,
       title: Column(
         children: [
           Row(

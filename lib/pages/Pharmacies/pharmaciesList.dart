@@ -81,7 +81,7 @@ class _PharmaciesListState extends State<PharmaciesList> {
   @override
   Widget build(BuildContext context) {
     return status
-        ? Scaffold(backgroundColor: CustomColors.appColorWhite,
+        ? Scaffold(
             appBar: AppBar(
               title: const Text(
                 "Dermanhanalar",

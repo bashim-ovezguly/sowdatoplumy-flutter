@@ -54,7 +54,7 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       appBar: AppBar(title: const Text("Ulgama ýazyl", style: CustomText.appBarText,),),
       body: Align(
         alignment: Alignment.center,

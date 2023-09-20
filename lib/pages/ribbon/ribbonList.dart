@@ -42,7 +42,7 @@ class _RibbonListState extends State<RibbonList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       appBar: AppBar(title: Text('Söwda lentasy', style: TextStyle(color: CustomColors.appColorWhite))),
       body: RefreshIndicator(
                color: Colors.white,

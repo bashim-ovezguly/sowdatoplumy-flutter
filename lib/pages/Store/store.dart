@@ -182,7 +182,7 @@ class _StoreState extends State<Store> {
   @override
   Widget build(BuildContext context) {
     return status
-        ? Scaffold(backgroundColor: CustomColors.appColorWhite,
+        ? Scaffold(
             appBar: AppBar(
               title: Text(title, style: CustomText.appBarText),
               actions: [

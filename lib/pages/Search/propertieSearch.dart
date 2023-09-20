@@ -61,7 +61,7 @@ class _PropertieSearchState extends State<PropertieSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       body: Column(
 
       children: <Widget>[

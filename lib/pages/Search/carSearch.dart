@@ -87,7 +87,7 @@ class _CarSerachState extends State<CarSerach> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       body: ListView(
       scrollDirection: Axis.vertical,
       children: <Widget>[

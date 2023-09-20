@@ -77,7 +77,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return status == false
         ? Scaffold(
-            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
                 title: Column(
                   children: [
@@ -166,7 +165,7 @@ class _HomeState extends State<Home> {
                               childCount: 1,
                               (BuildContext context, int index) {
                                 return Container(
-                                  margin: const EdgeInsets.all(10),
+                                  margin: EdgeInsets.only(bottom: 10),
                                   color: Colors.black12,
                                   child: ImageSlideshow(
                                     indicatorColor: CustomColors.appColors,
@@ -228,112 +227,57 @@ class _HomeState extends State<Home> {
                                 delegate: SliverChildBuilderDelegate(
                               childCount: 1,
                               (BuildContext context, int index) {
-                                return Container(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10),
-                                    child: Row(children: <Widget>[
-                                      Expanded(
+                                return ClipRRect(
+                                  child: Container(
+                                      margin:
+                                          EdgeInsets.only(left: 5, right: 5),
+                                      child: Row(children: <Widget>[
+                                        Expanded(
+                                            child: ClipRRect(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20.0)),
                                           child: Container(
-                                        height: 180,
-                                        color: Colors.black12,
-                                        child: ImageSlideshow(
-                                          width: double.infinity,
-                                          initialPage: 0,
-                                          indicatorColor:
-                                              CustomColors.appColors,
-                                          indicatorBackgroundColor: Colors.grey,
-                                          onPageChanged: (value) {},
-                                          autoPlayInterval: 5555,
-                                          isLoop: true,
-                                          children: [
-                                            if (dataSlider2.length == 0)
-                                              ClipRect(
-                                                child: Container(
-                                                  height: 200,
-                                                  width: double.infinity,
-                                                  child: FittedBox(
-                                                    fit: BoxFit.cover,
-                                                    child: Image.asset(
-                                                        'assets/images/default.jpg'),
-                                                  ),
-                                                ),
-                                              ),
-                                            for (var item in dataSlider2)
-                                              if (item['img'] != null &&
-                                                  item['img'] != '')
-                                                GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (context) =>
-                                                                      AdPage(
-                                                                        id: item['id']
-                                                                            .toString(),
-                                                                      )));
-                                                    },
-                                                    child: ClipRect(
-                                                      child: Container(
-                                                        height: 200,
-                                                        width: double.infinity,
-                                                        child: FittedBox(
-                                                          fit: BoxFit.cover,
-                                                          child: Image.network(
-                                                            baseurl +
-                                                                item['img'],
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ))
-                                          ],
-                                        ),
-                                      )),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Expanded(
-                                          child: Container(
-                                        height: 180,
-                                        color: Colors.black12,
-                                        child: ImageSlideshow(
-                                          width: double.infinity,
-                                          initialPage: 0,
-                                          indicatorColor:
-                                              CustomColors.appColors,
-                                          indicatorBackgroundColor: Colors.grey,
-                                          onPageChanged: (value) {},
-                                          autoPlayInterval: 4444,
-                                          isLoop: true,
-                                          children: [
-                                            if (dataSlider3.length == 0)
-                                              ClipRect(
-                                                  child: Container(
+                                            height: 180,
+                                            color: Colors.black12,
+                                            child: ImageSlideshow(
+                                              width: double.infinity,
+                                              initialPage: 0,
+                                              indicatorColor:
+                                                  CustomColors.appColors,
+                                              indicatorBackgroundColor:
+                                                  Colors.grey,
+                                              onPageChanged: (value) {},
+                                              autoPlayInterval: 5555,
+                                              isLoop: true,
+                                              children: [
+                                                if (dataSlider2.length == 0)
+                                                  ClipRect(
+                                                    child: Container(
                                                       height: 200,
                                                       width: double.infinity,
                                                       child: FittedBox(
                                                         fit: BoxFit.cover,
                                                         child: Image.asset(
                                                             'assets/images/default.jpg'),
-                                                      ))),
-                                            for (var item in dataSlider3)
-                                              if (item['img'] != null &&
-                                                  item['img'] != '')
-                                                GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (context) =>
-                                                                      AdPage(
-                                                                        id: item['id']
-                                                                            .toString(),
-                                                                      )));
-                                                    },
-                                                    child: ClipRect(
-                                                        child: Container(
+                                                      ),
+                                                    ),
+                                                  ),
+                                                for (var item in dataSlider2)
+                                                  if (item['img'] != null &&
+                                                      item['img'] != '')
+                                                    GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          AdPage(
+                                                                            id: item['id'].toString(),
+                                                                          )));
+                                                        },
+                                                        child: ClipRect(
+                                                          child: Container(
                                                             height: 200,
                                                             width:
                                                                 double.infinity,
@@ -346,11 +290,83 @@ class _HomeState extends State<Home> {
                                                                 fit: BoxFit
                                                                     .cover,
                                                               ),
-                                                            ))))
-                                          ],
+                                                            ),
+                                                          ),
+                                                        ))
+                                              ],
+                                            ),
+                                          ),
+                                        )),
+                                        SizedBox(
+                                          width: 5,
                                         ),
-                                      )),
-                                    ]));
+                                        Expanded(
+                                            child: ClipRRect(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20.0)),
+                                          child: Container(
+                                            height: 180,
+                                            color: Colors.black12,
+                                            child: ImageSlideshow(
+                                              width: double.infinity,
+                                              initialPage: 0,
+                                              indicatorColor:
+                                                  CustomColors.appColors,
+                                              indicatorBackgroundColor:
+                                                  Colors.grey,
+                                              onPageChanged: (value) {},
+                                              autoPlayInterval: 4444,
+                                              isLoop: true,
+                                              children: [
+                                                if (dataSlider3.length == 0)
+                                                  ClipRect(
+                                                      child: Container(
+                                                          height: 200,
+                                                          width:
+                                                              double.infinity,
+                                                          child: FittedBox(
+                                                            fit: BoxFit.cover,
+                                                            child: Image.asset(
+                                                                'assets/images/default.jpg'),
+                                                          ))),
+                                                for (var item in dataSlider3)
+                                                  if (item['img'] != null &&
+                                                      item['img'] != '')
+                                                    GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          AdPage(
+                                                                            id: item['id'].toString(),
+                                                                          )));
+                                                        },
+                                                        child: ClipRect(
+                                                            child: Container(
+                                                                height: 200,
+                                                                width: double
+                                                                    .infinity,
+                                                                child:
+                                                                    FittedBox(
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  child: Image
+                                                                      .network(
+                                                                    baseurl +
+                                                                        item[
+                                                                            'img'],
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                ))))
+                                              ],
+                                            ),
+                                          ),
+                                        )),
+                                      ])),
+                                );
                               },
                             )),
                             SliverList(
@@ -368,19 +384,17 @@ class _HomeState extends State<Home> {
                                                 )));
                                   },
                                   child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 10, right: 10, top: 10),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Color.fromARGB( 255, 153, 153, 153),
-                                            blurRadius: 2,
-                                            offset: Offset(0.0, 0.75)
-                                          ),
-                                        ],
-                                      ),
-                                      child: Container(
+                                    height: 110,
+                                    child: Card(
+                                      color: CustomColors.appColorWhite,
+                                      shadowColor: const Color.fromARGB(
+                                          255, 200, 198, 198),
+                                      surfaceTintColor:
+                                          CustomColors.appColorWhite,
+                                      elevation: 5,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                        child: Container(
                                           height: 110,
                                           child: Row(children: <Widget>[
                                             Expanded(
@@ -488,7 +502,11 @@ class _HomeState extends State<Home> {
                                                                               14)))),
                                                           SizedBox(height: 10)
                                                         ])))
-                                          ]))));
+                                          ]),
+                                        ),
+                                      ),
+                                    ),
+                                  ));
                             }))
                           ])
                     : CustomProgressIndicator(funcInit: initState)),

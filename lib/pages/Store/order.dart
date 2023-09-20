@@ -58,7 +58,7 @@ class _OrderState extends State<Order> {
   _OrderState({required this.store_name, required this.store_id, required this.delivery_price});
   @override
   Widget build(BuildContext context) {
-    return status ? Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return status ? Scaffold(
       appBar: AppBar(title: Text('Sebet'),
        actions: [
               // Badge(

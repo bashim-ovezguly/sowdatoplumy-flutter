@@ -53,7 +53,7 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
   _PharmacieFirstState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return status ? Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return status ? Scaffold(
       appBar: AppBar(
         title: const Text("Dermanhanalar", style: CustomText.appBarText,),
         actions: [

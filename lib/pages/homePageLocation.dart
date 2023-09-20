@@ -30,6 +30,7 @@ class _LocationWidgetState extends State<LocationWidget> {
   @override
   Widget build(BuildContext context) {
     return determinate ? AlertDialog(
+      
       title: Column(
         children: [
           Row(

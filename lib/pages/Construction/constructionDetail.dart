@@ -51,7 +51,7 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
   _ConstructionDetailState({required this.id});
   @override
   Widget build(BuildContext context) {
-    return status? Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return status? Scaffold(
 
       appBar: AppBar(
         title: const Text("Gurluşyk harytlar", style: CustomText.appBarText,),

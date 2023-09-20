@@ -69,7 +69,7 @@ class _RibbonListAddState extends State<RibbonListAdd> {
           type: QuickAlertType.error);
     }
 
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       appBar: AppBar(title: Text('Täze lenta goşmak')),
       body: determinate? ListView(
         children: [

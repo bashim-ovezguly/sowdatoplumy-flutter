@@ -76,7 +76,6 @@ class _CarState extends State<Car> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
-            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: const Text(
                 "Awtoulaglar",
@@ -134,12 +133,11 @@ class _CarState extends State<Car> {
                                 clipBehavior: Clip.hardEdge,
                                 children: [
                                   Container(
-                                    margin: const EdgeInsets.all(10),
-                                    height: 200,
+                                    height: 220,
                                     color: Colors.black12,
                                     child: CarouselSlider(
                                       options: CarouselOptions(
-                                          height: 200,
+                                          height: 220,
                                           viewportFraction: 1,
                                           initialPage: 3,
                                           enableInfiniteScroll: true,
@@ -183,7 +181,7 @@ class _CarState extends State<Car> {
                                                     children: [
                                                       ClipRect(
                                                         child: Container(
-                                                          height: 200,
+                                                          height: 220,
                                                           width:
                                                               double.infinity,
                                                           child: FittedBox(
@@ -240,198 +238,218 @@ class _CarState extends State<Car> {
                                                 id: data[index]['id']
                                                     .toString())));
                                   },
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 5, right: 5, top: 8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      boxShadow: [
-                                         BoxShadow(
-                                            color: Color.fromARGB( 255, 153, 153, 153),
-                                            blurRadius: 2,
-                                            offset: Offset(0.0, 0.75)
-                                          ),
-                                      ],
-                                    ),
-                                    child: Container(
-                                      height: 110,
-                                      child: Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                              flex: 1,
-                                              child: ClipRect(
-                                                child: Container(
-                                                  height: 110,
-                                                  child: FittedBox(
-                                                    fit: BoxFit.cover,
-                                                    child: data[index]['img'] !=
-                                                            ''
-                                                        ? Image.network(
-                                                            baseurl +
-                                                                data[index]
-                                                                        ['img']
-                                                                    .toString(),
-                                                          )
-                                                        : Image.asset(
-                                                            'assets/images/default.jpg',
-                                                          ),
-                                                  ),
-                                                ),
-                                              )),
-                                          Expanded(
-                                            flex: 2,
-                                            child: Container(
-                                              color: CustomColors.appColors,
-                                              margin: EdgeInsets.only(left: 2),
-                                              padding: const EdgeInsets.all(5),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                  child: 
+                                  Container(
+                                    height: 110,
+                                    child: Card(
+                                      color: CustomColors.appColorWhite,
+                                      shadowColor: const Color.fromARGB(255, 200, 198, 198),
+                                      surfaceTintColor: CustomColors.appColorWhite,
+                                      elevation: 5,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                        child: Container(
+                                              height: 110,
+                                              child: Row(
                                                 children: <Widget>[
                                                   Expanded(
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Text(
-                                                        data[index]['mark']
-                                                                .toString() +
-                                                            " " +
-                                                            data[index]['model']
-                                                                .toString() +
-                                                            " " +
-                                                            data[index]['year']
-                                                                .toString(),
-                                                        style: CustomText
-                                                            .itemTextBold,
+                                                      flex: 1,
+                                                      child: ClipRect(
+                                                        child: Container(
+                                                          height: 110,
+                                                          child: FittedBox(
+                                                            fit: BoxFit.cover,
+                                                            child: data[index]
+                                                                        ['img'] !=
+                                                                    ''
+                                                                ? Image.network(
+                                                                    baseurl +
+                                                                        data[index]
+                                                                                [
+                                                                                'img']
+                                                                            .toString(),
+                                                                  )
+                                                                : Image.asset(
+                                                                    'assets/images/default.jpg',
+                                                                  ),
+                                                          ),
+                                                        ),
+                                                      )),
+                                                  Expanded(
+                                                    flex: 2,
+                                                    child: Container(
+                                                      color:
+                                                          CustomColors.appColors,
+                                                      margin: EdgeInsets.only(
+                                                          left: 2),
+                                                      padding:
+                                                          const EdgeInsets.all(5),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            child: Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: Text(
+                                                                data[index][
+                                                                            'mark']
+                                                                        .toString() +
+                                                                    " " +
+                                                                    data[index][
+                                                                            'model']
+                                                                        .toString() +
+                                                                    " " +
+                                                                    data[index][
+                                                                            'year']
+                                                                        .toString(),
+                                                                style: CustomText
+                                                                    .itemTextBold,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                              child: Align(
+                                                                  alignment: Alignment
+                                                                      .centerLeft,
+                                                                  child: Text(
+                                                                      data[index][
+                                                                              'location']
+                                                                          .toString(),
+                                                                      style: CustomText
+                                                                          .itemText))),
+                                                          Expanded(
+                                                                  child: Row(
+                                                                      children: [
+                                                                        Text(
+                                                                            data[index]['price']
+                                                                                .toString(),
+                                                                            style:
+                                                                                CustomText.itemText),
+                                                                        Spacer(),
+                                                                        Text(
+                                                                            data[index]['delta_time']
+                                                                                .toString(),
+                                                                            style:
+                                                                                CustomText.itemText)
+                                                                      ])),
+
+                                                          if (data[index][
+                                                                      'store_id'] ==
+                                                                  null ||
+                                                              data[index][
+                                                                      'store_id'] ==
+                                                                  '')
+                                                            Expanded(
+                                                                child: Align(
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: Row(
+                                                                children: <Widget>[
+                                                                  Text('Kredit',
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .white,
+                                                                          fontSize:
+                                                                              12)),
+                                                                  data[index][
+                                                                          'credit']
+                                                                      ? Icon(
+                                                                          Icons
+                                                                              .check,
+                                                                          color: Colors
+                                                                              .green,
+                                                                        )
+                                                                      : Icon(
+                                                                          Icons
+                                                                              .close,
+                                                                          color: Colors
+                                                                              .red,
+                                                                        ),
+                                                                  SizedBox(
+                                                                    width: 5,
+                                                                  ),
+                                                                  Text('Obmen',
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .white,
+                                                                          fontSize:
+                                                                              12)),
+                                                                  data[index]
+                                                                          ['swap']
+                                                                      ? Icon(
+                                                                          Icons
+                                                                              .check,
+                                                                          color: Colors
+                                                                              .green,
+                                                                        )
+                                                                      : Icon(
+                                                                          Icons
+                                                                              .close,
+                                                                          color: Colors
+                                                                              .red,
+                                                                        ),
+                                                                  SizedBox(
+                                                                    width: 5,
+                                                                  ),
+                                                                  Text('Nagt däl',
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .white,
+                                                                          fontSize:
+                                                                              12)),
+                                                                  data[index][
+                                                                          'none_cash_pay']
+                                                                      ? Icon(
+                                                                          Icons
+                                                                              .check,
+                                                                          color: Colors
+                                                                              .green,
+                                                                        )
+                                                                      : Icon(
+                                                                          Icons
+                                                                              .close,
+                                                                          color: Colors
+                                                                              .red,
+                                                                        ),
+                                                                ],
+                                                              ),
+                                                            ))
+                                                          else
+                                                            Expanded(
+                                                                child: Align(
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .centerLeft,
+                                                                    child:
+                                                                        ElevatedButton(
+                                                                      onPressed:
+                                                                          () {},
+                                                                      child: Text(
+                                                                        data[index]
+                                                                            [
+                                                                            'store_name'],
+                                                                        maxLines:
+                                                                            1,
+                                                                        overflow:
+                                                                            TextOverflow
+                                                                                .ellipsis,
+                                                                        style: CustomText
+                                                                            .itemText,
+                                                                      ),
+                                                                    )))
+                                                        ],
                                                       ),
                                                     ),
                                                   ),
-                                                  Expanded(
-                                                      child: Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Text(
-                                                              data[index][
-                                                                      'location']
-                                                                  .toString(),
-                                                              style: CustomText
-                                                                  .itemText))),
-                                                  Expanded(
-                                                      child: Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Row(children: [
-                                                            Text(
-                                                                data[index][
-                                                                        'price']
-                                                                    .toString(),
-                                                                style: CustomText
-                                                                    .itemText),
-                                                            Spacer(),
-                                                            Text(
-                                                                data[index][
-                                                                        'delta_time']
-                                                                    .toString(),
-                                                                style: CustomText
-                                                                    .itemText)
-                                                          ]))),
-                                                  if (data[index]['store_id'] ==
-                                                          null ||
-                                                      data[index]['store_id'] ==
-                                                          '')
-                                                    Expanded(
-                                                        child: Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Row(
-                                                        children: <Widget>[
-                                                          Text('Kredit',
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize:
-                                                                      12)),
-                                                          data[index]['credit']
-                                                              ? Icon(
-                                                                  Icons.check,
-                                                                  color: Colors
-                                                                      .green,
-                                                                )
-                                                              : Icon(
-                                                                  Icons.close,
-                                                                  color: Colors
-                                                                      .red,
-                                                                ),
-                                                          SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          Text('Obmen',
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize:
-                                                                      12)),
-                                                          data[index]['swap']
-                                                              ? Icon(
-                                                                  Icons.check,
-                                                                  color: Colors
-                                                                      .green,
-                                                                )
-                                                              : Icon(
-                                                                  Icons.close,
-                                                                  color: Colors
-                                                                      .red,
-                                                                ),
-                                                          SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          Text('Nagt däl',
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize:
-                                                                      12)),
-                                                          data[index][
-                                                                  'none_cash_pay']
-                                                              ? Icon(
-                                                                  Icons.check,
-                                                                  color: Colors
-                                                                      .green,
-                                                                )
-                                                              : Icon(
-                                                                  Icons.close,
-                                                                  color: Colors
-                                                                      .red,
-                                                                ),
-                                                        ],
-                                                      ),
-                                                    ))
-                                                  else
-                                                    Expanded(
-                                                        child: Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child:
-                                                                ElevatedButton(
-                                                              onPressed: () {},
-                                                              child: Text(
-                                                                data[index][
-                                                                    'store_name'],
-                                                                maxLines: 1,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                style: CustomText
-                                                                    .itemText,
-                                                              ),
-                                                            )))
                                                 ],
                                               ),
                                             ),
-                                          ),
-                                        ],
                                       ),
                                     ),
-                                  ),
+                                  )
                                 );
                               },
                             ),

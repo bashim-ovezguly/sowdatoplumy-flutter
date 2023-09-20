@@ -115,7 +115,7 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
   _OtherGoodsEditState({required this.old_data, required this.callbackFunc, required this.title});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       appBar: AppBar( title: const Text("Meniň sahypam", style: CustomText.appBarText,),),
       body: ListView(
         scrollDirection: Axis.vertical,

@@ -65,7 +65,7 @@ class _GetRealEstateFirstState extends State<GetRealEstateFirst> {
   Widget build(BuildContext context) {
     var user_customer_name =
         Provider.of<UserInfo>(context, listen: false).user_customer_name;
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
         appBar: AppBar(
           title: widget.user_customer_id == ''
               ? Text(

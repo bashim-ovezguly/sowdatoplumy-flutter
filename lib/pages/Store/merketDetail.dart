@@ -122,7 +122,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: _tabCount + 1,
-        child: Scaffold(backgroundColor: CustomColors.appColorWhite,
+        child: Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             title: Text(

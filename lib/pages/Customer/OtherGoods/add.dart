@@ -87,7 +87,7 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
   _OtherGoodsAddState({required this.customer_id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       appBar: AppBar( title: const Text("Meniň sahypam", style: CustomText.appBarText,),),
       body: ListView(
         scrollDirection: Axis.vertical,

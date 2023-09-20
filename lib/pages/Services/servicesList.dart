@@ -74,7 +74,6 @@ class _ServicesListState extends State<ServicesList> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
-            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: const Text(
                 "Hyzmatlar",

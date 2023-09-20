@@ -73,7 +73,6 @@ class _ProductManufacturersState extends State<ProductManufacturers> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
-            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: const Text(
                 "Önüm öndürijiler",

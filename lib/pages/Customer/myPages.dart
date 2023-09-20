@@ -79,7 +79,7 @@ class _MyPagesState extends State<MyPages> {
     }
 
     return status
-        ? Scaffold(backgroundColor: CustomColors.appColorWhite,
+        ? Scaffold(
             appBar: AppBar(
                 title: widget.user_customer_id == ''
                     ? Text(

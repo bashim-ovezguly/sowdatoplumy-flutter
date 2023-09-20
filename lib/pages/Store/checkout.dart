@@ -62,7 +62,7 @@ class _CheckoutState extends State<Checkout> {
         type: QuickAlertType.warning);
     }
 
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       appBar: AppBar(title: Text("Saryt et")),
       body: CustomScrollView(
         slivers: [

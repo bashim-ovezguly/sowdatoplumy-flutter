@@ -51,7 +51,7 @@ class _ProductDetailState extends State<ProductDetail> {
   _ProductDetailState({required this.title, required this.id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
 
       appBar: AppBar(
         title: Text(title, style: CustomText.appBarText,),

@@ -68,7 +68,6 @@ class _ConstructionsListState extends State<ConstructionsList> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
-            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
                 title: Text(
                   'Gurluşyk harytlar',

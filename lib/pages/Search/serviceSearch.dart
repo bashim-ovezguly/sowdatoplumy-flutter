@@ -44,7 +44,7 @@ class _ServiceSearchState extends State<ServiceSearch> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       body: Column(
 
       children: <Widget>[

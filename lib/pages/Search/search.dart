@@ -51,7 +51,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
   
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(length: 6, child: Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return DefaultTabController(length: 6, child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text('Gözleg', style: CustomText.appBarText,),

@@ -17,7 +17,7 @@ class _GetFinanceFirstState extends State<GetFinanceFirst> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       appBar: AppBar(title: const Text("Meniň sahypam", style: CustomText.appBarText,),),
       body: Column(
         children: <Widget>[

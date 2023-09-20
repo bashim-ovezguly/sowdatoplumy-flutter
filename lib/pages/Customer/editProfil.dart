@@ -76,7 +76,7 @@ class _EditProfilState extends State<EditProfil> {
         context: context, 
         type: QuickAlertType.error);
     }
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
         appBar: AppBar(
           title: const Text("Meniň sahypam", style: CustomText.appBarText,),
         ),

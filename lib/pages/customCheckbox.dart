@@ -25,7 +25,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
   _CustomCheckBoxState({required this.callbackFunc});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       body: Container(
         child: Row(
           children: <Widget>[

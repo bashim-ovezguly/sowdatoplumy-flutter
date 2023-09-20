@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState({required this.phone});
   @override
   build(BuildContext context) {
-    return Scaffold(backgroundColor: CustomColors.appColorWhite,
+    return Scaffold(
       appBar: AppBar(title: Text('SMS kody'),),
       
       body: Center(

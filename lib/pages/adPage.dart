@@ -58,7 +58,7 @@ class _AdPageState extends State<AdPage> {
   @override
   Widget build(BuildContext context) {
     return status
-        ? Scaffold(backgroundColor: CustomColors.appColorWhite,
+        ? Scaffold(
             appBar: AppBar(
                 title: data['title_tm'] != null && data['title_tm'] != ''
                     ? Text(data['title_tm'].toString(),
