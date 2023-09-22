@@ -1,10 +1,11 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/Search/autoPartsSearch.dart';
 import 'package:my_app/pages/Search/carSearch.dart';
 import 'package:my_app/pages/Search/otherGoodsSearch.dart';
 import 'package:my_app/pages/Search/outletsSearch.dart';
 import 'package:my_app/pages/Search/pharmaciesSearch.dart';
-import 'package:my_app/pages/Search/productManufacturersSearch.dart';
 import 'package:my_app/pages/Search/propertieSearch.dart';
 import 'package:my_app/pages/Search/serviceSearch.dart';
 

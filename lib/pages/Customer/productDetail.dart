@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
 import '../../dB/textStyle.dart';
-import '../Car/carStore.dart';
 import '../fullScreenSlider.dart';
 import 'OtherGoods/edit.dart';
 import 'deleteAlert.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: override_on_non_overriding_member
+
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/Construction/constructionDetail.dart';
 import 'dart:convert';

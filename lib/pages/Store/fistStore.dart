@@ -21,7 +21,6 @@ class StoreFirst extends StatefulWidget {
 class _StoreFirstState extends State<StoreFirst> {
   final String id ;
   final String title;
-  int _current = 0;
   var baseurl = "";
   var data = {};
   bool status = true;
