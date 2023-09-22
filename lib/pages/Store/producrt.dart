@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable
+// ignore_for_file: unused_local_variable, override_on_non_overriding_member
 
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';

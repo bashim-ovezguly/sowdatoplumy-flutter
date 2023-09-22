@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:dots_indicator/dots_indicator.dart';
