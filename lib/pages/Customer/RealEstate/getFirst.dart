@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'dart:convert';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:http/http.dart' as http;

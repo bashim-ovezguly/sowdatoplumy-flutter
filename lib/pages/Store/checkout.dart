@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, must_be_immutable
 
 import 'dart:convert';
 import 'package:intl/intl.dart';
