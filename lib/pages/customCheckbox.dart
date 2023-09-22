@@ -26,6 +26,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       body: Container(
         child: Row(
           children: <Widget>[

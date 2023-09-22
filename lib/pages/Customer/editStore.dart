@@ -100,6 +100,7 @@ class _EditStoreState extends State<EditStore> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar( title: Text("Meniň sahypam", style: CustomText.appBarText,),),
     body: ListView(
       children: <Widget>[
@@ -525,6 +526,9 @@ class _EditStoreState extends State<EditStore> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
+                              shadowColor: CustomColors.appColorWhite,
+                              surfaceTintColor: CustomColors.appColorWhite,
+                              backgroundColor: CustomColors.appColorWhite,
                               content: Container(
                                     width: 70,
                                     height: 70,
@@ -605,6 +609,9 @@ class _AddPhoneState extends State<AddPhone> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
 
       title: Row(
         children: [

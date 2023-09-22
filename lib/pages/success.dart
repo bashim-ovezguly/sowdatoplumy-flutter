@@ -15,7 +15,11 @@ final Function callbackFunc;
 _SuccessAlertState({required this.action, required this.callbackFunc});
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(backgroundColor: CustomColors.appColorWhite,
+    return AlertDialog(
+            shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
+      
       content: Container(
         width: 200,
         height: 100,

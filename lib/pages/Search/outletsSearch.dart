@@ -56,6 +56,7 @@ class _OutletsSearchState extends State<OutletsSearch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       body: Column(
 
       children: <Widget>[

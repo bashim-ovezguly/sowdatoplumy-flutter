@@ -55,6 +55,7 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
   @override
   Widget build(BuildContext context) {
     return status ? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: const Text("Dermanhanalar", style: CustomText.appBarText,),
         actions: [
@@ -91,11 +92,11 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
             clipBehavior: Clip.hardEdge,
             children: [
               Container(
-                margin: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(bottom: 10),
                 child: GestureDetector(
                   child:  CarouselSlider(
                     options: CarouselOptions(
-                      height: 200,
+                      height:220,
                       viewportFraction: 1,
                       initialPage: 0,
                       enableInfiniteScroll: true,
@@ -115,7 +116,7 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
                       child: Center(
                           child: ClipRect(
                           child: Container(
-                            height: 200,
+                            height:220,
                             width: double.infinity,
                             child:  FittedBox(
                               fit: BoxFit.cover,
@@ -360,8 +361,8 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
                               child: item['img']!=null &&  item['img']!="" ? Image.network(
                                 baseurl + item['img'].toString(),
                                 fit: BoxFit.cover,
-                                height: 200,
-                              ): Image.asset('assets/images/default.jpg', fit: BoxFit.cover, height: 200,)
+                                height:220,
+                              ): Image.asset('assets/images/default.jpg', fit: BoxFit.cover, height:220,)
                             ),
                             Container(
                                 alignment: Alignment.center,

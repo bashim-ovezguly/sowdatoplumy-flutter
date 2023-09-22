@@ -56,6 +56,7 @@ class _ProductManufacturersDetailState extends State<ProductManufacturersDetail>
   @override
   Widget build(BuildContext context) {
     return status ? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: const Text("Önüm öndürijiler", style: CustomText.appBarText,),
         actions: [],),
@@ -81,12 +82,12 @@ class _ProductManufacturersDetailState extends State<ProductManufacturersDetail>
               clipBehavior: Clip.hardEdge,
               children: [
                 Container(
-                  height: 200,
-                  margin: const EdgeInsets.all(10),
+                  margin: const EdgeInsets.only(bottom: 10),
+                  height:220,
                   child: GestureDetector(
                     child:  CarouselSlider(
                       options: CarouselOptions(
-                        height: 200,
+                        height:220,
                         viewportFraction: 1,
                         initialPage: 0,
                         enableInfiniteScroll: true,
@@ -106,7 +107,7 @@ class _ProductManufacturersDetailState extends State<ProductManufacturersDetail>
                         child: Center(
                           child: ClipRect(
                             child: Container(
-                              height: 200,
+                              height:220,
                               width: double.infinity,
                               child:  FittedBox(
                                 fit: BoxFit.cover,

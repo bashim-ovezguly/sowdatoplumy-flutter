@@ -15,6 +15,7 @@ class _CustomProgressIndicatorState extends State<CustomProgressIndicator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       body: Center(
         child: Stack(
           children: [
@@ -54,6 +55,7 @@ class _HomePageProgressIndicatorState extends State<HomePageProgressIndicator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       body: Container(
       color: CustomColors.appColorWhite,
         child: Column(

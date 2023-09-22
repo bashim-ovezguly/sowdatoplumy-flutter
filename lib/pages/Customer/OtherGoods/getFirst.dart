@@ -66,6 +66,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
   Widget build(BuildContext context) {
     var user_customer_name = Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
           title: widget.user_customer_id=='' ? Text(
                 "Meniň sahypam",
@@ -162,7 +163,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                             child: GestureDetector(
                               child: CarouselSlider(
                                 options: CarouselOptions(
-                                    height: 200,
+                                    height:220,
                                     viewportFraction: 1,
                                     initialPage: 0,
                                     enableInfiniteScroll: true,
@@ -191,7 +192,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                                             child: Image.network(
                                               item,
                                               fit: BoxFit.fill,
-                                              height: 200,
+                                              height:220,
                                               width: double.infinity,
                                             ),
                                           )),
@@ -691,6 +692,9 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                   )
             : Container(
                 child: AlertDialog(
+                  shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
                 content: Container(
                   width: 200,
                   height: 100,

@@ -69,6 +69,7 @@ class _FactoriesFirstState extends State<FactoriesFirst> {
   @override
   Widget build(BuildContext context) {
     return status1 ? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -159,12 +160,12 @@ class _FactoriesFirstState extends State<FactoriesFirst> {
               clipBehavior: Clip.hardEdge,
               children: [
                 Container(
-                  height: 200,
+                  height:220,
                   margin: const EdgeInsets.all(10),
                   child: GestureDetector(
                     child:  CarouselSlider(
                       options: CarouselOptions(
-                        height: 200,
+                        height:220,
                         viewportFraction: 1,
                         initialPage: 0,
                         enableInfiniteScroll: true,
@@ -184,7 +185,7 @@ class _FactoriesFirstState extends State<FactoriesFirst> {
                         child: Center(
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(10), // Image border
-                              child: Image.network(item, fit: BoxFit.fill, height: 200,width: double.infinity,),)
+                              child: Image.network(item, fit: BoxFit.fill, height: 220, width: double.infinity,),)
                         ),)).toList(),),
                     onTap: (){ 
                       Navigator.push(context, MaterialPageRoute(builder: (context) => FullScreenSlider(imgList: imgList) )); 
@@ -382,6 +383,9 @@ class _FactoriesFirstState extends State<FactoriesFirst> {
            ):
          Container(
           child: AlertDialog(
+            shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
             content: Container(
               width: 200,
               height: 100,
@@ -450,6 +454,9 @@ class _DeliveryState extends State<Delivery> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       title: Row(
         children: [
           Text('Eltip bermek hyzmaty' ,style: TextStyle(color: CustomColors.appColors),),

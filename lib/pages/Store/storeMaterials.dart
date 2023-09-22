@@ -81,29 +81,32 @@ class _StoreMaterialsState extends State<StoreMaterials> {
                                     id: item['id'].toString())));
                       },
                       child: Card(
-                          elevation: 2,
+                          color: CustomColors.appColorWhite,
+                          shadowColor: const Color.fromARGB(255, 200, 198, 198),
+                          surfaceTintColor: CustomColors.appColorWhite,
+                          elevation: 5,
                           child: Container(
                               height: 180,
                               width: MediaQuery.of(context).size.width / 3 - 10,
                               child: Column(children: [
                                 Container(
                                     alignment: Alignment.topCenter,
-                                    child:
-                                        item['img'] != null && item['img'] != ""
-                                            ? Image.network(
-                                                baseurl + item['img'].toString(),
-                                                fit: BoxFit.cover,
-                                                width: MediaQuery.of(context)
-                                                            .size
-                                                            .width /
-                                                        3 -
-                                                    10,
-                                                height: 130,
-                                              )
-                                            : Image.asset(
-                                                'assets/images/default.jpg',
-                                                height: 200,
-                                              )),
+                                    child: item['img'] != null &&
+                                            item['img'] != ""
+                                        ? Image.network(
+                                            baseurl + item['img'].toString(),
+                                            fit: BoxFit.cover,
+                                            width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    3 -
+                                                10,
+                                            height:120,
+                                          )
+                                        : Image.asset(
+                                            'assets/images/default.jpg',
+                                            height:120,
+                                          )),
                                 Container(
                                     alignment: Alignment.center,
                                     child: Column(

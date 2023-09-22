@@ -9,6 +9,7 @@ import '../../dB/constants.dart';
 import '../../dB/providers.dart';
 import '../../main.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
+import 'package:badges/badges.dart' as badges;
 
 class Checkout extends StatefulWidget {
   var total_price;
@@ -63,7 +64,8 @@ class _CheckoutState extends State<Checkout> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text("Saryt et")),
+          backgroundColor: CustomColors.appColorWhite,
+      appBar: AppBar(title: Text("Saryt et", style: TextStyle(color: CustomColors.appColorWhite), )),
       body: CustomScrollView(
         slivers: [
            SliverList(delegate: SliverChildBuilderDelegate(

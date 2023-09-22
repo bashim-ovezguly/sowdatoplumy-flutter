@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:my_app/dB/colors.dart';
   
   showLoaderDialog(BuildContext context){
-    AlertDialog alert = AlertDialog(backgroundColor: CustomColors.appColorWhite,
+    AlertDialog alert = AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       content: new Row(
         children: [
           CircularProgressIndicator(

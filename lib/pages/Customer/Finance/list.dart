@@ -13,6 +13,7 @@ class _FinanceListState extends State<FinanceList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(title: const Text('Meniň sahypam', style: CustomText.appBarText,),),
       body: Column(
         children: <Widget>[

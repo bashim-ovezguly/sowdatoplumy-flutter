@@ -65,6 +65,7 @@ class _GetCarFirstState extends State<GetCarFirst> {
     var user_customer_name =
         Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
           title: widget.user_customer_id == ''
               ? Text(
@@ -160,7 +161,7 @@ class _GetCarFirstState extends State<GetCarFirst> {
                             child: GestureDetector(
                               child: CarouselSlider(
                                 options: CarouselOptions(
-                                    height: 200,
+                                    height:220,
                                     viewportFraction: 1,
                                     initialPage: 0,
                                     enableInfiniteScroll: true,
@@ -189,7 +190,7 @@ class _GetCarFirstState extends State<GetCarFirst> {
                                             child: Image.network(
                                               item,
                                               fit: BoxFit.cover,
-                                              height: 200,
+                                              height:220,
                                               width: double.infinity,
                                             ),
                                           )),
@@ -871,6 +872,9 @@ class _GetCarFirstState extends State<GetCarFirst> {
                   )
             : Container(
                 child: AlertDialog(
+                  shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
                 content: Container(
                   width: 200,
                   height: 100,
@@ -966,6 +970,9 @@ class _EditAlertState extends State<EditAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       title: Row(
         children: [
           Text(

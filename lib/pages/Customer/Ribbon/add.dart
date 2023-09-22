@@ -70,6 +70,7 @@ class _RibbonListAddState extends State<RibbonListAdd> {
     }
 
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(title: Text('Täze lenta goşmak')),
       body: determinate? ListView(
         children: [

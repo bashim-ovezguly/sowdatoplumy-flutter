@@ -52,6 +52,7 @@ class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
 
       appBar: AppBar(
         title: Text(title, style: CustomText.appBarText,),
@@ -113,7 +114,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 child: GestureDetector(
                   child:  CarouselSlider(
                     options: CarouselOptions(
-                      height: 200,
+                      height:220,
                       viewportFraction: 1,
                       initialPage: 0,
                       enableInfiniteScroll: true,
@@ -133,7 +134,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       child: Center(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10), // Image border
-                            child: Image.network(item, fit: BoxFit.fill, height: 200,width: double.infinity,),)
+                            child: Image.network(item, fit: BoxFit.fill, height: 220, width: double.infinity,),)
                       ),)).toList(),),
                   onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => FullScreenSlider(imgList: imgList) )); },),
               ),
@@ -338,6 +339,9 @@ class _ProductDetailState extends State<ProductDetail> {
 
            Container(
           child: AlertDialog(
+            shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
             content: Container(
               width: 200,
               height: 100,

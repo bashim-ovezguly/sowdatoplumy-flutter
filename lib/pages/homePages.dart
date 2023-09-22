@@ -78,6 +78,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return status == false
         ? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
                 title: Column(
                   children: [
@@ -254,7 +255,7 @@ class _HomeState extends State<Home> {
                                                 if (dataSlider2.length == 0)
                                                   ClipRect(
                                                     child: Container(
-                                                      height: 200,
+                                                      height: 220,
                                                       width: double.infinity,
                                                       child: FittedBox(
                                                         fit: BoxFit.cover,
@@ -279,7 +280,7 @@ class _HomeState extends State<Home> {
                                                         },
                                                         child: ClipRect(
                                                           child: Container(
-                                                            height: 200,
+                                                            height: 220,
                                                             width:
                                                                 double.infinity,
                                                             child: FittedBox(
@@ -322,7 +323,7 @@ class _HomeState extends State<Home> {
                                                 if (dataSlider3.length == 0)
                                                   ClipRect(
                                                       child: Container(
-                                                          height: 200,
+                                                          height: 220,
                                                           width:
                                                               double.infinity,
                                                           child: FittedBox(
@@ -346,7 +347,7 @@ class _HomeState extends State<Home> {
                                                         },
                                                         child: ClipRect(
                                                             child: Container(
-                                                                height: 200,
+                                                                height: 220,
                                                                 width: double
                                                                     .infinity,
                                                                 child:

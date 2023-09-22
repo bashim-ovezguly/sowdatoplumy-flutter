@@ -30,40 +30,45 @@ class _LocationWidgetState extends State<LocationWidget> {
   @override
   Widget build(BuildContext context) {
     return determinate ? AlertDialog(
-      
-      title: Column(
-        children: [
-          Row(
-            children: [
-              Text("Ýerleşýän ýeriňizi saýlaň", style: TextStyle(fontSize: 17, color: CustomColors.appColors),),
-              Spacer(),
-              GestureDetector(
-                child: Icon(Icons.close, color: Colors.red, size: 30,),
-                onTap: (){
-                Navigator.pop(context);
-              },
+      shadowColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      title: Container(
+        color: CustomColors.appColorWhite,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text("Ýerleşýän ýeriňizi saýlaň", style: TextStyle(fontSize: 17, color: CustomColors.appColors),),
+                Spacer(),
+                GestureDetector(
+                  child: Icon(Icons.close, color: Colors.red, size: 30,),
+                  onTap: (){
+                  Navigator.pop(context);
+                },
+              )
+            ],
+            ),
+            if (data[0]!=null && data[0]['parent']!='' && data[0]['parent']!=null)
+            Row(
+              children: [   
+                if (data.length>0 && data[0]['back_id']=='' || data[0]['have_parent']==true )
+                  Container(
+                    child: IconButton(            
+                      icon: Icon(Icons.arrow_back_ios, color:CustomColors.appColors),
+                      onPressed: (){get_locations(data[0]['back_id']);},
+                  )
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      get_locations(data[0]['back_id']);
+                    },
+                    child: Text(data[0]['parent']['name'], style: TextStyle(fontSize: 18, color: CustomColors.appColors)),
+                  )
+              ]
             )
           ],
-          ),
-          if (data[0]!=null && data[0]['parent']!='' && data[0]['parent']!=null)
-          Row(
-            children: [   
-              if (data.length>0 && data[0]['back_id']=='' || data[0]['have_parent']==true )
-                Container(
-                  child: IconButton(            
-                    icon: Icon(Icons.arrow_back_ios, color:CustomColors.appColors),
-                    onPressed: (){get_locations(data[0]['back_id']);},
-                )
-                ),
-                GestureDetector(
-                  onTap: (){
-                    get_locations(data[0]['back_id']);
-                  },
-                  child: Text(data[0]['parent']['name'], style: TextStyle(fontSize: 18, color: CustomColors.appColors)),
-                )
-            ]
-          )
-        ],
+        ),
       ),
       content: Container(
         height: MediaQuery.of(context).size.height * 0.6,

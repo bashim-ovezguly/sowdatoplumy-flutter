@@ -53,6 +53,7 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
   @override
   Widget build(BuildContext context) {
     return status? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
 
       appBar: AppBar(
         title: const Text("Gurluşyk harytlar", style: CustomText.appBarText,),
@@ -78,11 +79,11 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
             clipBehavior: Clip.hardEdge,
             children: [
               Container(
-                margin: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(bottom: 10),
                 child: GestureDetector(
                   child:  CarouselSlider(
                     options: CarouselOptions(
-                      height: 200,
+                      height:220,
                       viewportFraction: 1,
                       initialPage: 0,
                       enableInfiniteScroll: true,
@@ -102,7 +103,7 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
                       child: Center(
                           child: ClipRect(
                           child: Container(
-                            height: 200,
+                            height:220,
                             width: double.infinity,
                             child:  FittedBox(
                               fit: BoxFit.cover,

@@ -57,6 +57,7 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
   @override
   Widget build(BuildContext context) {
     return status? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: const Text("Awtoşaylar", style: CustomText.appBarText,),
         actions:  []
@@ -80,15 +81,14 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
             fit: StackFit.loose,
             clipBehavior: Clip.hardEdge,
             children: [
-
               Container(
-                margin: const EdgeInsets.all(10),
-                height: 200,
+                margin: const EdgeInsets.only(bottom: 10),
+                height:220,
                 color: Colors.white,
                 child: GestureDetector(
                   child: CarouselSlider(
                   options: CarouselOptions(
-                    height: 200,
+                    height:220,
                     viewportFraction: 1,
                     initialPage: 0,
                     enableInfiniteScroll: true,
@@ -112,7 +112,7 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                     child: Center(
                         child: ClipRect(
                           child: Container(
-                            height: 200,
+                            height:220,
                             width: double.infinity,
                             child:  FittedBox(
                               fit: BoxFit.cover,

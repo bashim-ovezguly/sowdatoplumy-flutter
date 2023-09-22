@@ -69,6 +69,7 @@ class _MyServiceListState extends State<MyServiceList> {
         Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return status
         ? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: widget.user_customer_id == ''
                   ? Text(

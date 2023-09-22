@@ -119,7 +119,11 @@ class _StoreProductsState extends State<StoreProducts> {
                                   )));
                     },
                     child: Card(
-                        elevation: 2,
+                      color: CustomColors.appColorWhite,
+                                      shadowColor: const Color.fromARGB(255, 200, 198, 198),
+                                      surfaceTintColor: CustomColors.appColorWhite,
+                                      elevation: 5,
+
                         child: Container(
                             height: 180,
                             width: MediaQuery.of(context).size.width / 3 - 10,
@@ -134,17 +138,19 @@ class _StoreProductsState extends State<StoreProducts> {
                                               MediaQuery.of(context).size.width /
                                                       3 -
                                                   10,
-                                          height: 130,
+                                          height: 120,
                                         )
                                       : Image.asset(
                                           'assets/images/default.jpg',
-                                          height: 200,
+                                          height:120,
                                         )),
+                              
                               Container(
                                   alignment: Alignment.center,
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
+                                      if (item['name']!=null && item['name']!='')
                                       Text(
                                         item['name'].toString(),
                                         maxLines: 1,
@@ -153,6 +159,7 @@ class _StoreProductsState extends State<StoreProducts> {
                                             color: CustomColors.appColors,
                                             overflow: TextOverflow.clip),
                                       ),
+                                      if (item['price']!=null && item['price']!='')
                                       Text(
                                         item['price'].toString(),
                                         maxLines: 1,

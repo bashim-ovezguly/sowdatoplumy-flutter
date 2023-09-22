@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:badges/badges.dart' as badges;
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/textStyle.dart';
@@ -60,19 +60,20 @@ class _OrderState extends State<Order> {
   @override
   Widget build(BuildContext context) {
     return status ? Scaffold(
-      appBar: AppBar(title: Text('Sebet'),
+          backgroundColor: CustomColors.appColorWhite,
+      appBar: AppBar(title: Text('Sebet', style: TextStyle(color: CustomColors.appColorWhite),),
        actions: [
-              // Badge(
-              //   badgeColor: Colors.green,
-              //   badgeContent: Text(item_count.toString(),
-              //     style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-              //   position: BadgePosition(start: 30, bottom: 30),
-              //   child: IconButton(
-              //     onPressed: () {
-              //     },
-              //     icon: const Icon(Icons.shopping_cart),
-              //   ),
-              // ),
+              badges.Badge(
+                badgeColor: Colors.green,
+                badgeContent: Text(item_count.toString(),
+                  style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                position: BadgePosition(start: 30, bottom: 30),
+                child: IconButton(
+                  onPressed: () {
+                  },
+                  icon: const Icon(Icons.shopping_cart),
+                ),
+              ),
               const SizedBox(
                 width: 20.0,
               ),

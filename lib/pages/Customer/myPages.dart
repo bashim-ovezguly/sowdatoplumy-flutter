@@ -81,6 +81,7 @@ class _MyPagesState extends State<MyPages> {
 
     return status
         ? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
                 title: widget.user_customer_id == ''
                     ? Text(
@@ -853,6 +854,9 @@ class _CustomDialogLogoutState extends State<CustomDialogLogout> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

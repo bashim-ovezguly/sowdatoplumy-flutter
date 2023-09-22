@@ -66,7 +66,7 @@ class _PropertiesState extends State<Properties> {
     });
     final completer = Completer();
     final t = Timer(Duration(seconds: 5), () => completer.complete());
-      print(t);
+    print(t);
     await completer.future;
     setState(() {
       if (determinate == false) {
@@ -79,6 +79,7 @@ class _PropertiesState extends State<Properties> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
+            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: const Text(
                 "Emläkler",
@@ -135,12 +136,12 @@ class _PropertiesState extends State<Properties> {
                                     clipBehavior: Clip.hardEdge,
                                     children: [
                                       Container(
-                                        margin: const EdgeInsets.all(10),
-                                        height: 200,
+                                        margin: const EdgeInsets.only(bottom: 10),
+                                        height:220,
                                         color: Colors.white,
                                         child: CarouselSlider(
                                           options: CarouselOptions(
-                                              height: 200,
+                                              height:220,
                                               viewportFraction: 1,
                                               initialPage: 0,
                                               enableInfiniteScroll: true,
@@ -184,7 +185,7 @@ class _PropertiesState extends State<Properties> {
                                                         children: [
                                                           ClipRect(
                                                             child: Container(
-                                                              height: 200,
+                                                              height:220,
                                                               width: double
                                                                   .infinity,
                                                               child: FittedBox(
@@ -245,150 +246,164 @@ class _PropertiesState extends State<Properties> {
                                                         .toString())));
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(left: 5, right: 5, bottom: 8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Color.fromARGB( 255, 153, 153, 153),
-                                            blurRadius: 2,
-                                            offset: Offset(0.0, 0.75)
-                                          ),
-                                      ],
-                                    ),
-                                    child: Container(
-                                      height: 110,
-                                      child: Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                              flex: 1,
-                                              child: ClipRect(
-                                                child: Container(
-                                                  height: 110,
-                                                  child: FittedBox(
-                                                    fit: BoxFit.cover,
-                                                    child: data[index]['img'] !=
-                                                            ''
-                                                        ? Image.network(
-                                                            baseurl +
-                                                                data[index]
-                                                                        ['img']
-                                                                    .toString(),
-                                                          )
-                                                        : Image.asset(
-                                                            'assets/images/default.jpg',
-                                                          ),
-                                                  ),
-                                                ),
-                                              )),
-                                          Expanded(
-                                            flex: 2,
-                                            child: Container(
-                                              margin: EdgeInsets.only(left: 2),
-                                              padding: const EdgeInsets.all(5),
-                                              color: CustomColors.appColors,
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Expanded(
+                                    height: 110,
+                                    child: Card(
+                                      color: CustomColors.appColorWhite,
+                                      shadowColor: const Color.fromARGB(
+                                          255, 200, 198, 198),
+                                      surfaceTintColor:
+                                          CustomColors.appColorWhite,
+                                      elevation: 5,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                        child: Container(
+                                          height: 110,
+                                          child: Row(
+                                            children: <Widget>[
+                                              Expanded(
+                                                  flex: 1,
+                                                  child: ClipRect(
                                                     child: Container(
-                                                        alignment: Alignment
-                                                            .centerLeft,
-                                                        margin: EdgeInsets.only(
-                                                            left: 5),
-                                                        child: Text(
-                                                          data[index]['name']
-                                                              .toString(),
-                                                          style: CustomText
-                                                              .itemTextBold,
-                                                        )),
-                                                  ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Text(
-                                                        data[index]['location']
-                                                            .toString(),
-                                                        overflow:
-                                                            TextOverflow.clip,
-                                                        maxLines: 2,
-                                                        softWrap: false,
-                                                        style:
-                                                            CustomText.itemText,
+                                                      height: 110,
+                                                      child: FittedBox(
+                                                        fit: BoxFit.cover,
+                                                        child: data[index]
+                                                                    ['img'] !=
+                                                                ''
+                                                            ? Image.network(
+                                                                baseurl +
+                                                                    data[index][
+                                                                            'img']
+                                                                        .toString(),
+                                                              )
+                                                            : Image.asset(
+                                                                'assets/images/default.jpg',
+                                                              ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Expanded(
-                                                      child: Row(
-                                                    children: [
+                                                  )),
+                                              Expanded(
+                                                flex: 2,
+                                                child: Container(
+                                                  margin:
+                                                      EdgeInsets.only(left: 2),
+                                                  padding:
+                                                      const EdgeInsets.all(5),
+                                                  color: CustomColors.appColors,
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: <Widget>[
                                                       Expanded(
-                                                        child: Align(
+                                                        child: Container(
+                                                            alignment: Alignment
+                                                                .centerLeft,
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    left: 5),
+                                                            child: Text(
+                                                              data[index]
+                                                                      ['name']
+                                                                  .toString(),
+                                                              style: CustomText
+                                                                  .itemTextBold,
+                                                            )),
+                                                      ),
+                                                      Expanded(
+                                                        child: Container(
                                                           alignment: Alignment
-                                                              .topCenter,
-                                                          child: Row(
-                                                            children: <Widget>[
-                                                              Text(
-                                                                  data[index][
-                                                                          'price']
-                                                                      .toString(),
-                                                                  style: CustomText
-                                                                      .itemText)
-                                                            ],
+                                                              .centerLeft,
+                                                          child: Text(
+                                                            data[index]
+                                                                    ['location']
+                                                                .toString(),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .clip,
+                                                            maxLines: 2,
+                                                            softWrap: false,
+                                                            style: CustomText
+                                                                .itemText,
                                                           ),
                                                         ),
                                                       ),
                                                       Expanded(
-                                                          child: Align(
-                                                        alignment:
-                                                            Alignment.topCenter,
-                                                        child: Row(
-                                                          children: <Widget>[
-                                                            SizedBox(
-                                                              width: 10,
-                                                            ),
-                                                            Text('otag sany: ',
-                                                                style: CustomText
-                                                                    .itemText),
-                                                            Text(
-                                                                data[index][
-                                                                        'room_count']
-                                                                    .toString(),
-                                                                style: CustomText
-                                                                    .itemText)
-                                                          ],
-                                                        ),
-                                                      )),
-                                                    ],
-                                                  )),
-                                                  if (data[index]['store_id'] !=
-                                                          null &&
-                                                      data[index]['store_id'] !=
-                                                          '')
-                                                    Expanded(
-                                                        child: Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child:
-                                                                ElevatedButton(
-                                                              onPressed: () {},
-                                                              child: Text(
-                                                                data[index][
-                                                                    'store_name'],
-                                                                maxLines: 1,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                style: CustomText
-                                                                    .itemText,
+                                                          child: Row(
+                                                        children: [
+                                                          Expanded(
+                                                            child: Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topCenter,
+                                                              child: Row(
+                                                                children: <Widget>[
+                                                                  Text(
+                                                                      data[index]
+                                                                              [
+                                                                              'price']
+                                                                          .toString(),
+                                                                      style: CustomText
+                                                                          .itemText)
+                                                                ],
                                                               ),
-                                                            )))
-                                                ],
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                              child: Align(
+                                                            alignment: Alignment
+                                                                .topCenter,
+                                                            child: Row(
+                                                              children: <Widget>[
+                                                                SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Text(
+                                                                    'otag sany: ',
+                                                                    style: CustomText
+                                                                        .itemText),
+                                                                Text(
+                                                                    data[index][
+                                                                            'room_count']
+                                                                        .toString(),
+                                                                    style: CustomText
+                                                                        .itemText)
+                                                              ],
+                                                            ),
+                                                          )),
+                                                        ],
+                                                      )),
+                                                      if (data[index][
+                                                                  'store_id'] !=
+                                                              null &&
+                                                          data[index][
+                                                                  'store_id'] !=
+                                                              '')
+                                                        Expanded(
+                                                            child: Align(
+                                                                alignment: Alignment
+                                                                    .centerLeft,
+                                                                child:
+                                                                    ElevatedButton(
+                                                                  onPressed:
+                                                                      () {},
+                                                                  child: Text(
+                                                                    data[index][
+                                                                        'store_name'],
+                                                                    maxLines: 1,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    style: CustomText
+                                                                        .itemText,
+                                                                  ),
+                                                                )))
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                        ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -421,9 +436,8 @@ class _PropertiesState extends State<Properties> {
   }
 
   void getflatslist() async {
-        var sort = Provider.of<UserInfo>(context, listen: false).sort;
+    var sort = Provider.of<UserInfo>(context, listen: false).sort;
     var sort_value = "";
-    print(sort_value);
     print(sort_value);
 
     if (int.parse(sort) == 2) {

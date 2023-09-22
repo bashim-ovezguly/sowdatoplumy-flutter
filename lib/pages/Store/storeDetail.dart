@@ -24,6 +24,7 @@ class _StoreDetailState extends State<StoreDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(title: Text("Dükanlar", style: CustomText.appBarText,),),
       body: CustomScrollView(
         slivers: [
@@ -37,7 +38,7 @@ class _StoreDetailState extends State<StoreDetail> {
                 clipBehavior: Clip.hardEdge,
                 children: [
                 Container(
-                height: 200,
+                height:220,
                 width: double.infinity,
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
                 child: GestureDetector(
@@ -62,7 +63,7 @@ class _StoreDetailState extends State<StoreDetail> {
                       child: Center(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10), // Image border
-                            child: Image.network(item, fit: BoxFit.fill, height: 200,width: double.infinity,),)
+                            child: Image.network(item, fit: BoxFit.fill, height: 220, width: double.infinity,),)
                       ),)).toList(),),
                   onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (context) => FullScreenSlider(imgList: imgList) )); },),),
 
@@ -170,11 +171,11 @@ class _StoreDetailState extends State<StoreDetail> {
                           children: [
                             Container(
                               alignment: Alignment.topCenter,
-                              height: 220,
+                              height:220,
                               child: Image.network(
                                 'https://offautan-uc1.azureedge.net/-/media/images/off/ph/products-en/products-landing/landing/off_overtime_product_collections_large_2x.jpg?la=en-ph',
                                 fit: BoxFit.cover,
-                                height: 220,
+                               height:220,
                               ),
                             ),
                             Container(
@@ -195,11 +196,11 @@ class _StoreDetailState extends State<StoreDetail> {
                           children: [
                             Container(
                               alignment: Alignment.topCenter,
-                              height: 220,
+                              height:220,
                               child: Image.network(
                                 'https://offautan-uc1.azureedge.net/-/media/images/off/ph/products-en/products-landing/landing/off_kids_product_collections_large_2x.jpg?la=en-ph',
                                 fit: BoxFit.cover,
-                                height: 220,
+                                height:220,
                               ),
                             ),
                             Container(

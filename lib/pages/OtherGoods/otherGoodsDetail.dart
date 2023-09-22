@@ -62,6 +62,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: Text(
                 title,
@@ -89,11 +90,11 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                             clipBehavior: Clip.hardEdge,
                             children: [
                               Container(
-                                margin: const EdgeInsets.all(10),
+                                margin: const EdgeInsets.only(bottom: 10),
                                 child: GestureDetector(
                                   child: CarouselSlider(
                                     options: CarouselOptions(
-                                        height: 200,
+                                        height:220,
                                         viewportFraction: 1,
                                         initialPage: 0,
                                         enableInfiniteScroll: true,
@@ -119,7 +120,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                                               child: Center(
                                                 child: ClipRect(
                                                   child: Container(
-                                                    height: 200,
+                                                    height:220,
                                                     width: double.infinity,
                                                     child: FittedBox(
                                                       fit: BoxFit.cover,

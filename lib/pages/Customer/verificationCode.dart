@@ -46,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(title: Text('SMS kody'),),
       
       body: Center(
@@ -216,6 +217,9 @@ class _SendSmsState extends State<SendSms> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       title: Row(
         children: [
           Text('' ,style: TextStyle(color: CustomColors.appColors),),

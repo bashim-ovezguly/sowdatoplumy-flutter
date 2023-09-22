@@ -77,6 +77,7 @@ class _CarState extends State<Car> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: const Text(
                 "Awtoulaglar",
@@ -134,11 +135,12 @@ class _CarState extends State<Car> {
                                 clipBehavior: Clip.hardEdge,
                                 children: [
                                   Container(
-                                    height: 220,
+                                    margin: const EdgeInsets.only(bottom: 10),
+                                    height:220,
                                     color: Colors.black12,
                                     child: CarouselSlider(
                                       options: CarouselOptions(
-                                          height: 220,
+                                          height:220,
                                           viewportFraction: 1,
                                           initialPage: 3,
                                           enableInfiniteScroll: true,
@@ -182,7 +184,7 @@ class _CarState extends State<Car> {
                                                     children: [
                                                       ClipRect(
                                                         child: Container(
-                                                          height: 220,
+                                                          height:220,
                                                           width:
                                                               double.infinity,
                                                           child: FittedBox(
@@ -241,6 +243,7 @@ class _CarState extends State<Car> {
                                   },
                                   child: 
                                   Container(
+                                    
                                     height: 110,
                                     child: Card(
                                       color: CustomColors.appColorWhite,

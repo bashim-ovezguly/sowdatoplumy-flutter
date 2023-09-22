@@ -21,6 +21,7 @@ class _NewPasswordState extends State<NewPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
           title: const Text("Meniň sahypam", style:  CustomText.appBarText,),
         ),
@@ -125,6 +126,9 @@ class _ErrorAlertState extends State<ErrorAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       title: Row(
         children: [
           Text('Ýalnyşlyk' ,style: TextStyle(color: CustomColors.appColors),),

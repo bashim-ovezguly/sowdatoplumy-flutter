@@ -54,6 +54,7 @@ class _CarStoreState extends State<CarStore> {
   @override
   Widget build(BuildContext context) {
     return status? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: Text(titleAppBar, style: CustomText.appBarText)),
       body: RefreshIndicator(
@@ -75,10 +76,11 @@ class _CarStoreState extends State<CarStore> {
             clipBehavior: Clip.hardEdge,
             children: [
               Container(
+                margin: const EdgeInsets.only(bottom: 10),
                 child: GestureDetector(
                   child:  CarouselSlider(
                     options: CarouselOptions(
-                      height: 220,
+                      height:220,
                       viewportFraction: 1,
                       initialPage: 0,
                       enableInfiniteScroll: true,
@@ -98,7 +100,7 @@ class _CarStoreState extends State<CarStore> {
                       child: Center(
                           child: ClipRect(
                             child: Container(
-                              height: 220,
+                              height:220,
                               width: double.infinity,
                               child:  FittedBox(
                                 fit: BoxFit.cover,

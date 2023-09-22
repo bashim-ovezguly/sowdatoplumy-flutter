@@ -49,6 +49,7 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
     }
 
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       body: Container(
           color: Colors.black,
           child: Column(children: <Widget>[

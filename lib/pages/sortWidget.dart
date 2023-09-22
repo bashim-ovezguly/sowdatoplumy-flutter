@@ -28,7 +28,10 @@ class _CustomDialogState extends State<CustomDialog> {
   _CustomDialogState({required this.sort_value, required this.callbackFunc});
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(backgroundColor: CustomColors.appColorWhite,
+    return AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       title: Row(
         children: [
           Text('Tertip' ,style: TextStyle(color: CustomColors.appColors),),

@@ -82,7 +82,10 @@ class _StoreCarsState extends State<StoreCars> {
                                     CarStore(id: item['id'].toString())));
                       },
                       child: Card(
-                          elevation: 2,
+                          color: CustomColors.appColorWhite,
+                          shadowColor: const Color.fromARGB(255, 200, 198, 198),
+                          surfaceTintColor: CustomColors.appColorWhite,
+                          elevation: 5,
                           child: Container(
                               height: 180,
                               width: MediaQuery.of(context).size.width / 3 - 10,
@@ -99,11 +102,11 @@ class _StoreCarsState extends State<StoreCars> {
                                                         .width /
                                                     3 -
                                                 10,
-                                            height: 130,
+                                            height:120,
                                           )
                                         : Image.asset(
                                             'assets/images/default.jpg',
-                                            height: 200,
+                                            height:120,
                                           )),
                                 Container(
                                     alignment: Alignment.center,

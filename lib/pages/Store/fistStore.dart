@@ -51,6 +51,7 @@ _StoreFirstState({required this.title, required this.id});
   @override
   Widget build(BuildContext context) {
     return status ? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(title: 
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,8 +60,8 @@ _StoreFirstState({required this.title, required this.id});
           data['name_tm']!=null && data['name_tm']!='' ? Text(data['name_tm'].toString(), style: CustomText.appBarText): Text(''),
           data['location']!=null && data['location']!=''? Row(
             children: [
-              Icon(Icons.location_on),
-              Text(data['location'].toString(), style: TextStyle(fontSize: 15))
+              Icon(Icons.location_on, color: CustomColors.appColorWhite,),
+              Text(data['location'].toString(), style: TextStyle(fontSize: 15, color: CustomColors.appColorWhite))
             ],
           ): Text(''),
           ]
@@ -98,35 +99,45 @@ _StoreFirstState({required this.title, required this.id});
                       onTap: (){
                          Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: item['id'].toString(), title: 'Dükanlar',) ));
                       },
-                      child: Card(
-                      elevation: 2,
                       child: Container(
-                        height: 200,
-                        width: MediaQuery.of(context).size.width / 2 - 10,
-                        child: Column(
-                          children: [
-                           Container(
-                              alignment: Alignment.topCenter,
-                              child: item['img']!=null &&  item['img']!="" ? Image.network(
-                                baseurl + item['img'].toString(),
-                                fit: BoxFit.cover,
-                                height: 160, width: MediaQuery.of(context).size.width/2-10,
-
-                              ): Image.asset('assets/images/default.jpg', height: 140)
-                            ),
-                            Container(
-                                alignment: Alignment.center,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                     Text(item['name'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
-                                     Text(item['location'].toString(), style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis),),
-                                  ]
-                                )
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: 160,
+                        child: Card(
+                          color: CustomColors.appColorWhite,
+                                        shadowColor: const Color.fromARGB(255, 200, 198, 198),
+                                        surfaceTintColor: CustomColors.appColorWhite,
+                                        elevation: 5,
+                        
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          child: Container(
+                            height: 160,
+                            child: Column(
+                              children: [
+                               Container(
+                                  alignment: Alignment.topCenter,
+                                  child: item['img']!=null &&  item['img']!="" ? Image.network(
+                                    baseurl + item['img'].toString(),
+                                    fit: BoxFit.cover,
+                                    height: 120, width: MediaQuery.of(context).size.width/2-10,
+                        
+                                  ): Image.asset('assets/images/default.jpg', height: 120,)
+                                ),
+                                Container(
+                                    alignment: Alignment.center,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                         Text(item['name'].toString(), maxLines: 1, style: TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.ellipsis, ),),
+                                         
+                                      ]
+                                    )
+                                  )
+                                ]
                               )
-                            ]
-                          )
+                            ),
                         ) 
+                        ),
                       )
                     );
                   }).toList(),

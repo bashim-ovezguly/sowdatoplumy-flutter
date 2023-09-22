@@ -5,9 +5,9 @@ import '../../dB/colors.dart';
 import '../../dB/constants.dart';
 import 'package:http/http.dart' as http;
 
-
 class StoreServices extends StatefulWidget {
-  StoreServices({Key? key, required this.id, required this.isTopList}) : super(key: key);
+  StoreServices({Key? key, required this.id, required this.isTopList})
+      : super(key: key);
   final String id;
   final Function isTopList;
 
@@ -36,36 +36,36 @@ class _StoreServicesState extends State<StoreServices> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-                    Container(
-              margin: EdgeInsets.only(left: 10, right: 10),
-              width: double.infinity,
-              height: 40,
-              decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(5)),
-              child: Center(
-                child: TextFormField(
-                  controller: keyword,
-                  decoration: InputDecoration(
-                      prefixIcon: IconButton(
-                        icon: const Icon(Icons.search),
-                        onPressed: () {
-                          get_products_modul(id);
-                        },
-                      ),
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          setState(() {
-                            keyword.text = '';
-                          });
-                          get_products_modul(id);
-                        },
-                      ),
-                      hintText: 'Gözleg...',
-                      border: InputBorder.none),
-                ),
-              ),
+        Container(
+          margin: EdgeInsets.only(left: 10, right: 10),
+          width: double.infinity,
+          height: 40,
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
+          child: Center(
+            child: TextFormField(
+              controller: keyword,
+              decoration: InputDecoration(
+                  prefixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      get_products_modul(id);
+                    },
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      setState(() {
+                        keyword.text = '';
+                      });
+                      get_products_modul(id);
+                    },
+                  ),
+                  hintText: 'Gözleg...',
+                  border: InputBorder.none),
             ),
+          ),
+        ),
         SizedBox(
           height: MediaQuery.of(context).size.height - 200,
           child: ListView(
@@ -82,30 +82,37 @@ class _StoreServicesState extends State<StoreServices> {
                                     ServiceDetail(id: item['id'].toString())));
                       },
                       child: Card(
-                          elevation: 2,
+                          color: CustomColors.appColorWhite,
+                          shadowColor: const Color.fromARGB(255, 200, 198, 198),
+                          surfaceTintColor: CustomColors.appColorWhite,
+                          elevation: 5,
                           child: Container(
                               height: 180,
                               width: MediaQuery.of(context).size.width / 3 - 10,
                               child: Column(children: [
                                 Container(
                                     alignment: Alignment.topCenter,
-                                    child: item['img'] != null && item['img'] != ""
+                                    child: item['img'] != null &&
+                                            item['img'] != ""
                                         ? Image.network(
                                             baseurl + item['img'].toString(),
                                             fit: BoxFit.cover,
-                                            width: MediaQuery.of(context).size.width /
+                                            width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
                                                     3 -
                                                 10,
-                                            height: 130,
+                                            height:120,
                                           )
                                         : Image.asset(
                                             'assets/images/default.jpg',
-                                            height: 200,
+                                            height:120,
                                           )),
                                 Container(
                                     alignment: Alignment.center,
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
                                         Text(
                                           item['name'].toString(),
@@ -150,10 +157,10 @@ class _StoreServicesState extends State<StoreServices> {
           keyword.text;
     }
     final uri = Uri.parse(url);
-    Map<String, String> headers = {};  
-          for (var i in global_headers.entries){
-            headers[i.key] = i.value.toString(); 
-          }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {

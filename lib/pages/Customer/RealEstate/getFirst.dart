@@ -66,6 +66,7 @@ class _GetRealEstateFirstState extends State<GetRealEstateFirst> {
     var user_customer_name =
         Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
           title: widget.user_customer_id == ''
               ? Text(
@@ -153,7 +154,7 @@ class _GetRealEstateFirstState extends State<GetRealEstateFirst> {
                       Stack(
                         children: [
                           Container(
-                            height: 200,
+                            height:220,
                             margin: const EdgeInsets.all(10),
                             child: ImageSlideshow(
                               indicatorColor: CustomColors.appColors,
@@ -930,6 +931,9 @@ class _GetRealEstateFirstState extends State<GetRealEstateFirst> {
                   )
             : Container(
                 child: AlertDialog(
+                  shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
                 content: Container(
                   width: 200,
                   height: 100,

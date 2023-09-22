@@ -1,14 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/dB/constants.dart';
-import 'package:my_app/pages/Awtoparts/awtoPartsDetail.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
-import 'package:my_app/pages/fullScreenSlider.dart';
 import 'package:my_app/pages/progressIndicator.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -60,6 +56,7 @@ class _AdPageState extends State<AdPage> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
                 title: data['title_tm'] != null && data['title_tm'] != ''
                     ? Text(data['title_tm'].toString(),
@@ -79,12 +76,12 @@ class _AdPageState extends State<AdPage> {
                         child: Container(
                           color: Color.fromARGB(221, 182, 181, 181),
                           margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                          height: 200,
+                          height: 220,
                           width: double.infinity,
                           child: Image.network(
                             imgList[0],
                             width: double.infinity,
-                            height: 200,
+                            height: 220,
                             fit: BoxFit.cover,
                           ),
                         ),

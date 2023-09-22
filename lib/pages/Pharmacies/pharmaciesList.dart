@@ -83,6 +83,7 @@ class _PharmaciesListState extends State<PharmaciesList> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: const Text(
                 "Dermanhanalar",
@@ -127,12 +128,12 @@ class _PharmaciesListState extends State<PharmaciesList> {
                               clipBehavior: Clip.hardEdge,
                               children: [
                                 Container(
-                                  margin: const EdgeInsets.all(10),
-                                  height: 200,
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  height:220,
                                   color: Colors.white,
                                   child: CarouselSlider(
                                     options: CarouselOptions(
-                                        height: 200,
+                                        height:220,
                                         viewportFraction: 1,
                                         initialPage: 0,
                                         enableInfiniteScroll: true,
@@ -169,7 +170,7 @@ class _PharmaciesListState extends State<PharmaciesList> {
                                               child: Stack(
                                                 children: [
                                                   Container(
-                                                    height: 200,
+                                                    height:220,
                                                     width: double.infinity,
                                                     child: FittedBox(
                                                       fit: BoxFit.cover,
@@ -219,51 +220,47 @@ class _PharmaciesListState extends State<PharmaciesList> {
                                                         .toString())));
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.all(3),
                                     height: 160,
-                                    width:
-                                        MediaQuery.of(context).size.width / 3 -
-                                            10,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      boxShadow: [
-                                         BoxShadow(
-                                            color: Color.fromARGB( 255, 153, 153, 153),
-                                            blurRadius: 2,
-                                            offset: Offset(0.0, 0.75)
-                                          ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          color: Colors.white,
-                                          height: 120,
-                                          child: item['img'] != ''
-                                              ? Image.network(
-                                                  baseurl +
-                                                      item['img'].toString(),
-                                                  fit: BoxFit.cover,
-                                                  height: 120,
-                                                  width: double.infinity,
-                                                )
-                                              : Image.asset(
-                                                  'assets/images/default.jpg',
-                                                ),
+                                    width: MediaQuery.of(context).size.width / 3 ,
+                                    child: Card(
+                                      color: CustomColors.appColorWhite,
+                                      shadowColor: const Color.fromARGB(255, 200, 198, 198),
+                                      surfaceTintColor: CustomColors.appColorWhite,
+                                      elevation: 5,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              color: Colors.white,
+                                              height: 120,
+                                              child: item['img'] != ''
+                                                  ? Image.network(
+                                                      baseurl +
+                                                          item['img'].toString(),
+                                                      fit: BoxFit.cover,
+                                                      height: 120,
+                                                      width: double.infinity,
+                                                    )
+                                                  : Image.asset(
+                                                      'assets/images/default.jpg',
+                                                    ),
+                                            ),
+                                            Container(
+                                              color: Colors.white,
+                                              padding: EdgeInsets.all(5),
+                                              child: Text(
+                                                item['name'].toString(),
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: CustomColors.appColors),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                        Container(
-                                          color: Colors.white,
-                                          padding: EdgeInsets.all(5),
-                                          child: Text(
-                                            item['name'].toString(),
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: CustomColors.appColors),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        )
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 );

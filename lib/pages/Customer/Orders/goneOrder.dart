@@ -30,6 +30,7 @@ class _GoneOrdersState extends State<GoneOrders> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(title: Text('Giden sargytlar', style: TextStyle(color: CustomColors.appColorWhite)),),
       extendBody: true,
       body: RefreshIndicator(
@@ -62,6 +63,9 @@ class _GoneOrdersState extends State<GoneOrders> {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => GoneOrderDetail(order_id: orders[index]['id'].toString(), refresh: refresh)));
                     },
                     child: Card(
+                      color: CustomColors.appColorWhite,
+                      shadowColor: const Color.fromARGB(255, 200, 198, 198),
+                      surfaceTintColor: CustomColors.appColorWhite,
                     elevation: 5,
                     child: Container(
                       padding: EdgeInsets.only(left: 5, right: 5),

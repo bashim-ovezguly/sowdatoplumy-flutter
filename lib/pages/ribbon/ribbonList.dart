@@ -43,6 +43,7 @@ class _RibbonListState extends State<RibbonList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(title: Text('Söwda lentasy', style: TextStyle(color: CustomColors.appColorWhite))),
       body: RefreshIndicator(
                color: Colors.white,
@@ -177,7 +178,7 @@ class _RibbonListState extends State<RibbonList> {
                                                                 .toString())));
                                           },
                                           child: Container(
-                                            height: 200,
+                                            height:220,
                                             width: double.infinity,
                                             child: FittedBox(
                                               fit: BoxFit.cover,
@@ -203,7 +204,7 @@ class _RibbonListState extends State<RibbonList> {
                                             },
                                             child: ClipRect(
                                                 child: Container(
-                                                    height: 200,
+                                                    height:220,
                                                     width: double.infinity,
                                                     child: FittedBox(
                                                         fit: BoxFit.cover,

@@ -77,6 +77,7 @@ class _ArrivedOrdersState extends State<ArrivedOrders> {
     }
     
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(title: Text('Gelen sargytlar', style: TextStyle(color: CustomColors.appColorWhite)),),
       extendBody: true,
       body: RefreshIndicator(
@@ -108,6 +109,9 @@ class _ArrivedOrdersState extends State<ArrivedOrders> {
                   height: 140,
                   padding: EdgeInsets.only(left: 5, right: 5),
                   child: Card(
+                           color: CustomColors.appColorWhite,
+                      shadowColor: const Color.fromARGB(255, 200, 198, 198),
+                      surfaceTintColor: CustomColors.appColorWhite,
                     elevation: 5,
                     child: Container(
                       padding: EdgeInsets.only(left: 5, right: 5),

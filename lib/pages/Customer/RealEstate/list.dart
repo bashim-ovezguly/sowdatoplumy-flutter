@@ -69,6 +69,7 @@ class _RealEstateListState extends State<RealEstateList> {
     var user_customer_name = Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return status
         ? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: widget.user_customer_id=='' ? Text(
                 "Meniň sahypam",

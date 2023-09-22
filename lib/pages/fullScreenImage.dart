@@ -43,6 +43,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
     }
 
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       body: Container(
           color: Colors.black,
           child: Column(children: <Widget>[
@@ -75,8 +76,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
                     onTap: () async {
                       var response = await Dio().get(img,
                           options: Options(responseType: ResponseType.bytes));
-                      final result = await ImageGallerySaver.saveImage(
-                          Uint8List.fromList(response.data));
+                      final result = await ImageGallerySaver.saveImage(Uint8List.fromList(response.data));
                       showSuccessAlert();
                     },
                     child: Container(

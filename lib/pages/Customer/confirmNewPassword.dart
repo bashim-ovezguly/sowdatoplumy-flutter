@@ -58,6 +58,7 @@ class _ConfirmNewPasswordState extends State<ConfirmNewPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: Text('Täze açar sözi'),
       ),

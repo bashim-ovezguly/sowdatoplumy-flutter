@@ -102,6 +102,7 @@ class _NewStoreState extends State<NewStore> {
   Widget build(BuildContext context) {
   
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
        key: _scaffoldKey,
       appBar: AppBar( title: Text("Meniň sahypam", style: CustomText.appBarText,),),
     body: ListView(
@@ -464,6 +465,9 @@ class _AddPhoneState extends State<AddPhone> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
 
       title: Row(
         children: [

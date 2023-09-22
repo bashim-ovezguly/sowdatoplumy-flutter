@@ -82,6 +82,7 @@ class _MyPageState extends State<MyPage> {
         var user_customer_name =
         Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,7 +201,7 @@ class _MyPageState extends State<MyPage> {
                             return Stack(
                               children: [
                                 Container(
-                                  height: 200,
+                                  height:220,
                                   margin: const EdgeInsets.all(10),
                                   child: ImageSlideshow(
                                     indicatorColor: CustomColors.appColors,
@@ -841,6 +842,9 @@ class _MyPageState extends State<MyPage> {
                     ))
           : Container(
               child: AlertDialog(
+                shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
               content: Container(
                 width: 200,
                 height: 100,
@@ -916,6 +920,9 @@ class _DeliveryState extends State<Delivery> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       title: Row(
         children: [
           Text(

@@ -55,6 +55,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(title: const Text("Ulgama ýazyl", style: CustomText.appBarText,),),
       body: Align(
         alignment: Alignment.center,
@@ -285,6 +286,9 @@ class _CustomDialogLogoutSuccessState extends State<CustomDialogLogoutSuccess> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -381,6 +385,9 @@ class _CustomDialogLogoutState extends State<CustomDialogLogout> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+            shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

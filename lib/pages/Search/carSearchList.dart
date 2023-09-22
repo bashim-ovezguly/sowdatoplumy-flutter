@@ -56,6 +56,7 @@ class _CarSearchListState extends State<CarSearchList> {
   @override
   Widget build(BuildContext context) {
     return status ? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: const Text('Gözleg', style: CustomText.appBarText)),
       body: determinate ? Column(

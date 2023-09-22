@@ -24,7 +24,10 @@ class _DeleteImageState extends State<DeleteImage> {
   _DeleteImageState({required this.action, required this.image, required this.callbackFunc});
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(backgroundColor: CustomColors.appColorWhite,
+    return AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       title: Row(
         children: [
           Text('Suraty pozmak isleýäňizmi?' ,style: TextStyle(color: CustomColors.appColors, fontSize: 17),),
@@ -102,7 +105,10 @@ class _ErrorAlertState extends State<ErrorAlert> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(backgroundColor: CustomColors.appColorWhite,
+    return AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       content: Container(
         width: 200,
         height: 250,

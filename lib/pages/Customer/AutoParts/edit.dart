@@ -142,6 +142,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
   _AutoPartsEditState({required this.old_data, required this.callbackFunc});
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar( title: Text("Meniň sahypam", style: CustomText.appBarText,),),
       body: ListView(
         scrollDirection: Axis.vertical,

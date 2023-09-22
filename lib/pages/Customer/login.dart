@@ -53,6 +53,7 @@ class _LoginState extends State<Login> {
     }
 
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
           title: Text(
             "Içeri gir",
@@ -274,6 +275,9 @@ class _AlertErrorState extends State<AlertError> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       content: Container(
         width: 60,
         height: 60,

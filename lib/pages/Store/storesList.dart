@@ -15,6 +15,7 @@ class _StoresListState extends State<StoresList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(title: const Text("Dükanlar", style:  CustomText.appBarText,)),
       body: Column(
         children: <Widget>[

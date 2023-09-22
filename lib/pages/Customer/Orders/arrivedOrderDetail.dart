@@ -102,6 +102,7 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
     }
 
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: Text('Sargyt: ' + widget.order_id.toString(), style: TextStyle(color: CustomColors.appColorWhite),),
         actions: [
@@ -177,6 +178,9 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
                               context: context,
                               builder: (context){
                                 return AlertDialog(
+                                  shadowColor: CustomColors.appColorWhite,
+                                    surfaceTintColor: CustomColors.appColorWhite,
+                                    backgroundColor: CustomColors.appColorWhite,
                                   title: Text("Eltip bermek bahasy."),
                                   content: Container(
                                     child: TextFormField(
@@ -330,6 +334,9 @@ class _ArrivedOrderDetailState extends State<ArrivedOrderDetail> {
               return Container(
                 height: 110,
                 child: Card(
+                      color: CustomColors.appColorWhite,
+                      shadowColor: const Color.fromARGB(255, 200, 198, 198),
+                      surfaceTintColor: CustomColors.appColorWhite,
                   elevation: 4,
                   child: Row(
                     children: [

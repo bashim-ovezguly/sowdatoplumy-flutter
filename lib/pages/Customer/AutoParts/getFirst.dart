@@ -68,6 +68,7 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
   Widget build(BuildContext context) {
     var user_customer_name = Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
           title: widget.user_customer_id=='' ? Text(
                 "Meniň sahypam",
@@ -155,11 +156,11 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                         children: [
                           Container(
                             margin: const EdgeInsets.all(10),
-                            height: 200,
+                            height:220,
                             color: Colors.white,
                             child: CarouselSlider(
                               options: CarouselOptions(
-                                  height: 200,
+                                  height:220,
                                   viewportFraction: 1,
                                   initialPage: 0,
                                   enableInfiniteScroll: true,
@@ -187,7 +188,7 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                                           child: Image.network(
                                             item,
                                             fit: BoxFit.fill,
-                                            height: 200,
+                                            height:220,
                                             width: double.infinity,
                                           ),
                                         )),
@@ -897,6 +898,9 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                   )
             : Container(
                 child: AlertDialog(
+                  shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
                 content: Container(
                   width: 200,
                   height: 100,

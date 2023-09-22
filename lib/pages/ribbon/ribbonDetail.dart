@@ -33,6 +33,7 @@ class _RibbonDetailState extends State<RibbonDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
             title: Text('Söwda lentasy',
                 style: TextStyle(color: CustomColors.appColorWhite))),
@@ -93,8 +94,8 @@ class _RibbonDetailState extends State<RibbonDetail> {
                               SizedBox(width: 10)
                             ])),
                     Container(
-                        margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                        height: 220,
+                      margin: const EdgeInsets.only(bottom: 10),
+                        height:220,
                         color: Colors.black12,
                         child: ImageSlideshow(
                             width: double.infinity,
@@ -108,7 +109,7 @@ class _RibbonDetailState extends State<RibbonDetail> {
                               if (data['images'].length == 0)
                                 ClipRect(
                                   child: Container(
-                                    height: 220,
+                                    height:220,
                                     width: double.infinity,
                                     child: FittedBox(
                                       fit: BoxFit.cover,
@@ -130,7 +131,7 @@ class _RibbonDetailState extends State<RibbonDetail> {
                                       },
                                       child: ClipRect(
                                         child: Container(
-                                          height: 220,
+                                          height:220,
                                           width: double.infinity,
                                           child: FittedBox(
                                             fit: BoxFit.cover,

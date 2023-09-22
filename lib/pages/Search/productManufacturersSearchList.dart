@@ -54,6 +54,7 @@ class _ProductManufacturersSearchListState extends State<ProductManufacturersSea
   @override
   Widget build(BuildContext context) {
     return status ? Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: const Text('Gözleg', style: CustomText.appBarText,),
       ),

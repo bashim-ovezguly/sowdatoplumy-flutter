@@ -104,6 +104,7 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
     }
 
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: Text('Giden sargyt: ' + widget.order_id.toString(), style: TextStyle(color: CustomColors.appColorWhite)),
         actions: [
@@ -145,7 +146,6 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
             SliverList(delegate: SliverChildBuilderDelegate(
               childCount: 1,(BuildContext context, int index) {
                 return Container(
-                  
                   height: 110,
                   padding: EdgeInsets.only(left: 5, right: 5),
                   child: Row(

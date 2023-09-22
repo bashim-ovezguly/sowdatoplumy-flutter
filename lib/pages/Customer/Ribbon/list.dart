@@ -47,6 +47,7 @@ class _MyRibbonListState extends State<MyRibbonList> {
     var user_customer_name =
         Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return Scaffold(
+          backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
             title: widget.user_customer_id == ''
                 ? Text(
@@ -118,7 +119,7 @@ class _MyRibbonListState extends State<MyRibbonList> {
                                 child: Container(
                                     margin: EdgeInsets.only(
                                         left: 5, right: 5, top: 10),
-                                    height: 220,
+                                    height:220,
                                     width:
                                         MediaQuery.of(context).size.width / 2 -
                                             20,
@@ -166,7 +167,7 @@ class _MyRibbonListState extends State<MyRibbonList> {
                                                                 },
                                                                 child:
                                                                     Container(
-                                                                  height: 200,
+                                                                  height:220,
                                                                   width: double
                                                                       .infinity,
                                                                   child:
@@ -199,7 +200,7 @@ class _MyRibbonListState extends State<MyRibbonList> {
                                                                   },
                                                                   child: ClipRect(
                                                                       child: Container(
-                                                                          height: 200,
+                                                                          height:220,
                                                                           width: double.infinity,
                                                                           child: FittedBox(
                                                                               fit: BoxFit.cover,
