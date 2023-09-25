@@ -7,6 +7,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
+import 'package:my_app/pages/Awtoparts/awtoPartsDetail.dart';
+import 'package:my_app/pages/Car/carStore.dart';
+import 'package:my_app/pages/OtherGoods/otherGoodsDetail.dart';
+import 'package:my_app/pages/Propertie/propertiesDetail.dart';
+import 'package:my_app/pages/Services/serviceDetail.dart';
 import 'package:my_app/pages/Store/order.dart';
 import 'package:my_app/pages/Store/producrt.dart';
 import 'package:my_app/pages/Store/storeCars.dart';
@@ -628,17 +633,61 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                       alignment: WrapAlignment.start,
                       children: data_array.map((item) {
                         return GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            if (tab_control == 1) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => OtherGoodsDetail(
+                                            id: item['id'].toString(),
+                                            title: 'Harytlar',
+                                          )));
+                            }
+
+                            if (tab_control == 2) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CarStore(id: item['id'].toString())));
+                            }
+
+                            if (tab_control == 3) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AutoPartsDetail(
+                                          id: item['id'].toString())));
+                            }
+
+                            if (tab_control == 4) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ServiceDetail(
+                                          id: item['id'].toString())));
+                            }
+
+                            if (tab_control == 5) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PropertiesDetail(
+                                          id: item['id'].toString())));
+                            }
+                          },
                           child: Container(
                             height: 220,
                             width: MediaQuery.of(context).size.width / 2,
                             child: Card(
                               color: CustomColors.appColorWhite,
-                              shadowColor:const Color.fromARGB(255, 200, 198, 198),
+                              shadowColor:
+                                  const Color.fromARGB(255, 200, 198, 198),
                               surfaceTintColor: CustomColors.appColorWhite,
                               elevation: 5,
                               child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(7.0)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(7.0)),
                                 child: Column(
                                   children: [
                                     Container(
@@ -790,11 +839,14 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                     CircularProgressIndicator(color: CustomColors.appColors)),
         floatingActionButton: buttonTop
             ? FloatingActionButton.small(
-              backgroundColor: CustomColors.appColors,
-                onPressed: (){
+                backgroundColor: CustomColors.appColors,
+                onPressed: () {
                   isTopList();
                 },
-                child: Icon(Icons.north, color: CustomColors.appColorWhite,),
+                child: Icon(
+                  Icons.north,
+                  color: CustomColors.appColorWhite,
+                ),
               )
             : Container());
   }
@@ -922,7 +974,8 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
 
   void isTopList() {
     double position = 0.0;
-    _controller.position.animateTo(position, duration: Duration(milliseconds: 500), curve: Curves.easeInCirc);
+    _controller.position.animateTo(position,
+        duration: Duration(milliseconds: 500), curve: Curves.easeInCirc);
   }
 
   void _controllListener() {
