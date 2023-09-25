@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:my_app/dB/textStyle.dart';
 import 'package:my_app/pages/Customer/newPassword.dart';
 
 import '../../dB/colors.dart';
@@ -61,7 +62,7 @@ class _ConfirmNewPasswordState extends State<ConfirmNewPassword> {
     return Scaffold(
           backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
-        title: Text('Täze açar sözi'),
+        title: Text('Täze açar sözi', style: CustomText.appBarText,),
       ),
       body: Center(
         child: Container(

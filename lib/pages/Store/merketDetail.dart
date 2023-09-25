@@ -15,6 +15,7 @@ import 'package:my_app/pages/Store/storeMaterials.dart';
 import 'package:my_app/pages/Store/storeParts.dart';
 import 'package:my_app/pages/Store/storeServices.dart';
 import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
@@ -48,9 +49,21 @@ class MyTabStatefulWidget extends StatefulWidget {
 
 class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
     with TickerProviderStateMixin {
+  int tab_control = 0;
   List<dynamic> products = [];
   List<dynamic> data_tel = [];
   List<String> imgList = [];
+  late int total_page;
+  late int current_page;
+  late bool _isLastPage;
+  late int _pageNumber;
+  late bool _error;
+  late bool _loading;
+  bool _getRequest = false;
+  final int _numberOfPostPerRequest = 12;
+  final ScrollController _controller = ScrollController();
+  var shoping_cart_items = [];
+  bool buttonTop = false;
 
   int item_count = 0;
   int _current = 0;
@@ -67,6 +80,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
   var keyword = TextEditingController();
   var shoping_carts = [];
   var data = {};
+  var data_array = [];
   var baseurl = "";
   var modules = {};
   var telefon = {};
@@ -86,33 +100,23 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
 
   @override
   void initState() {
+    _pageNumber = 1;
+    _isLastPage = false;
+    _loading = true;
+    _error = false;
+    tab_control = 1;
+
+    if (tab_control == 1) {
+      get_products_modul(widget.id);
+    }
+    _controller.addListener(_controllListener);
+
     if (imgList.length == 0) {
       imgList.add('x');
     }
-    setState(() {
-      if (modul.toString() == '0') {
-        modul_name = 'Harytlar';
-      }
-      if (modul.toString() == '1') {
-        modul_name = 'Awtoulaglar';
-      }
-      if (modul.toString() == '2') {
-        modul_name = 'Awtoşaýlar';
-      }
-      if (modul.toString() == '3') {
-        modul_name = 'Emläkler';
-      }
-      if (modul.toString() == '4') {
-        modul_name = 'Gurluşyk harytlar';
-      }
-      if (modul.toString() == '5') {
-        modul_name = 'Hyzmatlar';
-      }
-    });
 
     super.initState();
     getsinglemarkets(id: widget.id, title: widget.title);
-    _tabController = TabController(length: _tabCount + 1, vsync: this, initialIndex: 0);
   }
 
   @override
@@ -123,58 +127,85 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        length: _tabCount + 1,
-        child: Scaffold(
-          backgroundColor: CustomColors.appColorWhite,
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            title: Text(
-              store_name.toString(),
-              style: CustomText.appBarText,
-            ),
-            actions: [
-              badges.Badge(
-                badgeColor: Colors.green,
-                badgeContent: Text(
-                  item_count.toString(),
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                position: BadgePosition(start: 30, bottom: 30),
-                child: IconButton(
-                  onPressed: () async {
-                    var allRows = await dbHelper.queryAllRows();
-                    var data1 = [];
-                    for (final row in allRows) {
-                      data1.add(row);
-                    }
-                    if (data1.length == 0) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()));
-                    } else {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Order(
-                                  store_name: data['name_tm'].toString(),
-                                  store_id: data['id'].toString(),
-                                  refresh: refresh,
-                                  delivery_price: delivery_price_str)));
-                    }
-                  },
-                  icon: const Icon(Icons.shopping_cart),
-                ),
-              ),
-              const SizedBox(
-                width: 20.0,
-              ),
-            ],
+    showSuccessAlert() {
+      QuickAlert.show(
+          context: context,
+          title: '',
+          text: 'Haryt sebede goşuldy.',
+          confirmBtnText: 'Dowam et',
+          confirmBtnColor: CustomColors.appColors,
+          type: QuickAlertType.success,
+          onConfirmBtnTap: () {
+            Navigator.pop(context);
+          });
+    }
+
+    showWarningAlert() {
+      QuickAlert.show(
+          context: context,
+          title: '',
+          text: 'Haryt sebetde bar.',
+          confirmBtnText: 'Dowam et',
+          confirmBtnColor: CustomColors.appColors,
+          type: QuickAlertType.warning,
+          onConfirmBtnTap: () {
+            Navigator.pop(context);
+          });
+    }
+
+    return Scaffold(
+        backgroundColor: CustomColors.appColorWhite,
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: Text(
+            store_name.toString(),
+            style: CustomText.appBarText,
           ),
-          body: determinate
-              ? ListView(
-                  controller: _scrollController,
-                  children: <Widget>[
+          actions: [
+            badges.Badge(
+              badgeColor: Colors.green,
+              badgeContent: Text(
+                item_count.toString(),
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+              position: BadgePosition(start: 30, bottom: 25),
+              child: IconButton(
+                onPressed: () async {
+                  var allRows = await dbHelper.queryAllRows();
+                  var data1 = [];
+                  for (final row in allRows) {
+                    data1.add(row);
+                  }
+                  if (data1.length == 0) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Login()));
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Order(
+                                store_name: data['name_tm'].toString(),
+                                store_id: widget.id,
+                                refresh: refresh,
+                                delivery_price: delivery_price_str)));
+                  }
+                },
+                icon: const Icon(Icons.shopping_cart),
+              ),
+            ),
+            const SizedBox(
+              width: 20.0,
+            ),
+          ],
+        ),
+        body: determinate && determinate1
+            ? SingleChildScrollView(
+                controller: _controller,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     Stack(
                         alignment: Alignment.bottomCenter,
                         textDirection: TextDirection.rtl,
@@ -182,11 +213,11 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                         clipBehavior: Clip.hardEdge,
                         children: [
                           Container(
-                              height:220,
+                              height: 220,
                               child: GestureDetector(
                                   child: CarouselSlider(
                                     options: CarouselOptions(
-                                        height:220,
+                                        height: 220,
                                         viewportFraction: 1,
                                         initialPage: 0,
                                         enableInfiniteScroll: true,
@@ -212,7 +243,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                               child: Center(
                                                 child: ClipRect(
                                                   child: Container(
-                                                    height:220,
+                                                    height: 220,
                                                     width: double.infinity,
                                                     child: FittedBox(
                                                       fit: BoxFit.cover,
@@ -348,68 +379,51 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                         color: CustomColors.appColors,
                                         fontSize: 14))
                               ]))),
-                    if (data['open_at'] != null &&
-                        data['open_at'] != '' &&
-                        data['close_at'] != null &&
-                        data['close_at'] != '')
-                      Container(
-                          margin: EdgeInsets.only(left: 7, top: 10),
-                          child: Row(children: [
-                            Icon(Icons.lock_clock,
-                                color: CustomColors.appColors, size: 25),
-                            SizedBox(width: 5),
-                            Text(data['open_at'].toString(),
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: CustomColors.appColors)),
-                            SizedBox(width: 10),
-                            Text(data['close_at'].toString(),
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    color: CustomColors.appColors))
-                          ])),
-                    Wrap(
-                        direction: Axis.vertical,
-                        crossAxisAlignment: WrapCrossAlignment.start,
-                        children: [
-                          for (var i = 0; i < data['contacts'].length; i++)
-                            GestureDetector(
-                              onTap: () async {
-                                if (data['contacts'][i]['type'] == 'phone') {
-                                  final call = Uri.parse(
-                                      'tel:' + data['contacts'][i]['value']);
-                                  if (await canLaunchUrl(call)) {
-                                    launchUrl(call);
-                                  } else {
-                                    throw 'Could not launch $call';
+                    if (data['contacts'] != null)
+                      Wrap(
+                          direction: Axis.vertical,
+                          crossAxisAlignment: WrapCrossAlignment.start,
+                          children: [
+                            for (var i = 0; i < data['contacts'].length; i++)
+                              GestureDetector(
+                                onTap: () async {
+                                  if (data['contacts'][i]['type'] == 'phone') {
+                                    final call = Uri.parse(
+                                        'tel:' + data['contacts'][i]['value']);
+                                    if (await canLaunchUrl(call)) {
+                                      launchUrl(call);
+                                    } else {
+                                      throw 'Could not launch $call';
+                                    }
                                   }
-                                }
-                              },
-                              child: Row(
-                                children: [
-                                  Container(
+                                },
+                                child: Row(
+                                  children: [
+                                    Container(
+                                        margin:
+                                            EdgeInsets.only(left: 10, top: 10),
+                                        height: 25,
+                                        child: Image.network(
+                                          data['contacts'][i]['icon'],
+                                          width: 25,
+                                          height: 25,
+                                          fit: BoxFit.cover,
+                                        )),
+                                    SizedBox(width: 5),
+                                    Container(
                                       margin:
                                           EdgeInsets.only(left: 10, top: 10),
-                                      height: 25,
-                                      child: Image.network(
-                                        data['contacts'][i]['icon'],
-                                        width: 25,
-                                        height: 25,
-                                        fit: BoxFit.cover,
-                                      )),
-                                  SizedBox(width: 5),
-                                  Container(
-                                    margin: EdgeInsets.only(left: 10, top: 10),
-                                    child: Text(
-                                        data['contacts'][i]['value'].toString(),
-                                        style: TextStyle(
-                                            color: CustomColors.appColors,
-                                            fontSize: 14)),
-                                  )
-                                ],
-                              ),
-                            )
-                        ]),
+                                      child: Text(
+                                          data['contacts'][i]['value']
+                                              .toString(),
+                                          style: TextStyle(
+                                              color: CustomColors.appColors,
+                                              fontSize: 14)),
+                                    )
+                                  ],
+                                ),
+                              )
+                          ]),
                     if (data['body_tm'] != null && data['body_tm'] != '')
                       SizedBox(
                         width: double.infinity,
@@ -428,185 +442,415 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                           ),
                         ),
                       ),
-                    TabBar(
-                      onTap: (value) {
-                        var lists = [];
-                        if (modules['products'] > 0) {
-                          lists.add('0');
-                        }
-                        if (modules['cars'] > 0) {
-                          lists.add('1');
-                        }
-                        if (modules['parts'] > 0) {
-                          lists.add('2');
-                        }
-                        if (modules['flats'] > 0) {
-                          lists.add('3');
-                        }
-                        if (modules['materials'] > 0) {
-                          lists.add('4');
-                        }
-                        if (modules['services'] > 0) {
-                          lists.add('5');
-                        }
+                    if (modules.length > 0)
+                      if (modules['cars'] > 0 ||
+                          modules['parts'] > 0 ||
+                          modules['products'] > 0 ||
+                          modules['services'] > 0 ||
+                          modules['flats'] > 0)
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              if (modules['products'] > 0)
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () async {
+                                          setState(() {
+                                            tab_control = 1;
+                                            data_array = [];
+                                            _pageNumber = 1;
+                                            _isLastPage = false;
+                                            _loading = true;
+                                            _error = false;
+                                          });
+                                          get_products_modul(widget.id);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: tab_control != 1
+                                              ? Color.fromARGB(
+                                                  255, 222, 222, 222)
+                                              : CustomColors.appColors,
+                                        ),
+                                        child: Text(
+                                            "Bildirişler (" +
+                                                modules['products'].toString() +
+                                                ")",
+                                            style: TextStyle(
+                                                color: tab_control != 1
+                                                    ? CustomColors.appColors
+                                                    : CustomColors
+                                                        .appColorWhite))),
+                                  ],
+                                ),
+                              if (modules['cars'] > 0)
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () async {
+                                          setState(() {
+                                            tab_control = 2;
+                                            data_array = [];
+                                            _pageNumber = 1;
+                                            _isLastPage = false;
+                                            _loading = true;
+                                            _error = false;
+                                          });
+                                          get_products_modul(widget.id);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: tab_control != 2
+                                              ? Color.fromARGB(
+                                                  255, 222, 222, 222)
+                                              : CustomColors.appColors,
+                                        ),
+                                        child: Text(
+                                            "Awtoulaglar (" +
+                                                modules['cars'].toString() +
+                                                ")",
+                                            style: TextStyle(
+                                                color: tab_control != 2
+                                                    ? CustomColors.appColors
+                                                    : CustomColors
+                                                        .appColorWhite))),
+                                  ],
+                                ),
+                              if (modules['parts'] > 0)
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      setState(() {
+                                        setState(() {
+                                          tab_control = 3;
+                                          data_array = [];
+                                          _pageNumber = 1;
+                                          _isLastPage = false;
+                                          _loading = true;
+                                          _error = false;
+                                        });
+                                        get_products_modul(widget.id);
+                                      });
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: tab_control != 3
+                                          ? Color.fromARGB(255, 222, 222, 222)
+                                          : CustomColors.appColors,
+                                    ),
+                                    child: Text(
+                                        "Awtoşaýlar (" +
+                                            modules['parts'].toString() +
+                                            ")",
+                                        style: TextStyle(
+                                            color: tab_control != 3
+                                                ? CustomColors.appColors
+                                                : CustomColors.appColorWhite))),
+                              if (modules['services'] > 0)
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () async {
+                                          setState(() {
+                                            tab_control = 4;
+                                            data_array = [];
+                                            _pageNumber = 1;
+                                            _isLastPage = false;
+                                            _loading = true;
+                                            _error = false;
+                                          });
+                                          get_products_modul(widget.id);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: tab_control != 4
+                                              ? Color.fromARGB(
+                                                  255, 222, 222, 222)
+                                              : CustomColors.appColors,
+                                        ),
+                                        child: Text(
+                                            "Hyzmatlar (" +
+                                                modules['services'].toString() +
+                                                ")",
+                                            style: TextStyle(
+                                                color: tab_control != 4
+                                                    ? CustomColors.appColors
+                                                    : CustomColors
+                                                        .appColorWhite))),
+                                  ],
+                                ),
+                              if (modules['flats'] > 0)
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () async {
+                                          setState(() {
+                                            tab_control = 5;
+                                            data_array = [];
+                                            _pageNumber = 1;
+                                            _isLastPage = false;
+                                            _loading = true;
+                                            _error = false;
+                                          });
+                                          get_products_modul(widget.id);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: tab_control != 5
+                                              ? Color.fromARGB(
+                                                  255, 222, 222, 222)
+                                              : CustomColors.appColors,
+                                        ),
+                                        child: Text(
+                                            "Emläkler (" +
+                                                modules['flats'].toString() +
+                                                ")",
+                                            style: TextStyle(
+                                                color: tab_control != 5
+                                                    ? CustomColors.appColors
+                                                    : CustomColors
+                                                        .appColorWhite))),
+                                  ],
+                                ),
+                              SizedBox(width: 5),
+                            ],
+                          ),
+                        ),
+                    Wrap(
+                      alignment: WrapAlignment.start,
+                      children: data_array.map((item) {
+                        return GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            height: 220,
+                            width: MediaQuery.of(context).size.width / 2,
+                            child: Card(
+                              color: CustomColors.appColorWhite,
+                              shadowColor:const Color.fromARGB(255, 200, 198, 198),
+                              surfaceTintColor: CustomColors.appColorWhite,
+                              elevation: 5,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.all(Radius.circular(7.0)),
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      color: Colors.white,
+                                      height: 150,
+                                      child: item['img'] != ''
+                                          ? Image.network(
+                                              baseurl + item['img'].toString(),
+                                              fit: BoxFit.cover,
+                                              height: 150,
+                                              width: double.infinity,
+                                            )
+                                          : Image.asset(
+                                              'assets/images/default.jpg',
+                                            ),
+                                    ),
+                                    Container(
+                                      color: Colors.white,
+                                      child: tab_control != 2
+                                          ? Text(
+                                              item['name'].toString(),
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color:
+                                                      CustomColors.appColors),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            )
+                                          : Text(item['mark'].toString() +
+                                              item['model'] +
+                                              item['year'].toString()),
+                                    ),
+                                    Container(
+                                      color: Colors.white,
+                                      child: Text(
+                                        item['price'].toString(),
+                                        style: TextStyle(
+                                            fontSize: 12, color: Colors.green),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    if (tab_control == 1)
+                                      ConstrainedBox(
+                                        constraints:
+                                            BoxConstraints.tightFor(height: 20),
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.green[700]),
+                                          child: Text('Sebede goş',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: CustomColors
+                                                      .appColorWhite,
+                                                  overflow: TextOverflow.clip)),
+                                          onPressed: () async {
+                                            var allRows =
+                                                await dbHelper.queryAllRows();
+                                            var data = [];
+                                            for (final row in allRows) {
+                                              data.add(row);
+                                            }
+                                            if (data.length == 0) {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Login()));
+                                            } else {
+                                              setState(() {
+                                                shoping_cart_items = [];
+                                              });
 
-                        setState(() {
-                          modul = lists[value];
-                          if (value.toString() == '0') {
-                            modul_name = 'Harytlar';
-                          }
-                          if (value.toString() == '1') {
-                            modul_name = 'Awtoulaglar';
-                          }
-                          if (value.toString() == '2') {
-                            modul_name = 'Awtoşaýlar';
-                          }
-                          if (value.toString() == '3') {
-                            modul_name = 'Emläkler';
-                          }
-                          if (value.toString() == '4') {
-                            modul_name = 'Gurluşyk harytlar';
-                          }
-                          if (value.toString() == '5') {
-                            modul_name = 'Hyzmatlar';
-                          }
-                        });
-                      },
-                      controller: _tabController,
-                      indicatorColor: CustomColors.appColors,
-                      unselectedLabelColor: Colors.black,
-                      isScrollable: true,
-                      tabs: <Widget>[
-                        if (data['modules']['products'] > 0)
-                          Tab(
-                            child: GestureDetector(
-                              child: Row(
-                                children: const <Widget>[
-                                  Text(
-                                    "Harytlar",
-                                    style: TextStyle(
-                                        color: CustomColors.appColors,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                  )
-                                ],
+                                              var shoping_cart = await dbHelper
+                                                  .get_shoping_cart_by_store(
+                                                      id: widget.id);
+                                              var array = [];
+                                              for (final row in shoping_cart) {
+                                                array.add(row);
+                                              }
+                                              var shoping_cart_item =
+                                                  await dbHelper
+                                                      .get_shoping_cart_item(
+                                                          soping_cart_id:
+                                                              array[0]['id']
+                                                                  .toString(),
+                                                          product_id: item['id']
+                                                              .toString());
+                                              for (final row
+                                                  in shoping_cart_item) {
+                                                shoping_cart_items.add(row);
+                                              }
+                                              if (shoping_cart_items.length ==
+                                                  0) {
+                                                Map<String, dynamic> row = {
+                                                  'soping_cart_id': array[0]
+                                                      ['id'],
+                                                  'product_id': item['id'],
+                                                  'product_img': item['img'],
+                                                  'product_name': item['name'],
+                                                  'product_price':
+                                                      item['price'].toString(),
+                                                  'count': 1
+                                                };
+                                                var shoping_cart = await dbHelper
+                                                    .add_product_shoping_cart(
+                                                        row);
+                                                showSuccessAlert();
+                                                var count = await dbHelper
+                                                    .get_shoping_cart_items(
+                                                        soping_cart_id: array[0]
+                                                                ['id']
+                                                            .toString());
+                                                var array1 = [];
+                                                for (final row in count) {
+                                                  array1.add(row);
+                                                }
+
+                                                refresh_item_count(
+                                                    array1.length);
+                                              } else {
+                                                showWarningAlert();
+                                              }
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        if (data['modules']['cars'] > 0)
-                          Tab(
-                              child: GestureDetector(
-                            child: Row(children: const <Widget>[
-                              Icon(
-                                Icons.settings_applications_sharp,
-                                color: CustomColors.appColors,
-                              ),
-                              Text(
-                                "Awtoulaglar",
-                                style: TextStyle(
-                                    color: CustomColors.appColors,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              )
-                            ]),
-                          )),
-                        if (data['modules']['parts'] > 0)
-                          Tab(
-                              child: GestureDetector(
-                            child: Row(children: const <Widget>[
-                              Icon(
-                                Icons.storefront_outlined,
-                                color: CustomColors.appColors,
-                              ),
-                              Text(
-                                "Awtoşaýlar",
-                                style: TextStyle(
-                                    color: CustomColors.appColors,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              )
-                            ]),
-                          )),
-                        if (data['modules']['flats'] > 0)
-                          Tab(
-                              child: GestureDetector(
-                            child: Row(children: const <Widget>[
-                              Icon(
-                                Icons.holiday_village,
-                                color: CustomColors.appColors,
-                              ),
-                              Text(
-                                "Emläkler",
-                                style: TextStyle(
-                                    color: CustomColors.appColors,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              )
-                            ]),
-                          )),
-                        if (data['modules']['materials'] > 0)
-                          Tab(
-                              child: GestureDetector(
-                            child: Row(children: const <Widget>[
-                              Icon(
-                                Icons.shopify,
-                                color: CustomColors.appColors,
-                              ),
-                              Text(
-                                "Gurluşyk harytlar",
-                                style: TextStyle(
-                                    color: CustomColors.appColors,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              )
-                            ]),
-                          )),
-                        if (data['modules']['services'] > 0)
-                          Tab(
-                              child: GestureDetector(
-                            child: Row(children: const <Widget>[
-                              Icon(
-                                Icons.shopify,
-                                color: CustomColors.appColors,
-                              ),
-                              Text(
-                                "Hyzmatlar",
-                                style: TextStyle(
-                                    color: CustomColors.appColors,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15),
-                              )
-                            ]),
-                          ))
-                      ],
+                        );
+                      }).toList(),
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height - 130,
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: <Widget>[
-                          if (data['modules']['products'] > 0)
-                            StoreProducts(
-                                id: widget.id,
-                                refresh_item_count: refresh_item_count,
-                                isTopList: isTopList),
-                          if (data['modules']['cars'] > 0)
-                            StoreCars(id: widget.id, isTopList: isTopList),
-                          if (data['modules']['services'] > 0)
-                            StoreServices(id: widget.id, isTopList: isTopList),
-                          if (data['modules']['flats'] > 0)
-                            StoreFlats(id: widget.id, isTopList: isTopList),
-                          if (data['modules']['parts'] > 0)
-                            StoreParts(id: widget.id, isTopList: isTopList),
-                          if (data['modules']['materials'] > 0)
-                            StoreMaterials(id: widget.id, isTopList: isTopList),
-                        ],
-                      ),
-                    )
+                    if (total_page > current_page && _getRequest == true)
+                      Container(
+                        height: 100,
+                        child: Center(
+                            child: CircularProgressIndicator(
+                                color: CustomColors.appColors)),
+                      )
                   ],
-                )
-              : Center(child: CircularProgressIndicator(color: CustomColors.appColors)),
-        ));
+                ),
+              )
+            : Center(
+                child:
+                    CircularProgressIndicator(color: CustomColors.appColors)),
+        floatingActionButton: buttonTop
+            ? FloatingActionButton.small(
+              backgroundColor: CustomColors.appColors,
+                onPressed: (){
+                  isTopList();
+                },
+                child: Icon(Icons.north, color: CustomColors.appColorWhite,),
+              )
+            : Container());
+  }
+
+  void get_products_modul(id) async {
+    Urls server_url = new Urls();
+    var param = 'products';
+    if (tab_control == 2) {
+      param = 'cars';
+    }
+    if (tab_control == 3) {
+      param = 'parts';
+    }
+    if (tab_control == 4) {
+      param = 'services';
+    }
+    if (tab_control == 5) {
+      param = 'flats';
+    }
+    String url = server_url.get_server_url() + '/mob/' + param + '?store=' + id;
+
+    if (keyword.text != '') {
+      url = server_url.get_server_url() +
+          '/mob/' +
+          param +
+          '?store=' +
+          id +
+          "&name=" +
+          keyword.text;
+    }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
+    if (_getRequest == false) {
+      print(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest");
+      final response = await http.get(
+          Uri.parse(
+              url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
+          headers: headers);
+      final json = jsonDecode(utf8.decode(response.bodyBytes));
+      var postList = [];
+      for (var i in json['data']) {
+        postList.add(i);
+      }
+      setState(() {
+        current_page = json['current_page'];
+        total_page = json['total_page'];
+        baseurl = server_url.get_server_url();
+        _loading = false;
+        _pageNumber = _pageNumber + 1;
+        data_array.addAll(postList);
+        _getRequest = false;
+        determinate1 = true;
+      });
+    }
   }
 
   void getsinglemarkets({required id, required title}) async {
@@ -634,7 +878,6 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
     setState(() {
       item_count = array1.length;
     });
-
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/markets/' + id;
 
@@ -662,41 +905,14 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
       store_name = data['name_tm'];
       modules = json['modules'];
 
-      var s = 0;
-      if (modules['services'] > 0) {
-        s = s + 1;
-        modul = '5';
-      }
-      if (modules['materials'] > 0) {
-        s = s + 1;
-        modul = '4';
-      }
-      if (modules['flats'] > 0) {
-        s = s + 1;
-        modul = '3';
-      }
-      if (modules['parts'] > 0) {
-        s = s + 1;
-        modul = '2';
-      }
-      if (modules['cars'] > 0) {
-        s = s + 1;
-        modul = '1';
-      }
-      if (modules['products'] > 0) {
-        s = s + 1;
-        modul = '0';
-      }
-
-      _tabController = TabController(length: s, vsync: this, initialIndex: 0);
-
       if (json['phones'].length != 0) {
         telefon = json['phones'][0];
       }
+
       for (i in data['images']) {
         imgList.add(baseurl + i['img_m']);
       }
-      _tabCount = s;
+
       determinate = true;
       if (imgList.length == 0) {
         imgList.add('x');
@@ -706,7 +922,42 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
 
   void isTopList() {
     double position = 0.0;
-    _scrollController.position.animateTo(position,
-        duration: Duration(milliseconds: 100), curve: Curves.easeInCirc);
+    _controller.position.animateTo(position, duration: Duration(milliseconds: 500), curve: Curves.easeInCirc);
+  }
+
+  void _controllListener() {
+    if (_controller.offset > 600) {
+      setState(() {
+        buttonTop = true;
+      });
+    } else {
+      setState(() {
+        buttonTop = false;
+      });
+    }
+    if (_controller.offset > _controller.position.maxScrollExtent - 1000 &&
+        total_page > current_page &&
+        _getRequest == false) {
+      var sort_value = "";
+      var sort = Provider.of<UserInfo>(context, listen: false).sort;
+      if (int.parse(sort) == 2) {
+        sort_value = 'sort=price';
+      }
+      if (int.parse(sort) == 3) {
+        sort_value = 'sort=-price';
+      }
+      if (int.parse(sort) == 4) {
+        sort_value = 'sort=id';
+      }
+      if (int.parse(sort) == 4) {
+        sort_value = 'sort=-id';
+      }
+      if (tab_control == 1) {
+        get_products_modul(widget.id);
+      }
+      setState(() {
+        _getRequest = true;
+      });
+    }
   }
 }

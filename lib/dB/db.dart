@@ -140,6 +140,7 @@ class DatabaseSQL {
     }
 
     Future<int> add_product_shoping_cart(Map<String, dynamic> row) async{
+      print('ergjnern');
       await _db.insert(shoping_cart_items, row);
       return 0;
     }
