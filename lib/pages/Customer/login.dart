@@ -218,7 +218,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   Container(
-                      height: MediaQuery.of(context).size.height / 2 - 10,
+                      height: MediaQuery.of(context).size.height / 2 - 100,
                       width: double.infinity,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,

@@ -215,13 +215,11 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
                   Text("Bahasy", style: CustomText.size_16_black54,)],),),
               Expanded(child: Text(data['price'].toString(),  style: CustomText.size_16))],),),
 
-          Container(
-            margin: EdgeInsets.only(left: 10,right: 10),
-            height: 30,
+          SizedBox(
             child: Row(children: [
               Expanded(child: Row(
                 children: [
-                  SizedBox(width: 10,),
+                  SizedBox(width: 25,),
                   Icon(Icons.location_on, color: Colors.black26,),
                   SizedBox(width: 10,),
                   Text("Ýerleşýän ýeri", style: CustomText.size_16_black54,)],),),

@@ -34,7 +34,7 @@ class _NewPasswordState extends State<NewPassword> {
           children: [
             Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height-100,
               child: Center(
                 child: Column(
                   children: [

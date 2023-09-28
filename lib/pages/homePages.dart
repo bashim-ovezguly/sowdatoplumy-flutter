@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/pages/Notifications/notificationsList.dart';
 import 'package:my_app/pages/progressIndicator.dart';
 import 'package:my_app/pages/ribbon/ribbonList.dart';
 import 'package:provider/provider.dart';
@@ -69,7 +70,7 @@ class _HomeState extends State<Home> {
     });
     final completer = Completer();
     final t = Timer(Duration(seconds: 5), () => completer.complete());
-      print(t);
+    print(t);
     await completer.future;
     setState(() {
       status = false;
@@ -80,7 +81,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return status == false
         ? Scaffold(
-          backgroundColor: CustomColors.appColorWhite,
+            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
                 title: Column(
                   children: [
@@ -97,7 +98,7 @@ class _HomeState extends State<Home> {
                         child: region != {} && region['name_tm'] != null
                             ? Text(
                                 region['name_tm'].toString(),
-                                style: TextStyle(fontSize: 12),
+                                style: TextStyle(fontSize: 12, color: CustomColors.appColorWhite),
                               )
                             : Container()),
                   ],
@@ -397,7 +398,8 @@ class _HomeState extends State<Home> {
                                           CustomColors.appColorWhite,
                                       elevation: 5,
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0)),
                                         child: Container(
                                           height: 110,
                                           child: Row(children: <Widget>[
@@ -579,14 +581,16 @@ class _HomeState extends State<Home> {
         "bazar_count": json['data']['bazar_count'].toString(),
         "shopping_center_count":
             json['data']['shopping_center_count'].toString(),
-        "market_count": json['data']['market_count'].toString(),
+        // "market_count": json['data']['market_count'].toString(),
         "car_count": json['data']['car_count'].toString(),
         "part_count": json['data']['part_count'].toString(),
-        "service_count": json['data']['service_count'].toString(),
-        "material_count": json['data']['material_count'].toString(),
+        // "service_count": json['data']['service_count'].toString(),
+        // "material_count": json['data']['material_count'].toString(),
         "product_count": json['data']['product_count'].toString(),
         "factory_count": json['data']['factory_count'].toString(),
-        "flat_count": json['data']['flat_count'].toString()
+        "flat_count": json['data']['flat_count'].toString(),
+        "announcements": json['data']['announcements'].toString(),
+        // "restaurants": json['data']['restaurants'].toString(),
       };
 
       Provider.of<UserInfo>(context, listen: false)
@@ -946,9 +950,77 @@ class _MyDraverState extends State<MyDraver> {
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
+
                   GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "/pharmacies/list");
+                        Navigator.pushNamed(context, "/car");
+                      },
+                      child: Container(
+                          color: Colors.white,
+                          width: double.infinity,
+                          margin: EdgeInsets.only(left: 20, top: 20),
+                          child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, "/car");
+                              },
+                              child: Container(
+                                  child: Row(children: [
+                                Icon(
+                                  Icons.car_repair,
+                                  size: 25,
+                                  color: CustomColors.appColors,
+                                ),
+                                SizedBox(
+                                  width: 14,
+                                ),
+                                Text('Awtoulaglar',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: CustomColors.appColors)),
+                                Spacer(),
+                                Text(statistic['car_count'],
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: CustomColors.appColors)),
+                                SizedBox(width: 15),
+                              ]))))),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/autoParts");
+                      },
+                      child: Container(
+                          color: Colors.white,
+                          width: double.infinity,
+                          margin: EdgeInsets.only(left: 20, top: 20),
+                          child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, "/autoParts");
+                              },
+                              child: Container(
+                                  child: Row(children: [
+                                Icon(
+                                  Icons.settings_outlined,
+                                  size: 25,
+                                  color: CustomColors.appColors,
+                                ),
+                                SizedBox(
+                                  width: 14,
+                                ),
+                                Text('Awtoşaýlar',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: CustomColors.appColors)),
+                                Spacer(),
+                                Text(statistic['part_count'],
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: CustomColors.appColors)),
+                                SizedBox(width: 15),
+                              ]))))),
+
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/properties/list");
                       },
                       child: Container(
                           width: double.infinity,
@@ -957,29 +1029,98 @@ class _MyDraverState extends State<MyDraver> {
                           child: GestureDetector(
                               onTap: () {
                                 Navigator.pushNamed(
-                                    context, "/pharmacies/list");
+                                    context, "/properties/list");
                               },
                               child: Container(
                                   child: Row(children: [
                                 Icon(
-                                  Icons.local_pharmacy_sharp,
+                                  Icons.other_houses,
                                   size: 25,
                                   color: CustomColors.appColors,
                                 ),
                                 SizedBox(
                                   width: 14,
                                 ),
-                                Text('Dermanhanalar',
+                                Text('Gozgalmaýan emläkler',
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: CustomColors.appColors)),
                                 Spacer(),
-                                Text(statistic['pharmacy_count'],
+                                Text(statistic['flat_count'],
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
+                  GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                          width: double.infinity,
+                          color: Colors.white,
+                          margin: EdgeInsets.only(left: 20, top: 20),
+                          child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Notifications(
+                                              title: 'Bildirişler',
+                                            )));
+                              },
+                              child: Container(
+                                  child: Row(children: [
+                                Icon(Icons.campaign,
+                                    size: 25, color: CustomColors.appColors),
+                                SizedBox(
+                                  width: 14,
+                                ),
+                                Text('Bildirişler',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: CustomColors.appColors)),
+                                Spacer(),
+                                Text(statistic['announcements'],
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: CustomColors.appColors)),
+                                SizedBox(width: 15),
+                              ]))))),
+
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/properties/list");
+                      },
+                      child: Container(
+                          width: double.infinity,
+                          color: Colors.white,
+                          margin: EdgeInsets.only(left: 20, top: 20),
+                          child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, "/properties/list");
+                              },
+                              child: Container(
+                                  child: Row(children: [
+                                Icon(
+                                  Icons.restaurant,
+                                  size: 25,
+                                  color: CustomColors.appColors,
+                                ),
+                                SizedBox(
+                                  width: 14,
+                                ),
+                                Text('Naharhanalar',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: CustomColors.appColors)),
+                                Spacer(),
+                                Text(statistic['flat_count'],
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: CustomColors.appColors)),
+                                SizedBox(width: 15),
+                              ]))))),
+
                   GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -1062,150 +1203,120 @@ class _MyDraverState extends State<MyDraver> {
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
+
+                  // GestureDetector(
+                  //     onTap: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) =>
+                  //                   Store(title: "Marketler")));
+                  //     },
+                  //     child: Container(
+                  //         width: double.infinity,
+                  //         color: Colors.white,
+                  //         margin: EdgeInsets.only(left: 20, top: 20),
+                  //         child: GestureDetector(
+                  //             onTap: () {
+                  //               Navigator.push(
+                  //                   context,
+                  //                   MaterialPageRoute(
+                  //                       builder: (context) =>
+                  //                           Store(title: "Marketler")));
+                  //             },
+                  //             child: Container(
+                  //                 child: Row(children: [
+                  //               Icon(
+                  //                 Icons.storefront_outlined,
+                  //                 size: 25,
+                  //                 color: CustomColors.appColors,
+                  //               ),
+                  //               SizedBox(
+                  //                 width: 14,
+                  //               ),
+                  //               Text('Marketler',
+                  //                   style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       color: CustomColors.appColors)),
+                  //               Spacer(),
+                  //               Text(statistic['market_count'],
+                  //                   style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       color: CustomColors.appColors)),
+                  //               SizedBox(width: 15),
+                  //             ]))))),
+
+                  // GestureDetector(
+                  //     onTap: () {
+                  //       Navigator.pushNamed(context, "/productManufacturers");
+                  //     },
+                  //     child: Container(
+                  //         color: Colors.white,
+                  //         width: double.infinity,
+                  //         margin: EdgeInsets.only(left: 20, top: 20),
+                  //         child: GestureDetector(
+                  //             onTap: () {
+                  //               Navigator.pushNamed(
+                  //                   context, "/productManufacturers");
+                  //             },
+                  //             child: Container(
+                  //                 child: Row(children: [
+                  //               Icon(
+                  //                 Icons.store_outlined,
+                  //                 size: 25,
+                  //                 color: CustomColors.appColors,
+                  //               ),
+                  //               SizedBox(
+                  //                 width: 14,
+                  //               ),
+                  //               Text('Önüm öndürijiler',
+                  //                   style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       color: CustomColors.appColors)),
+                  //               Spacer(),
+                  //               Text(statistic['factory_count'],
+                  //                   style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       color: CustomColors.appColors)),
+                  //               SizedBox(width: 15),
+                  //             ]))))),
+                  // GestureDetector(
+                  //     onTap: () {
+                  //       Navigator.pushNamed(context, "/constructions/list");
+                  //     },
+                  //     child: Container(
+                  //         color: Colors.white,
+                  //         width: double.infinity,
+                  //         margin: EdgeInsets.only(left: 20, top: 20),
+                  //         child: GestureDetector(
+                  //             onTap: () {
+                  //               Navigator.pushNamed(
+                  //                   context, "/constructions/list");
+                  //             },
+                  //             child: Container(
+                  //                 child: Row(children: [
+                  //               Icon(
+                  //                 Icons.build_circle,
+                  //                 size: 25,
+                  //                 color: CustomColors.appColors,
+                  //               ),
+                  //               SizedBox(
+                  //                 width: 14,
+                  //               ),
+                  //               Text('Gurluşyk harytlary',
+                  //                   style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       color: CustomColors.appColors)),
+                  //               Spacer(),
+                  //               Text(statistic['material_count'],
+                  //                   style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       color: CustomColors.appColors)),
+                  //               SizedBox(width: 15),
+                  //             ]))))),
                   GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Store(title: "Marketler")));
-                      },
-                      child: Container(
-                          width: double.infinity,
-                          color: Colors.white,
-                          margin: EdgeInsets.only(left: 20, top: 20),
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            Store(title: "Marketler")));
-                              },
-                              child: Container(
-                                  child: Row(children: [
-                                Icon(
-                                  Icons.storefront_outlined,
-                                  size: 25,
-                                  color: CustomColors.appColors,
-                                ),
-                                SizedBox(
-                                  width: 14,
-                                ),
-                                Text('Marketler',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                Spacer(),
-                                Text(statistic['market_count'],
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                SizedBox(width: 15),
-                              ]))))),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, "/productManufacturers");
-                      },
-                      child: Container(
-                          color: Colors.white,
-                          width: double.infinity,
-                          margin: EdgeInsets.only(left: 20, top: 20),
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, "/productManufacturers");
-                              },
-                              child: Container(
-                                  child: Row(children: [
-                                Icon(
-                                  Icons.store_outlined,
-                                  size: 25,
-                                  color: CustomColors.appColors,
-                                ),
-                                SizedBox(
-                                  width: 14,
-                                ),
-                                Text('Önüm öndürijiler',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                Spacer(),
-                                Text(statistic['factory_count'],
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                SizedBox(width: 15),
-                              ]))))),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, "/car");
-                      },
-                      child: Container(
-                          color: Colors.white,
-                          width: double.infinity,
-                          margin: EdgeInsets.only(left: 20, top: 20),
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(context, "/car");
-                              },
-                              child: Container(
-                                  child: Row(children: [
-                                Icon(
-                                  Icons.car_repair,
-                                  size: 25,
-                                  color: CustomColors.appColors,
-                                ),
-                                SizedBox(
-                                  width: 14,
-                                ),
-                                Text('Awtoulaglar',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                Spacer(),
-                                Text(statistic['car_count'],
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                SizedBox(width: 15),
-                              ]))))),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, "/autoParts");
-                      },
-                      child: Container(
-                          color: Colors.white,
-                          width: double.infinity,
-                          margin: EdgeInsets.only(left: 20, top: 20),
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(context, "/autoParts");
-                              },
-                              child: Container(
-                                  child: Row(children: [
-                                Icon(
-                                  Icons.settings_outlined,
-                                  size: 25,
-                                  color: CustomColors.appColors,
-                                ),
-                                SizedBox(
-                                  width: 14,
-                                ),
-                                Text('Awtoşaýlar',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                Spacer(),
-                                Text(statistic['part_count'],
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                SizedBox(width: 15),
-                              ]))))),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, "/properties/list");
+                        Navigator.pushNamed(context, "/pharmacies/list");
                       },
                       child: Container(
                           width: double.infinity,
@@ -1214,96 +1325,63 @@ class _MyDraverState extends State<MyDraver> {
                           child: GestureDetector(
                               onTap: () {
                                 Navigator.pushNamed(
-                                    context, "/properties/list");
+                                    context, "/pharmacies/list");
                               },
                               child: Container(
                                   child: Row(children: [
                                 Icon(
-                                  Icons.other_houses,
+                                  Icons.local_pharmacy_sharp,
                                   size: 25,
                                   color: CustomColors.appColors,
                                 ),
                                 SizedBox(
                                   width: 14,
                                 ),
-                                Text('Emläkler',
+                                Text('Dermanhanalar',
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: CustomColors.appColors)),
                                 Spacer(),
-                                Text(statistic['flat_count'],
+                                Text(statistic['pharmacy_count'],
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, "/constructions/list");
-                      },
-                      child: Container(
-                          color: Colors.white,
-                          width: double.infinity,
-                          margin: EdgeInsets.only(left: 20, top: 20),
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, "/constructions/list");
-                              },
-                              child: Container(
-                                  child: Row(children: [
-                                Icon(
-                                  Icons.build_circle,
-                                  size: 25,
-                                  color: CustomColors.appColors,
-                                ),
-                                SizedBox(
-                                  width: 14,
-                                ),
-                                Text('Gurluşyk harytlary',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                Spacer(),
-                                Text(statistic['material_count'],
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                SizedBox(width: 15),
-                              ]))))),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, "/services/list");
-                      },
-                      child: Container(
-                          width: double.infinity,
-                          color: Colors.white,
-                          margin: EdgeInsets.only(left: 20, top: 20),
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(context, "/services/list");
-                              },
-                              child: Container(
-                                  child: Row(children: [
-                                Icon(
-                                  Icons.home_repair_service,
-                                  size: 25,
-                                  color: CustomColors.appColors,
-                                ),
-                                SizedBox(
-                                  width: 14,
-                                ),
-                                Text('Hyzmatlar',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                Spacer(),
-                                Text(statistic['service_count'],
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                SizedBox(width: 15),
-                              ]))))),
+
+                  // GestureDetector(
+                  //     onTap: () {
+                  //       Navigator.pushNamed(context, "/services/list");
+                  //     },
+                  //     child: Container(
+                  //         width: double.infinity,
+                  //         color: Colors.white,
+                  //         margin: EdgeInsets.only(left: 20, top: 20),
+                  //         child: GestureDetector(
+                  //             onTap: () {
+                  //               Navigator.pushNamed(context, "/services/list");
+                  //             },
+                  //             child: Container(
+                  //                 child: Row(children: [
+                  //               Icon(
+                  //                 Icons.home_repair_service,
+                  //                 size: 25,
+                  //                 color: CustomColors.appColors,
+                  //               ),
+                  //               SizedBox(
+                  //                 width: 14,
+                  //               ),
+                  //               Text('Hyzmatlar',
+                  //                   style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       color: CustomColors.appColors)),
+                  //               Spacer(),
+                  //               Text(statistic['service_count'],
+                  //                   style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       color: CustomColors.appColors)),
+                  //               SizedBox(width: 15),
+                  //             ]))))),
                 ],
               ),
             )

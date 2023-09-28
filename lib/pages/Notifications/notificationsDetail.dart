@@ -12,16 +12,16 @@ import '../fullScreenSlider.dart';
 import '../../dB/colors.dart';
 import '../progressIndicator.dart';
 
-class OtherGoodsDetail extends StatefulWidget {
-  OtherGoodsDetail({Key? key, required this.id, required this.title})
+class NotificationsDetail extends StatefulWidget {
+  NotificationsDetail({Key? key, required this.id, required this.title})
       : super(key: key);
   final String id, title;
   @override
-  State<OtherGoodsDetail> createState() =>
-      _OtherGoodsDetailState(id: id, title: title);
+  State<NotificationsDetail> createState() =>
+      _NotificationsDetailState(id: id, title: title);
 }
 
-class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
+class _NotificationsDetailState extends State<NotificationsDetail> {
   final String id, title;
   String number = '';
   int _current = 0;
@@ -57,7 +57,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
     });
   }
 
-  _OtherGoodsDetailState({required this.id, required this.title});
+  _NotificationsDetailState({required this.id, required this.title});
   @override
   Widget build(BuildContext context) {
     return status
@@ -224,7 +224,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                                 height: 35,
                                 child: Text(data['name_tm'].toString(),
                                     style: TextStyle(
-                                        fontSize: 18,
+                                        fontSize: 20,
                                         color: CustomColors.appColors))),
                           if (data['category'] != null &&
                               data['category'] != '')
@@ -234,18 +234,15 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                                 child: Row(children: [
                                   Icon(
                                     Icons.layers,
-                                    color: const Color.fromARGB(
-                                        255, 170, 170, 170),
+                                    color: const Color.fromARGB(255, 170, 170, 170),
                                   ),
                                   SizedBox(
                                     width: 10,
                                   ),
                                   Text(data['category'].toString(),
                                       style: TextStyle(
-                                        fontSize: 16,
-                                        color: const Color.fromARGB(
-                                            255, 170, 170, 170),
-                                      ))
+                                          fontSize: 16,
+                                          color: const Color.fromARGB(255, 170, 170, 170),))
                                 ])),
                           if (data['price'] != '' && data['price'] != null)
                             Container(
@@ -256,23 +253,6 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                                         fontSize: 20,
                                         color: CustomColors.appColors,
                                         fontWeight: FontWeight.bold))),
-                          if (data['body_tm'] != '' && data['body_tm'] != '')
-                            SizedBox(
-                                width: double.infinity,
-                                child: TextField(
-                                    enabled: false,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      filled: true,
-                                      hintMaxLines: 10,
-                                      hintStyle: TextStyle(
-                                          fontSize: 14,
-                                          color: CustomColors.appColors),
-                                      hintText: data['body_tm'].toString(),
-                                      fillColor: Colors.white,
-                                    ))),
                           if (data['store_name'] != null &&
                               data['store_name'] != '')
                             GestureDetector(
@@ -289,27 +269,19 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                                 },
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
                                     children: [
                                       SizedBox(
                                         width: 10,
-                                        height: 20,
                                       ),
-                                      CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                          baseurl +
-                                              data['store_logo'].toString(),
-                                        ),
-                                        radius: 25,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
+                                      Image.asset(
+                                        'assets/images/store.png',
+                                        color: CustomColors.appColors,
+                                        width: 25,
+                                        height: 25,
                                       ),
                                       Text(data['store_name'],
                                           style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
                                               color: CustomColors.appColors))
                                     ])),
                           if (data['phone'] != '' && data['phone'] != null)
@@ -325,6 +297,23 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                                           fontSize: 16,
                                           color: CustomColors.appColors))
                                 ])),
+                          if (data['body_tm'] != null && data['body_tm'] != '')
+                            SizedBox(
+                                width: double.infinity,
+                                child: TextField(
+                                    enabled: false,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      filled: true,
+                                      hintMaxLines: 10,
+                                      hintStyle: TextStyle(
+                                          fontSize: 14,
+                                          color: CustomColors.appColors),
+                                      hintText: data['body_tm'].toString(),
+                                      fillColor: Colors.white,
+                                    ))),
                         ],
                       )
                     : Center(
@@ -343,7 +332,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
 
   void getsingleproduct({required id}) async {
     Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/products/' + id;
+    String url = server_url.get_server_url() + '/mob/announcements/' + id;
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
     for (var i in global_headers.entries) {

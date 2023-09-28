@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:badges/badges.dart';
 import 'package:http/http.dart' as http;
@@ -13,12 +14,6 @@ import 'package:my_app/pages/OtherGoods/otherGoodsDetail.dart';
 import 'package:my_app/pages/Propertie/propertiesDetail.dart';
 import 'package:my_app/pages/Services/serviceDetail.dart';
 import 'package:my_app/pages/Store/order.dart';
-import 'package:my_app/pages/Store/producrt.dart';
-import 'package:my_app/pages/Store/storeCars.dart';
-import 'package:my_app/pages/Store/storeFlats.dart';
-import 'package:my_app/pages/Store/storeMaterials.dart';
-import 'package:my_app/pages/Store/storeParts.dart';
-import 'package:my_app/pages/Store/storeServices.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -80,8 +75,8 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
 
   bool determinate = false;
   bool determinate1 = false;
+  bool status = true;
 
-  late TabController _tabController;
   var keyword = TextEditingController();
   var shoping_carts = [];
   var data = {};
@@ -101,10 +96,9 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
     getsinglemarkets(id: widget.id, title: widget.title);
   }
 
-  late ScrollController _scrollController = ScrollController();
-
   @override
   void initState() {
+    timers();
     _pageNumber = 1;
     _isLastPage = false;
     _loading = true;
@@ -114,7 +108,6 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
     if (tab_control == 1) {
       get_products_modul(widget.id);
     }
-    _controller.addListener(_controllListener);
 
     if (imgList.length == 0) {
       imgList.add('x');
@@ -124,10 +117,21 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
     getsinglemarkets(id: widget.id, title: widget.title);
   }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+  timers() async {
+    _controller.addListener(_controllListener);
+
+    setState(() {
+      status = true;
+    });
+    final completer = Completer();
+    final t = Timer(Duration(seconds: 5), () => completer.complete());
+    print(t);
+    await completer.future;
+    setState(() {
+      if (determinate == false) {
+        status = false;
+      }
+    });
   }
 
   @override
@@ -349,16 +353,20 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                 color: CustomColors.appColors, fontSize: 20)),
                       ),
                     if (data['location'] != '' && data['location'] != null)
-                      Container(
-                          padding: EdgeInsets.all(5),
+                      SizedBox(
                           child: Row(children: [
-                            Icon(Icons.location_on,
-                                color: CustomColors.appColors, size: 25),
+                            Expanded(flex: 1,
+                              child: Icon(Icons.location_on,
+                                  color: CustomColors.appColors, size: 25),
+                            ),
                             SizedBox(width: 5),
-                            Text(data['location']['name'].toString(),
-                                style: TextStyle(
-                                    color: CustomColors.appColors,
-                                    fontSize: 14))
+                            Expanded(
+                              flex: 10,
+                              child: Text(data['location']['name'].toString(),
+                                  style: TextStyle(
+                                      color: CustomColors.appColors,
+                                      fontSize: 14)),
+                            )
                           ])),
                     if (data['customer'] != '' && data['customer'] != null)
                       GestureDetector(
@@ -466,6 +474,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                     ElevatedButton(
                                         onPressed: () async {
                                           setState(() {
+                                            determinate1 = false;
                                             tab_control = 1;
                                             data_array = [];
                                             _pageNumber = 1;
@@ -501,6 +510,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                     ElevatedButton(
                                         onPressed: () async {
                                           setState(() {
+                                            determinate1 = false;
                                             tab_control = 2;
                                             data_array = [];
                                             _pageNumber = 1;
@@ -532,6 +542,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                     onPressed: () async {
                                       setState(() {
                                         setState(() {
+                                          determinate1 = false;
                                           tab_control = 3;
                                           data_array = [];
                                           _pageNumber = 1;
@@ -564,6 +575,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                     ElevatedButton(
                                         onPressed: () async {
                                           setState(() {
+                                            determinate1 = false;
                                             tab_control = 4;
                                             data_array = [];
                                             _pageNumber = 1;
@@ -629,201 +641,257 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                             ],
                           ),
                         ),
-                    Wrap(
-                      alignment: WrapAlignment.start,
-                      children: data_array.map((item) {
-                        return GestureDetector(
-                          onTap: () {
-                            if (tab_control == 1) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => OtherGoodsDetail(
-                                            id: item['id'].toString(),
-                                            title: 'Harytlar',
-                                          )));
-                            }
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: 10, right: 10, top: 10, bottom: 10),
+                      width: double.infinity,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 228, 228, 228),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Center(
+                        child: TextFormField(
+                          controller: keyword,
+                          decoration: InputDecoration(
+                              prefixIcon: IconButton(
+                                icon: const Icon(Icons.search),
+                                onPressed: () {
+                                  setState(() {
+                                    _pageNumber = 1;
+                                    _isLastPage = false;
+                                    _loading = true;
+                                    _error = false;
+                                    tab_control = 1;
+                                    data_array = [];
+                                  });
+                                  get_products_modul(widget.id);
+                                },
+                              ),
+                              suffixIcon: IconButton(
+                                icon: const Icon(Icons.clear),
+                                onPressed: () {
+                                  setState(() {
+                                    _pageNumber = 1;
+                                    _isLastPage = false;
+                                    _loading = true;
+                                    _error = false;
+                                    tab_control = 1;
+                                    data_array = [];
+                                    keyword.text = '';
+                                  });
+                                  get_products_modul(widget.id);
+                                },
+                              ),
+                              hintText: 'Gözleg...',
+                              border: InputBorder.none),
+                        ),
+                      ),
+                    ),
+                    if (data_array.length > 0)
+                      Wrap(
+                        alignment: WrapAlignment.start,
+                        children: data_array.map((item) {
+                          return GestureDetector(
+                            onTap: () {
+                              if (tab_control == 1) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => OtherGoodsDetail(
+                                              id: item['id'].toString(),
+                                              title: 'Harytlar',
+                                            )));
+                              }
 
-                            if (tab_control == 2) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          CarStore(id: item['id'].toString())));
-                            }
+                              if (tab_control == 2) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CarStore(
+                                            id: item['id'].toString())));
+                              }
 
-                            if (tab_control == 3) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => AutoPartsDetail(
-                                          id: item['id'].toString())));
-                            }
+                              if (tab_control == 3) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AutoPartsDetail(
+                                            id: item['id'].toString())));
+                              }
 
-                            if (tab_control == 4) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ServiceDetail(
-                                          id: item['id'].toString())));
-                            }
+                              if (tab_control == 4) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ServiceDetail(
+                                            id: item['id'].toString())));
+                              }
 
-                            if (tab_control == 5) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => PropertiesDetail(
-                                          id: item['id'].toString())));
-                            }
-                          },
-                          child: Container(
-                            height: 220,
-                            width: MediaQuery.of(context).size.width / 2,
-                            child: Card(
-                              color: CustomColors.appColorWhite,
-                              shadowColor:
-                                  const Color.fromARGB(255, 200, 198, 198),
-                              surfaceTintColor: CustomColors.appColorWhite,
-                              elevation: 5,
-                              child: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(7.0)),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      color: Colors.white,
-                                      height: 150,
-                                      child: item['img'] != ''
-                                          ? Image.network(
-                                              baseurl + item['img'].toString(),
-                                              fit: BoxFit.cover,
-                                              height: 150,
-                                              width: double.infinity,
-                                            )
-                                          : Image.asset(
-                                              'assets/images/default.jpg',
-                                            ),
-                                    ),
-                                    Container(
-                                      color: Colors.white,
-                                      child: tab_control != 2
-                                          ? Text(
-                                              item['name'].toString(),
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color:
-                                                      CustomColors.appColors),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            )
-                                          : Text(item['mark'].toString() +
-                                              item['model'] +
-                                              item['year'].toString()),
-                                    ),
-                                    Container(
-                                      color: Colors.white,
-                                      child: Text(
-                                        item['price'].toString(),
-                                        style: TextStyle(
-                                            fontSize: 12, color: Colors.green),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                              if (tab_control == 5) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => PropertiesDetail(
+                                            id: item['id'].toString())));
+                              }
+                            },
+                            child: Container(
+                              height: 220,
+                              width: MediaQuery.of(context).size.width / 2,
+                              child: Card(
+                                color: CustomColors.appColorWhite,
+                                shadowColor:
+                                    const Color.fromARGB(255, 200, 198, 198),
+                                surfaceTintColor: CustomColors.appColorWhite,
+                                elevation: 5,
+                                child: ClipRRect(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(7.0)),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        color: Colors.white,
+                                        height: 150,
+                                        child: item['img'] != ''
+                                            ? Image.network(
+                                                baseurl +
+                                                    item['img'].toString(),
+                                                fit: BoxFit.cover,
+                                                height: 150,
+                                                width: double.infinity,
+                                              )
+                                            : Image.asset(
+                                                'assets/images/default.jpg',
+                                              ),
                                       ),
-                                    ),
-                                    if (tab_control == 1)
-                                      ConstrainedBox(
-                                        constraints:
-                                            BoxConstraints.tightFor(height: 20),
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  Colors.green[700]),
-                                          child: Text('Sebede goş',
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: CustomColors
-                                                      .appColorWhite,
-                                                  overflow: TextOverflow.clip)),
-                                          onPressed: () async {
-                                            var allRows =
-                                                await dbHelper.queryAllRows();
-                                            var data = [];
-                                            for (final row in allRows) {
-                                              data.add(row);
-                                            }
-                                            if (data.length == 0) {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Login()));
-                                            } else {
-                                              setState(() {
-                                                shoping_cart_items = [];
-                                              });
-
-                                              var shoping_cart = await dbHelper
-                                                  .get_shoping_cart_by_store(
-                                                      id: widget.id);
-                                              var array = [];
-                                              for (final row in shoping_cart) {
-                                                array.add(row);
-                                              }
-                                              var shoping_cart_item =
-                                                  await dbHelper
-                                                      .get_shoping_cart_item(
-                                                          soping_cart_id:
-                                                              array[0]['id']
-                                                                  .toString(),
-                                                          product_id: item['id']
-                                                              .toString());
-                                              for (final row
-                                                  in shoping_cart_item) {
-                                                shoping_cart_items.add(row);
-                                              }
-                                              if (shoping_cart_items.length ==
-                                                  0) {
-                                                Map<String, dynamic> row = {
-                                                  'soping_cart_id': array[0]
-                                                      ['id'],
-                                                  'product_id': item['id'],
-                                                  'product_img': item['img'],
-                                                  'product_name': item['name'],
-                                                  'product_price':
-                                                      item['price'].toString(),
-                                                  'count': 1
-                                                };
-                                                var shoping_cart = await dbHelper
-                                                    .add_product_shoping_cart(
-                                                        row);
-                                                showSuccessAlert();
-                                                var count = await dbHelper
-                                                    .get_shoping_cart_items(
-                                                        soping_cart_id: array[0]
-                                                                ['id']
-                                                            .toString());
-                                                var array1 = [];
-                                                for (final row in count) {
-                                                  array1.add(row);
-                                                }
-
-                                                refresh_item_count(
-                                                    array1.length);
-                                              } else {
-                                                showWarningAlert();
-                                              }
-                                            }
-                                          },
+                                      Container(
+                                        color: Colors.white,
+                                        child: tab_control != 2
+                                            ? Text(
+                                                item['name'].toString(),
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color:
+                                                        CustomColors.appColors),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              )
+                                            : Text(item['mark'].toString() +
+                                                item['model'] +
+                                                item['year'].toString()),
+                                      ),
+                                      Container(
+                                        color: Colors.white,
+                                        child: Text(
+                                          item['price'].toString(),
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.green),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
-                                  ],
+                                      if (tab_control == 1)
+                                        ConstrainedBox(
+                                          constraints: BoxConstraints.tightFor(
+                                              height: 20),
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Colors.green[700]),
+                                            child: Text('Sebede goş',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: CustomColors
+                                                        .appColorWhite,
+                                                    overflow:
+                                                        TextOverflow.clip)),
+                                            onPressed: () async {
+                                              var allRows =
+                                                  await dbHelper.queryAllRows();
+                                              var data = [];
+                                              for (final row in allRows) {
+                                                data.add(row);
+                                              }
+                                              if (data.length == 0) {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Login()));
+                                              } else {
+                                                setState(() {
+                                                  shoping_cart_items = [];
+                                                });
+
+                                                var shoping_cart = await dbHelper
+                                                    .get_shoping_cart_by_store(
+                                                        id: widget.id);
+                                                var array = [];
+                                                for (final row
+                                                    in shoping_cart) {
+                                                  array.add(row);
+                                                }
+                                                var shoping_cart_item =
+                                                    await dbHelper
+                                                        .get_shoping_cart_item(
+                                                            soping_cart_id:
+                                                                array[0]['id']
+                                                                    .toString(),
+                                                            product_id: item[
+                                                                    'id']
+                                                                .toString());
+                                                for (final row
+                                                    in shoping_cart_item) {
+                                                  shoping_cart_items.add(row);
+                                                }
+                                                if (shoping_cart_items.length ==
+                                                    0) {
+                                                  Map<String, dynamic> row = {
+                                                    'soping_cart_id': array[0]
+                                                        ['id'],
+                                                    'product_id': item['id'],
+                                                    'product_img': item['img'],
+                                                    'product_name':
+                                                        item['name'],
+                                                    'product_price':
+                                                        item['price']
+                                                            .toString(),
+                                                    'count': 1
+                                                  };
+                                                  var shoping_cart = await dbHelper
+                                                      .add_product_shoping_cart(
+                                                          row);
+                                                  showSuccessAlert();
+                                                  var count = await dbHelper
+                                                      .get_shoping_cart_items(
+                                                          soping_cart_id:
+                                                              array[0]['id']
+                                                                  .toString());
+                                                  var array1 = [];
+                                                  for (final row in count) {
+                                                    array1.add(row);
+                                                  }
+
+                                                  refresh_item_count(
+                                                      array1.length);
+                                                } else {
+                                                  showWarningAlert();
+                                                }
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
+                          );
+                        }).toList(),
+                      )
+                    else
+                      SizedBox(height: 600),
                     if (total_page > current_page && _getRequest == true)
                       Container(
                         height: 100,
@@ -882,7 +950,6 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
       headers[i.key] = i.value.toString();
     }
     if (_getRequest == false) {
-      print(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest");
       final response = await http.get(
           Uri.parse(
               url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),

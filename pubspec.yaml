@@ -123,6 +123,7 @@ flutter:
      - assets/images/lenta.png
      - assets/images/playmarket.png
      - assets/images/sms_code_icon.png
+     - assets/images/bildirish.png
      
      
   # An image asset can refer to one or more resolution-specific "variants", see

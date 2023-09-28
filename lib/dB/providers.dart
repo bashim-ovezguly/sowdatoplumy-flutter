@@ -40,7 +40,9 @@ class UserInfo extends ChangeNotifier {
                                     "material_count":"",
                                     "product_count": "",
                                     "factory_count": "",
-                                    "flat_count": "" };
+                                    "flat_count": "",
+                                    "announcements": "",
+                                    "restaurants": ""};
 
   void set_statistic(value){
     statistic = value;
