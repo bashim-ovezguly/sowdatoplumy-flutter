@@ -320,8 +320,7 @@ class _RibbonListState extends State<RibbonList> {
   void get_ribbonlist() async {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/lenta';
-    var responsess =
-        Provider.of<UserInfo>(context, listen: false).update_tokenc();
+    var responsess = Provider.of<UserInfo>(context, listen: false).update_tokenc();
     if (await responsess) {
       var allRows = await dbHelper.queryAllRows();
       var datas = [];
@@ -329,10 +328,7 @@ class _RibbonListState extends State<RibbonList> {
       for (final row in allRows) {
         datas.add(row);
       }
-      if (datas.length == 0) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Login()));
-      }
+      if (datas.length == 0) {Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));}
       url = url + "?page=$_pageNumber&page_size=$_numberOfPostPerRequest";
       final uri = Uri.parse(url);
         Map<String, String> headers = {};  

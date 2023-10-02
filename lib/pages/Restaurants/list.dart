@@ -1,73 +1,119 @@
-// ignore_for_file: unused_field, unused_local_variable
+// ignore_for_file: unused_field
 
 import 'dart:async';
 import 'dart:convert';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-
 import 'package:my_app/dB/constants.dart';
-import 'package:my_app/pages/Pharmacies/pharmacieFirst.dart';
+import 'package:my_app/pages/Restaurants/detail.dart';
+import 'package:my_app/pages/Store/fistStore.dart';
+import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/homePages.dart';
 import 'package:provider/provider.dart';
+
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
+import '../Search/search.dart';
 import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
-class PharmaciesList extends StatefulWidget {
-  const PharmaciesList({Key? key}) : super(key: key);
-
-  @override
-  State<PharmaciesList> createState() => _PharmaciesListState();
+class CheckBoxModal {
+  String title;
+  bool value;
+  CheckBoxModal({required this.title, this.value = false});
 }
 
-class _PharmaciesListState extends State<PharmaciesList> {
-  List<dynamic> data = [];
-  var baseurl = "";
-  int _current = 0;
-  late int total_page;
-  late int current_page;
-  bool _getRequest = false;
-  bool determinate = false;
-  bool status = true;
-  bool determinate1 = true;
+// ignore: must_be_immutable
+class Restaurant extends StatefulWidget {
+  Restaurant({Key? key, required this.title}) : super(key: key);
+  String title;
+  @override
+  State<Restaurant> createState() => _RestaurantState(title: title);
+}
+
+class _RestaurantState extends State<Restaurant> {
+  late List<String> imgList = [];
+  String title;
   List<dynamic> dataSlider = [
     {"img": "", 'name': "", 'location': ''}
   ];
-  final ScrollController _controller = ScrollController();
+  List<dynamic> data = [];
+  int _current = 0;
+  var baseurl = "";
+  bool determinate = false;
+  bool determinate1 = false;
+  bool _getRequest = false;
+  bool status = true;
   bool filter = false;
-  late bool _isLastPage;
-  late int _pageNumber;
-  late bool _error;
+
   var keyword = TextEditingController();
-  late bool _loading;
-  final int _numberOfPostPerRequest = 12;
 
   callbackFilter() {
     timers();
     setState(() {
       determinate = false;
-      getpharmacieslist();
+      determinate1 = false;
+      var sort = Provider.of<UserInfo>(context, listen: false).sort;
+      var sort_value = "";
+
+      if (int.parse(sort) == 2) {
+        sort_value = 'sort=price';
+      }
+      if (int.parse(sort) == 3) {
+        sort_value = 'sort=-price';
+      }
+      if (int.parse(sort) == 4) {
+        sort_value = 'sort=id';
+      }
+      if (int.parse(sort) == 4) {
+        sort_value = 'sort=-id';
+      }
+
+      getstoreslist(sort_value);
+      getslider_stores();
     });
   }
 
+  @override
   void initState() {
     _pageNumber = 1;
     _isLastPage = false;
     _loading = true;
     _error = false;
-    _controller.addListener(_controllListener);
+
     timers();
-    getpharmacieslist();
-    getslider_shopping_centers();
+    var sort = Provider.of<UserInfo>(context, listen: false).sort;
+    var sort_value = "";
+    if (int.parse(sort) == 2) {
+      sort_value = 'sort=price';
+    }
+    if (int.parse(sort) == 3) {
+      sort_value = 'sort=-price';
+    }
+    if (int.parse(sort) == 4) {
+      sort_value = 'sort=id';
+    }
+    if (int.parse(sort) == 4) {
+      sort_value = 'sort=-id';
+    }
+    getstoreslist(sort_value);
+    getslider_stores();
+
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   timers() async {
+    _controller.addListener(_controllListener);
+
     setState(() {
       status = true;
     });
@@ -82,31 +128,46 @@ class _PharmaciesListState extends State<PharmaciesList> {
     });
   }
 
+  late bool _isLastPage;
+  late int _pageNumber;
+  late bool _error;
+  late bool _loading;
+  final int _numberOfPostPerRequest = 12;
+  final ScrollController _controller = ScrollController();
+  final double _height = 100.0;
+
+  late int total_page;
+  late int current_page;
+
+  void _animateToIndex(int index) {
+    _controller.animateTo(
+      index * 1,
+      duration: Duration(seconds: 2),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
+  _RestaurantState({required this.title});
+
   @override
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
             backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
-              title: const Text(
-                "Dermanhanalar",
-                style: CustomText.appBarText,
-              ),
+              title: Text(title, style: CustomText.appBarText),
               actions: [
-                Row(
-                  children: <Widget>[
-                    Container(
-                        padding: const EdgeInsets.all(10),
-                        child: GestureDetector(
-                            onTap: () {
-                              showConfirmationDialog(context);
-                            },
-                            child: const Icon(
-                              Icons.sort,
-                              size: 25,
-                            ))),
-                  ],
-                )
+                Container(
+                    padding: const EdgeInsets.all(10),
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Search(index: 2)));
+                        },
+                        child:
+                            Icon(Icons.search, color: Colors.white, size: 25)))
               ],
             ),
             body: RefreshIndicator(
@@ -165,9 +226,11 @@ class _PharmaciesListState extends State<PharmaciesList> {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
-                                                              PharmacieFirst(
-                                                                  id: item['id']
-                                                                      .toString())));
+                                                              MarketDetail(
+                                                                id: item['id']
+                                                                    .toString(),
+                                                                title: title,
+                                                              )));
                                                 }
                                               },
                                               child: Stack(
@@ -240,21 +303,18 @@ class _PharmaciesListState extends State<PharmaciesList> {
                                           if (int.parse(sort) == 2) {
                                             sort_value = 'sort=price';
                                           }
-
                                           if (int.parse(sort) == 3) {
                                             sort_value = 'sort=-price';
                                           }
-
                                           if (int.parse(sort) == 4) {
                                             sort_value = 'sort=id';
                                           }
-
                                           if (int.parse(sort) == 4) {
                                             sort_value = 'sort=-id';
                                           }
 
-                                          getpharmacieslist();
-                                          getslider_shopping_centers();
+                                          getstoreslist(sort_value);
+                                          getslider_stores();
                                         },
                                       ),
                                       suffixIcon: IconButton(
@@ -268,15 +328,27 @@ class _PharmaciesListState extends State<PharmaciesList> {
                                             data = [];
                                             keyword.text = '';
                                           });
-                                          var sort = Provider.of<UserInfo>(context, listen: false).sort;
+                                          var sort = Provider.of<UserInfo>(
+                                                  context,
+                                                  listen: false)
+                                              .sort;
                                           var sort_value = "";
 
-                                          if (int.parse(sort) == 2) { sort_value = 'sort=price'; }
-                                          if (int.parse(sort) == 3) { sort_value = 'sort=-price'; }
-                                          if (int.parse(sort) == 4) { sort_value = 'sort=id'; }
-                                          if (int.parse(sort) == 4) { sort_value = 'sort=-id'; }
-                                          getpharmacieslist();
-                                          getslider_shopping_centers();
+                                          if (int.parse(sort) == 2) {
+                                            sort_value = 'sort=price';
+                                          }
+                                          if (int.parse(sort) == 3) {
+                                            sort_value = 'sort=-price';
+                                          }
+                                          if (int.parse(sort) == 4) {
+                                            sort_value = 'sort=id';
+                                          }
+                                          if (int.parse(sort) == 4) {
+                                            sort_value = 'sort=-id';
+                                          }
+
+                                          getstoreslist(sort_value);
+                                          getslider_stores();
                                         },
                                       ),
                                       hintText: 'Ady boýunça gözleg...',
@@ -292,10 +364,11 @@ class _PharmaciesListState extends State<PharmaciesList> {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                PharmacieFirst(
-                                                    id: item['id']
-                                                        .toString())));
+                                          builder: (context) =>
+                                              RestaurantDetail(
+                                                  id: item['id'].toString(),
+                                                  title: title),
+                                        ));
                                   },
                                   child: Container(
                                     height: 160,
@@ -310,7 +383,7 @@ class _PharmaciesListState extends State<PharmaciesList> {
                                       elevation: 5,
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0)),
+                                            Radius.circular(7.0)),
                                         child: Column(
                                           children: [
                                             Container(
@@ -383,67 +456,34 @@ class _PharmaciesListState extends State<PharmaciesList> {
     );
   }
 
-  void getpharmacieslist() async {
-    var sort = Provider.of<UserInfo>(context, listen: false).sort;
-    var sort_value = "";
-    print(sort_value);
-
-    if (int.parse(sort) == 2) {
-      sort_value = 'sort=price';
-    }
-
-    if (int.parse(sort) == 3) {
-      sort_value = 'sort=-price';
-    }
-
-    if (int.parse(sort) == 4) {
-      sort_value = 'sort=id';
-    }
-
-    if (int.parse(sort) == 4) {
-      sort_value = 'sort=-id';
-    }
+  void getstoreslist(sort_value) async {
     try {
+      Urls server_url = new Urls();
+      String url = server_url.get_server_url() + '/mob/restaurants?' + sort_value;
+      if (keyword.text != '') { url = server_url.get_server_url() + '/mob/restaurants?' + sort_value + "&name=" +keyword.text;}
+      Map<String, String> headers = {};
+      for (var i in global_headers.entries) {
+        headers[i.key] = i.value.toString();
+      }
+      print(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
       if (_getRequest == false) {
-        Urls server_url = new Urls();
-        String url = server_url.get_server_url() +
-            '/mob/pharmacies?' +
-            sort_value.toString();
-        if (keyword.text != '') {
-          url = server_url.get_server_url() +
-              '/mob/pharmacies?' +
-              sort_value.toString() +
-              "&name=" +
-              keyword.text;
-        }
-
-        Map<String, String> headers = {};
-        for (var i in global_headers.entries) {
-          headers[i.key] = i.value.toString();
-        }
-        print(Uri.parse(
-            url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
-        final response = await http.get(
-            Uri.parse(
-                url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
-            headers: headers);
+        final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"), headers: headers);
 
         final json = jsonDecode(utf8.decode(response.bodyBytes));
         var postList = [];
         for (var i in json['data']) {
           postList.add(i);
         }
-
         setState(() {
           current_page = json['current_page'];
           total_page = json['total_page'];
           baseurl = server_url.get_server_url();
           determinate = true;
-          determinate = true;
           _isLastPage = data.length < _numberOfPostPerRequest;
           _loading = false;
           _pageNumber = _pageNumber + 1;
           data.addAll(postList);
+          _getRequest = false;
         });
       }
     } catch (e) {
@@ -454,9 +494,9 @@ class _PharmaciesListState extends State<PharmaciesList> {
     }
   }
 
-  void getslider_shopping_centers() async {
+  void getslider_stores() async {
     Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/pharmacies?on_slider=1';
+    String url = server_url.get_server_url() + '/mob/restaurants?on_slider=1';
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
     for (var i in global_headers.entries) {
@@ -467,8 +507,31 @@ class _PharmaciesListState extends State<PharmaciesList> {
     setState(() {
       dataSlider = json['data'];
       baseurl = server_url.get_server_url();
+      if (dataSlider.length == 0) {
+        dataSlider = [
+          {"img": "", 'name': "", 'location': ''}
+        ];
+      }
       determinate1 = true;
     });
+  }
+
+  Widget errorDialog({required double size}) {
+    return GestureDetector(
+        onTap: () {
+          _animateToIndex(1);
+        },
+        child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(title, style: TextStyle(color: CustomColors.appColors)),
+              SizedBox(width: 5),
+              Icon(
+                Icons.arrow_upward,
+                color: CustomColors.appColors,
+              )
+            ]));
   }
 
   void _controllListener() {
@@ -489,7 +552,10 @@ class _PharmaciesListState extends State<PharmaciesList> {
       if (int.parse(sort) == 4) {
         sort_value = 'sort=-id';
       }
-      getpharmacieslist();
+
+      getstoreslist(sort_value);
+      getslider_stores();
+
       setState(() {
         _getRequest = true;
       });

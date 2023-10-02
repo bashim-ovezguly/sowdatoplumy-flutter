@@ -675,11 +675,12 @@ class _MyPagesState extends State<MyPages> {
                                                 )),
                                             Expanded(
                                                 flex: 2,
-                                                child: Text('Harytlar',
+                                                child: Text('Beýleki bildirişler',
                                                     style: TextStyle(
                                                         fontSize: 15,
                                                         color: CustomColors
-                                                            .appColors)))
+                                                            .appColors),
+                                                            textAlign: TextAlign.center,))
                                           ])))
                                 ])),
                             Container(

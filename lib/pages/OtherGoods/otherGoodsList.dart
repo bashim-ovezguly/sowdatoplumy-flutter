@@ -125,6 +125,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                         prefixIcon: IconButton(
                               icon: const Icon(Icons.search), 
                               onPressed: () {
+                                data=[];
                                 getproductlist();
                               },
                               ),
@@ -132,12 +133,13 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                               icon: const Icon(Icons.clear),
                               onPressed: () {
                                 setState(() {
+                                  data=[];
                                   keyword.text = '';
                                 });
                                 getproductlist();
                               },
                             ),
-                            hintText: 'Gözleg...',
+                            hintText: 'Ady boýunça gözleg...',
                             border: InputBorder.none),
                       ),
                     ),
@@ -498,6 +500,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
         headers[i.key] = i.value.toString(); 
       }
     final response = await get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"), headers: headers);
+    print(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     var postList = [];
     for (var i in json['data']){

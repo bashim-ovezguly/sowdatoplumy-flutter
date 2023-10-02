@@ -24,7 +24,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final String phone;
-  bool _onEditing = true;
+
   final _code = TextEditingController();
 
   int _duration = 60;

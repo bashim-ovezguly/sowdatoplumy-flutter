@@ -8,11 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
-import 'package:my_app/pages/Awtoparts/awtoPartsDetail.dart';
-import 'package:my_app/pages/Car/carStore.dart';
 import 'package:my_app/pages/OtherGoods/otherGoodsDetail.dart';
-import 'package:my_app/pages/Propertie/propertiesDetail.dart';
-import 'package:my_app/pages/Services/serviceDetail.dart';
 import 'package:my_app/pages/Store/order.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
@@ -26,8 +22,8 @@ import '../Customer/myPages.dart';
 import '../fullScreenSlider.dart';
 import 'package:badges/badges.dart' as badges;
 
-class MarketDetail extends StatelessWidget {
-  MarketDetail({Key? key, required this.id, required this.title})
+class RestaurantDetail extends StatelessWidget {
+  RestaurantDetail({Key? key, required this.id, required this.title})
       : super(key: key);
   final String id;
   final String title;
@@ -105,16 +101,14 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
     _error = false;
     tab_control = 1;
 
-    if (tab_control == 1) {
-      get_products_modul(widget.id);
-    }
-
+    get_products_modul(widget.id);
+    getsinglemarkets(id: widget.id, title: widget.title);
     if (imgList.length == 0) {
       imgList.add('x');
     }
 
     super.initState();
-    getsinglemarkets(id: widget.id, title: widget.title);
+    
   }
 
   timers() async {
@@ -355,19 +349,19 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                     if (data['location'] != '' && data['location'] != null)
                       SizedBox(
                           child: Row(children: [
-                            Expanded(flex: 1,
-                              child: Icon(Icons.location_on,
-                                  color: CustomColors.appColors, size: 25),
-                            ),
-                            SizedBox(width: 5),
-                            Expanded(
-                              flex: 10,
-                              child: Text(data['location']['name'].toString(),
-                                  style: TextStyle(
-                                      color: CustomColors.appColors,
-                                      fontSize: 14)),
-                            )
-                          ])),
+                        Expanded(
+                          flex: 1,
+                          child: Icon(Icons.location_on,
+                              color: CustomColors.appColors, size: 25),
+                        ),
+                        SizedBox(width: 5),
+                        Expanded(
+                          flex: 10,
+                          child: Text(data['location']['name'].toString(),
+                              style: TextStyle(
+                                  color: CustomColors.appColors, fontSize: 14)),
+                        )
+                      ])),
                     if (data['customer'] != '' && data['customer'] != null)
                       GestureDetector(
                           onTap: () {
@@ -455,192 +449,6 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                           ),
                         ),
                       ),
-                    if (modules.length > 0)
-                      if (modules['cars'] > 0 ||
-                          modules['parts'] > 0 ||
-                          modules['products'] > 0 ||
-                          modules['services'] > 0 ||
-                          modules['flats'] > 0)
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              if (modules['products'] > 0)
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    ElevatedButton(
-                                        onPressed: () async {
-                                          setState(() {
-                                            determinate1 = false;
-                                            tab_control = 1;
-                                            data_array = [];
-                                            _pageNumber = 1;
-                                            _isLastPage = false;
-                                            _loading = true;
-                                            _error = false;
-                                          });
-                                          get_products_modul(widget.id);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: tab_control != 1
-                                              ? Color.fromARGB(
-                                                  255, 222, 222, 222)
-                                              : CustomColors.appColors,
-                                        ),
-                                        child: Text(
-                                            "Bildirişler (" +
-                                                modules['products'].toString() +
-                                                ")",
-                                            style: TextStyle(
-                                                color: tab_control != 1
-                                                    ? CustomColors.appColors
-                                                    : CustomColors
-                                                        .appColorWhite))),
-                                  ],
-                                ),
-                              if (modules['cars'] > 0)
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    ElevatedButton(
-                                        onPressed: () async {
-                                          setState(() {
-                                            determinate1 = false;
-                                            tab_control = 2;
-                                            data_array = [];
-                                            _pageNumber = 1;
-                                            _isLastPage = false;
-                                            _loading = true;
-                                            _error = false;
-                                          });
-                                          get_products_modul(widget.id);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: tab_control != 2
-                                              ? Color.fromARGB(
-                                                  255, 222, 222, 222)
-                                              : CustomColors.appColors,
-                                        ),
-                                        child: Text(
-                                            "Awtoulaglar (" +
-                                                modules['cars'].toString() +
-                                                ")",
-                                            style: TextStyle(
-                                                color: tab_control != 2
-                                                    ? CustomColors.appColors
-                                                    : CustomColors
-                                                        .appColorWhite))),
-                                  ],
-                                ),
-                              if (modules['parts'] > 0)
-                                ElevatedButton(
-                                    onPressed: () async {
-                                      setState(() {
-                                        setState(() {
-                                          determinate1 = false;
-                                          tab_control = 3;
-                                          data_array = [];
-                                          _pageNumber = 1;
-                                          _isLastPage = false;
-                                          _loading = true;
-                                          _error = false;
-                                        });
-                                        get_products_modul(widget.id);
-                                      });
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: tab_control != 3
-                                          ? Color.fromARGB(255, 222, 222, 222)
-                                          : CustomColors.appColors,
-                                    ),
-                                    child: Text(
-                                        "Awtoşaýlar (" +
-                                            modules['parts'].toString() +
-                                            ")",
-                                        style: TextStyle(
-                                            color: tab_control != 3
-                                                ? CustomColors.appColors
-                                                : CustomColors.appColorWhite))),
-                              if (modules['services'] > 0)
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    ElevatedButton(
-                                        onPressed: () async {
-                                          setState(() {
-                                            determinate1 = false;
-                                            tab_control = 4;
-                                            data_array = [];
-                                            _pageNumber = 1;
-                                            _isLastPage = false;
-                                            _loading = true;
-                                            _error = false;
-                                          });
-                                          get_products_modul(widget.id);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: tab_control != 4
-                                              ? Color.fromARGB(
-                                                  255, 222, 222, 222)
-                                              : CustomColors.appColors,
-                                        ),
-                                        child: Text(
-                                            "Hyzmatlar (" +
-                                                modules['services'].toString() +
-                                                ")",
-                                            style: TextStyle(
-                                                color: tab_control != 4
-                                                    ? CustomColors.appColors
-                                                    : CustomColors
-                                                        .appColorWhite))),
-                                  ],
-                                ),
-                              if (modules['flats'] > 0)
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    ElevatedButton(
-                                        onPressed: () async {
-                                          setState(() {
-                                            tab_control = 5;
-                                            data_array = [];
-                                            _pageNumber = 1;
-                                            _isLastPage = false;
-                                            _loading = true;
-                                            _error = false;
-                                          });
-                                          get_products_modul(widget.id);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: tab_control != 5
-                                              ? Color.fromARGB(
-                                                  255, 222, 222, 222)
-                                              : CustomColors.appColors,
-                                        ),
-                                        child: Text(
-                                            "Emläkler (" +
-                                                modules['flats'].toString() +
-                                                ")",
-                                            style: TextStyle(
-                                                color: tab_control != 5
-                                                    ? CustomColors.appColors
-                                                    : CustomColors
-                                                        .appColorWhite))),
-                                  ],
-                                ),
-                              SizedBox(width: 5),
-                            ],
-                          ),
-                        ),
                     Container(
                       margin: EdgeInsets.only(
                           left: 10, right: 10, top: 10, bottom: 10),
@@ -682,7 +490,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                   get_products_modul(widget.id);
                                 },
                               ),
-                              hintText: 'Ady boýunça gözleg...',
+                              hintText: 'Gözleg...',
                               border: InputBorder.none),
                         ),
                       ),
@@ -693,47 +501,13 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                         children: data_array.map((item) {
                           return GestureDetector(
                             onTap: () {
-                              if (tab_control == 1) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => OtherGoodsDetail(
-                                              id: item['id'].toString(),
-                                              title: 'Harytlar',
-                                            )));
-                              }
-
-                              if (tab_control == 2) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => CarStore(
-                                            id: item['id'].toString())));
-                              }
-
-                              if (tab_control == 3) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AutoPartsDetail(
-                                            id: item['id'].toString())));
-                              }
-
-                              if (tab_control == 4) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ServiceDetail(
-                                            id: item['id'].toString())));
-                              }
-
-                              if (tab_control == 5) {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => PropertiesDetail(
-                                            id: item['id'].toString())));
-                              }
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => OtherGoodsDetail(
+                                            id: item['id'].toString(),
+                                            title: 'Harytlar',
+                                          )));
                             },
                             child: Container(
                               height: 220,
@@ -922,19 +696,8 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
   void get_products_modul(id) async {
     Urls server_url = new Urls();
     var param = 'products';
-    if (tab_control == 2) {
-      param = 'cars';
-    }
-    if (tab_control == 3) {
-      param = 'parts';
-    }
-    if (tab_control == 4) {
-      param = 'services';
-    }
-    if (tab_control == 5) {
-      param = 'flats';
-    }
-    String url = server_url.get_server_url() + '/mob/' + param + '?store=' + id;
+    String url =
+        server_url.get_server_url() + '/mob/' + param + '?store=' + id;
 
     if (keyword.text != '') {
       url = server_url.get_server_url() +
@@ -949,6 +712,8 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
     for (var i in global_headers.entries) {
       headers[i.key] = i.value.toString();
     }
+    print(Uri.parse(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+
     if (_getRequest == false) {
       final response = await http.get(
           Uri.parse(
@@ -998,11 +763,8 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
       item_count = array1.length;
     });
     Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/markets/' + id;
+    String url = server_url.get_server_url() + '/mob/restaurants/' + id;
 
-    if (title == "Dükanlar") {
-      url = server_url.get_server_url() + '/mob/stores/' + id;
-    }
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
     for (var i in global_headers.entries) {

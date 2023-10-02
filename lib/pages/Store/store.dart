@@ -45,6 +45,7 @@ class _StoreState extends State<Store> {
   String dropdownValue = list.first;
   late List<String> imgList = [];
   String title;
+  var keyword = TextEditingController();
   List<dynamic> dataSlider = [
     {"img": "", 'name': "", 'location': ''}
   ];
@@ -323,6 +324,82 @@ class _StoreState extends State<Store> {
                                 )
                               ],
                             ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: 10, right: 10, top: 10, bottom: 10),
+                              width: double.infinity,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 228, 228, 228),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Center(
+                                child: TextFormField(
+                                  controller: keyword,
+                                  decoration: InputDecoration(
+                                      prefixIcon: IconButton(
+                                        icon: const Icon(Icons.search),
+                                        onPressed: () {
+                                          setState(() {
+                                            _pageNumber = 1;
+                                            _isLastPage = false;
+                                            _loading = true;
+                                            _error = false;
+                                            data = [];
+                                          });
+                                          var sort_value = "";
+                                          if (title == 'Marketler') {
+                                            getmarketslist(sort_value);
+                                            getmarkets_slider();
+                                          }
+                                          if (title == 'Söwda merkezler') {
+                                            getshopping_centerslist(sort_value);
+                                            getslider_shopping_centers();
+                                          }
+                                          if (title == 'Dükanlar') {
+                                            getstoreslist(sort_value);
+                                            getslider_stores();
+                                          }
+                                          if (title == 'Bazarlar') {
+                                            getbazarlarlist(sort_value);
+                                            getslider_shopping();
+                                          }
+                                        },
+                                      ),
+                                      suffixIcon: IconButton(
+                                        icon: const Icon(Icons.clear),
+                                        onPressed: () {
+                                          setState(() {
+                                            _pageNumber = 1;
+                                            _isLastPage = false;
+                                            _loading = true;
+                                            _error = false;
+                                            data = [];
+                                            keyword.text = '';
+                                          });
+                                          var sort_value = "";
+                                          if (title == 'Marketler') {
+                                            getmarketslist(sort_value);
+                                            getmarkets_slider();
+                                          }
+                                          if (title == 'Söwda merkezler') {
+                                            getshopping_centerslist(sort_value);
+                                            getslider_shopping_centers();
+                                          }
+                                          if (title == 'Dükanlar') {
+                                            getstoreslist(sort_value);
+                                            getslider_stores();
+                                          }
+                                          if (title == 'Bazarlar') {
+                                            getbazarlarlist(sort_value);
+                                            getslider_shopping();
+                                          }
+                                        },
+                                      ),
+                                      hintText: 'Ady boýunça gözleg...',
+                                      border: InputBorder.none),
+                                ),
+                              ),
+                            ),
                             Wrap(
                               alignment: WrapAlignment.start,
                               children: data.map((item) {
@@ -436,8 +513,8 @@ class _StoreState extends State<Store> {
   void getmarketslist(sort_value) async {
     try {
       Urls server_url = new Urls();
-      String url =
-          server_url.get_server_url() + '/mob/markets?' + sort_value.toString();
+      String url = server_url.get_server_url() + '/mob/markets?' + sort_value.toString();
+      if (keyword.text != '') { url = server_url.get_server_url() + '/mob/markets?' + sort_value + "&name=" +keyword.text;}
       Map<String, String> headers = {};
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
@@ -498,11 +575,15 @@ class _StoreState extends State<Store> {
     try {
       Urls server_url = new Urls();
       String url = server_url.get_server_url() + '/mob/stores?' + sort_value;
+      
+      if (keyword.text != '') { url = server_url.get_server_url() + '/mob/stores?' + sort_value + "&name=" +keyword.text;}
+    
       Map<String, String> headers = {};
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
       if (_getRequest == false) {
+        print(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest")); 
         final response = await http.get(
             Uri.parse(
                 url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
@@ -558,16 +639,16 @@ class _StoreState extends State<Store> {
   void getshopping_centerslist(sort_value) async {
     try {
       Urls server_url = new Urls();
-      String url =
-          server_url.get_server_url() + '/mob/shopping_centers?' + sort_value;
+      String url = server_url.get_server_url() + '/mob/shopping_centers?' + sort_value;
+      if (keyword.text != '') { url = server_url.get_server_url() + '/mob/shopping_centers?' + sort_value + "&name=" +keyword.text;}
       Map<String, String> headers = {};
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
       if (_getRequest == false) {
+        print(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest")); 
         final response = await http.get(
-            Uri.parse(
-                url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
+            Uri.parse(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
             headers: headers);
         final json = jsonDecode(utf8.decode(response.bodyBytes));
         var postList = [];
@@ -616,14 +697,15 @@ class _StoreState extends State<Store> {
     try {
       Urls server_url = new Urls();
       String url = server_url.get_server_url() + '/mob/bazarlar?' + sort_value;
+      if (keyword.text != '') { url = server_url.get_server_url() + '/mob/bazarlar?' + sort_value + "&name=" +keyword.text;}
       Map<String, String> headers = {};
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
       if (_getRequest == false) {
+        print(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest")); 
         final response = await http.get(
-            Uri.parse(
-                url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
+            Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
             headers: headers);
         final json = jsonDecode(utf8.decode(response.bodyBytes));
         var postList = [];

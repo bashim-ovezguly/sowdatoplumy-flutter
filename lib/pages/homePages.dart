@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/Notifications/notificationsList.dart';
+import 'package:my_app/pages/Restaurants/list.dart';
 import 'package:my_app/pages/progressIndicator.dart';
 import 'package:my_app/pages/ribbon/ribbonList.dart';
 import 'package:provider/provider.dart';
@@ -98,7 +99,9 @@ class _HomeState extends State<Home> {
                         child: region != {} && region['name_tm'] != null
                             ? Text(
                                 region['name_tm'].toString(),
-                                style: TextStyle(fontSize: 12, color: CustomColors.appColorWhite),
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: CustomColors.appColorWhite),
                               )
                             : Container()),
                   ],
@@ -1053,7 +1056,14 @@ class _MyDraverState extends State<MyDraver> {
                                 SizedBox(width: 15),
                               ]))))),
                   GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                         Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Notifications(
+                                              title: 'Beýleki bildirişler',
+                                            )));
+                      },
                       child: Container(
                           width: double.infinity,
                           color: Colors.white,
@@ -1064,7 +1074,7 @@ class _MyDraverState extends State<MyDraver> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => Notifications(
-                                              title: 'Bildirişler',
+                                              title: 'Beýleki bildirişler',
                                             )));
                               },
                               child: Container(
@@ -1074,7 +1084,7 @@ class _MyDraverState extends State<MyDraver> {
                                 SizedBox(
                                   width: 14,
                                 ),
-                                Text('Bildirişler',
+                                Text('Beýleki bildirişler',
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: CustomColors.appColors)),
@@ -1096,8 +1106,12 @@ class _MyDraverState extends State<MyDraver> {
                           margin: EdgeInsets.only(left: 20, top: 20),
                           child: GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(
-                                    context, "/properties/list");
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Restaurant(
+                                              title: "Naharhanalar",
+                                            )));
                               },
                               child: Container(
                                   child: Row(children: [
