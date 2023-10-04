@@ -16,7 +16,6 @@ import '../../dB/textStyle.dart';
 import '../select.dart';
 import '../success.dart';
 import '../../dB/colors.dart';
-import 'package:intl/intl.dart';
 import 'loadingWidget.dart';
 
 

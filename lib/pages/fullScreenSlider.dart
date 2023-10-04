@@ -4,13 +4,10 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:my_app/dB/colors.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:quickalert/quickalert.dart';
-import 'package:photo_view/photo_view.dart';
 
 class FullScreenSlider extends StatefulWidget {
   final List<String> imgList;
