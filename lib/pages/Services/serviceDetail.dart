@@ -97,7 +97,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                                         height:220,
                                         viewportFraction: 1,
                                         initialPage: 0,
-                                        enableInfiniteScroll: true,
+                                        enableInfiniteScroll: imgList.length>1 ? true: false,
                                         reverse: false,
                                         autoPlay: imgList.length>1 ? true: false,
                                         autoPlayInterval:

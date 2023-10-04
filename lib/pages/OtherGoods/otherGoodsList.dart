@@ -187,7 +187,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                               height:220,
                               viewportFraction: 1,
                               initialPage: 0,
-                              enableInfiniteScroll: true,
+                              enableInfiniteScroll: dataSlider.length>1 ? true: false,
                               reverse: false,
                               autoPlay: dataSlider.length > 1 ? true: false,
                               autoPlayInterval: const Duration(seconds: 4),

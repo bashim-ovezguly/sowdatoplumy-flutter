@@ -110,8 +110,7 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
                               reverse: false,
                               autoPlay: imgList.length > 1 ? true : false,
                               autoPlayInterval: const Duration(seconds: 4),
-                              autoPlayAnimationDuration:
-                                  const Duration(milliseconds: 800),
+                              autoPlayAnimationDuration: const Duration(milliseconds: 800),
                               autoPlayCurve: Curves.fastOutSlowIn,
                               enlargeCenterPage: true,
                               enlargeFactor: 0.3,

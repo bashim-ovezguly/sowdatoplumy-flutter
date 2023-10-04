@@ -159,6 +159,7 @@ class _GetRealEstateFirstState extends State<GetRealEstateFirst> {
                             height:220,
                             margin: const EdgeInsets.all(10),
                             child: ImageSlideshow(
+                              disableUserScrolling: imgList.length==0? false: true,
                               indicatorColor: CustomColors.appColors,
                               indicatorBackgroundColor: Colors.grey,
                               onPageChanged: (value) {},

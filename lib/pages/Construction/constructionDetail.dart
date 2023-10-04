@@ -86,7 +86,7 @@ class _ConstructionDetailState extends State<ConstructionDetail> {
                       height:220,
                       viewportFraction: 1,
                       initialPage: 0,
-                      enableInfiniteScroll: true,
+                      enableInfiniteScroll: imgList.length>1 ? true: false,
                       reverse: false,
                       autoPlay: imgList.length>1 ? true: false,
                       autoPlayInterval: const Duration(seconds: 4),

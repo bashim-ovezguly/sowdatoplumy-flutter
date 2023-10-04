@@ -158,6 +158,7 @@ class _RibbonListState extends State<RibbonList> {
                               height: 180,
                               color: Colors.black12,
                               child: ImageSlideshow(
+                                  disableUserScrolling: data[index]['images'].length==0? false: true,
                                   width: double.infinity,
                                   initialPage: 0,
                                   indicatorColor: CustomColors.appColors,

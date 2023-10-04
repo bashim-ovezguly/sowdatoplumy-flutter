@@ -116,7 +116,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       height:220,
                       viewportFraction: 1,
                       initialPage: 0,
-                      enableInfiniteScroll: true,
+                      enableInfiniteScroll: imgList.length>1 ? true: false,
                       reverse: false,
                       autoPlay: true,
                       autoPlayInterval: const Duration(seconds: 4),

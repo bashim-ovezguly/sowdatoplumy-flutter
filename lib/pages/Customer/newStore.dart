@@ -164,22 +164,22 @@ class _NewStoreState extends State<NewStore> {
               },
             ),
 
-              Container(
-                alignment: Alignment.center,
-                height: 35,
-                margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
-                width: double.infinity,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-                child:  TextFormField(
-                  controller: addressController,
-                  decoration: const InputDecoration(hintText: 'Address',
-                      border: InputBorder.none,
-                      focusColor: Colors.white,
-                      contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }return null;
-                },),),
+              // Container(
+              //   alignment: Alignment.center,
+              //   height: 35,
+              //   margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
+              //   width: double.infinity,
+              //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+              //   child:  TextFormField(
+              //     controller: addressController,
+              //     decoration: const InputDecoration(hintText: 'Address',
+              //         border: InputBorder.none,
+              //         focusColor: Colors.white,
+              //         contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+              //     if (value == null || value.isEmpty) {
+              //       return 'Please enter some text';
+              //     }return null;
+              //   },),),
 
               Container(
                 alignment: Alignment.center,
@@ -209,85 +209,85 @@ class _NewStoreState extends State<NewStore> {
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
                 child:  Text(" " + phoneController,)),),
 
-              Container(
-                height: 35,
-                margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
-                width: double.infinity,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-                child: Row(
-                  children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Ýerleşýän köçesi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
-                  Expanded(flex: 4, child: MyDropdownButton(items: streets, callbackFunc: callbackStreet)
-              ),],),),
+              // Container(
+              //   height: 35,
+              //   margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
+              //   width: double.infinity,
+              //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+              //   child: Row(
+              //     children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Ýerleşýän köçesi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              //     Expanded(flex: 4, child: MyDropdownButton(items: streets, callbackFunc: callbackStreet)
+              // ),],),),
 
-              Container(
-                height: 35,
-                margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
-                width: double.infinity,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-                child: Row(
-                  children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Ululygy : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
-                  Expanded(flex: 4, child: MyDropdownButton(items: sizes, callbackFunc: callbackStreet)
-              ),],),),
+              // Container(
+              //   height: 35,
+              //   margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
+              //   width: double.infinity,
+              //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+              //   child: Row(
+              //     children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Ululygy : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              //     Expanded(flex: 4, child: MyDropdownButton(items: sizes, callbackFunc: callbackStreet)
+              // ),],),),
 
-              Container(
-                alignment: Alignment.center,
-                height: 35,
-                margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
-                width: double.infinity,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-                child:  TextFormField(
-                  controller: open_atController,
-                  decoration: const InputDecoration(hintText: 'Açylýan wagty: ',
-                      border: InputBorder.none,
-                      focusColor: Colors.white,
-                      contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
-                      readOnly: true,
-                      onTap: () async {
-                        TimeOfDay ? pickedTime =  await showTimePicker(
-                          initialTime: TimeOfDay.now(),
-                          context: context,
-                          );
-                        if(pickedTime != null ){
-                          DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
-                          String formattedTime = DateFormat('HH:mm:ss').format(parsedTime);
-                          setState(() {
-                            open_atController.text = formattedTime; 
-                            });
-                        }else{
-                          print("Time is not selected");
-                        }
-                    },),),
+              // Container(
+              //   alignment: Alignment.center,
+              //   height: 35,
+              //   margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
+              //   width: double.infinity,
+              //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+              //   child:  TextFormField(
+              //     controller: open_atController,
+              //     decoration: const InputDecoration(hintText: 'Açylýan wagty: ',
+              //         border: InputBorder.none,
+              //         focusColor: Colors.white,
+              //         contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
+              //         readOnly: true,
+              //         onTap: () async {
+              //           TimeOfDay ? pickedTime =  await showTimePicker(
+              //             initialTime: TimeOfDay.now(),
+              //             context: context,
+              //             );
+              //           if(pickedTime != null ){
+              //             DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
+              //             String formattedTime = DateFormat('HH:mm:ss').format(parsedTime);
+              //             setState(() {
+              //               open_atController.text = formattedTime; 
+              //               });
+              //           }else{
+              //             print("Time is not selected");
+              //           }
+              //       },),),
 
-              Container(
-                alignment: Alignment.center,
-                height: 35,
-                margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
-                width: double.infinity,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-                child:  TextFormField(
-                  controller: close_atController,
-                  decoration: const InputDecoration(hintText: 'Ýapylýan wagty: ',
-                      border: InputBorder.none,
-                      focusColor: Colors.white,
-                      contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
-                      readOnly: true,
-                      onTap: () async {
-                        TimeOfDay ? pickedTime =  await showTimePicker(
-                          initialTime: TimeOfDay.now(),
-                          context: context,
-                          );
-                        if(pickedTime != null ){
-                          DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
-                          String formattedTime = DateFormat('HH:mm:ss').format(parsedTime);
-                          setState(() {
-                            close_atController.text = formattedTime; 
-                            });
-                        }else{
-                          print("Time is not selected");
-                        }
-                    },)
+              // Container(
+              //   alignment: Alignment.center,
+              //   height: 35,
+              //   margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
+              //   width: double.infinity,
+              //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+              //   child:  TextFormField(
+              //     controller: close_atController,
+              //     decoration: const InputDecoration(hintText: 'Ýapylýan wagty: ',
+              //         border: InputBorder.none,
+              //         focusColor: Colors.white,
+              //         contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
+              //         readOnly: true,
+              //         onTap: () async {
+              //           TimeOfDay ? pickedTime =  await showTimePicker(
+              //             initialTime: TimeOfDay.now(),
+              //             context: context,
+              //             );
+              //           if(pickedTime != null ){
+              //             DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
+              //             String formattedTime = DateFormat('HH:mm:ss').format(parsedTime);
+              //             setState(() {
+              //               close_atController.text = formattedTime; 
+              //               });
+              //           }else{
+              //             print("Time is not selected");
+              //           }
+              //       },)
                     
-                    ,),
+              //       ,),
 
               Container(
                 alignment: Alignment.center,

@@ -178,6 +178,7 @@ class _HomeState extends State<Home> {
                                   child: ImageSlideshow(
                                     indicatorColor: CustomColors.appColors,
                                     indicatorBackgroundColor: Colors.grey,
+                                    disableUserScrolling: dataSlider1.length==0? false: true,
                                     onPageChanged: (value) {},
                                     autoPlayInterval: 6666,
                                     isLoop: true,
@@ -250,8 +251,8 @@ class _HomeState extends State<Home> {
                                             child: ImageSlideshow(
                                               width: double.infinity,
                                               initialPage: 0,
-                                              indicatorColor:
-                                                  CustomColors.appColors,
+                                              indicatorColor:CustomColors.appColors,
+                                              disableUserScrolling: dataSlider2.length==0? false: true,
                                               indicatorBackgroundColor:
                                                   Colors.grey,
                                               onPageChanged: (value) {},
@@ -316,6 +317,7 @@ class _HomeState extends State<Home> {
                                             height: 180,
                                             color: Colors.black12,
                                             child: ImageSlideshow(
+                                              disableUserScrolling: dataSlider3.length==0? false: true,
                                               width: double.infinity,
                                               initialPage: 0,
                                               indicatorColor:
@@ -1057,12 +1059,12 @@ class _MyDraverState extends State<MyDraver> {
                               ]))))),
                   GestureDetector(
                       onTap: () {
-                         Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Notifications(
-                                              title: 'Beýleki bildirişler',
-                                            )));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Notifications(
+                                      title: 'Beýleki bildirişler',
+                                    )));
                       },
                       child: Container(
                           width: double.infinity,

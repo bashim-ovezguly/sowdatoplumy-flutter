@@ -234,7 +234,7 @@ class _StoreState extends State<Store> {
                                         height: 220,
                                         viewportFraction: 1,
                                         initialPage: 0,
-                                        enableInfiniteScroll: true,
+                                        enableInfiniteScroll: dataSlider.length>1 ? true: false,
                                         reverse: false,
                                         autoPlay: dataSlider.length > 1
                                             ? true

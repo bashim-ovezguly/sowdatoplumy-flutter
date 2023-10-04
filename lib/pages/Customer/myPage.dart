@@ -107,6 +107,7 @@ class _MyPageState extends State<MyPage> {
         actions: [
           if (widget.user_customer_id == '')
             PopupMenuButton<String>(
+              surfaceTintColor: CustomColors.appColorWhite,
               itemBuilder: (context) {
                 List<PopupMenuEntry<String>> menuEntries2 = [
                   PopupMenuItem<String>(
@@ -125,7 +126,7 @@ class _MyPageState extends State<MyPage> {
                               width: double.infinity,
                               child: Row(children: [
                                 Icon(
-                                  Icons.edit_road,
+                                  Icons.edit,
                                   color: Colors.green,
                                 ),
                                 Text(' Üýtgetmek')
@@ -206,6 +207,7 @@ class _MyPageState extends State<MyPage> {
                                   height:220,
                                   margin: const EdgeInsets.all(10),
                                   child: ImageSlideshow(
+                                    disableUserScrolling: imgList.length==0? false: true,
                                     indicatorColor: CustomColors.appColors,
                                     indicatorBackgroundColor: Colors.grey,
                                     onPageChanged: (value) {},

@@ -143,11 +143,9 @@ class _CarState extends State<Car> {
                                           height:220,
                                           viewportFraction: 1,
                                           initialPage: 3,
-                                          enableInfiniteScroll: true,
+                                          enableInfiniteScroll: dataSlider.length > 1? true: false,
                                           reverse: false,
-                                          autoPlay: dataSlider.length > 1
-                                              ? true
-                                              : false,
+                                          autoPlay: dataSlider.length > 1? true: false,
                                           autoPlayInterval:
                                               const Duration(seconds: 4),
                                           autoPlayAnimationDuration:

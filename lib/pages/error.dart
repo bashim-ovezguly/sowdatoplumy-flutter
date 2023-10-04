@@ -1,36 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/colors.dart';
 
-
 class ErrorAlert extends StatefulWidget {
-  
   ErrorAlert({Key? key}) : super(key: key);
   @override
   _ErrorAlertState createState() => _ErrorAlertState();
 }
 
 class _ErrorAlertState extends State<ErrorAlert> {
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shadowColor: CustomColors.appColorWhite,
+      surfaceTintColor: CustomColors.appColorWhite,
       backgroundColor: CustomColors.appColorWhite,
       content: Container(
-        width: 100,
-        height: 100,
-        child: Text(
-          'Bagyşlan ýalñyşlyk ýüze çykdy täzeden synanşyp görün!'
-        ),
-      ),
+          width: 80,
+          height: 180,
+          child: Column(
+            children: [
+              Center(child: Icon(Icons.warning, size: 130, color: Colors.red)),
+              Text(
+                'Bagyşlan ýalñyşlyk ýüze çykdy täzeden synanşyp görün!',
+                textAlign: TextAlign.center,
+              ),
+            ],
+          )),
       actions: <Widget>[
-
         Align(
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
+                backgroundColor: CustomColors.appColors,
                 foregroundColor: Colors.white),
             onPressed: () {
-              Navigator.pop(context,'Close');
+              Navigator.pop(context, 'Close');
             },
             child: const Text('Dowam et'),
           ),
