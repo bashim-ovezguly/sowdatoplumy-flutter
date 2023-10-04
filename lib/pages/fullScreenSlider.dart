@@ -24,6 +24,7 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
   int index = 0;
   bool screen = true;
   int _turns = 0;
+  PageController _pageController = PageController(initialPage: 0);
 
   void _onPressed() {
     setState(() {
@@ -95,16 +96,25 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
                 RotatedBox(
                   quarterTurns: 0,
                   child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height - 100,
-                      child: PhotoViewGallery(
-                        pageOptions: <PhotoViewGalleryPageOptions>[
-                          for (var i in imgList)
-                            PhotoViewGalleryPageOptions(
-                              imageProvider: NetworkImage(i),
-                            ),
-                        ],
-                      )),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height - 100,
+                    child: PhotoViewGallery.builder(
+                      itemCount: imgList.length,
+                      pageController: _pageController,
+                      builder: (BuildContext context, int index) {
+                        String myImg = imgList[index];
+
+                        return PhotoViewGalleryPageOptions(
+                          imageProvider: NetworkImage(myImg),
+                        );
+                      },
+                      onPageChanged: (int index) {
+                        setState(() {
+                          _current = index;
+                        });
+                      },
+                    ),
+                  ),
                 ),
               if (_turns % 2 == 1)
                 RotatedBox(
@@ -112,14 +122,22 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
                   child: Container(
                     width: MediaQuery.of(context).size.height - 100,
                     height: MediaQuery.of(context).size.width,
-                    child: PhotoViewGallery(
-                    pageOptions: <PhotoViewGalleryPageOptions>[
-                      for (var i in imgList)
-                        PhotoViewGalleryPageOptions(
-                          imageProvider: NetworkImage(i),
-                        ),
-                    ],
-                  )
+                    child: PhotoViewGallery.builder(
+                      itemCount: imgList.length,
+                      pageController: _pageController,
+                      builder: (BuildContext context, int index) {
+                        String myImg = imgList[index];
+
+                        return PhotoViewGalleryPageOptions(
+                          imageProvider: NetworkImage(myImg),
+                        );
+                      },
+                      onPageChanged: (int index) {
+                        setState(() {
+                          _current = index;
+                        });
+                      },
+                    ),
                   ),
                 ),
               Container(color: Colors.amberAccent),

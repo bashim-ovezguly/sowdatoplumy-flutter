@@ -260,8 +260,7 @@ class _CheckoutState extends State<Checkout> {
               }
             }
           },
-          label: const Text('Sagyt et',
-              style: TextStyle(color: CustomColors.appColorWhite)),
+          label: const Text('Sargyt et', style: TextStyle(color: CustomColors.appColorWhite)),
           backgroundColor: Colors.green,
         ));
   }

@@ -377,7 +377,7 @@ class _MyPagesState extends State<MyPages> {
                                                     user['room']['store']
                                                         .toString(),
                                                     style: TextStyle(
-                                                        fontSize: 20,
+                                                        fontSize: 16,
                                                         color: CustomColors
                                                             .appColors,
                                                         fontWeight:
@@ -389,8 +389,8 @@ class _MyPagesState extends State<MyPages> {
                                                 child: Image.asset(
                                                   'assets/images/store.png',
                                                   color: CustomColors.appColors,
-                                                  width: 50,
-                                                  height: 50,
+                                                  width: 45,
+                                                  height: 45,
                                                 )),
                                             Expanded(
                                                 flex: 2,
@@ -422,7 +422,7 @@ class _MyPagesState extends State<MyPages> {
                                                     user['room']['cars']
                                                         .toString(),
                                                     style: TextStyle(
-                                                        fontSize: 20,
+                                                        fontSize: 16,
                                                         color: CustomColors
                                                             .appColors,
                                                         fontWeight:
@@ -432,8 +432,8 @@ class _MyPagesState extends State<MyPages> {
                                                 child: Image.asset(
                                                   'assets/images/car.png',
                                                   color: CustomColors.appColors,
-                                                  width: 50,
-                                                  height: 50,
+                                                  width: 45,
+                                                  height: 45,
                                                 )),
                                             Expanded(
                                                 flex: 2,
@@ -467,7 +467,7 @@ class _MyPagesState extends State<MyPages> {
                                                     user['room']['parts']
                                                         .toString(),
                                                     style: TextStyle(
-                                                        fontSize: 20,
+                                                        fontSize: 16,
                                                         color: CustomColors
                                                             .appColors,
                                                         fontWeight:
@@ -477,8 +477,8 @@ class _MyPagesState extends State<MyPages> {
                                                 child: Image.asset(
                                                   'assets/images/parts.png',
                                                   color: CustomColors.appColors,
-                                                  width: 50,
-                                                  height: 50,
+                                                  width: 45,
+                                                  height: 45,
                                                 )),
                                             Expanded(
                                                 flex: 2,
@@ -518,7 +518,7 @@ class _MyPagesState extends State<MyPages> {
                                                     user['room']['flats']
                                                         .toString(),
                                                     style: TextStyle(
-                                                        fontSize: 20,
+                                                        fontSize: 16,
                                                         color: CustomColors
                                                             .appColors,
                                                         fontWeight:
@@ -528,8 +528,8 @@ class _MyPagesState extends State<MyPages> {
                                                 child: Image.asset(
                                                   'assets/images/flats.png',
                                                   color: CustomColors.appColors,
-                                                  width: 50,
-                                                  height: 50,
+                                                  width: 45,
+                                                  height: 45,
                                                 )),
                                             Expanded(
                                                 flex: 2,
@@ -563,7 +563,7 @@ class _MyPagesState extends State<MyPages> {
                                                   user['room']['lenta']
                                                       .toString(),
                                                   style: TextStyle(
-                                                      fontSize: 20,
+                                                      fontSize: 16,
                                                       color: CustomColors
                                                           .appColors,
                                                       fontWeight:
@@ -574,8 +574,8 @@ class _MyPagesState extends State<MyPages> {
                                                 child: Image.asset(
                                                   'assets/images/lenta.png',
                                                   color: CustomColors.appColors,
-                                                  width: 50,
-                                                  height: 50,
+                                                  width: 45,
+                                                  height: 45,
                                                 )),
                                             Expanded(
                                                 flex: 2,
@@ -589,54 +589,6 @@ class _MyPagesState extends State<MyPages> {
                                                   maxLines: 2,
                                                 ))
                                           ]))),
-
-                                  // Expanded(
-                                  //     child: TextButton(
-                                  //         onPressed: () {
-                                  //           Navigator.push(
-                                  //               context,
-                                  //               MaterialPageRoute(
-                                  //                   builder: (context) =>
-                                  //                       ConstructionList(
-                                  //                         customer_id:
-                                  //                             user['id']
-                                  //                                 .toString(),
-                                  //                         callbackFunc:
-                                  //                             refreshFunc,
-                                  //                         user_customer_id: widget
-                                  //                             .user_customer_id,
-                                  //                       )));
-                                  //         },
-                                  //         child: Column(children: [
-                                  //           Expanded(
-                                  //               flex: 1,
-                                  //               child: Text(
-                                  //                   user['room']['materials']
-                                  //                       .toString(),
-                                  //                   style: TextStyle(
-                                  //                       fontSize: 20,
-                                  //                       color: CustomColors
-                                  //                           .appColors,
-                                  //                       fontWeight:
-                                  //                           FontWeight.bold))),
-                                  //           Expanded(
-                                  //               flex: 2,
-                                  //               child: Image.asset(
-                                  //                 'assets/images/material.png',
-                                  //                 color: CustomColors.appColors,
-                                  //                 width: 50,
-                                  //                 height: 50,
-                                  //               )),
-                                  //           Expanded(
-                                  //               flex: 2,
-                                  //               child: Text('Gurluşuk harytlar',
-                                  //                   style: TextStyle(
-                                  //                       fontSize: 15,
-                                  //                       color: CustomColors
-                                  //                           .appColors),
-                                  //                   textAlign: TextAlign.center,
-                                  //                   maxLines: 2))
-                                  //         ]))),
                                   Expanded(
                                       child: TextButton(
                                           onPressed: () {
@@ -660,7 +612,7 @@ class _MyPagesState extends State<MyPages> {
                                                     user['room']['products']
                                                         .toString(),
                                                     style: TextStyle(
-                                                        fontSize: 20,
+                                                        fontSize: 16,
                                                         color: CustomColors
                                                             .appColors,
                                                         fontWeight:
@@ -670,8 +622,8 @@ class _MyPagesState extends State<MyPages> {
                                                 child: Image.asset(
                                                   'assets/images/products.png',
                                                   color: CustomColors.appColors,
-                                                  width: 50,
-                                                  height: 50,
+                                                  width: 45,
+                                                  height: 45,
                                                 )),
                                             Expanded(
                                                 flex: 2,
@@ -710,19 +662,20 @@ class _MyPagesState extends State<MyPages> {
                                                       user['orders_in']
                                                           .toString(),
                                                       style: TextStyle(
-                                                          fontSize: 20,
+                                                          fontSize: 16,
                                                           color: CustomColors
                                                               .appColors,
                                                           fontWeight: FontWeight
                                                               .bold))),
+                                                SizedBox(height: 3,),
                                               Expanded(
                                                   flex: 2,
                                                   child: Image.asset(
                                                     'assets/images/orders_in.png',
                                                     color:
                                                         CustomColors.appColors,
-                                                    width: 50,
-                                                    height: 50,
+                                                    width: 45,
+                                                    height: 45,
                                                   )),
                                               Expanded(
                                                   flex: 2,
@@ -754,7 +707,7 @@ class _MyPagesState extends State<MyPages> {
                                                       user['orders_out']
                                                           .toString(),
                                                       style: TextStyle(
-                                                          fontSize: 20,
+                                                          fontSize: 16,
                                                           color: CustomColors
                                                               .appColors,
                                                           fontWeight: FontWeight
@@ -765,8 +718,8 @@ class _MyPagesState extends State<MyPages> {
                                                     'assets/images/orders_out.png',
                                                     color:
                                                         CustomColors.appColors,
-                                                    width: 50,
-                                                    height: 50,
+                                                    width: 45,
+                                                    height: 45,
                                                   )),
                                               Expanded(
                                                   flex: 2,

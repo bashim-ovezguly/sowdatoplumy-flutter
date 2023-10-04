@@ -42,7 +42,8 @@ class _CustomProgressIndicatorState extends State<CustomProgressIndicator> {
 
 class HomePageProgressIndicator extends StatefulWidget {
   final Function funcInit;
-  HomePageProgressIndicator({Key? key, required this.funcInit}) : super(key: key);
+  final bool determinate1;
+  HomePageProgressIndicator({Key? key, required this.funcInit, required this.determinate1}) : super(key: key);
 
   @override
   State<HomePageProgressIndicator> createState() => _HomePageProgressIndicatorState();
