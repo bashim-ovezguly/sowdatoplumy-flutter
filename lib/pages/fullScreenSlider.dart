@@ -5,12 +5,12 @@ import 'package:dio/dio.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:my_app/dB/colors.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:photo_view/photo_view.dart';
-
-
 
 class FullScreenSlider extends StatefulWidget {
   final List<String> imgList;
@@ -51,7 +51,7 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
     }
 
     return Scaffold(
-          backgroundColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       body: Container(
           color: Colors.black,
           child: Column(children: <Widget>[
@@ -98,42 +98,16 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
                 RotatedBox(
                   quarterTurns: 0,
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - 100,
-                    child: GestureDetector(
-                      child: CarouselSlider(
-                          options: CarouselOptions(
-                              height: MediaQuery.of(context).size.width - 60,
-                              viewportFraction: 1,
-                              initialPage: 0,
-                              enableInfiniteScroll: true,
-                              reverse: false,
-                              autoPlay: imgList.length > 1 ? true : false,
-                              autoPlayInterval: const Duration(seconds: 4),
-                              autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              enlargeCenterPage: true,
-                              enlargeFactor: 0.3,
-                              scrollDirection: Axis.horizontal,
-                              onPageChanged: (index, reason) {
-                                setState(() {
-                                  _current = index;
-                                });
-                              }),
-                          items: imgList
-                              .map((item) => Container(
-                                  color: Colors.black,
-                                  child: Stack(children: [
-                                    PhotoView(
-                                      imageProvider: NetworkImage(
-                                        item.toString(),
-                                      ),
-                                      customSize: MediaQuery.of(context).size,
-                                    )
-                                  ])))
-                              .toList()),
-                    ),
-                  ),
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height - 100,
+                      child: PhotoViewGallery(
+                        pageOptions: <PhotoViewGalleryPageOptions>[
+                          for (var i in imgList)
+                            PhotoViewGalleryPageOptions(
+                              imageProvider: NetworkImage(i),
+                            ),
+                        ],
+                      )),
                 ),
               if (_turns % 2 == 1)
                 RotatedBox(
@@ -141,40 +115,14 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
                   child: Container(
                     width: MediaQuery.of(context).size.height - 100,
                     height: MediaQuery.of(context).size.width,
-                    child: GestureDetector(
-                      child: CarouselSlider(
-                          options: CarouselOptions(
-                              height: MediaQuery.of(context).size.height - 60,
-                              viewportFraction: 1,
-                              initialPage: 0,
-                              enableInfiniteScroll: true,
-                              reverse: false,
-                              autoPlay: imgList.length > 1 ? true : false,
-                              autoPlayInterval: const Duration(seconds: 4),
-                              autoPlayAnimationDuration:
-                                  const Duration(milliseconds: 800),
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              enlargeCenterPage: true,
-                              enlargeFactor: 0.3,
-                              scrollDirection: Axis.horizontal,
-                              onPageChanged: (index, reason) {
-                                setState(() {
-                                  _current = index;
-                                });
-                              }),
-                          items: imgList
-                              .map((item) => Container(
-                                  color: Colors.black,
-                                  child: Stack(children: [
-                                    PhotoView(
-                                      imageProvider: NetworkImage(
-                                        item.toString(),
-                                      ),
-                                      customSize: MediaQuery.of(context).size,
-                                    )
-                                  ])))
-                              .toList()),
-                    ),
+                    child: PhotoViewGallery(
+                    pageOptions: <PhotoViewGalleryPageOptions>[
+                      for (var i in imgList)
+                        PhotoViewGalleryPageOptions(
+                          imageProvider: NetworkImage(i),
+                        ),
+                    ],
+                  )
                   ),
                 ),
               Container(color: Colors.amberAccent),

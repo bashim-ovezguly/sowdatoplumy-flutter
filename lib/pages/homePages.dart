@@ -178,7 +178,7 @@ class _HomeState extends State<Home> {
                                   child: ImageSlideshow(
                                     indicatorColor: CustomColors.appColors,
                                     indicatorBackgroundColor: Colors.grey,
-                                    disableUserScrolling: dataSlider1.length==0? false: true,
+                                    disableUserScrolling: dataSlider1.length > 1? false: true,
                                     onPageChanged: (value) {},
                                     autoPlayInterval: 6666,
                                     isLoop: true,
@@ -252,7 +252,7 @@ class _HomeState extends State<Home> {
                                               width: double.infinity,
                                               initialPage: 0,
                                               indicatorColor:CustomColors.appColors,
-                                              disableUserScrolling: dataSlider2.length==0? false: true,
+                                              disableUserScrolling: dataSlider2.length>1? false: true,
                                               indicatorBackgroundColor:
                                                   Colors.grey,
                                               onPageChanged: (value) {},
@@ -317,7 +317,7 @@ class _HomeState extends State<Home> {
                                             height: 180,
                                             color: Colors.black12,
                                             child: ImageSlideshow(
-                                              disableUserScrolling: dataSlider3.length==0? false: true,
+                                              disableUserScrolling: dataSlider3.length > 1? false: true,
                                               width: double.infinity,
                                               initialPage: 0,
                                               indicatorColor:
