@@ -147,7 +147,7 @@ class _NewStoreState extends State<NewStore> {
               child: Row(
               children: <Widget>[
                 SizedBox(width: 10,),
-                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 3,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
                 if (locationController['name_tm']!=null)
                 Expanded(flex: 4, child: Text(locationController['name_tm']))
                 else
@@ -288,12 +288,12 @@ class _NewStoreState extends State<NewStore> {
               //       ,),
 
               Container(
-                alignment: Alignment.center,
-                height: 35,
+                height: 100,
                 margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
                 width: double.infinity,
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
                 child:  TextFormField(
+                  maxLines: 5,
                   controller: body_tmController,
                   decoration: const InputDecoration(hintText: 'Düşündüriliş',
                       border: InputBorder.none,

@@ -50,6 +50,10 @@ class _FactoriesFirstState extends State<FactoriesFirst> {
     super.initState();
   }
 
+    void storeRefresh(){
+    getsinglefactories(id: id);
+  } 
+
   bool status = false;
   callbackStatus(){setState(() {status = true;});}
     callbackStatusDelete(){
@@ -317,7 +321,7 @@ class _FactoriesFirstState extends State<FactoriesFirst> {
                             alignment: Alignment.centerRight,
                             child: FloatingActionButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) =>  NewProduct(title: "Haryt goşmak", customer_id: customer_id, id : id, action:'factory') ));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) =>  NewProduct(title: "Haryt goşmak", customer_id: customer_id, id : id, action:'factory', storeRefresh: storeRefresh) ));
                               },
                               child: Text("+"),
                               backgroundColor: Colors.green,

@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
+import 'package:my_app/pages/Customer/myPages.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import '../../dB/textStyle.dart';
 import '../call.dart';
@@ -97,7 +98,8 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                         height: 220,
                                         viewportFraction: 1,
                                         initialPage: 0,
-                                        enableInfiniteScroll: imgList.length>1 ? true: false,
+                                        enableInfiniteScroll:
+                                            imgList.length > 1 ? true : false,
                                         reverse: false,
                                         autoPlay:
                                             imgList.length > 1 ? true : false,
@@ -234,15 +236,18 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                 child: Row(children: [
                                   Icon(
                                     Icons.layers,
-                                    color: const Color.fromARGB(255, 170, 170, 170),
+                                    color: const Color.fromARGB(
+                                        255, 170, 170, 170),
                                   ),
                                   SizedBox(
                                     width: 10,
                                   ),
                                   Text(data['category'].toString(),
                                       style: TextStyle(
-                                          fontSize: 16,
-                                          color: const Color.fromARGB(255, 170, 170, 170),))
+                                        fontSize: 16,
+                                        color: const Color.fromARGB(
+                                            255, 170, 170, 170),
+                                      ))
                                 ])),
                           if (data['price'] != '' && data['price'] != null)
                             Container(
@@ -282,6 +287,44 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                       Text(data['store_name'],
                                           style: TextStyle(
                                               fontSize: 16,
+                                              color: CustomColors.appColors))
+                                    ])),
+                          if (data['customer_name'] != null &&
+                              data['customer_name'] != '')
+                            GestureDetector(
+                                onTap: () {
+                                  if (data['customer_id'] != null &&
+                                      data['customer_id'] != '') {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyPages(
+                                                user_customer_id: data['customer_id'].toString())));
+                                  }
+                                },
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: 10,
+                                        height: 20,
+                                      ),
+                                      CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                          baseurl +
+                                              data['customer_photo'].toString(),
+                                        ),
+                                        radius: 25,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(data['customer_name'],
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
                                               color: CustomColors.appColors))
                                     ])),
                           if (data['phone'] != '' && data['phone'] != null)

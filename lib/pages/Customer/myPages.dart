@@ -825,16 +825,16 @@ class _CustomDialogLogoutState extends State<CustomDialogLogout> {
       ),
       content: Row(
         children: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
+          Expanded(child: TextButton(
+            style: TextButton.styleFrom(
                 backgroundColor: CustomColors.appColors,
                 foregroundColor: Colors.white),
             onPressed: () => Navigator.pop(context, 'Cancel'),
             child: const Text('Goý bolsun'),
-          ),
+          )),
           SizedBox(width: 10),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
+          Expanded(child: TextButton(
+            style: TextButton.styleFrom(
                 backgroundColor: Colors.green, foregroundColor: Colors.white),
             onPressed: () async {
               final deleteallRows = await dbHelper.deleteAllRows();
@@ -845,7 +845,7 @@ class _CustomDialogLogoutState extends State<CustomDialogLogout> {
                   context, MaterialPageRoute(builder: (context) => Login()));
             },
             child: const Text('Ulgamdan çyk'),
-          ),
+          ),)
         ],
       ),
       actions: <Widget>[],

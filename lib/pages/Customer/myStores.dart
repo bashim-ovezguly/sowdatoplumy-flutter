@@ -180,14 +180,11 @@ class _MyStoresState extends State<MyStores> {
                                     height: 110,
                                     child: Card(
                                       color: CustomColors.appColorWhite,
-                                      shadowColor: const Color.fromARGB(
-                                          255, 200, 198, 198),
-                                      surfaceTintColor:
-                                          CustomColors.appColorWhite,
+                                      shadowColor: const Color.fromARGB(255, 200, 198, 198),
+                                      surfaceTintColor:CustomColors.appColorWhite,
                                       elevation: 5,
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0)),
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
                                         child: Container(
                                           height: 110,
                                           child: Row(
@@ -282,12 +279,7 @@ class _MyStoresState extends State<MyStores> {
                                                               .centerLeft,
                                                           child: Row(
                                                             children: <Widget>[
-                                                              Icon(
-                                                                Icons
-                                                                    .star_outline_sharp,
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
+                                                              
                                                               if (data[index]['status'] != null &&
                                                                   data[index]['status'] !=
                                                                       '' &&

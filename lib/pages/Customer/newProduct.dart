@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_app/pages/Customer/loadingWidget.dart';
 import 'package:provider/provider.dart';
@@ -16,9 +15,10 @@ import '../success.dart';
 
 class NewProduct extends StatefulWidget {
   
-  const  NewProduct({Key? key, required this.title, required this.customer_id, required this.id, required this.action}) : super(key: key);
+  const  NewProduct({Key? key, required this.title, required this.customer_id, required this.id, required this.action, required this.storeRefresh}) : super(key: key);
   final String title;
   final String customer_id, id, action;
+  final Function storeRefresh;
   @override
   State<NewProduct> createState() => _NewProductState(title: title , customer_id: customer_id, id:id , action: action);
 }
@@ -189,6 +189,7 @@ class _NewProductState extends State<NewProduct> {
                     showLoaderDialog(context);
                     final response = await request.send();
                     if (response.statusCode == 200){
+                      widget.storeRefresh();
                       Navigator.pop(context); 
                       showConfirmationDialogSuccess(context);    
                      }

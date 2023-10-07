@@ -1,6 +1,8 @@
 // ignore_for_file: unused_field
 
 import 'dart:convert';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:http/http.dart' as http;
 
@@ -45,6 +47,19 @@ class _MyPageState extends State<MyPage> {
   List<String> imgList = [];
   List<dynamic> data_tel = [];
   bool determinate = false;
+  bool determinate1 = false;
+
+  bool buttonTop = false;
+  int item_count = 0;
+  final int _numberOfPostPerRequest = 12;
+  late int total_page;
+  late int current_page;
+  late bool _isLastPage;
+  late int _pageNumber;
+  late bool _error;
+  late bool _loading;
+  bool _getRequest = false;
+  var data_array = [];
 
   bool status = false;
   callbackStatus() {
@@ -54,12 +69,22 @@ class _MyPageState extends State<MyPage> {
   }
 
   void initState() {
+    _pageNumber = 1;
+    _isLastPage = false;
+    _loading = true;
+    _error = false;
+    _controller.addListener(_controllListener);
     refreshFunc();
     if (imgList.length == 0) {
       imgList.add('x');
     }
     getsinglemarkets(id: id);
+    get_products_modul(id);
     super.initState();
+  }
+
+  void storeRefresh() {
+    getsinglemarkets(id: id);
   }
 
   callbackStatusDelete() {
@@ -77,30 +102,35 @@ class _MyPageState extends State<MyPage> {
     });
   }
 
+  final ScrollController _controller = ScrollController();
+
   _MyPageState(
       {required this.id, required this.customer_id, required this.refreshFunc});
   @override
   Widget build(BuildContext context) {
-        var user_customer_name =
+    var user_customer_name =
         Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return Scaffold(
-          backgroundColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             widget.user_customer_id == ''
-                  ? Text(
-                      "Meniň sahypam",
-                      style: CustomText.appBarText,
-                    )
-                  : Text(
-                      user_customer_name.toString() + " şahsy otag",
-                      style: CustomText.appBarText,
-                    ),
+                ? Text(
+                    "Meniň sahypam",
+                    style: CustomText.appBarText,
+                  )
+                : Text(
+                    user_customer_name.toString() + " şahsy otag",
+                    style: CustomText.appBarText,
+                  ),
             Text(
               'Söwda nokady',
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15, color: CustomColors.appColors),
+              style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                  color: CustomColors.appColors),
             ),
           ],
         ),
@@ -172,16 +202,16 @@ class _MyPageState extends State<MyPage> {
                 });
                 return Future<void>.delayed(const Duration(seconds: 3));
               },
-              child: determinate
-                  ? CustomScrollView(
-                      slivers: [
-                        SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                          childCount: 1,
-                          (BuildContext context, int index) {
-                            return Container(
-                                margin: EdgeInsets.only(
-                                    left: 15, right: 15, top: 10),
+              child: determinate && determinate1
+                  ? SingleChildScrollView(
+                      controller: _controller,
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                margin:
+                                    EdgeInsets.only(left: 5, right: 5, top: 5),
                                 child: Row(
                                   children: <Widget>[
                                     Text(
@@ -189,25 +219,20 @@ class _MyPageState extends State<MyPage> {
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         color: CustomColors.appColors,
-                                        fontSize: 18,
+                                        fontSize: 16,
                                       ),
                                     ),
                                     Spacer(),
                                   ],
-                                ));
-                          },
-                        )),
-                        SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                          childCount: 1,
-                          (BuildContext context, int index) {
-                            return Stack(
+                                )),
+                            Stack(
                               children: [
                                 Container(
-                                  height:220,
-                                  margin: const EdgeInsets.all(10),
+                                  height: 220,
+                                  margin: const EdgeInsets.all(5),
                                   child: ImageSlideshow(
-                                    disableUserScrolling: imgList.length > 1? false: true,
+                                    disableUserScrolling:
+                                        imgList.length > 1 ? false : true,
                                     indicatorColor: CustomColors.appColors,
                                     indicatorBackgroundColor: Colors.grey,
                                     onPageChanged: (value) {},
@@ -245,148 +270,136 @@ class _MyPageState extends State<MyPage> {
                                   ),
                                 ),
                               ],
-                            );
-                          },
-                        )),
-                        SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                          childCount: 1,
-                          (BuildContext context, int index) {
-                            return Column(
+                            ),
+                            Row(
                               children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      flex: 4,
-                                      child: Row(
-                                        children: <Widget>[
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Icon(
-                                            Icons.access_time_outlined,
-                                            size: 20,
-                                            color: CustomColors.appColors,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            data['created_at'].toString(),
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontFamily: 'Raleway',
-                                              color: CustomColors.appColors,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Expanded(
-                                      child: Row(
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.visibility_sharp,
-                                            size: 20,
-                                            color: CustomColors.appColors,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            data['viewed'].toString(),
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontFamily: 'Raleway',
-                                              color: CustomColors.appColors,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                Container(
-                                  height: 15,
-                                  child: Text(''),
-                                ),
-                                SizedBox(
+                                Expanded(
+                                  flex: 4,
                                   child: Row(
-                                    children: [
-                                      Expanded(
-                                          child: Row(
-                                        children: [
-                                          SizedBox(width: 20),
-                                          Icon(
-                                            Icons.auto_graph_outlined,
-                                            color: Colors.black54,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            "Id ",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.black54),
-                                          )
-                                        ],
-                                      )),
-                                      Expanded(
-                                          child: Text(data['id'].toString(),
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color:
-                                                      CustomColors.appColors))),
+                                    children: <Widget>[
                                       SizedBox(
                                         width: 10,
+                                      ),
+                                      Icon(
+                                        Icons.access_time_outlined,
+                                        size: 20,
+                                        color: CustomColors.appColors,
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        data['created_at'].toString(),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: 'Raleway',
+                                          color: CustomColors.appColors,
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
-                                Container(
-                                  height: 15,
-                                  child: Text(''),
+                                Spacer(),
+                                Expanded(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.visibility_sharp,
+                                        size: 20,
+                                        color: CustomColors.appColors,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        data['viewed'].toString(),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: 'Raleway',
+                                          color: CustomColors.appColors,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            SizedBox(
+                                child: Row(children: [
+                              Expanded(
+                                  child: Row(children: [
+                                SizedBox(width: 10),
+                                Icon(
+                                  Icons.drive_file_rename_outline_outlined,
+                                  color: Colors.black54,
                                 ),
                                 SizedBox(
-                                    child: Row(children: [
-                                  Expanded(
-                                      child: Row(children: [
-                                    SizedBox(width: 20),
+                                  width: 10,
+                                ),
+                                Text("Ady ",
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.black54))
+                              ])),
+                              Expanded(
+                                  child: Text(data['name_tm'].toString(),
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: CustomColors.appColors))),
+                              SizedBox(width: 10)
+                            ])),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            SizedBox(
+                                child: Row(children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    SizedBox(width: 10),
                                     Icon(
-                                      Icons.drive_file_rename_outline_outlined,
+                                      Icons.location_on,
                                       color: Colors.black54,
                                     ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text("Ady ",
+                                    SizedBox(width: 10),
+                                    Text(
+                                      "Ýerleşýän ýeri",
+                                      style: TextStyle(
+                                          fontSize: 15, color: Colors.black54),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              if (data['location'] != null &&
+                                  data['location'] != '')
+                                Expanded(
+                                    child: Text(
+                                        data['location']['name'].toString(),
                                         style: TextStyle(
                                             fontSize: 15,
-                                            color: Colors.black54))
-                                  ])),
-                                  Expanded(
-                                      child: Text(data['name_tm'].toString(),
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: CustomColors.appColors))),
-                                  SizedBox(width: 10)
-                                ])),
-                                Container(height: 15, child: Text('')),
-                                SizedBox(
-                                    child: Row(children: [
+                                            color: CustomColors.appColors),
+                                        maxLines: 2)),
+                              SizedBox(width: 10)
+                            ])),
+                            Container(
+                              margin: EdgeInsets.only(left: 10, right: 10),
+                              height: 40,
+                              child: Row(
+                                children: [
                                   Expanded(
                                     child: Row(
                                       children: [
-                                        SizedBox(width: 20),
                                         Icon(
-                                          Icons.location_on,
+                                          Icons.category,
                                           color: Colors.black54,
                                         ),
-                                        SizedBox(width: 10),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
                                         Text(
-                                          "Ýerleşýän ýeri",
+                                          "Kategoriýasy",
                                           style: TextStyle(
                                               fontSize: 15,
                                               color: Colors.black54),
@@ -394,161 +407,108 @@ class _MyPageState extends State<MyPage> {
                                       ],
                                     ),
                                   ),
-                                  if (data['location'] != null &&
-                                      data['location'] != '')
-                                    Expanded(
-                                        child: Text(
-                                            data['location']['name'].toString(),
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: CustomColors.appColors),
-                                            maxLines: 2)),
-                                  SizedBox(width: 10)
-                                ])),
-                                Container(height: 10, child: Text('')),
-
-                                Container(
-                                  margin: EdgeInsets.only(left: 10, right: 10),
-                                  height: 40,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Icon(
-                                              Icons.category,
-                                              color: Colors.black54,
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              "Kategoriýasy",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.black54),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                          child: Text(
-                                        data['category'].toString(),
+                                  Expanded(
+                                      child: Text(
+                                    data['category'].toString(),
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: CustomColors.appColors),
+                                    maxLines: 2,
+                                  ))
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.all(10),
+                              height: 100,
+                              width: double.infinity,
+                              child: TextField(
+                                enabled: false,
+                                cursorColor: Colors.red,
+                                maxLines: 3,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  filled: true,
+                                  hintText: data['body_tm'].toString(),
+                                  fillColor: Colors.white,
+                                ),
+                              ),
+                            ),
+                            if (data_tel.length > 0)
+                              Column(
+                                children: [
+                                  Container(
+                                      height: 20,
+                                      alignment: Alignment.center,
+                                      margin:
+                                          EdgeInsets.only(top: 15, left: 20),
+                                      child: Text(
+                                        'Telefon nomerleri',
                                         style: TextStyle(
                                             fontSize: 15,
-                                            color: CustomColors.appColors),
-                                        maxLines: 2,
-                                      ))
+                                            color: Colors.black54),
+                                      )),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      for (var i in data_tel)
+                                        Container(
+                                            alignment: Alignment.centerLeft,
+                                            margin: EdgeInsets.only(left: 10),
+                                            padding: EdgeInsets.all(10),
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  "* ",
+                                                  style: TextStyle(
+                                                      color: Colors.black54),
+                                                ),
+                                                Icon(
+                                                  Icons.phone_android_outlined,
+                                                  color: Colors.black54,
+                                                ),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  i['phone'].toString(),
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color:
+                                                        CustomColors.appColors,
+                                                  ),
+                                                ),
+                                                Spacer(),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return DeletePhoneAlert(
+                                                            id: i['id']
+                                                                .toString(),
+                                                            callbackFunc:
+                                                                callbackDeletePhone,
+                                                          );
+                                                        });
+                                                  },
+                                                  child: Icon(
+                                                    Icons.delete,
+                                                    color: Colors.red,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 20,
+                                                )
+                                              ],
+                                            ))
                                     ],
                                   ),
-                                ),
-                                Container(
-                                  margin: const EdgeInsets.all(10),
-                                  height: 100,
-                                  width: double.infinity,
-                                  child: TextField(
-                                    enabled: false,
-                                    cursorColor: Colors.red,
-                                    maxLines: 3,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      filled: true,
-                                      hintText: data['body_tm'].toString(),
-                                      fillColor: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        )),
-                        if (data_tel.length > 0)
-                          SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                            childCount: 1,
-                            (BuildContext context, int index) {
-                              return Container(
-                                height: 20,
-                                alignment: Alignment.center,
-                                margin: EdgeInsets.only(top: 15, left: 20),
-                                child: Text(
-                                  'Telefon nomerleri',
-                                  style: TextStyle(
-                                      fontSize: 15, color: Colors.black54),
-                                ),
-                              );
-                            },
-                          )),
-                        SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                          childCount: 1,
-                          (BuildContext context, int index) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                for (var i in data_tel)
-                                  Container(
-                                      alignment: Alignment.centerLeft,
-                                      margin: EdgeInsets.only(left: 10),
-                                      padding: EdgeInsets.all(10),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "* ",
-                                            style: TextStyle(
-                                                color: Colors.black54),
-                                          ),
-                                          Icon(
-                                            Icons.phone_android_outlined,
-                                            color: Colors.black54,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            i['phone'].toString(),
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              color: CustomColors.appColors,
-                                            ),
-                                          ),
-                                          Spacer(),
-                                          GestureDetector(
-                                            onTap: () {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return DeletePhoneAlert(
-                                                      id: i['id'].toString(),
-                                                      callbackFunc:
-                                                          callbackDeletePhone,
-                                                    );
-                                                  });
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          )
-                                        ],
-                                      ))
-                              ],
-                            );
-                          },
-                        )),
-                        SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                          childCount: 1,
-                          (BuildContext context, int index) {
-                            return Container(
+                                ],
+                              ),
+                            Container(
                                 margin: EdgeInsets.only(top: 10, bottom: 20),
                                 alignment: Alignment.center,
                                 child: Row(
@@ -584,25 +544,20 @@ class _MyPageState extends State<MyPage> {
                                                               customer_id:
                                                                   customer_id,
                                                               id: id,
-                                                              action:
-                                                                  'store')));
+                                                              action: 'store',
+                                                              storeRefresh:
+                                                                  storeRefresh)));
                                             },
                                             child: Text("+"),
                                             backgroundColor: Colors.green,
                                           )),
                                     ),
                                   ],
-                                ));
-                          },
-                        )),
-                        SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                          childCount: 1,
-                          (BuildContext context, int index) {
-                            return Container(
+                                )),
+                            Container(
                               child: Wrap(
                                 alignment: WrapAlignment.spaceAround,
-                                children: products.map((item) {
+                                children: data_array.map((item) {
                                   return GestureDetector(
                                     onTap: () {
                                       Navigator.push(
@@ -668,11 +623,8 @@ class _MyPageState extends State<MyPage> {
                                   );
                                 }).toList(),
                               ),
-                            );
-                          },
-                        )),
-                      ],
-                    )
+                            )
+                          ]))
                   : Center(
                       child: CircularProgressIndicator(
                         color: CustomColors.appColors,
@@ -680,9 +632,9 @@ class _MyPageState extends State<MyPage> {
                     ))
           : Container(
               child: AlertDialog(
-                shadowColor: CustomColors.appColorWhite,
-      surfaceTintColor: CustomColors.appColorWhite,
-      backgroundColor: CustomColors.appColorWhite,
+              shadowColor: CustomColors.appColorWhite,
+              surfaceTintColor: CustomColors.appColorWhite,
+              backgroundColor: CustomColors.appColorWhite,
               content: Container(
                 width: 200,
                 height: 100,
@@ -714,18 +666,35 @@ class _MyPageState extends State<MyPage> {
                 )
               ],
             )),
+            floatingActionButton: buttonTop
+            ? FloatingActionButton.small(
+                backgroundColor: CustomColors.appColors,
+                onPressed: () {
+                  isTopList();
+                },
+                child: Icon(
+                  Icons.north,
+                  color: CustomColors.appColorWhite,
+                ),
+              )
+            : Container()
     );
   }
-
+    void isTopList() {
+    double position = 0.0;
+    _controller.position.animateTo(position,
+        duration: Duration(milliseconds: 500), curve: Curves.easeInCirc);
+  }
 
   void getsinglemarkets({required id}) async {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/stores/' + id;
+    print(url);
     final uri = Uri.parse(url);
-    Map<String, String> headers = {};  
-      for (var i in global_headers.entries){
-        headers[i.key] = i.value.toString(); 
-      }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
@@ -743,6 +712,75 @@ class _MyPageState extends State<MyPage> {
       }
       determinate = true;
     });
+  }
+
+  void get_products_modul(id) async {
+    Urls server_url = new Urls();
+    var param = 'products';
+
+    String url = server_url.get_server_url() + '/mob/' + param + '?store=' + id;
+
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
+    print(Uri.parse(
+        url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+    if (_getRequest == false) {
+      final response = await http.get(
+          Uri.parse(
+              url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
+          headers: headers);
+      final json = jsonDecode(utf8.decode(response.bodyBytes));
+      var postList = [];
+      for (var i in json['data']) {
+        postList.add(i);
+      }
+      setState(() {
+        current_page = json['current_page'];
+        total_page = json['total_page'];
+        baseurl = server_url.get_server_url();
+        _loading = false;
+        _pageNumber = _pageNumber + 1;
+        data_array.addAll(postList);
+        _getRequest = false;
+        determinate1 = true;
+      });
+    }
+  }
+
+  void _controllListener() {
+    if (_controller.offset > 600) {
+      setState(() {
+        buttonTop = true;
+      });
+    } else {
+      setState(() {
+        buttonTop = false;
+      });
+    }
+    if (_controller.offset > _controller.position.maxScrollExtent - 1000 && total_page > current_page && _getRequest == false) {
+      var sort_value = "";
+      var sort = Provider.of<UserInfo>(context, listen: false).sort;
+      if (int.parse(sort) == 2) {
+        sort_value = 'sort=price';
+      }
+      if (int.parse(sort) == 3) {
+        sort_value = 'sort=-price';
+      }
+      if (int.parse(sort) == 4) {
+        sort_value = 'sort=id';
+      }
+      if (int.parse(sort) == 4) {
+        sort_value = 'sort=-id';
+      }
+
+      get_products_modul(widget.id);
+
+      setState(() {
+        _getRequest = true;
+      });
+    }
   }
 }
 
@@ -842,7 +880,4 @@ class _DeliveryState extends State<Delivery> {
       ],
     );
   }
-
-
-
 }

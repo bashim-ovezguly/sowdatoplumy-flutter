@@ -42,8 +42,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
   void initState() {
     widget.refreshFunc();
     if (imgList.length == 0) {
-      imgList.add(
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXAFCMCaO9NVAPUqo5i8rXVgWB5Qaj_Qthf-KQZNAy0YyJxlAxejBSvSWOK-5PMK3RQQ&usqp=CAU');
+      imgList.add('x');
     }
     getsingleproduct(id: id);
     super.initState();
@@ -64,18 +63,20 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
   _MyOtherGoodsDetailState({required this.id});
   @override
   Widget build(BuildContext context) {
-    var user_customer_name = Provider.of<UserInfo>(context, listen: false).user_customer_name;
+    var user_customer_name =
+        Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return Scaffold(
-          backgroundColor: CustomColors.appColorWhite,
+        backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
-          title: widget.user_customer_id=='' ? Text(
-                "Meniň sahypam",
-                style: CustomText.appBarText,
-              ):
-              Text(
-                user_customer_name.toString() + " şahsy otag",
-                style: CustomText.appBarText,
-              ),
+          title: widget.user_customer_id == ''
+              ? Text(
+                  "Meniň sahypam",
+                  style: CustomText.appBarText,
+                )
+              : Text(
+                  user_customer_name.toString() + " şahsy otag",
+                  style: CustomText.appBarText,
+                ),
           actions: [
             if (widget.user_customer_id == '')
               PopupMenuButton<String>(
@@ -163,12 +164,13 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                             child: GestureDetector(
                               child: CarouselSlider(
                                 options: CarouselOptions(
-                                    height:220,
+                                    height: 220,
                                     viewportFraction: 1,
                                     initialPage: 0,
-                                    enableInfiniteScroll: imgList.length>1 ? true: false,
+                                    enableInfiniteScroll:
+                                        imgList.length > 1 ? true : false,
                                     reverse: false,
-                                    autoPlay: imgList.length>1 ? true: false,
+                                    autoPlay: imgList.length > 1 ? true : false,
                                     autoPlayInterval:
                                         const Duration(seconds: 4),
                                     autoPlayAnimationDuration:
@@ -185,17 +187,20 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                                 items: imgList
                                     .map((item) => Container(
                                           color: Colors.white,
-                                          child: Center(
-                                              child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(
-                                                10), // Image border
+                                          child: item!='x' && item!='' ?Center( child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(10), // Image border
                                             child: Image.network(
                                               item,
                                               fit: BoxFit.fill,
-                                              height:220,
+                                              height: 220,
                                               width: double.infinity,
                                             ),
-                                          )),
+                                          )
+                                          ):Container(
+                                              width: double.infinity,
+                                              child: Image.asset(
+                                                  fit: BoxFit.cover,
+                                                  'assets/images/default16x9.jpg')),
                                         ))
                                     .toList(),
                               ),
@@ -223,8 +228,14 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                           )
                         ],
                       ),
+                      if (data['status'] == 'canceled')
+                        Container(
+                            padding: EdgeInsets.all(10),
+                            child: Text(data['error_reason'].toString(),
+                                maxLines: 10,
+                                style: TextStyle(color: Colors.red))),
                       Container(
-                        margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                        margin: EdgeInsets.only(left: 10, right: 10),
                         height: 35,
                         child: Row(
                           children: [
@@ -466,40 +477,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                                 ],
                               ),
                             ),
-                            Expanded(
-                                child: Text(data['phone'].toString(),
-                                    style: CustomText.size_16))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        height: 30,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Icon(
-                                    Icons.drive_file_rename_outline,
-                                    color: Colors.black54,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Eýesiniň ady",
-                                    style: CustomText.size_16_black54,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: Text(data['customer'].toString(),
-                                    style: CustomText.size_16))
+                            Expanded(child: Text(data['phone'].toString(), style: CustomText.size_16))
                           ],
                         ),
                       ),
@@ -692,9 +670,9 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                   )
             : Container(
                 child: AlertDialog(
-                  shadowColor: CustomColors.appColorWhite,
-      surfaceTintColor: CustomColors.appColorWhite,
-      backgroundColor: CustomColors.appColorWhite,
+                shadowColor: CustomColors.appColorWhite,
+                surfaceTintColor: CustomColors.appColorWhite,
+                backgroundColor: CustomColors.appColorWhite,
                 content: Container(
                   width: 200,
                   height: 100,
@@ -731,10 +709,10 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/products/' + id.toString();
     final uri = Uri.parse(url);
-      Map<String, String> headers = {};  
-      for (var i in global_headers.entries){
-        headers[i.key] = i.value.toString(); 
-      }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
@@ -747,8 +725,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
       }
       determinate = true;
       if (imgList.length == 0) {
-        imgList.add(
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXAFCMCaO9NVAPUqo5i8rXVgWB5Qaj_Qthf-KQZNAy0YyJxlAxejBSvSWOK-5PMK3RQQ&usqp=CAU');
+        imgList.add('x');
       }
     });
   }
