@@ -764,9 +764,7 @@ class _MyPagesState extends State<MyPages> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Login()));
       }
-      url = server_url.get_server_url() +
-          '/mob/customer/' +
-          data[0]['userId'].toString();
+      url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString();
       final uri = Uri.parse(url);
       Map<String, String> headers = {};
       for (var i in global_headers.entries) {

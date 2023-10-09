@@ -132,6 +132,11 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                 backgroundColor: CustomColors.appColors,
                 onRefresh: () async {
                   setState(() {
+                    _pageNumber = 1;
+                    _isLastPage = false;
+                    _loading = true;
+                    _error = false;
+                    data = [];
                     determinate = false;
                     determinate1 = false;
                   });
@@ -837,7 +842,8 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
         Uri.parse(
             url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
         headers: headers);
-    print(Uri.parse(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+    print(Uri.parse(
+        url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     var postList = [];
     for (var i in json['data']) {

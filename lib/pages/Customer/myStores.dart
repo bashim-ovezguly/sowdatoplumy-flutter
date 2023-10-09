@@ -84,6 +84,8 @@ class _MyStoresState extends State<MyStores> {
                 if (widget.user_customer_id == '')
                   PopupMenuButton<String>(
                     surfaceTintColor: CustomColors.appColorWhite,
+                    shadowColor: CustomColors.appColorWhite,
+                    color: CustomColors.appColorWhite,
                     itemBuilder: (context) {
                       List<PopupMenuEntry<String>> menuEntries2 = [
                         PopupMenuItem<String>(

@@ -220,14 +220,36 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                             ],
                           ),
                           if (data['name_tm'] != '' && data['name_tm'] != null)
-                            Container(
-                                margin: EdgeInsets.only(
-                                    left: 10, right: 10, top: 10),
-                                height: 35,
+                            SizedBox(
+                                child: Row(children: [
+                              SizedBox(width: 5),
+                              Expanded(
+                                flex: 10,
                                 child: Text(data['name_tm'].toString(),
+                                    maxLines: 3,
                                     style: TextStyle(
-                                        fontSize: 20,
-                                        color: CustomColors.appColors))),
+                                        color: CustomColors.appColors,
+                                        fontSize: 18)),
+                              )
+                            ])),
+                          if (data['location'] != '' &&
+                              data['location'] != null)
+                            SizedBox(
+                                child: Row(children: [
+                              Expanded(
+                                flex: 1,
+                                child: Icon(Icons.location_on,
+                                    color: CustomColors.appColors, size: 25),
+                              ),
+                              SizedBox(width: 5),
+                              Expanded(
+                                flex: 10,
+                                child: Text(data['location'].toString(),
+                                    style: TextStyle(
+                                        color: CustomColors.appColors,
+                                        fontSize: 14)),
+                              )
+                            ])),
                           if (data['category'] != null &&
                               data['category'] != '')
                             Container(
@@ -299,7 +321,9 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => MyPages(
-                                                user_customer_id: data['customer_id'].toString())));
+                                                user_customer_id:
+                                                    data['customer_id']
+                                                        .toString())));
                                   }
                                 },
                                 child: Row(
@@ -385,6 +409,9 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data = json;
+
+      print(json);
+
       imgList = [];
       baseurl = server_url.get_server_url();
       if (data['phone'] != null && data['phone'] != '') {

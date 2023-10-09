@@ -97,7 +97,8 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                                         height: 220,
                                         viewportFraction: 1,
                                         initialPage: 0,
-                                        enableInfiniteScroll: imgList.length>1 ? true: false,
+                                        enableInfiniteScroll:
+                                            imgList.length > 1 ? true : false,
                                         reverse: false,
                                         autoPlay:
                                             imgList.length > 1 ? true : false,
@@ -218,14 +219,38 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                             ],
                           ),
                           if (data['name_tm'] != '' && data['name_tm'] != null)
-                            Container(
-                                margin: EdgeInsets.only(
-                                    left: 10, right: 10, top: 10),
-                                height: 35,
+                           SizedBox(
+                                child: Row(children: [
+                                
+                              SizedBox(width: 5),
+                              Expanded(
+                                flex: 10,
                                 child: Text(data['name_tm'].toString(),
+                                maxLines: 3,
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        color: CustomColors.appColors))),
+                                        color: CustomColors.appColors,
+                                        fontSize: 18)),
+                              )
+                            ])),
+
+                          if (data['location'] != '' &&
+                              data['location'] != null)
+                            SizedBox(
+                                child: Row(children: [
+                              Expanded(
+                                flex: 1,
+                                child: Icon(Icons.location_on,
+                                    color: CustomColors.appColors, size: 25),
+                              ),
+                              SizedBox(width: 5),
+                              Expanded(
+                                flex: 10,
+                                child: Text(data['location'].toString(),
+                                    style: TextStyle(
+                                        color: CustomColors.appColors,
+                                        fontSize: 14)),
+                              )
+                            ])),
                           if (data['category'] != null &&
                               data['category'] != '')
                             Container(
@@ -352,7 +377,9 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
+      
       data = json;
+      print(data['name_tm']);
       imgList = [];
       baseurl = server_url.get_server_url();
       if (data['phone'] != null && data['phone'] != '') {

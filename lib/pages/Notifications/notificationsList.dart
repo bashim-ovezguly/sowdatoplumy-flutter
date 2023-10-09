@@ -67,7 +67,6 @@ class _NotificationsState extends State<Notifications> {
       if (int.parse(sort) == 4) {
         sort_value = 'sort=-id';
       }
-
       getmarketslist(sort_value);
       getmarkets_slider();
     });
@@ -170,6 +169,11 @@ class _NotificationsState extends State<Notifications> {
                 backgroundColor: CustomColors.appColors,
                 onRefresh: () async {
                   setState(() {
+                    _pageNumber = 1;
+                    _isLastPage = false;
+                    _loading = true;
+                    _error = false;
+                    data = [];
                     determinate = false;
                     initState();
                   });
@@ -195,7 +199,10 @@ class _NotificationsState extends State<Notifications> {
                                         height: 220,
                                         viewportFraction: 1,
                                         initialPage: 0,
-                                        enableInfiniteScroll: dataSlider.length>1 ? true: false,
+                                        enableInfiniteScroll:
+                                            dataSlider.length > 1
+                                                ? true
+                                                : false,
                                         reverse: false,
                                         autoPlay: dataSlider.length > 1
                                             ? true
