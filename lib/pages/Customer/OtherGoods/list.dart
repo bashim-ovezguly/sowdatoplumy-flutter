@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
-import 'package:my_app/pages/Car/car.dart';
 import 'package:my_app/pages/Customer/OtherGoods/add.dart';
 import 'package:my_app/pages/Customer/OtherGoods/getFirst.dart';
 import 'package:provider/provider.dart';

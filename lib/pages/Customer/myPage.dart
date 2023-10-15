@@ -754,6 +754,7 @@ class _MyPageState extends State<MyPage> {
     if (_controller.offset > _controller.position.maxScrollExtent - 1000 &&
         total_page > current_page &&
         _getRequest == false) {
+      // ignore: unused_local_variable
       var sort_value = "";
       var sort = Provider.of<UserInfo>(context, listen: false).sort;
       if (int.parse(sort) == 2) {
