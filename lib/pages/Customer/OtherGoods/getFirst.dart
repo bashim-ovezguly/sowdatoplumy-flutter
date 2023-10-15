@@ -187,20 +187,24 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                                 items: imgList
                                     .map((item) => Container(
                                           color: Colors.white,
-                                          child: item!='x' && item!='' ?Center( child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(10), // Image border
-                                            child: Image.network(
-                                              item,
-                                              fit: BoxFit.fill,
-                                              height: 220,
-                                              width: double.infinity,
-                                            ),
-                                          )
-                                          ):Container(
-                                              width: double.infinity,
-                                              child: Image.asset(
-                                                  fit: BoxFit.cover,
-                                                  'assets/images/default16x9.jpg')),
+                                          child: item != 'x' && item != ''
+                                              ? Center(
+                                                  child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10), // Image border
+                                                  child: Image.network(
+                                                    item,
+                                                    fit: BoxFit.fill,
+                                                    height: 220,
+                                                    width: double.infinity,
+                                                  ),
+                                                ))
+                                              : Container(
+                                                  width: double.infinity,
+                                                  child: Image.asset(
+                                                      fit: BoxFit.cover,
+                                                      'assets/images/default16x9.jpg')),
                                         ))
                                     .toList(),
                               ),
@@ -228,7 +232,8 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                           )
                         ],
                       ),
-                      if (data['status'] == 'canceled')
+                      if (data['status'] == 'canceled' &&
+                          data['error_reason'] != '')
                         Container(
                             padding: EdgeInsets.all(10),
                             child: Text(data['error_reason'].toString(),
@@ -477,7 +482,9 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                                 ],
                               ),
                             ),
-                            Expanded(child: Text(data['phone'].toString(), style: CustomText.size_16))
+                            Expanded(
+                                child: Text(data['phone'].toString(),
+                                    style: CustomText.size_16))
                           ],
                         ),
                       ),

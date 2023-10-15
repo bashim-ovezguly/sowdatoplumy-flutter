@@ -138,7 +138,11 @@ class _AddCarState extends State<AddCar> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Dükan : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[
+                SizedBox(width: 10,),
+                
+                Expanded(flex: 2,child: Text("Dükan: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold))
+                ),
                 Expanded(flex: 5, child:MyDropdownButton(items: stores, callbackFunc: callbackStores)
                 ),],),),
           const SizedBox(height: 15,),
@@ -149,18 +153,18 @@ class _AddCarState extends State<AddCar> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 1,child: Text("Marka : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,),
+              Expanded(flex: 1,child: Text("Marka: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold))),
                 Expanded(flex: 4, child:MyDropdownButton(items: marks, callbackFunc: callbackMarka)
                 ),],),),
           const SizedBox(height: 15,),
-
           Container(
             height: 35,
             margin: const EdgeInsets.only(left: 20,right: 20),
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 1,child: Text("Model : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 1,child: Text("Model: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold))),
                 Expanded(flex: 4, child: MyDropdownButton(items: models, callbackFunc: callbackModel)
                                                                 
                 ),],),),
@@ -175,7 +179,7 @@ class _AddCarState extends State<AddCar> {
               child: Row(
               children: <Widget>[
                 SizedBox(width: 10,),
-                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold))),
                 if (locationController['name_tm']!=null)
                 Expanded(flex: 4, child: Text(locationController['name_tm']))
                 else
@@ -255,7 +259,7 @@ class _AddCarState extends State<AddCar> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 1,child: Text("Reňki : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 1,child: Text("Reňki: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold))),
                 Expanded(flex: 4, child: MyDropdownButton(items: colors, callbackFunc: callbackColor  )
                 ),],),),
           const SizedBox(height: 15,),
@@ -285,7 +289,7 @@ class _AddCarState extends State<AddCar> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Kuzow görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Kuzow görnüş: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: body_types, callbackFunc: callbackBodyType)
                 ),],),),
           const SizedBox(height: 15,),
@@ -296,7 +300,7 @@ class _AddCarState extends State<AddCar> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Karopka görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Karopka görnüş: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: transmissions, callbackFunc: callbackTransmission)
                 ),],),),
           const SizedBox(height: 15,),
@@ -307,9 +311,8 @@ class _AddCarState extends State<AddCar> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 3,child: Text("Ýöredijiniň görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
-                Expanded(flex: 4, child: MyDropdownButton(items: wheel_drives, callbackFunc: callbackWd)
-                ),],),),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 3,child: Text("Ýöredijiniň görnüş: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
+                Expanded(flex: 4, child: MyDropdownButton(items: wheel_drives, callbackFunc: callbackWd))])),
           const SizedBox(height: 15,),
             
           Container(

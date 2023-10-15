@@ -229,9 +229,11 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                         height: 220,
                                         viewportFraction: 1,
                                         initialPage: 0,
-                                        enableInfiniteScroll: imgList.length > 1 ? true : false,
+                                        enableInfiniteScroll:
+                                            imgList.length > 1 ? true : false,
                                         reverse: false,
-                                        autoPlay: imgList.length > 1 ? true : false,
+                                        autoPlay:
+                                            imgList.length > 1 ? true : false,
                                         autoPlayInterval:
                                             const Duration(seconds: 4),
                                         autoPlayAnimationDuration:
@@ -354,19 +356,56 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                     if (data['location'] != '' && data['location'] != null)
                       SizedBox(
                           child: Row(children: [
-                            Expanded(flex: 1,
-                              child: Icon(Icons.location_on,
-                                  color: CustomColors.appColors, size: 25),
-                            ),
-                            SizedBox(width: 5),
-                            Expanded(
-                              flex: 10,
-                              child: Text(data['location']['name'].toString(),
-                                  style: TextStyle(
-                                      color: CustomColors.appColors,
-                                      fontSize: 14)),
-                            )
-                          ])),
+                        Expanded(
+                          flex: 1,
+                          child: Icon(Icons.location_on,
+                              color: CustomColors.appColors, size: 25),
+                        ),
+                        SizedBox(width: 5),
+                        Expanded(
+                          flex: 10,
+                          child: Text(data['location']['name'].toString(),
+                              style: TextStyle(
+                                  color: CustomColors.appColors, fontSize: 14)),
+                        )
+                      ])),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    if (data['category'] != '' && data['category'] != null)
+                      SizedBox(
+                          child: Row(children: [
+                        Expanded(
+                          flex: 1,
+                          child: Icon(Icons.layers,
+                              color: CustomColors.appColors, size: 25),
+                        ),
+                        Expanded(
+                          flex: 10,
+                          child: Text(data['category'].toString(),
+                              style: TextStyle(
+                                  color: CustomColors.appColors, fontSize: 14)),
+                        )
+                      ])),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    if (data['delivery_price'] != '' &&
+                        data['delivery_price'] != null)
+                      SizedBox(
+                          child: Row(children: [
+                        Expanded(
+                          flex: 1,
+                          child: Icon(Icons.delivery_dining,
+                              color: CustomColors.appColors, size: 25),
+                        ),
+                        Expanded(
+                          flex: 10,
+                          child: Text(data['delivery_price'].toString(),
+                              style: TextStyle(
+                                  color: CustomColors.appColors, fontSize: 14)),
+                        )
+                      ])),
                     if (data['customer'] != '' && data['customer'] != null)
                       GestureDetector(
                           onTap: () {

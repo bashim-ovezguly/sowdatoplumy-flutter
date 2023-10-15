@@ -219,17 +219,13 @@ class _MyStoresState extends State<MyStores> {
                                                   color: CustomColors.appColors,
                                                   margin:
                                                       EdgeInsets.only(left: 2),
-                                                  padding:
-                                                      const EdgeInsets.all(10),
+                                                  padding: const EdgeInsets.all(10),
                                                   child: Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     children: <Widget>[
                                                       Expanded(
                                                         child: Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  left: 5),
                                                           alignment: Alignment
                                                               .centerLeft,
                                                           child: Text(
@@ -251,18 +247,14 @@ class _MyStoresState extends State<MyStores> {
                                                             .centerLeft,
                                                         child: Row(
                                                           children: <Widget>[
-                                                            Icon(
-                                                              Icons.place,
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
                                                             SizedBox(
                                                               width: 200,
                                                               child: Text(
                                                                 data[index][
                                                                     'location'],
-                                                                style: CustomText
-                                                                    .itemText,
+                                                                style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: CustomColors.appColorWhite),
                                                                 maxLines: 1,
                                                                 overflow:
                                                                     TextOverflow
@@ -291,6 +283,7 @@ class _MyStoresState extends State<MyStores> {
                                                                     "Garşylýar"
                                                                         .toString(),
                                                                     style: TextStyle(
+                                                                      fontSize: 12,
                                                                         color: Colors
                                                                             .amber))
                                                               else if (data[index]['status'] != null &&
@@ -300,6 +293,7 @@ class _MyStoresState extends State<MyStores> {
                                                                       'accepted')
                                                                 Text("Tassyklanyldy".toString(),
                                                                     style: TextStyle(
+                                                                      fontSize: 12,
                                                                         color: Colors
                                                                             .green))
                                                               else if (data[index]
@@ -307,7 +301,7 @@ class _MyStoresState extends State<MyStores> {
                                                                       null &&
                                                                   data[index]['status'] != '' &&
                                                                   data[index]['status'] == 'canceled')
-                                                                Text("Gaýtarylan".toString(), style: TextStyle(color: Colors.red))
+                                                                Text("Gaýtarylan".toString(), style: TextStyle(color: Colors.red, fontSize: 12,))
                                                             ],
                                                           ),
                                                         )),

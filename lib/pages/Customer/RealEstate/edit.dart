@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:my_app/pages/Customer/AwtoCar/edit.dart';
 import 'package:my_app/pages/Customer/deleteImage.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
 import 'package:my_app/pages/Customer/login.dart';
@@ -180,10 +181,10 @@ class _RealEstateEditState extends State<RealEstateEdit> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,),
                 if (old_data['store_name']!= null && old_data['store_name']!='')
-                  Expanded(flex: 2,child: Text(old_data['store_name'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text(old_data['store_name'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 if (old_data['store_name']==null || old_data['store_name']=='')
               
-                  Expanded(flex: 2,child: Text("Dükan : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text("Dükan: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: stores, callbackFunc: callbackStores)
                 ),],),),
           const SizedBox(height: 15,),
@@ -196,10 +197,10 @@ class _RealEstateEditState extends State<RealEstateEdit> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,),
                 if (old_data['category']!= null && old_data['category']!='')
-                  Expanded(flex: 2,child: Text(old_data['category'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text(old_data['category'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 if (old_data['category']==null || old_data['category']=='')
               
-                  Expanded(flex: 2,child: Text("Emläk görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text("Emläk görnüşi: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: categories, callbackFunc: callbackTypeFlats)
                 ),],),),
           const SizedBox(height: 5,),  
@@ -213,7 +214,7 @@ class _RealEstateEditState extends State<RealEstateEdit> {
               child: Row(
               children: <Widget>[
                 SizedBox(width: 10,),
-                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text("Ýerleşýän ýeri: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 if (locationController['name_tm']!=null)
                 Expanded(flex: 4, child: Text(locationController['name_tm']))
                 else
@@ -348,10 +349,10 @@ class _RealEstateEditState extends State<RealEstateEdit> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,),
                 if (old_data['remont_state']!= null && old_data['remont_state']!='')
-                  Expanded(flex: 2,child: Text(old_data['remont_state'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text(old_data['remont_state'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 if (old_data['remont_state']==null || old_data['remont_state']=='')
               
-                  Expanded(flex: 2,child: Text("Remonty : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text("Remondy :", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: remont_states, callbackFunc: callbackRemontState)
                 ),],),),
           const SizedBox(height: 15,),
@@ -392,42 +393,6 @@ class _RealEstateEditState extends State<RealEstateEdit> {
             },),),
           const SizedBox(height: 15,),
 
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: documentsController,
-              decoration: const InputDecoration(hintText: 'Resminamalary',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-
-          // Container(
-          //   alignment: Alignment.center,
-          //   height: 35,
-          //   margin: const EdgeInsets.only(left: 20,right: 20),
-          //   width: double.infinity,
-          //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-          //   child:  TextFormField(
-          //     controller: usernameController,
-          //     decoration: const InputDecoration(hintText: 'Karz ýagdaýy :',
-          //         border: InputBorder.none,
-          //         focusColor: Colors.white,
-          //         contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-          //     if (value == null || value.isEmpty) {
-          //       return 'Please enter some text';
-          //     }return null;
-          //   },),),
-          // const SizedBox(height: 15,),
-
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.end,
@@ -464,11 +429,6 @@ class _RealEstateEditState extends State<RealEstateEdit> {
                   ),
                 ],
               ),
-               Container(
-                    margin: const EdgeInsets.only(left: 20),
-                    height: 50,
-                    width: 100,
-                    child:  CustomCheckBox(labelText: 'Resminamalary taýyn', callbackFunc: callbackDocument, status: old_data['documents_ready']),)
             ],
           ),
           const SizedBox(height: 10,),
@@ -506,7 +466,7 @@ class _RealEstateEditState extends State<RealEstateEdit> {
                                   margin: const EdgeInsets.only(left: 10,bottom: 10),
                                   height: 100, width:100,
                                   alignment: Alignment.topLeft,
-                                  child: Image.network(baseurl + country['img_m'],fit: BoxFit.cover,height: 100,width: 100,
+                                  child: Image.network(baseurl + country['img'].toString(),fit: BoxFit.cover,height: 100,width: 100,
                                     errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
                                               return Center(child: CircularProgressIndicator(color: CustomColors.appColors,),);},
                                   )
@@ -719,10 +679,9 @@ class _RealEstateEditState extends State<RealEstateEdit> {
 
                     final response = await request.send();
                      if (response.statusCode == 200){
-                      callbackFunc();
+                      callbackFunc(); 
                       Navigator.pop(context); 
-                      Navigator.pop(context); 
-                      
+                      showSuccess(context); 
                      }
                      else{
                       Navigator.pop(context); 
@@ -737,6 +696,14 @@ class _RealEstateEditState extends State<RealEstateEdit> {
       ),
     );
   }
+
+  showSuccess(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return SuccessPopup();},);}
+
 
   showConfirmationDialogError(BuildContext context){
     showDialog(

@@ -61,11 +61,7 @@ class _MyPageState extends State<MyPage> {
   var data_array = [];
 
   bool status = false;
-  callbackStatus() {
-    setState(() {
-      status = true;
-    });
-  }
+  callbackStatus() {}
 
   void initState() {
     _pageNumber = 1;
@@ -91,21 +87,13 @@ class _MyPageState extends State<MyPage> {
       data_array = [];
     });
     getsinglemarkets(id: id);
+    get_products_modul(id);
   }
 
   callbackStatusDelete() {
     refreshFunc();
     Navigator.pop(context);
     Navigator.pop(context);
-  }
-
-  callbackDeletePhone() {
-    setState(() {
-      if (imgList.length == 0) {
-        imgList.add('x');
-      }
-      getsinglemarkets(id: id);
-    });
   }
 
   final ScrollController _controller = ScrollController();
@@ -156,7 +144,7 @@ class _MyPageState extends State<MyPage> {
                                   MaterialPageRoute(
                                       builder: (context) => EditStore(
                                           old_data: data,
-                                          callbackFunc: callbackStatus)));
+                                          callbackFunc: storeRefresh)));
                             },
                             child: Container(
                                 color: Colors.white,
@@ -168,6 +156,30 @@ class _MyPageState extends State<MyPage> {
                                     color: Colors.green,
                                   ),
                                   Text(' Üýtgetmek')
+                                ])))),
+                    PopupMenuItem<String>(
+                        child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => NewProduct(
+                                          title: "Haryt goşmak",
+                                          customer_id: customer_id,
+                                          id: id,
+                                          action: 'store',
+                                          storeRefresh: storeRefresh)));
+                            },
+                            child: Container(
+                                color: Colors.white,
+                                height: 40,
+                                width: double.infinity,
+                                child: Row(children: [
+                                  Icon(
+                                    Icons.add,
+                                    color: Colors.green,
+                                  ),
+                                  Text(' Haryt goşmak')
                                 ])))),
                     PopupMenuItem<String>(
                         child: GestureDetector(
@@ -222,66 +234,58 @@ class _MyPageState extends State<MyPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
-                                  margin: EdgeInsets.only(
-                                      left: 5, right: 5, top: 5),
-                                  child: Row(
-                                    children: <Widget>[
-                                      Text(
-                                        data['name_tm'].toString(),
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: CustomColors.appColors,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                      Spacer(),
-                                    ],
-                                  )),
                               Stack(
                                 children: [
                                   Container(
                                     height: 220,
                                     margin: const EdgeInsets.all(5),
-                                    child: ImageSlideshow(
-                                      disableUserScrolling:
-                                          imgList.length > 1 ? false : true,
-                                      indicatorColor: CustomColors.appColors,
-                                      indicatorBackgroundColor: Colors.grey,
-                                      onPageChanged: (value) {},
-                                      autoPlayInterval: 6666,
-                                      isLoop: true,
-                                      children: [
-                                        for (var item in imgList)
-                                          if (item != '' && item != 'x')
-                                            GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              FullScreenSlider(
-                                                                  imgList:
-                                                                      imgList)));
-                                                },
-                                                child: Container(
-                                                    width:
-                                                        MediaQuery.of(context)
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0)),
+                                      child: Container(
+                                        child: ImageSlideshow(
+                                          disableUserScrolling:
+                                              imgList.length > 1 ? false : true,
+                                          indicatorColor:
+                                              CustomColors.appColors,
+                                          indicatorBackgroundColor: Colors.grey,
+                                          onPageChanged: (value) {},
+                                          autoPlayInterval: 6666,
+                                          isLoop: true,
+                                          children: [
+                                            for (var item in imgList)
+                                              if (item != '' && item != 'x')
+                                                GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  FullScreenSlider(
+                                                                      imgList:
+                                                                          imgList)));
+                                                    },
+                                                    child: Container(
+                                                        width: MediaQuery.of(
+                                                                context)
                                                             .size
                                                             .width,
-                                                    decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: NetworkImage(
-                                                                item),
-                                                            fit:
-                                                                BoxFit.cover))))
-                                          else
-                                            Container(
-                                                width: double.infinity,
-                                                child: Image.asset(
-                                                    fit: BoxFit.cover,
-                                                    'assets/images/default16x9.jpg')),
-                                      ],
+                                                        decoration: BoxDecoration(
+                                                            image: DecorationImage(
+                                                                image:
+                                                                    NetworkImage(
+                                                                        item),
+                                                                fit: BoxFit
+                                                                    .cover))))
+                                              else
+                                                Container(
+                                                    width: double.infinity,
+                                                    child: Image.asset(
+                                                        fit: BoxFit.cover,
+                                                        'assets/images/default16x9.jpg')),
+                                          ],
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -340,237 +344,186 @@ class _MyPageState extends State<MyPage> {
                                 ],
                               ),
                               SizedBox(
-                                height: 5,
+                                height: 10,
                               ),
-                              SizedBox(
-                                  child: Row(children: [
-                                Expanded(
-                                    child: Row(children: [
-                                  SizedBox(width: 10),
-                                  Icon(
-                                    Icons.drive_file_rename_outline_outlined,
-                                    color: Colors.black54,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text("Ady ",
+                              if (data['status'] == 'canceled' &&
+                                  data['error_reason'] != '')
+                                Container(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text(data['error_reason'].toString(),
+                                        maxLines: 10,
+                                        style: TextStyle(color: Colors.red))),
+                              if (data['name_tm'] != '')
+                                Container(
+                                  padding: EdgeInsets.all(10),
+                                  child: Text(data['name_tm'].toString(),
                                       style: TextStyle(
-                                          fontSize: 15, color: Colors.black54))
-                                ])),
-                                Expanded(
-                                    child: Text(data['name_tm'].toString(),
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: CustomColors.appColors))),
-                                SizedBox(width: 10)
-                              ])),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              SizedBox(
-                                  child: Row(children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      SizedBox(width: 10),
-                                      Icon(
-                                        Icons.location_on,
-                                        color: Colors.black54,
-                                      ),
-                                      SizedBox(width: 10),
-                                      Text(
-                                        "Ýerleşýän ýeri",
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.black54),
-                                      )
-                                    ],
-                                  ),
+                                          color: CustomColors.appColors,
+                                          fontSize: 20)),
                                 ),
-                                if (data['location'] != null &&
-                                    data['location'] != '')
-                                  Expanded(
-                                      child: Text(
-                                          data['location']['name'].toString(),
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: CustomColors.appColors),
-                                          maxLines: 2)),
-                                SizedBox(width: 10)
-                              ])),
-                              Container(
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                                height: 40,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.category,
-                                            color: Colors.black54,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            "Kategoriýasy",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.black54),
-                                          )
-                                        ],
+                              if (data['body_tm'] != null &&
+                                  data['body_tm'] != '')
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: TextField(
+                                    enabled: false,
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
                                       ),
-                                    ),
-                                    Expanded(
-                                        child: Text(
-                                      data['category'].toString(),
-                                      style: TextStyle(
-                                          fontSize: 15,
+                                      filled: true,
+                                      hintMaxLines: 10,
+                                      hintStyle: TextStyle(
+                                          fontSize: 14,
                                           color: CustomColors.appColors),
-                                      maxLines: 2,
-                                    ))
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.all(10),
-                                height: 100,
-                                width: double.infinity,
-                                child: TextField(
-                                  enabled: false,
-                                  cursorColor: Colors.red,
-                                  maxLines: 3,
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide.none,
+                                      hintText: data['body_tm'].toString(),
+                                      fillColor: Colors.white,
                                     ),
-                                    filled: true,
-                                    hintText: data['body_tm'].toString(),
-                                    fillColor: Colors.white,
                                   ),
                                 ),
+                              SizedBox(
+                                height: 5,
                               ),
-                              if (data_tel.length > 0)
-                                Column(
-                                  children: [
-                                    Container(
-                                        height: 20,
-                                        alignment: Alignment.center,
-                                        margin:
-                                            EdgeInsets.only(top: 15, left: 20),
-                                        child: Text(
-                                          'Telefon nomerleri',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              color: Colors.black54),
-                                        )),
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        for (var i in data_tel)
-                                          Container(
-                                              alignment: Alignment.centerLeft,
-                                              margin: EdgeInsets.only(left: 10),
-                                              padding: EdgeInsets.all(10),
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    "* ",
-                                                    style: TextStyle(
-                                                        color: Colors.black54),
-                                                  ),
-                                                  Icon(
-                                                    Icons
-                                                        .phone_android_outlined,
-                                                    color: Colors.black54,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Text(
-                                                    i['phone'].toString(),
-                                                    style: TextStyle(
-                                                      fontSize: 16,
+                              if (data['location'] != '' &&
+                                  data['location'] != null)
+                                SizedBox(
+                                    child: Row(children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Icon(Icons.location_on,
+                                        color: CustomColors.appColors,
+                                        size: 25),
+                                  ),
+                                  Expanded(
+                                    flex: 10,
+                                    child: Text(
+                                        data['location']['name'].toString(),
+                                        style: TextStyle(
+                                            color: CustomColors.appColors,
+                                            fontSize: 14)),
+                                  )
+                                ])),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              if (data['category'] != '' &&
+                                  data['category'] != null)
+                                SizedBox(
+                                    child: Row(children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Icon(Icons.layers,
+                                        color: CustomColors.appColors,
+                                        size: 25),
+                                  ),
+                                  Expanded(
+                                    flex: 10,
+                                    child: Text(data['category'].toString(),
+                                        style: TextStyle(
+                                            color: CustomColors.appColors,
+                                            fontSize: 14)),
+                                  )
+                                ])),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              if (data['delivery_price'] != '' &&
+                                  data['delivery_price'] != null)
+                                SizedBox(
+                                    child: Row(children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Icon(Icons.delivery_dining,
+                                        color: CustomColors.appColors,
+                                        size: 25),
+                                  ),
+                                  Expanded(
+                                    flex: 10,
+                                    child: Text(
+                                        data['delivery_price'].toString(),
+                                        style: TextStyle(
+                                            color: CustomColors.appColors,
+                                            fontSize: 14)),
+                                  )
+                                ])),
+                              if (data['contacts'] != null)
+                                Wrap(
+                                    direction: Axis.vertical,
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.start,
+                                    children: [
+                                      for (var i = 0;
+                                          i < data['contacts'].length;
+                                          i++)
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                                margin: EdgeInsets.only(
+                                                    left: 10, top: 10),
+                                                height: 25,
+                                                child: Image.network(
+                                                  data['contacts'][i]['icon'],
+                                                  width: 25,
+                                                  height: 25,
+                                                  fit: BoxFit.cover,
+                                                )),
+                                            SizedBox(width: 5),
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 10, top: 10),
+                                              child: Text(
+                                                  data['contacts'][i]['value']
+                                                      .toString(),
+                                                  style: TextStyle(
                                                       color: CustomColors
                                                           .appColors,
-                                                    ),
-                                                  ),
-                                                  Spacer(),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      showDialog(
-                                                          context: context,
-                                                          builder: (context) {
-                                                            return DeletePhoneAlert(
-                                                              id: i['id']
-                                                                  .toString(),
-                                                              callbackFunc:
-                                                                  callbackDeletePhone,
-                                                            );
-                                                          });
-                                                    },
-                                                    child: Icon(
-                                                      Icons.delete,
-                                                      color: Colors.red,
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 20,
-                                                  )
-                                                ],
-                                              ))
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                                      fontSize: 14)),
+                                            ),
+                                            SizedBox(width: 5),
+                                            Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return DeletePhoneAlert(
+                                                          id: data['contacts']
+                                                                  [i]['id']
+                                                              .toString(),
+                                                          callbackFunc:
+                                                              storeRefresh,
+                                                        );
+                                                      });
+                                                },
+                                                child: Container(
+                                                  margin:
+                                                      EdgeInsets.only(top: 5),
+                                                  child: Icon(Icons.delete,
+                                                      color: Colors.red),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                    ]),
                               Container(
                                   margin: EdgeInsets.only(top: 10, bottom: 20),
                                   alignment: Alignment.center,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 2,
-                                        child: Container(
-                                          alignment: Alignment.centerRight,
-                                          margin: EdgeInsets.only(right: 30),
-                                          child: Text(
-                                            "HARYTLAR",
-                                            style: TextStyle(
-                                                color: CustomColors.appColors,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                            height: 30,
-                                            margin: EdgeInsets.only(right: 25),
-                                            alignment: Alignment.centerRight,
-                                            child: FloatingActionButton(
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            NewProduct(
-                                                                title:
-                                                                    "Haryt goşmak",
-                                                                customer_id:
-                                                                    customer_id,
-                                                                id: id,
-                                                                action: 'store',
-                                                                storeRefresh:
-                                                                    storeRefresh)));
-                                              },
-                                              child: Text("+"),
-                                              backgroundColor: Colors.green,
-                                            )),
-                                      ),
-                                    ],
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    margin: EdgeInsets.only(right: 30),
+                                    child: Text(
+                                      "HARYTLAR",
+                                      style: TextStyle(
+                                          color: CustomColors.appColors,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   )),
                               Container(
                                 child: Wrap(

@@ -156,10 +156,10 @@ class _EditCarState extends State<EditCar> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,),
                if (old_data['store_name']!= null && old_data['store_name']!='')
-                  Expanded(flex: 2,child: Text(old_data['store_name'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text(old_data['store_name'].toString(), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 if (old_data['store_name']==null || old_data['store_name']=='')
 
-              Expanded(flex: 2,child: Text("Dükan: ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              Expanded(flex: 2,child: Text("Dükan: ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 Expanded(flex: 4, child:MyDropdownButton(items: stores, callbackFunc: callbackStores)
                 ),],),),
           const SizedBox(height: 15,),
@@ -170,12 +170,14 @@ class _EditCarState extends State<EditCar> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,),
+              children: <Widget>[SizedBox(
+                width: 10,),
+              Expanded(flex: 2,child: Text("Marka : ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                if (old_data['mark']!= null && old_data['mark']!='')
-                  Expanded(flex: 2,child: Text(old_data['mark'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text(old_data['mark'].toString(), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 if (old_data['mark']==null || old_data['mark']=='')
 
-              Expanded(flex: 1,child: Text("Marka: ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              Expanded(flex: 1,child: Text("Marka: ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 Expanded(flex: 4, child:MyDropdownButton(items: marks, callbackFunc: callbackMarka)
                 ),],),),
           const SizedBox(height: 15,),
@@ -186,12 +188,14 @@ class _EditCarState extends State<EditCar> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), 
+              children: <Widget>[
+                SizedBox(width: 10,), 
+                Expanded(flex: 2,child: Text("Model : ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
               if (old_data['model']!= null && old_data['model']!='')
-                  Expanded(flex: 2,child: Text(old_data['model'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text(old_data['model'].toString(), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 if (old_data['model']==null || old_data['model']=='')
               
-                Expanded(flex: 1,child: Text("Model : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 1,child: Text("Model : ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: models, callbackFunc: callbackModel)
                                                                 
                 ),],),),
@@ -206,7 +210,7 @@ class _EditCarState extends State<EditCar> {
               child: Row(
               children: <Widget>[
                 SizedBox(width: 10,),
-                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 if (locationController['name_tm']!=null)
                 Expanded(flex: 4, child: Text(locationController['name_tm']))
                 else
@@ -214,7 +218,8 @@ class _EditCarState extends State<EditCar> {
                     Expanded(flex: 4, child: Text(old_data['location']))
                   else
                     Expanded(flex: 4, child: Text(''))
-              ],),),
+              ],)
+              ),
               onTap: (){
                 showDialog(
                   barrierDismissible: false,
@@ -270,7 +275,7 @@ class _EditCarState extends State<EditCar> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child:  TextFormField(
               controller: millageController,
-              decoration: InputDecoration(hintText: old_data['millage']!= null ? 'Geçen ýoly :' + old_data['millage'].toString(): 'Geçen ýoly',
+              decoration: InputDecoration(hintText: old_data['millage']!= null ? 'Geçen ýoly: ' + old_data['millage'].toString(): 'Geçen ýoly',
                   border: InputBorder.none,
                   focusColor: Colors.white,
                   contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
@@ -287,10 +292,11 @@ class _EditCarState extends State<EditCar> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
               children: <Widget>[SizedBox(width: 10,), 
+              Expanded(flex: 2,child: Text("Reňk: ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 if (old_data['color']!= null && old_data['color']!='')
-                  Expanded(flex: 2,child: Text(old_data['color'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text(old_data['color'].toString(), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 if (old_data['color']==null || old_data['color']=='')
-                  Expanded(flex: 1,child: Text("Reňki : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 1,child: Text("Reňki : ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
 
                 Expanded(flex: 4, child: MyDropdownButton(items: colors, callbackFunc: callbackColor  )
                 ),],),),
@@ -323,9 +329,9 @@ class _EditCarState extends State<EditCar> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,), 
                 if (old_data['body_type']!= null && old_data['body_type']!='')
-                  Expanded(flex: 2,child: Text(old_data['body_type'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text(old_data['body_type'].toString(), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 if (old_data['body_type']==null || old_data['body_type']=='')
-                  Expanded(flex: 2,child: Text("Kuzow görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text("Kuzow görnüşi : ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: body_types, callbackFunc: callbackBodyType)
                 ),],),),
           const SizedBox(height: 15,),
@@ -338,10 +344,10 @@ class _EditCarState extends State<EditCar> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,),
                 if (old_data['transmission']!= null && old_data['transmission']!='')
-                  Expanded(flex: 2,child: Text(old_data['transmission'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text(old_data['transmission'].toString(), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 if (old_data['transmission']==null || old_data['transmission']=='')
                   
-                  Expanded(flex: 2,child: Text("Karopka görnüş : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text("Karopka görnüş: ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: transmissions, callbackFunc: callbackTransmission)
                 ),],),),
           const SizedBox(height: 15,),
@@ -354,10 +360,10 @@ class _EditCarState extends State<EditCar> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,), 
                 if (old_data['wd']!= null && old_data['wd']!='')
-                  Expanded(flex: 2,child: Text(old_data['wd'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text(old_data['wd'].toString(), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 if (old_data['wd']==null || old_data['wd']=='')
 
-                  Expanded(flex: 3,child: Text("Ýörediji görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 3,child: Text("Ýörediji görnüşi: ", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: wheel_drives, callbackFunc: callbackWd)
                 ),],),),
           const SizedBox(height: 15,),
@@ -690,7 +696,7 @@ class _EditCarState extends State<EditCar> {
                      if (response.statusCode == 200){
                       callbackFunc();
                       Navigator.pop(context); 
-                      Navigator.pop(context); 
+                      showSuccess(context); 
                      }
                      else{
                       Navigator.pop(context); 
@@ -712,6 +718,13 @@ class _EditCarState extends State<EditCar> {
       context: context,
       builder: (BuildContext context) {
         return ErrorAlert();},);}
+  
+   showSuccess(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return SuccessPopup();},);}
 
   void get_cars_index() async {
     Urls server_url  =  new Urls();
@@ -750,4 +763,43 @@ class _EditCarState extends State<EditCar> {
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {stores = json['data']['stores'];});
     Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);}
+}
+
+class SuccessPopup extends StatefulWidget {
+  SuccessPopup({Key? key}) : super(key: key);
+  @override
+  _SuccessPopupState createState() => _SuccessPopupState();
+}
+
+class _SuccessPopupState extends State<SuccessPopup> {
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+                shadowColor: CustomColors.appColorWhite,
+                surfaceTintColor: CustomColors.appColorWhite,
+                backgroundColor: CustomColors.appColorWhite,
+                content: Container(
+                  width: 200,
+                  height: 100,
+                  child: Text(
+                      'Maglumat üýtgedildi operatoryň tassyklamagyna garaşyň'),
+                ),
+                actions: <Widget>[
+                  Align(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          foregroundColor: Colors.white),
+                      onPressed: () async {
+                        Navigator.pop(context); 
+                        Navigator.pop(context); 
+                        
+                      },
+                      child: const Text('Dowam et'),
+                    ),
+                  )
+                ],
+              );
+  }
 }

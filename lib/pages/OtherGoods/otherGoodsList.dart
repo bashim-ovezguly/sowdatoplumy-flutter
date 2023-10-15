@@ -18,12 +18,6 @@ import '../Search/search.dart';
 import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
-const List<String> list = <String>[
-  'Ulgama gir',
-  'ulgamda cyk',
-  'bilemok',
-  'ozin karar'
-];
 
 class OtherGoodsList extends StatefulWidget {
   OtherGoodsList({Key? key}) : super(key: key);
@@ -32,11 +26,8 @@ class OtherGoodsList extends StatefulWidget {
 }
 
 class _OtherGoodsListState extends State<OtherGoodsList> {
-  String dropdownValue = list.first;
 
-  List<dynamic> dataSlider = [
-    {"img": "", 'name': "", 'price': "", 'location': ''}
-  ];
+  List<dynamic> dataSlider = [{"img": "", 'name': "", 'price': "", 'location': ''}];
   List<dynamic> data = [];
   int _current = 0;
   var baseurl = "";

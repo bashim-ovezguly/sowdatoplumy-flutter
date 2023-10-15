@@ -43,7 +43,6 @@ class _RealEstateAddState extends State<RealEstateAdd> {
   final addressController = TextEditingController();
   final squareController = TextEditingController();
   final priceController = TextEditingController();
-  final personController = TextEditingController();
   final phoneController = TextEditingController();
   final detailController = TextEditingController();
   final floorController = TextEditingController();
@@ -73,7 +72,6 @@ class _RealEstateAddState extends State<RealEstateAdd> {
   callbackSwap(){ setState(() { swap = ! swap; });}
   callbackNone_cash_pay(){ setState(() { none_cash_pay = ! none_cash_pay; });}
   callbackAtown(){ setState(() { own = ! own; });}
-  callbackDocument(){setState(() { document = ! document; });}
 
   void initState() {
     get_flats_index();
@@ -166,7 +164,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Dükan : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Dükan: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: stores, callbackFunc: callbackStores)
                 ),],),),
           const SizedBox(height: 15,),
@@ -177,7 +175,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Emläk görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Emläk görnüşi: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: categories, callbackFunc: callbackTypeFlats)
                 ),],),),
           const SizedBox(height: 15,),  
@@ -185,13 +183,13 @@ class _RealEstateAddState extends State<RealEstateAdd> {
           GestureDetector(
               child: Container(
               height: 35,
-              margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
+              margin: const EdgeInsets.only(left: 20, right: 20),
               width: double.infinity,
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
               child: Row(
               children: <Widget>[
                 SizedBox(width: 10,),
-                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 if (locationsController['name_tm']!=null)
                 Expanded(flex: 4, child: Text(locationsController['name_tm']))
                 else
@@ -324,7 +322,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Remonty : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Remonty: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: remont_states, callbackFunc: callbackRemontState)
                 ),],),),
           const SizedBox(height: 15,),
@@ -337,25 +335,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child:  TextFormField(
               controller: priceController,
-              decoration: const InputDecoration(hintText: 'Bahasy :',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: personController,
-              decoration: const InputDecoration(hintText: 'Ýazgydaky adam sany :',
+              decoration: const InputDecoration(hintText: 'Bahasy:',
                   border: InputBorder.none,
                   focusColor: Colors.white,
                   contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
@@ -401,15 +381,6 @@ class _RealEstateAddState extends State<RealEstateAdd> {
                   ),
                 ],
               ),
-              Container(
-                margin: const EdgeInsets.only(left: 20),
-                child: SizedBox(
-                    height: 50,
-                    width: 100,
-                    child:  CustomCheckBox(labelText: 'Resminamalary taýyn', callbackFunc: callbackDocument, status: false),
-                  ),
-                  
-              )
             ],
           ),
           const SizedBox(height: 10,),

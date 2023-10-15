@@ -23,6 +23,7 @@ class _MyDropdownButtonEditState extends State<MyDropdownButtonEdit> {
   Widget build(BuildContext context) {
     return
       DropdownButton<String>(
+        dropdownColor: CustomColors.appColorWhite,
         isExpanded: true,
         alignment: Alignment. center,
         elevation: 16,

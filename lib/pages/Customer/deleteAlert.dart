@@ -36,7 +36,7 @@ class _DeleteAlertState extends State<DeleteAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-            shadowColor: CustomColors.appColorWhite,
+      shadowColor: CustomColors.appColorWhite,
       surfaceTintColor: CustomColors.appColorWhite,
       backgroundColor: CustomColors.appColorWhite,
       title: Row(
@@ -84,16 +84,25 @@ class _DeleteAlertState extends State<DeleteAlert> {
                   var token = Provider.of<UserInfo>(context, listen: false)
                       .access_token;
                   Urls server_url = new Urls();
-                  String url = server_url.get_server_url() + '/mob/' + action.toString() + "/delete/" + id.toString();
+                  String url = server_url.get_server_url() +
+                      '/mob/' +
+                      action.toString() +
+                      "/delete/" +
+                      id.toString();
                   if (action == 'lenta') {
-                    url = server_url.get_server_url() + '/mob/' + action.toString() + "/" + id.toString() + "/delete";
+                    url = server_url.get_server_url() +
+                        '/mob/' +
+                        action.toString() +
+                        "/" +
+                        id.toString() +
+                        "/delete";
                   }
                   final uri = Uri.parse(url);
-                  Map<String, String> headers = {};  
-                    for (var i in global_headers.entries){
-                      headers[i.key] = i.value.toString(); 
-                    }
-                    headers['token'] = token;
+                  Map<String, String> headers = {};
+                  for (var i in global_headers.entries) {
+                    headers[i.key] = i.value.toString();
+                  }
+                  headers['token'] = token;
                   final response = await http.post(uri, headers: headers);
                   if (response.statusCode == 200) {
                     callbackFunc();
@@ -150,8 +159,8 @@ class _DeletePhoneAlertState extends State<DeletePhoneAlert> {
       title: Row(
         children: [
           Text(
-            '',
-            style: TextStyle(color: CustomColors.appColors),
+            'Pozmaga ynamyñyz barmy?',
+            style: TextStyle(color: CustomColors.appColors, fontSize: 15),
           ),
           Spacer(),
           GestureDetector(
@@ -189,34 +198,28 @@ class _DeletePhoneAlertState extends State<DeletePhoneAlert> {
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white),
                 onPressed: () async {
-                  var token = Provider.of<UserInfo>(context, listen: false)
-                      .access_token;
                   Urls server_url = new Urls();
-                  String url = server_url.get_server_url() +
-                      '/mob/stores/phone/delete/' +
-                      id.toString();
+                  String url = server_url.get_server_url() +'/mob/stores/contact/delete/' +id.toString();
                   final uri = Uri.parse(url);
-                  Map<String, String> headers = {};  
-                  for (var i in global_headers.entries){
-                    headers[i.key] = i.value.toString(); 
-                  }
-                  headers['token'] = token;
-                  final response = await http.post(
-                    uri,
-                    headers: headers,
-                  );
 
-                  if (response.statusCode == 200) {
-                    callbackFunc();
-                    Navigator.pop(context);
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-                  }
-                  if (response.statusCode != 200) {
-                    var response = Provider.of<UserInfo>(context, listen: false)
-                        .update_tokenc();
-                    if (response == false) {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()));
+                  var responsess = Provider.of<UserInfo>(context, listen: false).update_tokenc();
+                  if (await responsess) {
+                    var token = Provider.of<UserInfo>(context, listen: false).access_token;
+                    Map<String, String> headers = {};
+                    for (var i in global_headers.entries) {
+                      headers[i.key] = i.value.toString();
+                    }
+                    headers['token'] = token;
+                    final response = await http.post(
+                      uri,
+                      headers: headers,
+                    );
+                    print(response.statusCode);
+                    print(url);
+                    print(headers);
+                    if (response.statusCode == 200) {
+                      callbackFunc();
+                      Navigator.pop(context);
                     }
                   }
                 },

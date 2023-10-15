@@ -27,12 +27,10 @@ class AutoPartsAdd extends StatefulWidget {
   @override
   State<AutoPartsAdd> createState() => _AutoPartsAddState(customer_id: customer_id);
 }
-//ý ş ňý Ş Ň
 
 class _AutoPartsAddState extends State<AutoPartsAdd> {
 
   var data = {};
-
   List<dynamic> categories = [];
   List<dynamic> factories = [];
   List<dynamic> made_in_countries = [];
@@ -64,7 +62,6 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
   var locationController = {};
   var wdController = {};
   var transmissionController = {};
-  var factoriesController = {};
   var fuelController = {};
   
   callbackMarka(new_value) async { setState(() { markaController = new_value; });
@@ -80,13 +77,11 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
   }
   callbackStores(new_value){ setState(() { storesController = new_value; });}
   callbackModel(new_value){ setState(() { modelController = new_value; });}
-  callbackLocationDest(new_value){ setState(() { locationDestController = new_value; });}
   callbackCategory(new_value){ setState(() { categoryController = new_value; });}
   callbackFuel(new_value){ setState(() { fuelController = new_value; });}
   callbackLocation(new_value){ setState(() { locationController = new_value; });}
   callbackWd(new_value){ setState(() { wdController = new_value; });}
   callbackTransmission(new_value){ setState(() { transmissionController = new_value; });}
-  callbackFactories(new_value){ setState(() { factoriesController = new_value; });}
   
   callbackStatus(){Navigator.pop(context);}
 
@@ -162,7 +157,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Dükan : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Dükan: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: stores, callbackFunc: callbackStores,)
                 ),],),),
           const SizedBox(height: 15,),
@@ -173,7 +168,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Awtoulag marka : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Marka: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: marks, callbackFunc: callbackMarka,)
                 ),],),),
           const SizedBox(height: 15,),
@@ -184,20 +179,9 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 1,child: Text("Model : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 1,child: Text("Model: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: models, callbackFunc: callbackModel)
                 ),],),),
-          const SizedBox(height: 15,),
-
-          Container(
-          height: 35,
-          margin: const EdgeInsets.only(left: 20,right: 20),
-          width: double.infinity,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-          child: Row(
-          children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Ýurdy : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
-          Expanded(flex: 4, child: MyDropdownButton(items: made_in_countries, callbackFunc: callbackLocationDest,)
-          ),],),),
           const SizedBox(height: 15,),
 
                     Container(
@@ -206,21 +190,10 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 3,child: Text("Ýangyç görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 3,child: Text("Ýangyç görnüşi: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: fuels, callbackFunc: callbackFuel)
                 ),],),),
           const SizedBox(height: 15,),
-
-          Container(
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child: Row(
-            children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Firmasy : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
-            Expanded(flex: 4, child: MyDropdownButton(items: factories, callbackFunc: callbackFactories,)
-            ),],),),
-          const SizedBox(height: 5,),
 
           GestureDetector(
               child: Container(
@@ -231,7 +204,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
               child: Row(
               children: <Widget>[
                 SizedBox(width: 10,),
-                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text("Ýerleşýän ýeri: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 if (locationController['name_tm']!=null)
                 Expanded(flex: 4, child: Text(locationController['name_tm']))
                 else
@@ -253,28 +226,10 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Kategoriýasy: ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Kategoriýasy: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: categories, callbackFunc: callbackCategory)
                 ),],),),
           const SizedBox(height: 15,),
-
-          // Container(
-          //   alignment: Alignment.center,
-          //   height: 35,
-          //   margin: const EdgeInsets.only(left: 20,right: 20),
-          //   width: double.infinity,
-          //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-          //   child:  TextFormField(
-          //     controller: usernameController,
-          //     decoration: const InputDecoration(hintText: 'Satyjynyň ady',
-          //         border: InputBorder.none,
-          //         focusColor: Colors.white,
-          //         contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-          //     if (value == null || value.isEmpty) {
-          //       return 'Please enter some text';
-          //     }return null;
-          //   },),),
-          // const SizedBox(height: 15,),
 
           Container(
             alignment: Alignment.center,
@@ -320,7 +275,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 3,child: Text("Ýöredijiniň görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 3,child: Text("Ýöredijiniň görnüş: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: wheel_drives, callbackFunc: callbackWd)
                 ),],),),
           const SizedBox(height: 15,),
@@ -331,7 +286,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Karopka görnüşi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Karopka görnüş: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: transmissions, callbackFunc: callbackTransmission)
                 ),],),),
           const SizedBox(height: 15,),
@@ -363,7 +318,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
             child:  TextFormField(
               controller: startYearController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(hintText: 'ýyl başy: ',
+              decoration: const InputDecoration(hintText: 'Ýyl başy: ',
                   border: InputBorder.none,
                   focusColor: Colors.white,
                   contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
@@ -382,7 +337,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
             child:  TextFormField(
               controller: endYearController,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(hintText: 'ýyl soňy: ',
+              decoration: const InputDecoration(hintText: 'Ýyl soňy: ',
                   border: InputBorder.none,
                   focusColor: Colors.white,
                   contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
@@ -608,7 +563,6 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
                     request.fields['price'] = priceController.text.toString();
                     request.fields['phone'] = phoneController.text.toString();
                     request.fields['name_tm'] = nameController.text.toString();
-                    request.fields['made_in'] = locationDestController['id'].toString();
                     request.fields['transmission'] = transmissionController['id'].toString();
                     request.fields['fuel'] = fuelController['id'].toString();
                     request.fields['wd'] = wdController['id'].toString();
@@ -620,7 +574,6 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
                     request.fields['category'] = categoryController['id'].toString();
                     request.fields['customer'] =  customer_id.toString();
                     request.fields['engine'] =  engineController.text.toString();
-                    request.fields['part_factory'] =  factoriesController['id'].toString();
                     request.fields['location'] = locationController['id'].toString();
                     request.fields['swap'] = swap_num;;
                     request.fields['credit'] = credit_num;

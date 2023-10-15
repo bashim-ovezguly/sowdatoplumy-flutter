@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/main.dart';
+import 'package:my_app/pages/Customer/AwtoCar/edit.dart';
 import 'package:my_app/pages/Customer/deleteImage.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
 import 'package:my_app/pages/Customer/login.dart';
@@ -37,7 +37,6 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
   var baseurl = "";
   var old_data ={}; 
   List<dynamic> categories = [];
-  List<dynamic> factories = [];
   List<dynamic> made_in_countries = [];
   List<dynamic> fuels = [];
   List<dynamic> transmissions = [];
@@ -69,12 +68,10 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
 
   var markaController = {};
   var modelController = {};  
-  var locationDestController = {};
   var categoryController = {};
   var locationController = {};
   var wdController = {};
   var transmissionController = {};
-  var factoriesController = {};
   var fuelController = {};
 
   callbackMarka(new_value) async { setState(() { markaController = new_value; });
@@ -88,13 +85,11 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
     });
   }
   callbackModel(new_value){ setState(() { modelController = new_value; });}
-  callbackLocationDest(new_value){ setState(() { locationDestController = new_value; });}
   callbackCategory(new_value){ setState(() { categoryController = new_value; });}
   callbackFuel(new_value){ setState(() { fuelController = new_value; });}
   callbackLocation(new_value){ setState(() { locationController = new_value; });}
   callbackWd(new_value){ setState(() { wdController = new_value; });}
   callbackTransmission(new_value){ setState(() { transmissionController = new_value; });}
-  callbackFactories(new_value){ setState(() { factoriesController = new_value; });}
 
   bool credit = false;
   bool swap = false ;
@@ -157,7 +152,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
             height: 35,
             margin: const EdgeInsets.only(left: 20,right: 20),
             width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors, )),
             child:  TextFormField(
               controller: nameController,
               decoration: InputDecoration(hintText: old_data['name_tm']!='' && old_data['name_tm']!=null ? old_data['name_tm']: "Ady",
@@ -181,7 +176,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
               if (old_data['store_name']!= null && old_data['store_name']!='')
                 Expanded(flex: 2,child: Text(old_data['store_name'].toString() , style: TextStyle(fontSize: 15, color: Colors.black54),)),
               if (old_data['store_name']==null || old_data['store_name']=='')
-                Expanded(flex: 2,child: Text("Dükan : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text("Dükan : ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
 
               Expanded(flex: 4, child: MyDropdownButtonEdit(items: stores, callbackFunc: callbackStores, text: "aman")
                 ),],),),
@@ -195,9 +190,9 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,),
               if (old_data['mark']!= null && old_data['mark']!='')
-                Expanded(flex: 2,child: Text(old_data['mark'].toString() , style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text(old_data['mark'].toString() , style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
               if (old_data['mark']==null || old_data['mark']=='')
-                Expanded(flex: 2,child: Text("Awtoulag marka : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text("Awtoulag marka : ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
 
               Expanded(flex: 4, child: MyDropdownButtonEdit(items: marks, callbackFunc: callbackMarka, text: "aman")
                 ),],),),
@@ -211,29 +206,14 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,), 
               if (old_data['model']!= null && old_data['model']!='')
-                Expanded(flex: 2,child: Text(old_data['model'].toString() , style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text(old_data['model'].toString() , style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
               if (old_data['model']==null || old_data['model']=='')
-                Expanded(flex: 2,child: Text("Model: ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text("Model: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
 
                 Expanded(flex: 4, child: MyDropdownButton(items: models, callbackFunc: callbackModel)
                 ),],),),
           const SizedBox(height: 15,),
 
-          Container(
-          height: 35,
-          margin: const EdgeInsets.only(left: 20,right: 20),
-          width: double.infinity,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-          child: Row(
-          children: <Widget>[SizedBox(width: 10,), 
-          if (old_data['made_in']!= null && old_data['made_in']!='')
-            Expanded(flex: 2,child: Text(old_data['made_in'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
-          if (old_data['made_in']==null || old_data['made_in']=='')
-            Expanded(flex: 2,child: Text("Ýurdy : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
-
-          Expanded(flex: 4, child: MyDropdownButton(items: made_in_countries, callbackFunc: callbackLocationDest,)
-          ),],),),
-          const SizedBox(height: 15,),
 
                     Container(
             height: 35,
@@ -243,29 +223,13 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,), 
                 if (old_data['fuel']!= null && old_data['fuel']!='')
-                  Expanded(flex: 2,child: Text(old_data['fuel'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text(old_data['fuel'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
                 if (old_data['fuel']==null || old_data['fuel']=='')
-                  Expanded(flex: 3,child: Text("Ýangyç görnüşü : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 3,child: Text("Ýangyç görnüşi ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
 
                 Expanded(flex: 4, child: MyDropdownButton(items: fuels, callbackFunc: callbackFuel)
                 ),],),),
           const SizedBox(height: 15,),
-
-          Container(
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child: Row(
-            children: <Widget>[SizedBox(width: 10,), 
-              if (old_data['part_factory']!= null && old_data['part_factory']!='')
-                Expanded(flex: 2,child: Text(old_data['part_factory']['name'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
-              if (old_data['part_factory']==null || old_data['part_factory']=='')
-                Expanded(flex: 3,child: Text("Firmasy", style: TextStyle(fontSize: 15, color: Colors.black54),)),
-            
-            Expanded(flex: 4, child: MyDropdownButton(items: factories, callbackFunc: callbackFactories,)
-            ),],),),
-          const SizedBox(height: 5,),
 
         GestureDetector(
               child: Container(
@@ -276,7 +240,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
               child: Row(
               children: <Widget>[
                 SizedBox(width: 10,),
-                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
                 if (locationController['name_tm']!=null)
                 Expanded(flex: 4, child: Text(locationController['name_tm']))
                 else
@@ -303,9 +267,9 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,), 
               if (old_data['category']!= null && old_data['category']!='')
-                Expanded(flex: 2,child: Text(old_data['category']['name'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text(old_data['category']['name'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
               if (old_data['category']==null || old_data['category']=='')
-                Expanded(flex: 3,child: Text("Kategoriýa", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 3,child: Text("Kategoriýa", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
               
                 Expanded(flex: 4, child: MyDropdownButton(items: categories, callbackFunc: callbackCategory)
                 ),],),),
@@ -356,9 +320,9 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,), 
               if (old_data['wd']!= null && old_data['wd']!='')
-                Expanded(flex: 2,child: Text(old_data['wd'] , style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text(old_data['wd'] , style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
               if (old_data['wd']==null || old_data['wd']=='')
-                Expanded(flex: 3,child: Text("Ýöredijiniň görnüşi", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 3,child: Text("Ýöredijiniň görnüşi", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
             
                 Expanded(flex: 4, child: MyDropdownButton(items: wheel_drives, callbackFunc: callbackWd)
                 ),],),),
@@ -372,9 +336,9 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,), 
               if (old_data['transmission']!= null && old_data['transmission']!='')
-                Expanded(flex: 2,child: Text(old_data['transmission'], style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text(old_data['transmission'], style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
               if (old_data['transmission']==null || old_data['transmission']=='')
-                Expanded(flex: 3,child: Text("Karopka görnüşi", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 3,child: Text("Karopka görnüşi", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
 
                 Expanded(flex: 4, child: MyDropdownButton(items: transmissions, callbackFunc: callbackTransmission)
                 ),],),),
@@ -385,7 +349,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
             height: 35,
             margin: const EdgeInsets.only(left: 20,right: 20),
             width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors, )),
             child:  TextFormField(
               controller: priceController,
               decoration: InputDecoration(hintText: old_data['price']!= null ? 'Baha' + old_data['price'].toString(): "Baha",
@@ -406,7 +370,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child:  TextFormField(
               controller: startYearController,
-              decoration: InputDecoration(hintText: old_data['year_start']!= null ? 'Ýyl başy '+ old_data['year_start'].toString(): "Ýyl başy" ,
+              decoration: InputDecoration(hintText: old_data['year_start']!= null ? 'Ýyl başy: '+ old_data['year_start'].toString(): "Ýyl başy: " ,
                   border: InputBorder.none,
                   focusColor: Colors.white,
                   contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
@@ -425,7 +389,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child:  TextFormField(
               controller: endYearController,
-              decoration: InputDecoration(hintText: old_data['year_end']!= null ? 'Ýyl soňy ' + old_data['year_end'].toString(): 'Ýyl soňy ',
+              decoration: InputDecoration(hintText: old_data['year_end']!= null ? 'Ýyl soňy: ' + old_data['year_end'].toString(): 'Ýyl soňy: ',
                   border: InputBorder.none,
                   focusColor: Colors.white,
                   contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
@@ -781,10 +745,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
                     if (detailController.text!=''){
                       request.fields['detail'] =  detailController.text.toString();
                     }
-  
-                    if (factoriesController['id']!=null){
-                      request.fields['part_factory'] =  factoriesController['id'].toString();
-                    }
+
                     if (startYearController.text!=''){
                       request.fields['year_start'] = startYearController.text;
                     }
@@ -805,8 +766,8 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
                     final response = await request.send();
                     if (response.statusCode == 200){
                       callbackFunc();
-                      Navigator.pop(context);                    
-                      Navigator.pop(context);                    
+                      Navigator.pop(context); 
+                      showSuccess(context);                                     
                      }
                     else{
                       Navigator.pop(context);
@@ -823,6 +784,12 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
     );  
   }
 
+    showSuccess(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return SuccessPopup();},);}
 
   showConfirmationDialogSuccess(BuildContext context){
     showDialog(
@@ -853,11 +820,9 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
       baseurl =  server_url.get_server_url();
       data  = json;
       categories = json['categories'];
-      factories = json['factories'];
       fuels = json['fuels'];
       transmissions = json['transmissions'];
       wheel_drives = json['wheel_drives'];
-      made_in_countries = json['made_in_countries'];
       models = json['models'];
       marks = json['marks'];
     });

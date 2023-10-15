@@ -343,13 +343,16 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
   void get_my_parts({required customer_id}) async {
     print(customer_id);
     Urls server_url = new Urls();
-    String url =
-        server_url.get_server_url() + '/mob/products?customer=$customer_id';
+    String url = server_url.get_server_url() + '/mob/products?customer=$customer_id';
+    
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
     for (var i in global_headers.entries) {
       headers[i.key] = i.value.toString();
     }
+    print(url);
+    print(headers); 
+    
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {

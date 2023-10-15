@@ -25,7 +25,9 @@ class _MyDropdownButtonState extends State<MyDropdownButton> {
   @override
   Widget build(BuildContext context) {
     return
-      DropdownButton<String>(
+      DropdownButton<String>(   
+        dropdownColor: CustomColors.appColorWhite,
+        
         isExpanded: true,
         alignment: Alignment. center,
         elevation: 16,
@@ -43,6 +45,7 @@ class _MyDropdownButtonState extends State<MyDropdownButton> {
         },
         items: widget.items.map((value) {
           return DropdownMenuItem<String>(
+            
               value: value['id'].toString(),
               child:  FittedBox(
                 fit: BoxFit.contain,
