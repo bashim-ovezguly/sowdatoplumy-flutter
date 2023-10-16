@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/dB/providers.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../dB/textStyle.dart';
 import '../OtherGoods/otherGoodsDetail.dart';
@@ -55,7 +56,7 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
     _isLastPage = false;
     _loading = true;
     _error = false;
-  
+
     timers();
     if (imgList.length == 0) {
       imgList.add(
@@ -93,7 +94,35 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
                 "Dermanhanalar",
                 style: CustomText.appBarText,
               ),
-              actions: [],
+              actions: [
+                PopupMenuButton<String>(
+                  surfaceTintColor: CustomColors.appColorWhite,
+                  shadowColor: CustomColors.appColorWhite,
+                  color: CustomColors.appColorWhite,
+                  itemBuilder: (context) {
+                    List<PopupMenuEntry<String>> menuEntries2 = [
+                      PopupMenuItem<String>(
+                          child: GestureDetector(
+                              onTap: () {
+                                var url = data['share_link'].toString();
+                                Share.share(url, subject: 'Söwda Toplumy');
+                              },
+                              child: Container(
+                                  color: Colors.white,
+                                  height: 30,
+                                  width: double.infinity,
+                                  child: Row(children: [
+                                    Image.asset('assets/images/send_link.png',
+                                        width: 20,
+                                        height: 20,
+                                        color: CustomColors.appColors),
+                                    Text('  Paýlaş')
+                                  ])))),
+                    ];
+                    return menuEntries2;
+                  },
+                ),
+              ],
             ),
             body: RefreshIndicator(
                 color: Colors.white,
@@ -126,7 +155,10 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
                                                 height: 220,
                                                 viewportFraction: 1,
                                                 initialPage: 0,
-                                                enableInfiniteScroll: imgList.length>1 ? true: false,
+                                                enableInfiniteScroll:
+                                                    imgList.length > 1
+                                                        ? true
+                                                        : false,
                                                 reverse: false,
                                                 autoPlay: imgList.length > 1
                                                     ? true
@@ -470,39 +502,38 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
   }
 
   void getsinglepharmacies({required id}) async {
-    Urls server_url  =  new Urls();
+    Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/pharmacies/' + id;
     final uri = Uri.parse(url);
 
-       Map<String, String> headers = {};  
-      for (var i in global_headers.entries){
-        headers[i.key] = i.value.toString(); 
-      }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri, headers: headers);
-    
+
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
-        data  = json;
-        baseurl =  server_url.get_server_url();
-        data_tel = json['phones'];
-        products = json['products'];
-        if (json['phones'].length != 0) {
-          telefon = json['phones'][0];
-        }
-        var i;
-        imgList = [];
-        for (i in data['images']) {
-          imgList.add(baseurl + i['img_m']);
-        }
-        if (imgList.length == 0) {
-          slider_img = false;
-          imgList.add(
-              'https://png.pngtree.com/element_our/20190528/ourmid/pngtree-blue-building-under-construction-image_1141142.jpg');
-        }
-        determinate = true;
-      });
-    }
-  
+      data = json;
+      baseurl = server_url.get_server_url();
+      data_tel = json['phones'];
+      products = json['products'];
+      if (json['phones'].length != 0) {
+        telefon = json['phones'][0];
+      }
+      var i;
+      imgList = [];
+      for (i in data['images']) {
+        imgList.add(baseurl + i['img_m']);
+      }
+      if (imgList.length == 0) {
+        slider_img = false;
+        imgList.add(
+            'https://png.pngtree.com/element_our/20190528/ourmid/pngtree-blue-building-under-construction-image_1141142.jpg');
+      }
+      determinate = true;
+    });
+  }
 
   void get_products_modul(id) async {
     Urls server_url = new Urls();

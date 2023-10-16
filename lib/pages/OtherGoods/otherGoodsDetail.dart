@@ -6,6 +6,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../dB/textStyle.dart';
 import '../call.dart';
 import '../fullScreenSlider.dart';
@@ -68,7 +69,35 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                 title,
                 style: CustomText.appBarText,
               ),
-              actions: [],
+              actions: [
+                PopupMenuButton<String>(
+                  surfaceTintColor: CustomColors.appColorWhite,
+                  shadowColor: CustomColors.appColorWhite,
+                  color: CustomColors.appColorWhite,
+                  itemBuilder: (context) {
+                    List<PopupMenuEntry<String>> menuEntries2 = [
+                      PopupMenuItem<String>(
+                          child: GestureDetector(
+                              onTap: () {
+                                var url = data['share_link'].toString();
+                                Share.share(url, subject: 'Söwda Toplumy');
+                              },
+                              child: Container(
+                                  color: Colors.white,
+                                  height: 30,
+                                  width: double.infinity,
+                                  child: Row(children: [
+                                    Image.asset('assets/images/send_link.png',
+                                        width: 20,
+                                        height: 20,
+                                        color: CustomColors.appColors),
+                                    Text('  Paýlaş')
+                                  ])))),
+                    ];
+                    return menuEntries2;
+                  },
+                ),
+              ],
             ),
             body: RefreshIndicator(
                 color: Colors.white,
@@ -219,20 +248,18 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                             ],
                           ),
                           if (data['name_tm'] != '' && data['name_tm'] != null)
-                           SizedBox(
+                            SizedBox(
                                 child: Row(children: [
-                                
                               SizedBox(width: 5),
                               Expanded(
                                 flex: 10,
                                 child: Text(data['name_tm'].toString(),
-                                maxLines: 3,
+                                    maxLines: 3,
                                     style: TextStyle(
                                         color: CustomColors.appColors,
                                         fontSize: 18)),
                               )
                             ])),
-
                           if (data['location'] != '' &&
                               data['location'] != null)
                             SizedBox(
@@ -377,7 +404,6 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
-      
       data = json;
       print(data['name_tm']);
       imgList = [];

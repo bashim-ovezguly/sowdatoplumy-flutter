@@ -12,6 +12,7 @@ import 'package:my_app/pages/OtherGoods/otherGoodsDetail.dart';
 import 'package:my_app/pages/Store/order.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
@@ -108,7 +109,6 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
     }
 
     super.initState();
-    
   }
 
   timers() async {
@@ -198,7 +198,34 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
               ),
             ),
             const SizedBox(
-              width: 20.0,
+              width: 5.0,
+            ),
+            PopupMenuButton<String>(
+              surfaceTintColor: CustomColors.appColorWhite,
+              shadowColor: CustomColors.appColorWhite,
+              color: CustomColors.appColorWhite,
+              itemBuilder: (context) {
+                List<PopupMenuEntry<String>> menuEntries2 = [
+                  PopupMenuItem<String>(
+                      child: GestureDetector(
+                          onTap: () {
+                            var url = data['share_link'].toString();
+                            Share.share(url, subject: 'Söwda Toplumy');
+                          },
+                          child: Container(
+                              color: Colors.white,
+                              height: 30,
+                              width: double.infinity,
+                              child: Row(children: [
+                                Image.asset('assets/images/send_link.png',
+                                    width: 20,
+                                    height: 20,
+                                    color: CustomColors.appColors),
+                                Text('  Paýlaş')
+                              ])))),
+                ];
+                return menuEntries2;
+              },
             ),
           ],
         ),
@@ -223,7 +250,8 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                         height: 220,
                                         viewportFraction: 1,
                                         initialPage: 0,
-                                        enableInfiniteScroll: imgList.length>1 ? true: false,
+                                        enableInfiniteScroll:
+                                            imgList.length > 1 ? true : false,
                                         reverse: false,
                                         autoPlay:
                                             imgList.length > 1 ? true : false,
@@ -696,8 +724,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
   void get_products_modul(id) async {
     Urls server_url = new Urls();
     var param = 'products';
-    String url =
-        server_url.get_server_url() + '/mob/' + param + '?store=' + id;
+    String url = server_url.get_server_url() + '/mob/' + param + '?store=' + id;
 
     if (keyword.text != '') {
       url = server_url.get_server_url() +
@@ -712,7 +739,8 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
     for (var i in global_headers.entries) {
       headers[i.key] = i.value.toString();
     }
-    print(Uri.parse(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+    print(Uri.parse(
+        url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
 
     if (_getRequest == false) {
       final response = await http.get(

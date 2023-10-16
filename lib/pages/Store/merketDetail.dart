@@ -16,6 +16,7 @@ import 'package:my_app/pages/Services/serviceDetail.dart';
 import 'package:my_app/pages/Store/order.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
@@ -204,7 +205,34 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
               ),
             ),
             const SizedBox(
-              width: 20.0,
+              width: 5.0,
+            ),
+            PopupMenuButton<String>(
+              surfaceTintColor: CustomColors.appColorWhite,
+              shadowColor: CustomColors.appColorWhite,
+              color: CustomColors.appColorWhite,
+              itemBuilder: (context) {
+                List<PopupMenuEntry<String>> menuEntries2 = [
+                  PopupMenuItem<String>(
+                      child: GestureDetector(
+                          onTap: () {
+                            var url = data['share_link'].toString();
+                            Share.share(url, subject: 'Söwda Toplumy');
+                          },
+                          child: Container(
+                              color: Colors.white,
+                              height: 30,
+                              width: double.infinity,
+                              child: Row(children: [
+                                Image.asset('assets/images/send_link.png',
+                                    width: 20,
+                                    height: 20,
+                                    color: CustomColors.appColors),
+                                Text('  Paýlaş')
+                              ])))),
+                ];
+                return menuEntries2;
+              },
             ),
           ],
         ),

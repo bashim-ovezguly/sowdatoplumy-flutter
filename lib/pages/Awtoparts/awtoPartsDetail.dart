@@ -8,6 +8,7 @@ import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/call.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:my_app/pages/fullScreenSlider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
 import '../../dB/textStyle.dart';
@@ -60,7 +61,36 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
           backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
         title: const Text("Awtoşaylar", style: CustomText.appBarText,),
-        actions:  []
+        actions:  [
+                  PopupMenuButton<String>(
+            surfaceTintColor: CustomColors.appColorWhite,
+            shadowColor: CustomColors.appColorWhite,
+            color: CustomColors.appColorWhite,
+            itemBuilder: (context) {
+              List<PopupMenuEntry<String>> menuEntries2 = [
+                    PopupMenuItem<String>(
+                        child: GestureDetector(
+                            onTap: () {
+                              var url = data['share_link'].toString();
+                              Share.share(url, subject: 'Söwda Toplumy');
+                              },
+                            child: Container(
+                                color: Colors.white,
+                                height: 30,
+                                width: double.infinity,
+                                child: Row(children: [
+                                  Image.asset(
+                                      'assets/images/send_link.png',
+                                      width: 20,
+                                      height: 20,
+                                      color: CustomColors.appColors),
+                                  Text('  Paýlaş')
+                                ])))),
+                  ];
+                  return menuEntries2;
+                },
+              ),
+        ]
       ),
       body: RefreshIndicator(
         color: Colors.white,

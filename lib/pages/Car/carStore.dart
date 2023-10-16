@@ -7,6 +7,7 @@ import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/call.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/dB/constants.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../dB/textStyle.dart';
 import '../fullScreenSlider.dart';
 import '../../dB/colors.dart';
@@ -56,7 +57,39 @@ class _CarStoreState extends State<CarStore> {
     return status? Scaffold(
           backgroundColor: CustomColors.appColorWhite,
       appBar: AppBar(
-        title: Text(titleAppBar, style: CustomText.appBarText)),
+        title: Text(titleAppBar, style: CustomText.appBarText),
+        actions: [
+           PopupMenuButton<String>(
+            surfaceTintColor: CustomColors.appColorWhite,
+            shadowColor: CustomColors.appColorWhite,
+            color: CustomColors.appColorWhite,
+            itemBuilder: (context) {
+              List<PopupMenuEntry<String>> menuEntries2 = [
+                    PopupMenuItem<String>(
+                        child: GestureDetector(
+                            onTap: () {
+                              var url = data['share_link'].toString();
+                              Share.share(url, subject: 'Söwda Toplumy');
+                              },
+                            child: Container(
+                                color: Colors.white,
+                                height: 30,
+                                width: double.infinity,
+                                child: Row(children: [
+                                  Image.asset(
+                                      'assets/images/send_link.png',
+                                      width: 20,
+                                      height: 20,
+                                      color: CustomColors.appColors),
+                                  Text('  Paýlaş')
+                                ])))),
+                  ];
+                  return menuEntries2;
+                },
+              ),
+        ],
+        
+        ),
       body: RefreshIndicator(
         color: Colors.white,
         backgroundColor: CustomColors.appColors,

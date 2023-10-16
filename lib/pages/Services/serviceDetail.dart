@@ -6,6 +6,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../dB/colors.dart';
 import '../../dB/textStyle.dart';
@@ -48,7 +49,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
     });
     final completer = Completer();
     final t = Timer(Duration(seconds: 5), () => completer.complete());
-      print(t);
+    print(t);
     await completer.future;
     setState(() {
       if (determinate == false) {
@@ -62,13 +63,41 @@ class _ServiceDetailState extends State<ServiceDetail> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
-          backgroundColor: CustomColors.appColorWhite,
+            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: const Text(
                 "Hyzmatlar",
                 style: CustomText.appBarText,
               ),
-              actions: [],
+              actions: [
+                PopupMenuButton<String>(
+                  surfaceTintColor: CustomColors.appColorWhite,
+                  shadowColor: CustomColors.appColorWhite,
+                  color: CustomColors.appColorWhite,
+                  itemBuilder: (context) {
+                    List<PopupMenuEntry<String>> menuEntries2 = [
+                      PopupMenuItem<String>(
+                          child: GestureDetector(
+                              onTap: () {
+                                var url = data['share_link'].toString();
+                                Share.share(url, subject: 'Söwda Toplumy');
+                              },
+                              child: Container(
+                                  color: Colors.white,
+                                  height: 30,
+                                  width: double.infinity,
+                                  child: Row(children: [
+                                    Image.asset('assets/images/send_link.png',
+                                        width: 20,
+                                        height: 20,
+                                        color: CustomColors.appColors),
+                                    Text('  Paýlaş')
+                                  ])))),
+                    ];
+                    return menuEntries2;
+                  },
+                ),
+              ],
             ),
             body: RefreshIndicator(
                 color: Colors.white,
@@ -94,12 +123,14 @@ class _ServiceDetailState extends State<ServiceDetail> {
                                 child: GestureDetector(
                                   child: CarouselSlider(
                                     options: CarouselOptions(
-                                        height:220,
+                                        height: 220,
                                         viewportFraction: 1,
                                         initialPage: 0,
-                                        enableInfiniteScroll: imgList.length>1 ? true: false,
+                                        enableInfiniteScroll:
+                                            imgList.length > 1 ? true : false,
                                         reverse: false,
-                                        autoPlay: imgList.length>1 ? true: false,
+                                        autoPlay:
+                                            imgList.length > 1 ? true : false,
                                         autoPlayInterval:
                                             const Duration(seconds: 4),
                                         autoPlayAnimationDuration:
@@ -119,7 +150,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                                               child: Center(
                                                 child: ClipRect(
                                                   child: Container(
-                                                    height:220,
+                                                    height: 220,
                                                     width: double.infinity,
                                                     child: FittedBox(
                                                       fit: BoxFit.cover,
@@ -369,38 +400,38 @@ class _ServiceDetailState extends State<ServiceDetail> {
                               ],
                             ),
                           ),
-                          if (data['price']!=null )
-                          Container(
-                            margin: EdgeInsets.only(left: 10, right: 10),
-                            height: 30,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Icon(
-                                        Icons.price_change_rounded,
-                                        color: Colors.black54,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Text(
-                                        "Bahasy",
-                                        style: CustomText.size_16_black54,
-                                      )
-                                    ],
+                          if (data['price'] != null)
+                            Container(
+                              margin: EdgeInsets.only(left: 10, right: 10),
+                              height: 30,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Icon(
+                                          Icons.price_change_rounded,
+                                          color: Colors.black54,
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          "Bahasy",
+                                          style: CustomText.size_16_black54,
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Expanded(
-                                    child: Text(data['price'].toString(),
-                                        style: CustomText.size_16))
-                              ],
+                                  Expanded(
+                                      child: Text(data['price'].toString(),
+                                          style: CustomText.size_16))
+                                ],
+                              ),
                             ),
-                          ),
                           Container(
                             margin: EdgeInsets.only(left: 10, right: 10),
                             height: 30,
@@ -429,7 +460,8 @@ class _ServiceDetailState extends State<ServiceDetail> {
                                 if (data['location'] != null &&
                                     data['location'] != '')
                                   Expanded(
-                                      child: Text(data['location']['name'].toString(),
+                                      child: Text(
+                                          data['location']['name'].toString(),
                                           style: CustomText.size_16))
                               ],
                             ),
@@ -573,10 +605,10 @@ class _ServiceDetailState extends State<ServiceDetail> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/services/' + id;
     final uri = Uri.parse(url);
-      Map<String, String> headers = {};  
-          for (var i in global_headers.entries){
-            headers[i.key] = i.value.toString(); 
-          }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
