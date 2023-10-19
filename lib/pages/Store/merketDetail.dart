@@ -415,25 +415,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                   color: CustomColors.appColors, fontSize: 14)),
                         )
                       ])),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    if (data['delivery_price'] != '' &&
-                        data['delivery_price'] != null)
-                      SizedBox(
-                          child: Row(children: [
-                        Expanded(
-                          flex: 1,
-                          child: Icon(Icons.delivery_dining,
-                              color: CustomColors.appColors, size: 25),
-                        ),
-                        Expanded(
-                          flex: 10,
-                          child: Text(data['delivery_price'].toString(),
-                              style: TextStyle(
-                                  color: CustomColors.appColors, fontSize: 14)),
-                        )
-                      ])),
+                    SizedBox(height: 5),
                     if (data['customer'] != '' && data['customer'] != null)
                       GestureDetector(
                           onTap: () {

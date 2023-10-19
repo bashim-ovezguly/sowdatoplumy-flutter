@@ -45,9 +45,7 @@ class _ProductDetailState extends State<ProductDetail> {
 
   bool status = false;
   callbackStatus() {
-    setState(() {
-      status = true;
-    });
+    getsingleproduct(id: id);
   }
 
   _ProductDetailState({required this.title, required this.id});
@@ -60,79 +58,65 @@ class _ProductDetailState extends State<ProductDetail> {
             title,
             style: CustomText.appBarText,
           ),
-          actions: [],
+          actions: [
+            PopupMenuButton<String>(
+                shadowColor: CustomColors.appColorWhite,
+                surfaceTintColor: CustomColors.appColorWhite,
+                color: CustomColors.appColorWhite,
+                itemBuilder: (context) {
+                  List<PopupMenuEntry<String>> menuEntries2 = [
+                    PopupMenuItem<String>(
+                        child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => OtherGoodsEdit(
+                                          old_data: data,
+                                          callbackFunc: callbackStatus,
+                                          title: title)));
+                            },
+                            child: Container(
+                                color: Colors.white,
+                                height: 40,
+                                width: double.infinity,
+                                child: Row(children: [
+                                  Icon(
+                                    Icons.edit_road,
+                                    color: Colors.green,
+                                  ),
+                                  Text(' Üýtgetmek')
+                                ])))),
+                    PopupMenuItem<String>(
+                        child: GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return DeleteAlert(
+                                      action: 'products',
+                                      id: id,
+                                      callbackFunc: callbackStatusDelete,
+                                    );
+                                  });
+                            },
+                            child: Container(
+                                color: Colors.white,
+                                height: 40,
+                                width: double.infinity,
+                                child: Row(children: [
+                                  Icon(Icons.delete, color: Colors.red),
+                                  Text('Pozmak')
+                                ]))))
+                  ];
+                  return menuEntries2;
+                })
+          ],
         ),
         body: status == false
             ? determinate
                 ? ListView(
                     children: <Widget>[
-                      Container(
-                          alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                data['name_tm'].toString(),
-                                style: TextStyle(
-                                  color: CustomColors.appColors,
-                                  fontSize: 20,
-                                ),
-                              ),
-                              Spacer(),
-                              Row(
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(top: 10),
-                                    height: 30,
-                                    child: OutlinedButton(
-                                      child: Text("Üýgetmek"),
-                                      style: OutlinedButton.styleFrom(
-                                        backgroundColor: Colors.green,
-                                        primary: Colors.white,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    OtherGoodsEdit(
-                                                        old_data: data,
-                                                        callbackFunc:
-                                                            callbackStatus,
-                                                        title: title)));
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 10),
-                                    height: 30,
-                                    child: OutlinedButton(
-                                      child: Text("Pozmak"),
-                                      style: OutlinedButton.styleFrom(
-                                        backgroundColor: Colors.red,
-                                        primary: Colors.white,
-                                      ),
-                                      onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return DeleteAlert(
-                                                action: 'products',
-                                                id: id,
-                                                callbackFunc:
-                                                    callbackStatusDelete,
-                                              );
-                                            });
-                                      },
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          )),
                       Stack(
                         alignment: Alignment.bottomCenter,
                         textDirection: TextDirection.rtl,
@@ -150,7 +134,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                     enableInfiniteScroll:
                                         imgList.length > 1 ? true : false,
                                     reverse: false,
-                                    autoPlay: true,
+                                    autoPlay: imgList.length > 1 ? true : false,
                                     autoPlayInterval:
                                         const Duration(seconds: 4),
                                     autoPlayAnimationDuration:
@@ -172,20 +156,20 @@ class _ProductDetailState extends State<ProductDetail> {
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           10), // Image border
-                                                  child: item != 'x'
+                                                  child: item != '' &&
+                                                          item != 'x'
                                                       ? Image.network(
                                                           item,
-                                                          fit: BoxFit.fill,
+                                                          fit: BoxFit.cover,
                                                           height: 220,
                                                           width:
                                                               double.infinity,
                                                         )
                                                       : Image.asset(
-                                                          "assets/images/default16x9.jpg",
-                                                          fit: BoxFit.fill,
+                                                          'assets/images/default16x9.jpg',
+                                                          fit: BoxFit.cover,
                                                           height: 220,
-                                                          width: double
-                                                              .infinity))),
+                                                        ))),
                                         ))
                                     .toList(),
                               ),
@@ -209,6 +193,59 @@ class _ProductDetailState extends State<ProductDetail> {
                                 activeShape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15.0)),
                               ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 4,
+                            child: Row(
+                              children: <Widget>[
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Icon(
+                                  Icons.access_time_outlined,
+                                  size: 20,
+                                  color: CustomColors.appColors,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  data['created_at'].toString(),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'Raleway',
+                                    color: CustomColors.appColors,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Spacer(),
+                          Expanded(
+                            child: Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.visibility_sharp,
+                                  size: 20,
+                                  color: CustomColors.appColors,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  data['viewed'].toString(),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'Raleway',
+                                    color: CustomColors.appColors,
+                                  ),
+                                ),
+                              ],
                             ),
                           )
                         ],

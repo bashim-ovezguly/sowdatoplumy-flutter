@@ -18,7 +18,6 @@ import '../Search/search.dart';
 import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
-
 class OtherGoodsList extends StatefulWidget {
   OtherGoodsList({Key? key}) : super(key: key);
   @override
@@ -26,8 +25,9 @@ class OtherGoodsList extends StatefulWidget {
 }
 
 class _OtherGoodsListState extends State<OtherGoodsList> {
-
-  List<dynamic> dataSlider = [{"img": "", 'name': "", 'price': "", 'location': ''}];
+  List<dynamic> dataSlider = [
+    {"img": "", 'name': "", 'price': "", 'location': ''}
+  ];
   List<dynamic> data = [];
   int _current = 0;
   var baseurl = "";
@@ -192,7 +192,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                       return Center(
                                           child: errorDialog(size: 15));
                                     } else {
-                                      return const Center(
+                                      return Center(
                                           child: Padding(
                                         padding: EdgeInsets.all(8),
                                         child: CircularProgressIndicator(),
@@ -307,11 +307,8 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                       color: CustomColors
                                                           .appColorWhite,
                                                       shadowColor:
-                                                          const Color.fromARGB(
-                                                              255,
-                                                              200,
-                                                              198,
-                                                              198),
+                                                          Color.fromARGB(255,
+                                                              200, 198, 198),
                                                       surfaceTintColor:
                                                           CustomColors
                                                               .appColorWhite,
@@ -363,9 +360,12 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                                           .all(
                                                                           10),
                                                                   child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
                                                                     mainAxisAlignment:
                                                                         MainAxisAlignment
-                                                                            .start,
+                                                                            .center,
                                                                     children: <Widget>[
                                                                       if (data[index]['name'] !=
                                                                               null &&
@@ -374,8 +374,6 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                                         Expanded(
                                                                           child:
                                                                               Container(
-                                                                            margin:
-                                                                                EdgeInsets.only(left: 5),
                                                                             alignment:
                                                                                 Alignment.centerLeft,
                                                                             child:
@@ -398,14 +396,6 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                                           child:
                                                                               Row(
                                                                             children: <Widget>[
-                                                                              Icon(
-                                                                                Icons.place,
-                                                                                color: Colors.white,
-                                                                                size: 15,
-                                                                              ),
-                                                                              SizedBox(
-                                                                                width: 5,
-                                                                              ),
                                                                               Text(data[index]['location'].toString(), style: CustomText.itemText)
                                                                             ],
                                                                           ),
@@ -414,14 +404,6 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                                           child: Align(
                                                                               alignment: Alignment.centerLeft,
                                                                               child: Row(children: <Widget>[
-                                                                                Icon(
-                                                                                  Icons.access_time_outlined,
-                                                                                  color: Colors.white,
-                                                                                  size: 15,
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  width: 5,
-                                                                                ),
                                                                                 Text(data[index]['delta_time'].toString(), style: CustomText.itemText),
                                                                                 Spacer(),
                                                                                 Text(data[index]['price'].toString(), style: CustomText.itemText),
@@ -480,27 +462,18 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                                       else
                                                                         Expanded(
                                                                             child:
-                                                                                Container(
-                                                                          height:
-                                                                              25,
+                                                                                Align(
+                                                                          alignment:
+                                                                              Alignment.centerLeft,
                                                                           child:
-                                                                              Row(
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.start,
-                                                                            children: [
-                                                                              Image.asset(
-                                                                                'assets/images/store.png',
-                                                                                color: CustomColors.appColorWhite,
-                                                                                width: 30,
-                                                                                height: 30,
-                                                                              ),
                                                                               Text(
-                                                                                data[index]['store_name'],
-                                                                                maxLines: 1,
-                                                                                overflow: TextOverflow.ellipsis,
-                                                                                style: CustomText.itemText,
-                                                                              )
-                                                                            ],
+                                                                            data[index]['store_name'],
+                                                                            maxLines:
+                                                                                1,
+                                                                            overflow:
+                                                                                TextOverflow.ellipsis,
+                                                                            style:
+                                                                                CustomText.itemText,
                                                                           ),
                                                                         ))
                                                                     ],
@@ -577,34 +550,17 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                               )),
                                                           Expanded(
                                                             flex: 2,
-                                                            child: Container(
-                                                              color: CustomColors
-                                                                  .appColors,
-                                                              margin: EdgeInsets
-                                                                  .only(
-                                                                      left: 2),
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(10),
+                                                            child: Container(color: CustomColors.appColors,
+                                                              margin: EdgeInsets.only(left: 2),
+                                                              padding: EdgeInsets.all(10),
                                                               child: Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .start,
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                                 children: <Widget>[
-                                                                  if (data[index]
-                                                                              [
-                                                                              'name'] !=
-                                                                          null &&
-                                                                      data[index]
-                                                                              [
-                                                                              'name'] !=
-                                                                          '')
+                                                                  if (data[index]['name'] !=null &&
+                                                                      data[index]['name'] !='')
                                                                     Expanded(
                                                                       child:
                                                                           Container(
-                                                                        margin: EdgeInsets.only(
-                                                                            left:
-                                                                                5),
                                                                         alignment:
                                                                             Alignment.centerLeft,
                                                                         child:
@@ -619,14 +575,8 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                  if (data[index]
-                                                                              [
-                                                                              'location'] !=
-                                                                          null &&
-                                                                      data[index]
-                                                                              [
-                                                                              'location'] !=
-                                                                          '')
+                                                                  if (data[index]['location'] != null &&
+                                                                      data[index]['location'] !='')
                                                                     Expanded(
                                                                         child:
                                                                             Align(
@@ -636,17 +586,6 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                                       child:
                                                                           Row(
                                                                         children: <Widget>[
-                                                                          Icon(
-                                                                            Icons.place,
-                                                                            color:
-                                                                                Colors.white,
-                                                                            size:
-                                                                                15,
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                5,
-                                                                          ),
                                                                           Text(
                                                                               data[index]['location'].toString(),
                                                                               style: CustomText.itemText)
@@ -657,14 +596,6 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                                       child: Align(
                                                                           alignment: Alignment.centerLeft,
                                                                           child: Row(children: <Widget>[
-                                                                            Icon(
-                                                                              Icons.access_time_outlined,
-                                                                              color: Colors.white,
-                                                                              size: 15,
-                                                                            ),
-                                                                            SizedBox(
-                                                                              width: 5,
-                                                                            ),
                                                                             Text(data[index]['delta_time'].toString(),
                                                                                 style: CustomText.itemText),
                                                                             Spacer(),
@@ -737,37 +668,14 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                                     ))
                                                                   else
                                                                     Expanded(
-                                                                        child:
-                                                                            Container(
-                                                                      height:
-                                                                          25,
-                                                                      child:
-                                                                          Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.start,
-                                                                        children: [
-                                                                          Image
-                                                                              .asset(
-                                                                            'assets/images/store.png',
-                                                                            color:
-                                                                                CustomColors.appColorWhite,
-                                                                            width:
-                                                                                30,
-                                                                            height:
-                                                                                30,
-                                                                          ),
-                                                                          Text(
-                                                                            data[index]['store_name'],
-                                                                            maxLines:
-                                                                                1,
-                                                                            overflow:
-                                                                                TextOverflow.ellipsis,
-                                                                            style:
-                                                                                CustomText.itemText,
-                                                                          )
-                                                                        ],
-                                                                      ),
-                                                                    ))
+                                                                        child: Container(
+                                                                            height: 25,
+                                                                            child: Text(
+                                                                              data[index]['store_name'],
+                                                                              maxLines: 1,
+                                                                              overflow: TextOverflow.ellipsis,
+                                                                              style: CustomText.itemText,
+                                                                            )))
                                                                 ],
                                                               ),
                                                             ),

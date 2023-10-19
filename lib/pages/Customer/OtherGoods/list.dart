@@ -55,7 +55,7 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
     });
     final completer = Completer();
     final t = Timer(Duration(seconds: 5), () => completer.complete());
-      print(t);
+    print(t);
     await completer.future;
     setState(() {
       if (determinate == false) {
@@ -71,7 +71,7 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
         Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return status
         ? Scaffold(
-          backgroundColor: CustomColors.appColorWhite,
+            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: widget.user_customer_id == ''
                   ? Text(
@@ -85,6 +85,9 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
               actions: [
                 if (widget.user_customer_id == '')
                   PopupMenuButton<String>(
+                    color: CustomColors.appColorWhite,
+                    surfaceTintColor: CustomColors.appColorWhite,
+                    shadowColor: CustomColors.appColorWhite,
                     itemBuilder: (context) {
                       List<PopupMenuEntry<String>> menuEntries2 = [
                         PopupMenuItem<String>(
@@ -135,7 +138,7 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                                         padding: const EdgeInsets.only(
                                             left: 10, top: 5),
                                         child: Text(
-                                          "Harytlaryň sany " +
+                                          "Beýleki bildirişler " +
                                               data.length.toString(),
                                           style: TextStyle(
                                               fontSize: 18,
@@ -150,7 +153,7 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                                         padding: const EdgeInsets.only(
                                             left: 10, top: 5),
                                         child: Text(
-                                          "Haryt ýok",
+                                          "Beýleki bildirişler ýok",
                                           style: TextStyle(
                                               fontSize: 16,
                                               color: CustomColors.appColors),
@@ -178,15 +181,16 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                                                     refreshFunc: refreshFunc)));
                                   },
                                   child: Container(
-                                    
-                                    
                                     child: Card(
                                       color: CustomColors.appColorWhite,
-                                      shadowColor: const Color.fromARGB(255, 200, 198, 198),
-                                      surfaceTintColor:CustomColors.appColorWhite,
+                                      shadowColor: const Color.fromARGB(
+                                          255, 200, 198, 198),
+                                      surfaceTintColor:
+                                          CustomColors.appColorWhite,
                                       elevation: 5,
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10.0)),
                                         child: Container(
                                           height: 110,
                                           child: Row(
@@ -198,15 +202,16 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                                                       height: 110,
                                                       child: FittedBox(
                                                         fit: BoxFit.cover,
-                                                        child: data[index]['img'] !=
+                                                        child: data[index][
+                                                                        'img'] !=
                                                                     '' &&
-                                                                data[index]
-                                                                        ['img'] !=
+                                                                data[index][
+                                                                        'img'] !=
                                                                     null
                                                             ? Image.network(
                                                                 baseurl +
-                                                                    data[index]
-                                                                            ['img']
+                                                                    data[index][
+                                                                            'img']
                                                                         .toString(),
                                                               )
                                                             : Image.asset(
@@ -219,20 +224,23 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                                                 flex: 2,
                                                 child: Container(
                                                   color: CustomColors.appColors,
-                                                  margin: EdgeInsets.only(left: 2),
-                                                  padding: const EdgeInsets.all(10),
+                                                  margin:
+                                                      EdgeInsets.only(left: 2),
+                                                  padding:
+                                                      const EdgeInsets.all(10),
                                                   child: Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,
                                                     children: <Widget>[
                                                       Expanded(
                                                         child: Container(
-                                                          alignment:
-                                                              Alignment.centerLeft,
+                                                          alignment: Alignment
+                                                              .centerLeft,
                                                           child: Text(
                                                             data[index]['name'],
                                                             overflow:
-                                                                TextOverflow.clip,
+                                                                TextOverflow
+                                                                    .clip,
                                                             maxLines: 2,
                                                             softWrap: false,
                                                             style: CustomText
@@ -240,83 +248,73 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                                                           ),
                                                         ),
                                                       ),
+                                                      if (data[index][
+                                                                  'location'] !=
+                                                              null &&
+                                                          data[index][
+                                                                  'location'] !=
+                                                              '')
+                                                        Expanded(
+                                                            child: Align(
+                                                                alignment: Alignment
+                                                                    .centerLeft,
+                                                                child: Row(
+                                                                    children: <Widget>[
+                                                                      Flexible(
+                                                                          child:
+                                                                              new Container(
+                                                                        child: Text(
+                                                                            data[index]['location']
+                                                                                .toString(),
+                                                                            overflow:
+                                                                                TextOverflow.ellipsis,
+                                                                            style: TextStyle(fontSize: 12, color: CustomColors.appColorWhite)),
+                                                                      ))
+                                                                    ]))),
                                                       Expanded(
-                                                          child: Align(
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              child: Row(
-                                                                  children: <Widget>[
-                                                                    Icon(
-                                                                        Icons.place,
-                                                                        color: Colors
-                                                                            .white,
-                                                                        size: 15),
-                                                                    SizedBox(
-                                                                        width: 5),
-                                                                    Flexible(
-                                                                        child:
-                                                                            new Container(
-                                                                      child: Text(
-                                                                          data[index]
-                                                                                  [
-                                                                                  'location']
-                                                                              .toString(),
-                                                                          overflow:
-                                                                              TextOverflow
-                                                                                  .ellipsis,
-                                                                          style: CustomText
-                                                                              .itemText),
-                                                                    ))
-                                                                  ]))),
+                                                          child: Container(
+                                                            alignment: Alignment.centerLeft,
+                                                            child: Text(
+                                                                data[index][
+                                                                        'delta_time']
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    fontSize: 12,
+                                                                    color: CustomColors
+                                                                        .appColorWhite)),
+                                                          )),
                                                       Expanded(
-                                                          child: Align(
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              child: Row(
-                                                                  children: <Widget>[
-                                                                    if (data[index]['status'] != null && data[index]['status'] != '' && widget.user_customer_id == '' && data[index]['status'] == 'pending')
-                                                                      Text("Garşylýar".toString(),
-                                                                          style: TextStyle(
-                                                                              color: Colors
-                                                                                  .amber))
-                                                                    else if (data[index]['status'] != null &&
-                                                                        widget.user_customer_id ==
-                                                                            '' &&
-                                                                        data[index]['status'] !=
-                                                                            '' &&
-                                                                        data[index]['status'] =='accepted')
-                                                                      Text("Tassyklanyldy".toString(),
-                                                                          style: TextStyle(
-                                                                              color: Colors
-                                                                                  .green))
-                                                                    else if (data[index]['status'] !=
-                                                                            null &&
-                                                                        widget.user_customer_id ==
-                                                                            '' &&
-                                                                        data[index]['status'] !=
-                                                                            '' &&
-                                                                        data[index]['status'] =='canceled')
-                                                                      Text("Gaýtarylan".toString(),
-                                                                          style: TextStyle(color: Colors.red)),
-                                                                    Spacer(),
-                                                                    Row(children: <Widget>[
-                                                                      Icon(
-                                                                          Icons
-                                                                              .access_time_outlined,
-                                                                          color: Colors
-                                                                              .white,
-                                                                          size: 15),
-                                                                      SizedBox(
-                                                                          width: 5),
-                                                                      Text(
-                                                                          data[index]
-                                                                                  [
-                                                                                  'delta_time']
-                                                                              .toString(),
-                                                                          style: CustomText
-                                                                              .itemText)
-                                                                    ])
-                                                                  ]))),
+                                                          child: Row(
+                                                              children: <Widget>[
+                                                            if (data[index]['status'] !=
+                                                                    null &&
+                                                                data[index]['status'] !=
+                                                                    '' &&
+                                                                widget.user_customer_id ==
+                                                                    '' &&
+                                                                data[index]['status'] ==
+                                                                    'pending')
+                                                              Text("Garşylýar".toString(),
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Colors
+                                                                          .amber))
+                                                            else if (data[index]['status'] !=
+                                                                    null &&
+                                                                widget.user_customer_id ==
+                                                                    '' &&
+                                                                data[index]['status'] !=
+                                                                    '' &&
+                                                                data[index]['status'] ==
+                                                                    'accepted')
+                                                              Text("Tassyklanyldy".toString(),
+                                                                  style: TextStyle(
+                                                                      fontSize: 12,
+                                                                      color: Colors.green))
+                                                            else if (data[index]['status'] != null && widget.user_customer_id == '' && data[index]['status'] != '' && data[index]['status'] == 'canceled')
+                                                              Text("Gaýtarylan".toString(), style: TextStyle(color: Colors.red, fontSize: 12)),
+                                                          ])),
                                                     ],
                                                   ),
                                                 ),
@@ -342,16 +340,17 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
   void get_my_parts({required customer_id}) async {
     print(customer_id);
     Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/products?customer=$customer_id';
-    
+    String url =
+        server_url.get_server_url() + '/mob/products?customer=$customer_id';
+
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
     for (var i in global_headers.entries) {
       headers[i.key] = i.value.toString();
     }
     print(url);
-    print(headers); 
-    
+    print(headers);
+
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {

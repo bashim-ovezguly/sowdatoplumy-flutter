@@ -57,7 +57,7 @@ class _MyPagesState extends State<MyPages> {
     });
     final completer = Completer();
     final t = Timer(Duration(seconds: 5), () => completer.complete());
-      print(t);
+    print(t);
     await completer.future;
     setState(() {
       if (determinate == false) {
@@ -83,7 +83,7 @@ class _MyPagesState extends State<MyPages> {
 
     return status
         ? Scaffold(
-          backgroundColor: CustomColors.appColorWhite,
+            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
                 title: widget.user_customer_id == ''
                     ? Text(
@@ -109,95 +109,77 @@ class _MyPagesState extends State<MyPages> {
                 ? Column(
                     children: <Widget>[
                       Expanded(
-                        flex: 2,
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                                flex: 3,
-                                child: user['img'] != ''
-                                    ? CircleAvatar(
-                                        radius: 48, // Image radius
-                                        backgroundImage: NetworkImage(
-                                            baseurl + user['img'].toString()))
-                                    : Image.asset('assets/images/default.jpg')),
-                            Expanded(
-                              flex: 5,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Expanded(
-                                      child: Container(
-                                          alignment: Alignment.centerLeft,
-                                          child: user['name'] != null
-                                              ? Text(
-                                                  user['name'].toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: CustomColors
-                                                          .appColors),
-                                                )
-                                              : Text(
-                                                  '',
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: CustomColors
-                                                          .appColors),
-                                                ))),
-                                  Expanded(
-                                      child: Container(
-                                          alignment: Alignment.centerLeft,
-                                          child: user['phone'] != null
-                                              ? Row(
-                                                  children: [
-                                                    Icon(Icons.phone,
-                                                        color: CustomColors
-                                                            .appColors),
-                                                    SizedBox(width: 5),
-                                                    Text(
-                                                      user['phone'].toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          color: CustomColors
-                                                              .appColors),
-                                                    )
-                                                  ],
-                                                )
-                                              : Text(
-                                                  '',
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: CustomColors
-                                                          .appColors),
-                                                ))),
-                                  if (widget.user_customer_id == '')
-                                    Expanded(
-                                        child: Container(
-                                            margin: EdgeInsets.only(right: 20),
-                                            padding: EdgeInsets.only(
-                                                right: 5, top: 5, bottom: 5),
-                                            child: OutlinedButton(
-                                              child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text('Düzetmek',
-                                                        style: TextStyle(
-                                                            color: CustomColors
-                                                                .appColors)),
-                                                    SizedBox(width: 5),
-                                                    Icon(
-                                                        Icons
-                                                            .drive_file_rename_outline,
-                                                        color: CustomColors
-                                                            .appColors)
-                                                  ]),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => EditProfil(
+                          flex: 3,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(height: 3,),
+                              Expanded(
+                                  child: user['img'] != ''
+                                      ? CircleAvatar(
+                                          radius: 45,
+                                          backgroundImage: NetworkImage(
+                                              baseurl + user['img'].toString()))
+                                      : Image.asset(
+                                          'assets/images/default.jpg')),
+                              Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      if (user['name'] != null &&
+                                          user['name'] != '')
+                                        Expanded(
+                                            child: Container(
+                                                child: Text(
+                                          user['name'].toString(),
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: CustomColors.appColors),
+                                        ))),
+                                      if (user['phone'] != null &&
+                                          user['phone'] != '')
+                                        Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(Icons.phone,
+                                                  color: CustomColors.appColors,
+                                                  size: 20),
+                                              SizedBox(width: 5),
+                                              Text(
+                                                user['phone'].toString(),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color:
+                                                        CustomColors.appColors),
+                                              )
+                                            ]),
+                                      if (widget.user_customer_id == '')
+                                        Expanded(
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              width: 150,
+                                                child: OutlinedButton(
+                                          child: Row(children: [
+                                            Text('Düzetmek',
+                                                style: TextStyle(
+                                                    color: CustomColors
+                                                        .appColors)),
+                                            SizedBox(width: 5),
+                                            Icon(
+                                                Icons.drive_file_rename_outline,
+                                                color: CustomColors.appColors)
+                                          ]),
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditProfil(
                                                             customer_id:
                                                                 user['id']
                                                                     .toString(),
@@ -214,82 +196,67 @@ class _MyPagesState extends State<MyPages> {
                                                                 refreshFunc,
                                                             showSuccessAlert:
                                                                 showSuccessAlert)));
-                                              },
-                                            )))
-                                  else
-                                    Expanded(
-                                        child: Container(
-                                            margin: EdgeInsets.only(right: 20),
-                                            padding: EdgeInsets.only(
-                                                right: 5, top: 5, bottom: 5),
-                                            child: OutlinedButton(
-                                              child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text('Ýazylmak',
-                                                        style: TextStyle(
-                                                            color: CustomColors
-                                                                .appColors)),
-                                                    SizedBox(width: 5),
-                                                    Icon(Icons.person_add_alt,
-                                                        color: CustomColors
-                                                            .appColors)
-                                                  ]),
-                                              onPressed: () async {
-                                                Urls server_url = new Urls();
-                                                String url = server_url
-                                                        .get_server_url() +
+                                          },
+                                        )))
+                                      else
+                                        Expanded(
+                                            child: Container(
+                                                child: OutlinedButton(
+                                          child: Row(children: [
+                                            Text('Ýazylmak',
+                                                style: TextStyle(
+                                                    color: CustomColors
+                                                        .appColors)),
+                                            SizedBox(width: 5),
+                                            Icon(Icons.person_add_alt,
+                                                color: CustomColors.appColors)
+                                          ]),
+                                          onPressed: () async {
+                                            Urls server_url = new Urls();
+                                            String url =
+                                                server_url.get_server_url() +
                                                     '/mob/subscribe/' +
                                                     widget.user_customer_id;
-                                                final uri = Uri.parse(url);
-                                                var responsess =
-                                                    Provider.of<UserInfo>(
-                                                            context,
-                                                            listen: false)
-                                                        .update_tokenc();
-                                                if (await responsess) {
-                                                  var token =
-                                                      Provider.of<UserInfo>(
-                                                              context,
-                                                              listen: false)
-                                                          .access_token;
-                                                  Map<String, String> headers =
-                                                      {};
-                                                  for (var i in global_headers
-                                                      .entries) {
-                                                    headers[i.key] =
-                                                        i.value.toString();
-                                                  }
-                                                  headers['token'] = token;
-                                                  final response =
-                                                      await http.post(uri,
-                                                          headers: headers);
-                                                  get_userinfo();
-                                                }
-                                              },
-                                            )))
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                                            final uri = Uri.parse(url);
+                                            var responsess =
+                                                Provider.of<UserInfo>(context,
+                                                        listen: false)
+                                                    .update_tokenc();
+                                            if (await responsess) {
+                                              var token = Provider.of<UserInfo>(
+                                                      context,
+                                                      listen: false)
+                                                  .access_token;
+                                              Map<String, String> headers = {};
+                                              for (var i
+                                                  in global_headers.entries) {
+                                                headers[i.key] =
+                                                    i.value.toString();
+                                              }
+                                              headers['token'] = token;
+                                              final response = await http
+                                                  .post(uri, headers: headers);
+                                              get_userinfo();
+                                            }
+                                          },
+                                        )))
+                                    ],
+                                  ))
+                            ],
+                          )),
                       Expanded(
-                          flex: 7,
+                          flex: 8,
                           child: Column(children: <Widget>[
                             Container(
-                              margin: EdgeInsets.only(left: 20),
-                              alignment: Alignment.center,
-                              height: 100,
+                                margin: EdgeInsets.only(left: 20),
+                                alignment: Alignment.center,
+                                height: 100,
                                 child: Column(
-                              children: [
-                                if (user['email'] != '' &&
-                                    user['email'] != null)
-                                 Expanded(
-                                   child: Container(
+                                  children: [
+                                    if (user['email'] != '' &&
+                                        user['email'] != null)
+                                      Expanded(
+                                        child: Container(
                                             alignment: Alignment.centerLeft,
                                             child: Row(
                                               children: [
@@ -301,19 +268,20 @@ class _MyPagesState extends State<MyPages> {
                                                   user['email'].toString(),
                                                   style: TextStyle(
                                                       fontSize: 14,
-                                                      color:
-                                                          CustomColors.appColors),
+                                                      color: CustomColors
+                                                          .appColors),
                                                 )
                                               ],
                                             )),
-                                 ),
-                                Expanded(
-                                  child: Container(
+                                      ),
+                                    Expanded(
+                                      child: Container(
                                           alignment: Alignment.centerLeft,
                                           child: Row(
                                             children: [
                                               Icon(Icons.groups,
-                                                  color: CustomColors.appColors),
+                                                  color:
+                                                      CustomColors.appColors),
                                               SizedBox(width: 5),
                                               Text(
                                                 "Maňa ýazylanlar " +
@@ -327,14 +295,15 @@ class _MyPagesState extends State<MyPages> {
                                               )
                                             ],
                                           )),
-                                ),
-                                Expanded(
-                                  child: Container(
+                                    ),
+                                    Expanded(
+                                      child: Container(
                                           alignment: Alignment.centerLeft,
                                           child: Row(
                                             children: [
                                               Icon(Icons.groups,
-                                                  color: CustomColors.appColors),
+                                                  color:
+                                                      CustomColors.appColors),
                                               SizedBox(width: 5),
                                               Text(
                                                 "Meniň ýazylanlarym " +
@@ -348,9 +317,9 @@ class _MyPagesState extends State<MyPages> {
                                               )
                                             ],
                                           )),
-                                )
-                              ],
-                            )),
+                                    )
+                                  ],
+                                )),
                             Container(
                                 height: 115,
                                 width: double.infinity,
@@ -627,12 +596,14 @@ class _MyPagesState extends State<MyPages> {
                                                 )),
                                             Expanded(
                                                 flex: 2,
-                                                child: Text('Beýleki bildirişler',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: CustomColors
-                                                            .appColors),
-                                                            textAlign: TextAlign.center,))
+                                                child: Text(
+                                                  'Beýleki bildirişler',
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: CustomColors
+                                                          .appColors),
+                                                  textAlign: TextAlign.center,
+                                                ))
                                           ])))
                                 ])),
                             Container(
@@ -667,7 +638,9 @@ class _MyPagesState extends State<MyPages> {
                                                               .appColors,
                                                           fontWeight: FontWeight
                                                               .bold))),
-                                                SizedBox(height: 3,),
+                                              SizedBox(
+                                                height: 3,
+                                              ),
                                               Expanded(
                                                   flex: 2,
                                                   child: Image.asset(
@@ -764,7 +737,9 @@ class _MyPagesState extends State<MyPages> {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Login()));
       }
-      url = server_url.get_server_url() + '/mob/customer/' + data[0]['userId'].toString();
+      url = server_url.get_server_url() +
+          '/mob/customer/' +
+          data[0]['userId'].toString();
       final uri = Uri.parse(url);
       Map<String, String> headers = {};
       for (var i in global_headers.entries) {
@@ -823,27 +798,33 @@ class _CustomDialogLogoutState extends State<CustomDialogLogout> {
       ),
       content: Row(
         children: [
-          Expanded(child: TextButton(
+          Expanded(
+              child: TextButton(
             style: TextButton.styleFrom(
                 backgroundColor: CustomColors.appColors,
                 foregroundColor: Colors.white),
             onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Goý bolsun'),
+            child: Text('Goý bolsun', style: TextStyle(fontSize: 12)),
           )),
-          SizedBox(width: 10),
-          Expanded(child: TextButton(
-            style: TextButton.styleFrom(
-                backgroundColor: Colors.green, foregroundColor: Colors.white),
-            onPressed: () async {
-              final deleteallRows = await dbHelper.deleteAllRows();
-              final deleteallRows1 = await dbHelper.deleteAllRows();
-              Provider.of<UserInfo>(context, listen: false).set_user_info({});
-              Navigator.pop(context);
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (context) => Login()));
-            },
-            child: const Text('Ulgamdan çyk'),
-          ),)
+          SizedBox(width: 3),
+          Expanded(
+            child: TextButton(
+              style: TextButton.styleFrom(
+                  backgroundColor: Colors.green, foregroundColor: Colors.white),
+              onPressed: () async {
+                final deleteallRows = await dbHelper.deleteAllRows();
+                final deleteallRows1 = await dbHelper.deleteAllRows();
+                Provider.of<UserInfo>(context, listen: false).set_user_info({});
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => Login()));
+              },
+              child: Text(
+                'Ulgamdan çyk',
+                style: TextStyle(fontSize: 12),
+              ),
+            ),
+          )
         ],
       ),
       actions: <Widget>[],

@@ -269,37 +269,12 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
               children: <Widget>[
                 Expanded(child: Row(
                   children: <Widget>[
-                    const Icon(Icons.flag, color: Colors.grey, size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Öndürilen ýurdy", size: 16.0),)],),),
-                Expanded(child: SizedBox(child: TextValueWidget(text: data['made_in'].toString(), size: 16.0),))
-              ],),),
-
-          Container(
-            height: 30,
-            margin: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(child: Row(
-                  children: <Widget>[
                     const Icon(Icons.energy_savings_leaf, color: Colors.grey,size: 20,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Matory", size:16.0),)],),),
 
                  Expanded(child: SizedBox(child: TextValueWidget(text: data['engine'].toString() , size: 16.0),))
               ],),),
 
-
-          Container(
-            height: 30,
-            margin: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(child: Row(
-                  children: <Widget>[
-                    const Icon(Icons.store, color: Colors.grey, size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Firmasy", size: 16.0),)],),),
-                if (data['part_factory']!=null && data['part_factory']!='')
-                Expanded(child: SizedBox(child: TextValueWidget(text: data['part_factory']['name'].toString(), size: 16.0),))
-              ],),),
 
           Container(
             height: 30,
@@ -324,7 +299,7 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                 Expanded(child: Row(
                   children: <Widget>[
                     const Icon(Icons.category, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Katigoriýasy", size:16.0),),],),),
+                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kategoriýasy", size:16.0),),],),),
                 if (data['category']!=null && data['category']!='')
                   Expanded(child: SizedBox(child: TextValueWidget(text: data['category']['name'].toString(), size: 16.0)))
               ],),),

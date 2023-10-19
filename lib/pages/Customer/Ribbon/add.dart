@@ -7,6 +7,7 @@ import 'package:quickalert/quickalert.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/constants.dart';
 import '../../../dB/providers.dart';
+import '../../../dB/textStyle.dart';
 import '../../../main.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
@@ -71,7 +72,7 @@ class _RibbonListAddState extends State<RibbonListAdd> {
 
     return Scaffold(
           backgroundColor: CustomColors.appColorWhite,
-      appBar: AppBar(title: Text('Täze lenta goşmak')),
+      appBar: AppBar(title: Text('Täze lenta goşmak', style: CustomText.appBarText)),
       body: determinate? ListView(
         children: [
           Container(
@@ -112,7 +113,7 @@ class _RibbonListAddState extends State<RibbonListAdd> {
                 onPressed: () {
                   getImages();
                 },
-                child: Text('Surat goşmak'),
+                child: Text('Surat goşmak', style: TextStyle(color: CustomColors.appColorWhite),),
               ),
             ],
           ),
@@ -208,7 +209,7 @@ class _RibbonListAddState extends State<RibbonListAdd> {
               showErrorAlert('Lenta goşmak');
             }
           },
-          child: Text('Ýatda sakla'),
+          child: Text('Ýatda sakla', style: TextStyle(color: CustomColors.appColorWhite)),
         ),
       ),
     );

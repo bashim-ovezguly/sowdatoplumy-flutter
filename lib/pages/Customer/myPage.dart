@@ -484,6 +484,7 @@ class _MyPageState extends State<MyPage> {
                                                       fontSize: 14)),
                                             ),
                                             SizedBox(width: 5),
+                                            if (widget.user_customer_id == '')
                                             Container(
                                               margin: EdgeInsets.only(left: 10),
                                               child: GestureDetector(

@@ -47,7 +47,7 @@ class _MyRibbonListState extends State<MyRibbonList> {
     var user_customer_name =
         Provider.of<UserInfo>(context, listen: false).user_customer_name;
     return Scaffold(
-          backgroundColor: CustomColors.appColorWhite,
+        backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
             title: widget.user_customer_id == ''
                 ? Text(
@@ -60,28 +60,33 @@ class _MyRibbonListState extends State<MyRibbonList> {
                   ),
             actions: [
               if (widget.user_customer_id == '')
-                PopupMenuButton<String>(itemBuilder: (context) {
-                  List<PopupMenuEntry<String>> menuEntries2 = [
-                    PopupMenuItem<String>(
-                        child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RibbonListAdd(
-                                          refreshListFunc: refreshListFunc)));
-                            },
-                            child: Container(
-                                color: Colors.white,
-                                height: 40,
-                                width: double.infinity,
-                                child: Row(children: [
-                                  Icon(Icons.add, color: Colors.green),
-                                  Text(' Goşmak')
-                                ]))))
-                  ];
-                  return menuEntries2;
-                })
+                PopupMenuButton<String>(
+                    shadowColor: CustomColors.appColorWhite,
+                    surfaceTintColor: CustomColors.appColorWhite,
+                    color: CustomColors.appColorWhite,
+                    itemBuilder: (context) {
+                      List<PopupMenuEntry<String>> menuEntries2 = [
+                        PopupMenuItem<String>(
+                            child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => RibbonListAdd(
+                                              refreshListFunc:
+                                                  refreshListFunc)));
+                                },
+                                child: Container(
+                                    color: Colors.white,
+                                    height: 40,
+                                    width: double.infinity,
+                                    child: Row(children: [
+                                      Icon(Icons.add, color: Colors.green),
+                                      Text(' Goşmak')
+                                    ]))))
+                      ];
+                      return menuEntries2;
+                    })
             ]),
         body: determinate
             ? Column(
@@ -89,18 +94,15 @@ class _MyRibbonListState extends State<MyRibbonList> {
                   Container(
                       alignment: Alignment.centerLeft,
                       margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                      child: Text(
-                          "Söwda lentasy - : " + datas.length.toString(),
+                      child: Text("Söwda lentasy " + datas.length.toString(),
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: CustomColors.appColors))),
                   Container(
-                    height: MediaQuery.of(context).size.height - 120,
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        Wrap(
+                      height: MediaQuery.of(context).size.height - 120,
+                      child: SingleChildScrollView(
+                        child: Wrap(
                           direction: Axis.horizontal,
                           children: [
                             for (var i in datas)
@@ -117,18 +119,18 @@ class _MyRibbonListState extends State<MyRibbonList> {
                                                   refreshListFunc)));
                                 },
                                 child: Container(
-                                    margin: EdgeInsets.only(
-                                        left: 5, right: 5, top: 10),
-                                    height:220,
+                                    height: 220,
                                     width:
                                         MediaQuery.of(context).size.width / 2 -
-                                            20,
+                                            10,
                                     child: Card(
-                                      elevation: 2,
+                                      shadowColor: CustomColors.appColorWhite,
+                                      surfaceTintColor:
+                                          CustomColors.appColorWhite,
+                                      color: CustomColors.appColorWhite,
+                                      elevation: 5,
                                       child: Column(children: [
                                         Container(
-                                          margin: EdgeInsets.only(
-                                              left: 2, right: 2, top: 2),
                                           height: 180,
                                           width: double.infinity,
                                           child: Stack(
@@ -138,7 +140,12 @@ class _MyRibbonListState extends State<MyRibbonList> {
                                                     height: 180,
                                                     color: Colors.black12,
                                                     child: ImageSlideshow(
-                                                      disableUserScrolling: i['images'].length > 1? false: true,
+                                                        disableUserScrolling:
+                                                            i['images']
+                                                                        .length >
+                                                                    1
+                                                                ? false
+                                                                : true,
                                                         width: double.infinity,
                                                         initialPage: 0,
                                                         indicatorColor:
@@ -168,7 +175,7 @@ class _MyRibbonListState extends State<MyRibbonList> {
                                                                 },
                                                                 child:
                                                                     Container(
-                                                                  height:220,
+                                                                  height: 220,
                                                                   width: double
                                                                       .infinity,
                                                                   child:
@@ -201,7 +208,7 @@ class _MyRibbonListState extends State<MyRibbonList> {
                                                                   },
                                                                   child: ClipRect(
                                                                       child: Container(
-                                                                          height:220,
+                                                                          height: 220,
                                                                           width: double.infinity,
                                                                           child: FittedBox(
                                                                               fit: BoxFit.cover,
@@ -234,15 +241,11 @@ class _MyRibbonListState extends State<MyRibbonList> {
                                     )),
                               )
                           ],
-                        )
-                      ],
-                    ),
-                  )
+                        ),
+                      ))
                 ],
               )
-            : Center(
-                child:
-                    CircularProgressIndicator(color: CustomColors.appColors)));
+            : Center(child:CircularProgressIndicator(color: CustomColors.appColors)));
   }
 
   void get_my_constructions({required customer_id}) async {
@@ -256,18 +259,21 @@ class _MyRibbonListState extends State<MyRibbonList> {
     if (data.length == 0) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
     }
+
     Urls server_url = new Urls();
     String url =
         server_url.get_server_url() + '/mob/lenta?customer=$customer_id';
     final uri = Uri.parse(url);
 
-      Map<String, String> headers = {};  
-      for (var i in global_headers.entries){
-        headers[i.key] = i.value.toString(); 
-      }
-      headers['token'] = data[0]['name'];
-    final response = await http.get(uri, headers: headers);
+    print(uri);
 
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
+    var token = Provider.of<UserInfo>(context, listen: false).access_token;
+    headers['token'] = token;
+    final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       datas = json['data'];

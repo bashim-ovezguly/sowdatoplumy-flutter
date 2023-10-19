@@ -185,18 +185,17 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                                               borderRadius:
                                                   BorderRadius.circular(
                                                       10), // Image border
-                                              child: item != "x"
+                                              child: item != '' && item != 'x'
                                                   ? Image.network(
                                                       item,
-                                                      fit: BoxFit.fill,
+                                                      fit: BoxFit.cover,
                                                       height: 220,
                                                       width: double.infinity,
                                                     )
                                                   : Image.asset(
-                                                      "assets/images/default16x9.jpg",
-                                                      fit: BoxFit.fill,
+                                                      'assets/images/default16x9.jpg',
+                                                      fit: BoxFit.cover,
                                                       height: 220,
-                                                      width: double.infinity,
                                                     ))),
                                     ))
                                 .toList(),

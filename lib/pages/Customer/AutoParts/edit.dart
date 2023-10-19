@@ -604,7 +604,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
                       ],)])),
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child:Row(
+              child: Row(
                 children: selectedImages.map((country){
                   return Stack(
                     children: [

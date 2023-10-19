@@ -55,9 +55,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
 
   bool status = false;
   callbackStatus() {
-    setState(() {
-      status = true;
-    });
+    getsingleproduct(id: id);
   }
 
   _MyOtherGoodsDetailState({required this.id});
@@ -80,6 +78,9 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
           actions: [
             if (widget.user_customer_id == '')
               PopupMenuButton<String>(
+                color: CustomColors.appColorWhite,
+                surfaceTintColor: CustomColors.appColorWhite,
+                shadowColor: CustomColors.appColorWhite,
                 itemBuilder: (context) {
                   List<PopupMenuEntry<String>> menuEntries2 = [
                     PopupMenuItem<String>(
@@ -91,7 +92,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                                       builder: (context) => OtherGoodsEdit(
                                             old_data: data,
                                             callbackFunc: callbackStatus,
-                                            title: 'Haryt',
+                                            title: 'Bildiriş',
                                           )));
                             },
                             child: Container(
@@ -135,581 +136,370 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
               ),
           ],
         ),
-        body: status == false
-            ? determinate
-                ? ListView(
-                    children: <Widget>[
-                      Container(
-                          alignment: Alignment.topLeft,
-                          margin: EdgeInsets.only(left: 10, right: 10),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                data['name_tm'].toString(),
-                                style: TextStyle(
-                                  color: CustomColors.appColors,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
-                          )),
-                      Stack(
-                        alignment: Alignment.bottomCenter,
-                        textDirection: TextDirection.rtl,
-                        fit: StackFit.loose,
-                        clipBehavior: Clip.hardEdge,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.all(10),
-                            child: GestureDetector(
-                              child: CarouselSlider(
-                                options: CarouselOptions(
-                                    height: 220,
-                                    viewportFraction: 1,
-                                    initialPage: 0,
-                                    enableInfiniteScroll:
-                                        imgList.length > 1 ? true : false,
-                                    reverse: false,
-                                    autoPlay: imgList.length > 1 ? true : false,
-                                    autoPlayInterval:
-                                        const Duration(seconds: 4),
-                                    autoPlayAnimationDuration:
-                                        const Duration(milliseconds: 800),
-                                    autoPlayCurve: Curves.fastOutSlowIn,
-                                    enlargeCenterPage: true,
-                                    enlargeFactor: 0.3,
-                                    scrollDirection: Axis.horizontal,
-                                    onPageChanged: (index, reason) {
-                                      setState(() {
-                                        _current = index;
-                                      });
-                                    }),
-                                items: imgList
-                                    .map((item) => Container(
-                                          color: Colors.white,
-                                          child: item != 'x' && item != ''
-                                              ? Center(
-                                                  child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10), // Image border
-                                                  child: Image.network(
-                                                    item,
-                                                    fit: BoxFit.fill,
-                                                    height: 220,
-                                                    width: double.infinity,
-                                                  ),
-                                                ))
-                                              : Container(
-                                                  width: double.infinity,
-                                                  child: Image.asset(
-                                                      fit: BoxFit.cover,
-                                                      'assets/images/default16x9.jpg')),
-                                        ))
-                                    .toList(),
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FullScreenSlider(
-                                            imgList: imgList)));
-                              },
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(bottom: 10),
-                            child: DotsIndicator(
-                              dotsCount: imgList.length,
-                              position: _current.toDouble(),
-                              decorator: DotsDecorator(
-                                color: Colors.white,
-                                activeColor: CustomColors.appColors,
-                                activeShape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0)),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      if (data['status'] == 'canceled' &&
-                          data['error_reason'] != '')
-                        Container(
-                            padding: EdgeInsets.all(10),
-                            child: Text(data['error_reason'].toString(),
-                                maxLines: 10,
-                                style: TextStyle(color: Colors.red))),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        height: 35,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Icon(
-                                    Icons.format_list_numbered,
-                                    color: Colors.black54,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Id",
-                                    style: CustomText.size_16_black54,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: Text(data['id'].toString(),
-                                    style: CustomText.size_16))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        height: 35,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Icon(
-                                    Icons.category_outlined,
-                                    color: Colors.black54,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Kategoriýa",
-                                    style: CustomText.size_16_black54,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: Text(data['category'].toString(),
-                                    style: CustomText.size_16))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10),
-                        height: 30,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Icon(
-                                    Icons.drive_file_rename_outline_outlined,
-                                    color: Colors.black54,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Ady",
-                                    style: CustomText.size_16_black54,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: Text(data['name_tm'].toString(),
-                                    style: CustomText.size_16))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        height: 35,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Icon(
-                                    Icons.store,
-                                    color: Colors.black54,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Dükan",
-                                    style: CustomText.size_16_black54,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: Text(data['store'].toString(),
-                                    style: CustomText.size_16))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        height: 30,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Icon(
-                                    Icons.price_change_rounded,
-                                    color: Colors.black54,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Bahasy",
-                                    style: CustomText.size_16_black54,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: Text(data['price'].toString(),
-                                    style: CustomText.size_16))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        height: 30,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Icon(
-                                    Icons.discount_rounded,
-                                    color: Colors.black54,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Brend",
-                                    style: CustomText.size_16_black54,
-                                  )
-                                ],
-                              ),
-                            ),
-                            if (data['brand'] != null && data['brand'] != '')
-                              Expanded(
-                                  child: Text(data['brand'].toString(),
-                                      style: CustomText.size_16))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        height: 40,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Icon(
-                                    Icons.location_on,
-                                    color: Colors.black54,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Ýerleşýän ýeri",
-                                    style: CustomText.size_16_black54,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: Text(data['location'].toString(),
-                                    style: CustomText.size_16))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        height: 30,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Icon(
-                                    Icons.phone_callback,
-                                    color: Colors.black54,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Telefon",
-                                    style: CustomText.size_16_black54,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: Text(data['phone'].toString(),
-                                    style: CustomText.size_16))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 30,
-                        margin: const EdgeInsets.only(left: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Row(
-                                children: <Widget>[
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  const Icon(
-                                    Icons.monetization_on_sharp,
-                                    color: Colors.black54,
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 10),
-                                    alignment: Alignment.center,
-                                    height: 100,
-                                    child: const TextKeyWidget(
-                                        text: "Kredit", size: 16.0),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: Container(
-                              alignment: Alignment.topLeft,
-                              child: data['credit'] == null
-                                  ? MyCheckBox(type: true)
-                                  : MyCheckBox(type: data['credit']),
-                            ))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 30,
-                        margin: const EdgeInsets.only(left: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Row(
-                                children: <Widget>[
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  const Icon(Icons.library_add_check_outlined,
-                                      color: Colors.black54),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 10),
-                                    alignment: Alignment.center,
-                                    height: 100,
-                                    child: const TextKeyWidget(
-                                        text: "Çalyşyk", size: 16.0),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: Container(
-                              alignment: Alignment.topLeft,
-                              child: data['swap'] == null
-                                  ? MyCheckBox(type: true)
-                                  : MyCheckBox(type: data['swap']),
-                            ))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 30,
-                        margin: const EdgeInsets.only(left: 10),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Row(
-                                children: <Widget>[
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  const Icon(Icons.credit_card,
-                                      color: Colors.black54),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 10),
-                                    alignment: Alignment.center,
-                                    height: 100,
-                                    child: const TextKeyWidget(
-                                        text: "Nagt däl töleg", size: 16.0),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: Container(
-                              alignment: Alignment.topLeft,
-                              child: data['none_cash_pay'] == null
-                                  ? MyCheckBox(type: true)
-                                  : MyCheckBox(type: data['none_cash_pay']),
-                            ))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        height: 30,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Icon(
-                                    Icons.countertops_outlined,
-                                    color: Colors.black54,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Möçberi",
-                                    style: CustomText.size_16_black54,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: Text(data['amount'].toString(),
-                                    style: CustomText.size_16))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        height: 30,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Icon(
-                                    Icons.discount_rounded,
-                                    color: Colors.black54,
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    "Öndürilen ýurdy",
-                                    style: CustomText.size_16_black54,
-                                  )
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                                child: Text(data['made_in'].toString(),
-                                    style: CustomText.size_16))
-                          ],
-                        ),
-                      ),
+        body: determinate
+            ? ListView(
+                children: <Widget>[
+                  Stack(
+                    alignment: Alignment.bottomCenter,
+                    textDirection: TextDirection.rtl,
+                    fit: StackFit.loose,
+                    clipBehavior: Clip.hardEdge,
+                    children: [
                       Container(
                         margin: const EdgeInsets.all(10),
-                        height: 100,
-                        width: double.infinity,
-                        child: TextField(
-                          enabled: false,
-                          maxLines: 3,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            hintText: data['body_tm'].toString(),
-                            fillColor: Colors.white,
+                        child: GestureDetector(
+                          child: CarouselSlider(
+                            options: CarouselOptions(
+                                height: 220,
+                                viewportFraction: 1,
+                                initialPage: 0,
+                                enableInfiniteScroll:
+                                    imgList.length > 1 ? true : false,
+                                reverse: false,
+                                autoPlay: imgList.length > 1 ? true : false,
+                                autoPlayInterval: const Duration(seconds: 4),
+                                autoPlayAnimationDuration:
+                                    const Duration(milliseconds: 800),
+                                autoPlayCurve: Curves.fastOutSlowIn,
+                                enlargeCenterPage: true,
+                                enlargeFactor: 0.3,
+                                scrollDirection: Axis.horizontal,
+                                onPageChanged: (index, reason) {
+                                  setState(() {
+                                    _current = index;
+                                  });
+                                }),
+                            items: imgList
+                                .map((item) => Container(
+                                      color: Colors.white,
+                                      child: Center(
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      10), // Image border
+                                              child: item != '' && item != 'x'
+                                                  ? Image.network(
+                                                      item,
+                                                      fit: BoxFit.cover,
+                                                      height: 220,
+                                                      width: double.infinity,
+                                                    )
+                                                  : Image.asset(
+                                                      'assets/images/default16x9.jpg',
+                                                      fit: BoxFit.cover,
+                                                      height: 220,
+                                                    ))),
+                                    ))
+                                .toList(),
                           ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        FullScreenSlider(imgList: imgList)));
+                          },
                         ),
                       ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10),
+                        child: DotsIndicator(
+                          dotsCount: imgList.length,
+                          position: _current.toDouble(),
+                          decorator: DotsDecorator(
+                            color: Colors.white,
+                            activeColor: CustomColors.appColors,
+                            activeShape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
+                          ),
+                        ),
+                      )
                     ],
-                  )
-                : Center(
-                    child: CircularProgressIndicator(
-                      color: CustomColors.appColors,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 4,
+                        child: Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(
+                              Icons.access_time_outlined,
+                              size: 20,
+                              color: CustomColors.appColors,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              data['created_at'].toString(),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'Raleway',
+                                color: CustomColors.appColors,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Spacer(),
+                      Expanded(
+                        child: Row(
+                          children: <Widget>[
+                            Icon(
+                              Icons.visibility_sharp,
+                              size: 20,
+                              color: CustomColors.appColors,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              data['viewed'].toString(),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'Raleway',
+                                color: CustomColors.appColors,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  if (data['status'] == 'canceled' &&
+                      data['error_reason'] != '')
+                    Container(
+                        padding: EdgeInsets.all(10),
+                        child: Text(data['error_reason'].toString(),
+                            maxLines: 10, style: TextStyle(color: Colors.red))),
+                  Container(
+                      alignment: Alignment.topLeft,
+                      margin: EdgeInsets.all(10),
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            data['name_tm'].toString(),
+                            style: TextStyle(
+                              color: CustomColors.appColors,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      )),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    height: 35,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                Icons.format_list_numbered,
+                                color: Colors.black54,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Id",
+                                style: CustomText.size_16_black54,
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                            child: Text(data['id'].toString(),
+                                style: CustomText.size_16))
+                      ],
                     ),
-                  )
-            : Container(
-                child: AlertDialog(
-                shadowColor: CustomColors.appColorWhite,
-                surfaceTintColor: CustomColors.appColorWhite,
-                backgroundColor: CustomColors.appColorWhite,
-                content: Container(
-                  width: 200,
-                  height: 100,
-                  child: Text(
-                      'Maglumat üýtgedildi operatoryň tassyklamagyna garaşyň'),
-                ),
-                actions: <Widget>[
-                  Align(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          foregroundColor: Colors.white),
-                      onPressed: () async {
-                        setState(() {
-                          callbackStatus();
-                        });
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyOtherGoodsDetail(
-                                    id: id,
-                                    refreshFunc: widget.refreshFunc,
-                                    user_customer_id:
-                                        widget.user_customer_id)));
-                      },
-                      child: const Text('Dowam et'),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    height: 35,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                Icons.category_outlined,
+                                color: Colors.black54,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Kategoriýa",
+                                style: CustomText.size_16_black54,
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                            child: Text(data['category'].toString(),
+                                style: CustomText.size_16))
+                      ],
                     ),
-                  )
+                  ),
+                    Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    height: 35,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                Icons.store,
+                                color: Colors.black54,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Dükan",
+                                style: CustomText.size_16_black54,
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(child: Text(data['store'].toString(), style: CustomText.size_16))
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    height: 30,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                Icons.price_change_rounded,
+                                color: Colors.black54,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Bahasy",
+                                style: CustomText.size_16_black54,
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                            child: Text(data['price'].toString(),
+                                style: CustomText.size_16))
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    height: 40,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                Icons.location_on,
+                                color: Colors.black54,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Ýerleşýän ýeri",
+                                style: CustomText.size_16_black54,
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                            child: Text(data['location'].toString(),
+                                style: CustomText.size_16))
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10, right: 10),
+                    height: 30,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                Icons.phone_callback,
+                                color: Colors.black54,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Telefon",
+                                style: CustomText.size_16_black54,
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                            child: Text(data['phone'].toString(),
+                                style: CustomText.size_16))
+                      ],
+                    ),
+                  ),
+
+                  if (data['body_tm'] != '' && data['body_tm'] != null)
+                    Container(
+                      margin: const EdgeInsets.all(10),
+                      height: 100,
+                      width: double.infinity,
+                      child: TextField(
+                        enabled: false,
+                        maxLines: 3,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                          hintText: data['body_tm'].toString(),
+                          fillColor: Colors.white,
+                        ),
+                      ),
+                    ),
                 ],
-              )));
+              )
+            : Center(
+                child: CircularProgressIndicator(
+                  color: CustomColors.appColors,
+                ),
+              ));
   }
 
   void getsingleproduct({required id}) async {

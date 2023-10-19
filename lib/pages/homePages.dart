@@ -299,10 +299,6 @@ class _HomeState extends State<Home> {
                                                                 BoxFit.cover, // -> 02
                                                           ),
                                                         ),
-                                                        //   child:  FittedBox(
-                                                        //     fit: BoxFit.fill,
-                                                        //     child: Image.network( baseurl+ item['img']),
-                                                        // ),
                                                       ),
                                                     )
                                               ],
@@ -606,8 +602,7 @@ class _HomeState extends State<Home> {
                         : CustomProgressIndicator(funcInit: initState)),
                 drawer: MyDraver(),
               )
-            : HomePageProgressIndicator(
-                funcInit: initState, determinate1: determinate1);
+            : HomePageProgressIndicator(funcInit: initState, determinate1: determinate1);
   }
 
   showConfirmationDialog(BuildContext context) {
@@ -668,26 +663,20 @@ class _HomeState extends State<Home> {
         "store_count": json['data']['store_count'].toString(),
         "pharmacy_count": json['data']['pharmacy_count'].toString(),
         "bazar_count": json['data']['bazar_count'].toString(),
-        "shopping_center_count":
-            json['data']['shopping_center_count'].toString(),
-        // "market_count": json['data']['market_count'].toString(),
+        "shopping_center_count":json['data']['shopping_center_count'].toString(),
         "car_count": json['data']['car_count'].toString(),
         "part_count": json['data']['part_count'].toString(),
-        // "service_count": json['data']['service_count'].toString(),
-        // "material_count": json['data']['material_count'].toString(),
         "product_count": json['data']['product_count'].toString(),
         "factory_count": json['data']['factory_count'].toString(),
         "flat_count": json['data']['flat_count'].toString(),
         "announcements": json['data']['announcements'].toString(),
-        // "restaurants": json['data']['restaurants'].toString(),
       };
       if (json['data']['update'] == true) {
         determinate1 = true;
       }
-      Provider.of<UserInfo>(context, listen: false)
-          .set_statistic(new_statistic);
-      Provider.of<UserInfo>(context, listen: false)
-          .set_update_app(json['data']['update']);
+      Provider.of<UserInfo>(context, listen: false).set_statistic(new_statistic);
+      // Provider.of<UserInfo>(context, listen: false).set_update_app(json['data']['update']);
+      Provider.of<UserInfo>(context, listen: false).set_update_app(false);
     });
   }
 

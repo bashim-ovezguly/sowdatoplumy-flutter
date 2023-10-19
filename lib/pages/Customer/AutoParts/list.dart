@@ -252,12 +252,12 @@ class _AutoPartsListState extends State<AutoPartsList> {
                                                           data[index]
                                                                   ['location']
                                                               .toString(),
-                                                          overflow:
-                                                              TextOverflow.clip,
+                                                          overflow:TextOverflow.clip,
                                                           maxLines: 2,
                                                           softWrap: false,
-                                                          style: CustomText
-                                                              .itemText,
+                                                          style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: CustomColors.appColorWhite),
                                                         ),
                                                       ),
                                                     ),

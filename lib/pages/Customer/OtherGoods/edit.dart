@@ -7,6 +7,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_app/dB/constants.dart';
+import 'package:my_app/pages/Customer/AwtoCar/edit.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
 import 'package:my_app/pages/Customer/login.dart';
 import 'package:provider/provider.dart';
@@ -135,9 +136,9 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
               children: <Widget>[SizedBox(width: 10,),
 
                 if (old_data['store_name']!= null && old_data['store_name']!='')
-                  Expanded(flex: 2,child: Text(old_data['store_name'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text(old_data['store_name'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 if (old_data['store_name']==null || old_data['store_name']=='')
-                  Expanded(flex: 2,child: Text("Dükan : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text("Dükan : ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
 
                 Expanded(flex: 4, child: MyDropdownButton(items: stores, callbackFunc: callbackStores)
                 ),],),),
@@ -198,34 +199,16 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
             },),),
           const SizedBox(height: 15,),
           
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: amountController,
-              decoration: InputDecoration(hintText: old_data['amount']!= null ? 'Sany :' + old_data['amount'].toString(): 'Sany :',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 5,),
-          
           GestureDetector(
               child: Container(
               height: 35,
-              margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
+              margin: const EdgeInsets.only(left: 20,right: 20),
               width: double.infinity,
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
               child: Row(
               children: <Widget>[
                 SizedBox(width: 10,),
-                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                Expanded(flex: 2,child: Text("Ýerleşýän ýeri : ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 if (locationController['name_tm']!=null)
                 Expanded(flex: 4, child: Text(locationController['name_tm']))
                 else
@@ -243,23 +226,6 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
               },
             ),
           const SizedBox(height: 15,),
-          
-          Container(
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child: Row(
-              children: <Widget>[SizedBox(width: 10,),
-
-                if (old_data['made_in']!= null && old_data['made_in']!='')
-                  Expanded(flex: 2,child: Text(old_data['made_in'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
-                if (old_data['made_in']==null || old_data['made_in']=='')
-                  Expanded(flex: 2,child: Text("Öndülilen ýurdy : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
-
-                Expanded(flex: 4, child: MyDropdownButton(items: countries, callbackFunc: callbackMadein)
-                ),],),),
-          const SizedBox(height: 15,),
 
           Container(
             height: 35,
@@ -269,66 +235,13 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
             child: Row(
               children: <Widget>[SizedBox(width: 10,), 
                 if (old_data['category']!= null && old_data['category']!='')
-                  Expanded(flex: 2,child: Text(old_data['category'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 2,child: Text(old_data['category'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 if (old_data['category']==null || old_data['category']=='')
-                  Expanded(flex: 3,child: Text("Bölümi : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
+                  Expanded(flex: 3,child: Text("Kategoriýa: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
 
                 Expanded(flex: 4, child: MyDropdownButton(items: categories, callbackFunc: callbackCategory)
                 ),],),),
-          const SizedBox(height: 15,),
-          
-          Container(
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child: Row(
-              children: <Widget>[SizedBox(width: 10,), 
-                if (old_data['brand']!= null && old_data['brand']!='')
-                  Expanded(flex: 2,child: Text(old_data['brand'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54),)),
-                if (old_data['brand']==null || old_data['brand']=='')
-                  Expanded(flex: 2,child: Text("Brend : ", style: TextStyle(fontSize: 15, color: Colors.black54),)),
 
-                Expanded(flex: 4, child: MyDropdownButton(items: brands, callbackFunc: callbackBrand)
-                ),],),),
-          const SizedBox(height: 15,),
-                    Container(
-            alignment: Alignment.centerLeft,
-            height: 80,
-            width: double.infinity,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 15),
-                      height: 40,
-                      width: 200,
-                      child: CustomCheckBox(labelText:'Nagt däl töleg',  callbackFunc: callbackNone_cash_pay, status: old_data['none_cash_pay']),
-                    ),
-                    Spacer(),
-                    Container(
-                      margin: EdgeInsets.only(left: 15),
-                      height: 40,
-                      width: 180,
-                      child: CustomCheckBox(labelText:'Kredit', callbackFunc: callbackCredit, status: old_data['credit']),
-
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 15),
-                      height: 40,
-                      width: 200,
-                      child: CustomCheckBox(labelText:'Çalyşyk', callbackFunc: callbackSwap, status: old_data['swap']),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
           const SizedBox(height: 15,),
           Container(
             margin: const EdgeInsets.all(10),
@@ -490,15 +403,6 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
 
                     request.headers.addAll(headers);
                     
-                    var swap_num = '0';
-                    if (swap==true){ swap_num = '1';}
-                    
-                    var credit_num = '0';
-                    if (credit==true){ credit_num = '1';}
-
-                    var none_cash_pay_num = '0';
-                    if (none_cash_pay==true){ none_cash_pay_num = '1';}
-
                     if (name_tmController.text!=''){
                       request.fields['name_tm'] = name_tmController.text;
                     }
@@ -518,21 +422,9 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
                     if (detailController.text!=''){
                       request.fields['body_tm'] = detailController.text;
                     }
-                    
-                    if (amountController.text!=''){
-                      request.fields['amount'] = amountController.text;
-                    }
-
-                    if ( barndController['id']!=null ){
-                      request.fields['brand'] = barndController['id'].toString();
-                    }
 
                     if ( locationController['id']!=null ){
                       request.fields['location'] = locationController['id'].toString();
-                    }
-
-                    if ( madeInController['id']!=null ){
-                      request.fields['made_in'] = madeInController['id'].toString();
                     }
 
                     if ( storesController['id']!=null ){
@@ -546,9 +438,6 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
                     if (unitController.text!=''){
                       request.fields['unit'] = unitController.text;
                     }
-                    request.fields['swap'] = swap_num;
-                    request.fields['credit'] = credit_num;
-                    request.fields['none_cash_pay'] = none_cash_pay_num;
                     
                     if (selectedImages.length!=0){
                       for (var i in selectedImages){
@@ -562,7 +451,7 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
                      if (response.statusCode == 200){
                       callbackFunc();
                       Navigator.pop(context); 
-                      Navigator.pop(context); 
+                      showSuccess(context); 
                      }
                      else{
                       Navigator.pop(context); 
@@ -579,7 +468,14 @@ class _OtherGoodsEditState extends State<OtherGoodsEdit> {
     );
   }
 
-  showConfirmationDialogError(BuildContext context){
+  showSuccess(BuildContext context){
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return SuccessPopup();},);}
+
+    showConfirmationDialogError(BuildContext context){
     showDialog(
       barrierDismissible: false,
       context: context,
