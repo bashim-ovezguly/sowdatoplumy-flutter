@@ -15,7 +15,6 @@ import '../../../dB/colors.dart';
 import '../../../dB/providers.dart';
 import '../../../dB/textStyle.dart';
 import '../../../main.dart';
-import '../../customCheckbox.dart';
 import '../../select.dart';
 import '../deleteImage.dart';
 import '../loadingWidget.dart';

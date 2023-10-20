@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:my_app/dB/colors.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/dB/textStyle.dart';
-import 'package:my_app/pages/Car/carStore.dart';
 import 'package:my_app/pages/Customer/OtherGoods/edit.dart';
 import 'package:my_app/pages/fullScreenSlider.dart';
 import 'package:provider/provider.dart';
