@@ -160,21 +160,35 @@ class _CheckoutState extends State<Checkout> {
                                     }),
                               )
                             ])),
+
                     Container(
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        alignment: Alignment.centerLeft,
-                        child: Center(
-                            child: TextField(
-                          controller:
-                              dateinput, //editing controller of this TextField
-                          decoration: InputDecoration(
-                              icon: Icon(Icons.calendar_today),
-                              labelText: "Enter Date"),
-                          readOnly: true,
-                          onTap: () async {
-                            dateTimePickerWidget(context);
-                          },
-                        ))),
+                      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "JEMI: " + widget.total_price.toString() + " TMT",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold
+                        ),
+                      )
+                    ),
+
+                    // Container(
+                    //     margin: const EdgeInsets.only(left: 20, right: 20),
+                    //     alignment: Alignment.centerLeft,
+                    //     child: Center(
+                    //         child: TextField(
+                    //       controller:
+                    //           dateinput, //editing controller of this TextField
+                    //       decoration: InputDecoration(
+                    //           icon: Icon(Icons.calendar_today),
+                    //           labelText: "Enter Date"),
+                    //       readOnly: true,
+                    //       onTap: () async {
+                    //         dateTimePickerWidget(context);
+                    //       },
+                    //     ))),
+
                     Container(
                         margin: const EdgeInsets.only(top: 20),
                         alignment: Alignment.centerLeft),
@@ -183,32 +197,32 @@ class _CheckoutState extends State<Checkout> {
               ),
             );
           })),
-          SliverList(
-              delegate: SliverChildBuilderDelegate(childCount: 1,
-                  (BuildContext context, int index) {
-            return Container(
-                margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                child: Card(
-                    color: CustomColors.appColorWhite,
-                    shadowColor: const Color.fromARGB(255, 200, 198, 198),
-                    surfaceTintColor: CustomColors.appColorWhite,
-                    elevation: 5,
-                    child: Column(children: [
-                      SizedBox(height: 10),
-                      Row(children: [
-                        SizedBox(width: 10),
-                        Text(" Umumy töleg:",
-                            style: TextStyle(
-                                color: CustomColors.appColors, fontSize: 16)),
-                        Spacer(),
-                        Text(widget.total_price.toString() + " TMT",
-                            style: TextStyle(
-                                color: CustomColors.appColors, fontSize: 16)),
-                        SizedBox(width: 10),
-                      ]),
-                      SizedBox(height: 150),
-                    ])));
-          }))
+          // SliverList(
+          //     delegate: SliverChildBuilderDelegate(childCount: 1,
+          //         (BuildContext context, int index) {
+          //   return Container(
+          //       margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+          //       child: Card(
+          //           color: CustomColors.appColorWhite,
+          //           shadowColor: const Color.fromARGB(255, 200, 198, 198),
+          //           surfaceTintColor: CustomColors.appColorWhite,
+          //           elevation: 5,
+          //           child: Column(children: [
+          //             SizedBox(height: 10),
+          //             Row(children: [
+          //               SizedBox(width: 10),
+          //               Text(" Umumy töleg:",
+          //                   style: TextStyle(
+          //                       color: CustomColors.appColors, fontSize: 16)),
+          //               Spacer(),
+          //               Text(widget.total_price.toString() + " TMT",
+          //                   style: TextStyle(
+          //                       color: CustomColors.appColors, fontSize: 16)),
+          //               SizedBox(width: 10),
+          //             ]),
+          //             SizedBox(height: 150),
+          //           ])));
+          // }))
         ]),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
@@ -221,7 +235,7 @@ class _CheckoutState extends State<Checkout> {
               setState(() {
                 dict['note'] = noteController.text;
                 dict['address'] = addressController.text;
-                dict['delivery_time'] = dateinput.text;
+                // dict['delivery_time'] = dateinput.text;
               });
 
               DateTime.parse(dict['delivery_time']);
@@ -260,7 +274,8 @@ class _CheckoutState extends State<Checkout> {
               }
             }
           },
-          label: const Text('Sargyt et', style: TextStyle(color: CustomColors.appColorWhite)),
+          label: const Text('Sargyt et',
+              style: TextStyle(color: CustomColors.appColorWhite)),
           backgroundColor: Colors.green,
         ));
   }

@@ -41,6 +41,7 @@ class _RealEstateEditState extends State<RealEstateEdit> {
   List<dynamic> locations = [];
 
   final usernameController = TextEditingController();
+  final nameController = TextEditingController();
   final addressController = TextEditingController();
   final squareController = TextEditingController();
   final priceController = TextEditingController();
@@ -173,9 +174,29 @@ class _RealEstateEditState extends State<RealEstateEdit> {
               ],
             ),
           ),
+
+
           Container(
+            alignment: Alignment.center,
             height: 35,
             margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child:  TextFormField(
+              controller: nameController,
+              decoration: InputDecoration(hintText: old_data['name']!= null ? 'Ady: ' + old_data['name'].toString(): 'Ady:',
+                  border: InputBorder.none,
+                  focusColor: Colors.white,
+                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }return null;
+            },),),
+          const SizedBox(height: 15,),
+
+          Container(
+            height: 35,
+            margin: const EdgeInsets.only(left: 20, right: 20),
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
@@ -373,25 +394,7 @@ class _RealEstateEditState extends State<RealEstateEdit> {
                 return 'Please enter some text';
               }return null;
             },),),
-          const SizedBox(height: 15,),
-
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: personController,
-              decoration: InputDecoration(hintText: old_data['people']!= null ? 'Ýazgydaky adam sany: ' + old_data['people'].toString(): 'Ýazgydaky adam sany: ',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
+          const SizedBox(height: 15),
 
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -630,6 +633,10 @@ class _RealEstateEditState extends State<RealEstateEdit> {
                     
                     if (addressController.text!=''){
                       request.fields['address'] = addressController.text;
+                    }
+                    
+                    if (nameController.text!=''){
+                      request.fields['name'] = nameController.text;
                     }
                     
                     if (priceController.text!=''){

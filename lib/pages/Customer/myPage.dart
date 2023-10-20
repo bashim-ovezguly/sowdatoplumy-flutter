@@ -424,9 +424,7 @@ class _MyPageState extends State<MyPage> {
                                             fontSize: 14)),
                                   )
                                 ])),
-                              SizedBox(
-                                height: 5,
-                              ),
+                              SizedBox(height: 5),
                               if (data['delivery_price'] != '' &&
                                   data['delivery_price'] != null)
                                 SizedBox(
@@ -485,30 +483,31 @@ class _MyPageState extends State<MyPage> {
                                             ),
                                             SizedBox(width: 5),
                                             if (widget.user_customer_id == '')
-                                            Container(
-                                              margin: EdgeInsets.only(left: 10),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return DeletePhoneAlert(
-                                                          id: data['contacts']
-                                                                  [i]['id']
-                                                              .toString(),
-                                                          callbackFunc:
-                                                              storeRefresh,
-                                                        );
-                                                      });
-                                                },
-                                                child: Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 5),
-                                                  child: Icon(Icons.delete,
-                                                      color: Colors.red),
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(left: 10),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return DeletePhoneAlert(
+                                                            id: data['contacts']
+                                                                    [i]['id']
+                                                                .toString(),
+                                                            callbackFunc:
+                                                                storeRefresh,
+                                                          );
+                                                        });
+                                                  },
+                                                  child: Container(
+                                                    margin:
+                                                        EdgeInsets.only(top: 5),
+                                                    child: Icon(Icons.delete,
+                                                        color: Colors.red),
+                                                  ),
                                                 ),
-                                              ),
-                                            )
+                                              )
                                           ],
                                         ),
                                     ]),

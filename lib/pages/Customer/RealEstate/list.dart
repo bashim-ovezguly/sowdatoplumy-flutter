@@ -237,9 +237,7 @@ class _RealEstateListState extends State<RealEstateList> {
                                                               alignment: Alignment
                                                                   .centerLeft,
                                                               child: Text(
-                                                                data[index]
-                                                                        ['name']
-                                                                    .toString(),
+                                                                data[index]['name'].toString(),
                                                                 overflow:
                                                                     TextOverflow
                                                                         .clip,

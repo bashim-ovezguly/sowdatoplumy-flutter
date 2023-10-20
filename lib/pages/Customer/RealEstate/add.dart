@@ -40,6 +40,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
   callbackStatus(){Navigator.pop(context);}
 
   final usernameController = TextEditingController();
+  final nameController = TextEditingController();
   final addressController = TextEditingController();
   final squareController = TextEditingController();
   final priceController = TextEditingController();
@@ -159,6 +160,25 @@ class _RealEstateAddState extends State<RealEstateAdd> {
           ),
 
           Container(
+            alignment: Alignment.center,
+            height: 35,
+            margin: const EdgeInsets.only(left: 20,right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+            child:  TextFormField(
+              controller: nameController,
+              decoration: const InputDecoration(hintText: 'Ady',
+                  border: InputBorder.none,
+                  focusColor: Colors.white,
+                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }return null;
+            },),),
+          const SizedBox(height: 15,),
+
+
+          Container(
             height: 35,
             margin: const EdgeInsets.only(left: 20,right: 20),
             width: double.infinity,
@@ -203,9 +223,6 @@ class _RealEstateAddState extends State<RealEstateAdd> {
                     return LocationWidget(callbackFunc: callbackLocation);},);
               },
             ),
-
-
-
           const SizedBox(height: 15,),
 
           Container(
@@ -489,6 +506,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
                     request.fields['location'] = locationsController['id'].toString();
                     request.fields['address'] = addressController.text;
                     request.fields['price'] = priceController.text;
+                    request.fields['name'] = nameController.text;
                     request.fields['own'] = own_num;
                     request.fields['swap'] = swap_num;
                     request.fields['credit'] = credit_num;
