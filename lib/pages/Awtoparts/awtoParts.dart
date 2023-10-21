@@ -66,7 +66,7 @@ class _AutoPartsState extends State<AutoParts> {
     });
     final completer = Completer();
     final t = Timer(Duration(seconds: 5), () => completer.complete());
-      print(t);
+    print(t);
     await completer.future;
     setState(() {
       if (determinate == false) {
@@ -79,7 +79,7 @@ class _AutoPartsState extends State<AutoParts> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
-          backgroundColor: CustomColors.appColorWhite,
+            backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: const Text(
                 "Awtoşaýlar",
@@ -138,16 +138,21 @@ class _AutoPartsState extends State<AutoParts> {
                                 children: [
                                   Container(
                                     margin: const EdgeInsets.only(bottom: 10),
-                                    height:220,
+                                    height: 220,
                                     color: Colors.black12,
                                     child: CarouselSlider(
                                       options: CarouselOptions(
-                                          height:220,
+                                          height: 220,
                                           viewportFraction: 1,
                                           initialPage: 0,
-                                          enableInfiniteScroll: dataSlider.length > 1? true: false,
+                                          enableInfiniteScroll:
+                                              dataSlider.length > 1
+                                                  ? true
+                                                  : false,
                                           reverse: false,
-                                          autoPlay: dataSlider.length > 1? true: false,
+                                          autoPlay: dataSlider.length > 1
+                                              ? true
+                                              : false,
                                           autoPlayInterval:
                                               const Duration(seconds: 4),
                                           autoPlayAnimationDuration:
@@ -183,7 +188,7 @@ class _AutoPartsState extends State<AutoParts> {
                                                     children: [
                                                       ClipRect(
                                                         child: Container(
-                                                          height:220,
+                                                          height: 220,
                                                           width:
                                                               double.infinity,
                                                           child: FittedBox(
@@ -245,14 +250,17 @@ class _AutoPartsState extends State<AutoParts> {
                                       }
                                     },
                                     child: Container(
-                                      margin: EdgeInsets.only(left: 5, right: 5),
+                                      margin:
+                                          EdgeInsets.only(left: 5, right: 5),
                                       child: Card(
-                                        surfaceTintColor: CustomColors.appColorWhite,
+                                        surfaceTintColor:
+                                            CustomColors.appColorWhite,
                                         color: CustomColors.appColorWhite,
                                         shadowColor: CustomColors.appColorWhite,
                                         elevation: 5,
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0)),
                                           child: Container(
                                             height: 110,
                                             child: Row(
@@ -269,7 +277,8 @@ class _AutoPartsState extends State<AutoParts> {
                                                                   ''
                                                               ? Image.network(
                                                                   baseurl +
-                                                                      data[index][
+                                                                      data[index]
+                                                                              [
                                                                               'img']
                                                                           .toString(),
                                                                 )
@@ -282,22 +291,25 @@ class _AutoPartsState extends State<AutoParts> {
                                                 Expanded(
                                                   flex: 2,
                                                   child: Container(
-                                                    margin:
-                                                        EdgeInsets.only(left: 2),
+                                                    margin: EdgeInsets.only(
+                                                        left: 2),
                                                     padding:
-                                                        const EdgeInsets.all(10),
-                                                    color: CustomColors.appColors,
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    color:
+                                                        CustomColors.appColors,
                                                     child: Column(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment.start,
+                                                          MainAxisAlignment
+                                                              .start,
                                                       children: <Widget>[
                                                         Expanded(
                                                           child: Container(
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Text(
-                                                              data[index]
-                                                                      ['name_tm']
+                                                              data[index][
+                                                                      'name_tm']
                                                                   .toString(),
                                                               overflow:
                                                                   TextOverflow
@@ -314,8 +326,8 @@ class _AutoPartsState extends State<AutoParts> {
                                                             alignment: Alignment
                                                                 .centerLeft,
                                                             child: Text(
-                                                              data[index]
-                                                                      ['location']
+                                                              data[index][
+                                                                      'location']
                                                                   .toString(),
                                                               overflow:
                                                                   TextOverflow
@@ -332,112 +344,27 @@ class _AutoPartsState extends State<AutoParts> {
                                                           alignment: Alignment
                                                               .centerLeft,
                                                           child: Text(
-                                                              data[index]['price']
+                                                              data[index]
+                                                                      ['price']
                                                                   .toString(),
                                                               style: CustomText
                                                                   .itemText),
                                                         )),
-                                                        if (data[index][
-                                                                    'store_id'] ==
-                                                                null ||
-                                                            data[index][
-                                                                    'store_id'] ==
-                                                                '')
-                                                          Expanded(
-                                                              child: Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Row(
-                                                              children: <Widget>[
-                                                                Text('Kredit',
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            12)),
-                                                                data[index]
-                                                                        ['credit']
-                                                                    ? Icon(
-                                                                        Icons
-                                                                            .check,
-                                                                        color: Colors
-                                                                            .green,
-                                                                      )
-                                                                    : Icon(
-                                                                        Icons
-                                                                            .close,
-                                                                        color: Colors
-                                                                            .red,
-                                                                      ),
-                                                                SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                Text('Obmen',
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            12)),
-                                                                data[index]
-                                                                        ['swap']
-                                                                    ? Icon(
-                                                                        Icons
-                                                                            .check,
-                                                                        color: Colors
-                                                                            .green,
-                                                                      )
-                                                                    : Icon(
-                                                                        Icons
-                                                                            .close,
-                                                                        color: Colors
-                                                                            .red,
-                                                                      ),
-                                                                SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                Text('Nagt däl',
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontSize:
-                                                                            12)),
-                                                                data[index][
-                                                                        'none_cash_pay']
-                                                                    ? Icon(
-                                                                        Icons
-                                                                            .check,
-                                                                        color: Colors
-                                                                            .green,
-                                                                      )
-                                                                    : Icon(
-                                                                        Icons
-                                                                            .close,
-                                                                        color: Colors
-                                                                            .red,
-                                                                      ),
-                                                              ],
-                                                            ),
-                                                          ))
-                                                        else
-                                                          Expanded(
-                                                              child: Align(
-                                                                  alignment: Alignment
-                                                                      .centerLeft,
-                                                                  child:
-                                                                      ElevatedButton(
-                                                                    onPressed:
-                                                                        () {},
-                                                                    child: Text(
-                                                                      data[index][
-                                                                          'store_name'],
-                                                                      maxLines: 1,
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style: CustomText
-                                                                          .itemText,
-                                                                    ),
-                                                                  )))
+                                                        Expanded(
+                                                            child: Align(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Text(
+                                                            data[index]
+                                                                ['store_name'],
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: CustomText
+                                                                .itemText,
+                                                          ),
+                                                        ))
                                                       ],
                                                     ),
                                                   ),
@@ -476,7 +403,7 @@ class _AutoPartsState extends State<AutoParts> {
   }
 
   void getpartslist() async {
-        var sort = Provider.of<UserInfo>(context, listen: false).sort;
+    var sort = Provider.of<UserInfo>(context, listen: false).sort;
     var sort_value = "";
     print(sort_value);
     if (int.parse(sort) == 2) {
@@ -494,13 +421,14 @@ class _AutoPartsState extends State<AutoParts> {
     }
 
     Urls server_url = new Urls();
-    String url =server_url.get_server_url() + '/mob/parts?' + sort_value.toString();
-    
+    String url =
+        server_url.get_server_url() + '/mob/parts?' + sort_value.toString();
+
     final uri = Uri.parse(url);
-    Map<String, String> headers = {};  
-      for (var i in global_headers.entries){
-        headers[i.key] = i.value.toString(); 
-      }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
@@ -514,10 +442,10 @@ class _AutoPartsState extends State<AutoParts> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/parts?on_slider=1';
     final uri = Uri.parse(url);
-      Map<String, String> headers = {};  
-      for (var i in global_headers.entries){
-        headers[i.key] = i.value.toString(); 
-      }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {

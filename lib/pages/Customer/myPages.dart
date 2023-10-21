@@ -106,606 +106,504 @@ class _MyPagesState extends State<MyPages> {
                         ))
                 ]),
             body: determinate
-                ? Column(
-                    children: <Widget>[
-                      Expanded(
-                          flex: 3,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(height: 3,),
-                              Expanded(
-                                  child: user['img'] != ''
-                                      ? CircleAvatar(
-                                          radius: 45,
-                                          backgroundImage: NetworkImage(
-                                              baseurl + user['img'].toString()))
-                                      : Image.asset(
-                                          'assets/images/default.jpg')),
-                              Expanded(
+                ? ListView(children: [
+                    Container(
+                        height: 170,
+                        color: CustomColors.appColors,
+                        child: Row(children: [
+                          Expanded(
+                              flex: 1,
+                              child: Container(
+                                alignment: Alignment.centerRight,
+                                child: user['img'] != ''
+                                    ? CircleAvatar(
+                                        radius: 60,
+                                        backgroundImage: NetworkImage(
+                                            baseurl + user['img'].toString()))
+                                    : Image.asset('assets/images/default.jpg'),
+                              )),
+                          Expanded(
+                              flex: 2,
+                              child: Container(
+                                  margin: EdgeInsets.only(left: 20),
+                                  alignment: Alignment.centerLeft,
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      if (user['name'] != null &&
-                                          user['name'] != '')
-                                        Expanded(
-                                            child: Container(
-                                                child: Text(
-                                          user['name'].toString(),
-                                          style: TextStyle(
-                                              fontSize: 14,
-                                              color: CustomColors.appColors),
-                                        ))),
-                                      if (user['phone'] != null &&
-                                          user['phone'] != '')
-                                        Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(Icons.phone,
-                                                  color: CustomColors.appColors,
-                                                  size: 20),
-                                              SizedBox(width: 5),
-                                              Text(
-                                                user['phone'].toString(),
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color:
-                                                        CustomColors.appColors),
-                                              )
-                                            ]),
-                                      if (widget.user_customer_id == '')
-                                        Expanded(
-                                            child: Container(
-                                              alignment: Alignment.center,
-                                              width: 150,
-                                                child: OutlinedButton(
-                                          child: Row(children: [
-                                            Text('Düzetmek',
-                                                style: TextStyle(
-                                                    color: CustomColors
-                                                        .appColors)),
-                                            SizedBox(width: 5),
-                                            Icon(
-                                                Icons.drive_file_rename_outline,
-                                                color: CustomColors.appColors)
-                                          ]),
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        EditProfil(
-                                                            customer_id:
-                                                                user['id']
-                                                                    .toString(),
-                                                            email: user['email']
-                                                                .toString(),
-                                                            name: user['name'
-                                                                .toString()],
-                                                            phone: user['phone']
-                                                                .toString(),
-                                                            img: baseurl +
-                                                                user['img']
-                                                                    .toString(),
-                                                            callbackFunc:
-                                                                refreshFunc,
-                                                            showSuccessAlert:
-                                                                showSuccessAlert)));
-                                          },
-                                        )))
-                                      else
-                                        Expanded(
-                                            child: Container(
-                                                child: OutlinedButton(
-                                          child: Row(children: [
-                                            Text('Ýazylmak',
-                                                style: TextStyle(
-                                                    color: CustomColors
-                                                        .appColors)),
-                                            SizedBox(width: 5),
-                                            Icon(Icons.person_add_alt,
-                                                color: CustomColors.appColors)
-                                          ]),
-                                          onPressed: () async {
-                                            Urls server_url = new Urls();
-                                            String url =
-                                                server_url.get_server_url() +
-                                                    '/mob/subscribe/' +
-                                                    widget.user_customer_id;
-                                            final uri = Uri.parse(url);
-                                            var responsess =
-                                                Provider.of<UserInfo>(context,
-                                                        listen: false)
-                                                    .update_tokenc();
-                                            if (await responsess) {
-                                              var token = Provider.of<UserInfo>(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 40),
+                                        if (user['name'] != null &&
+                                            user['name'] != '')
+                                          Text(user['name'].toString(),
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: CustomColors
+                                                      .appColorWhite)),
+                                        SizedBox(height: 5),
+                                        if (user['phone'] != null &&
+                                            user['phone'] != '')
+                                          Text(
+                                            user['phone'].toString(),
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color:
+                                                    CustomColors.appColorWhite),
+                                          ),
+                                        SizedBox(height: 5),
+                                        if (user['email'] != null &&
+                                            user['email'] != '')
+                                          Text(
+                                            user['email'].toString(),
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color:
+                                                    CustomColors.appColorWhite),
+                                          ),
+                                        if (widget.user_customer_id == '')
+                                          Container(
+                                              alignment: Alignment.centerRight,
+                                              child: MaterialButton(
+                                                color:
+                                                    CustomColors.appColorWhite,
+                                                onPressed: () {
+                                                  Navigator.push(
                                                       context,
-                                                      listen: false)
-                                                  .access_token;
-                                              Map<String, String> headers = {};
-                                              for (var i
-                                                  in global_headers.entries) {
-                                                headers[i.key] =
-                                                    i.value.toString();
-                                              }
-                                              headers['token'] = token;
-                                              final response = await http
-                                                  .post(uri, headers: headers);
-                                              get_userinfo();
-                                            }
-                                          },
-                                        )))
-                                    ],
-                                  ))
+                                                      MaterialPageRoute(
+                                                          builder: (context) => EditProfil(
+                                                              customer_id: user[
+                                                                      'id']
+                                                                  .toString(),
+                                                              email: user[
+                                                                      'email']
+                                                                  .toString(),
+                                                              name: user[
+                                                                  'name'
+                                                                      .toString()],
+                                                              phone: user[
+                                                                      'phone']
+                                                                  .toString(),
+                                                              img: baseurl +
+                                                                  user['img']
+                                                                      .toString(),
+                                                              callbackFunc:
+                                                                  refreshFunc,
+                                                              showSuccessAlert:
+                                                                  showSuccessAlert)));
+                                                },
+                                                elevation: 2.0,
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                shape: const CircleBorder(),
+                                                child: const Icon(
+                                                  Icons.edit,
+                                                  size: 20,
+                                                  color: CustomColors.appColors,
+                                                ),
+                                              ))
+                                      ])))
+                        ])),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            left: 20, right: 20, top: 10, bottom: 10),
+                        height: 50,
+                        child: Card(
+                          surfaceTintColor: CustomColors.appColorWhite,
+                          color: CustomColors.appColorWhite,
+                          shadowColor: Colors.black,
+                          elevation: 5,
+                          child: Row(
+                            children: [
+                              Text("  Müşderiler",
+                                  style: TextStyle(
+                                      color: CustomColors.appColors,
+                                      fontSize: 18)),
+                              if (widget.user_customer_id != '')
+                                TextButton(
+                                    onPressed: () async {
+                                      Urls server_url = new Urls();
+                                      String url = server_url.get_server_url() +
+                                          '/mob/subscribe/' +
+                                          widget.user_customer_id;
+                                      final uri = Uri.parse(url);
+                                      var responsess = Provider.of<UserInfo>(
+                                              context,
+                                              listen: false)
+                                          .update_tokenc();
+                                      if (await responsess) {
+                                        var token = Provider.of<UserInfo>(
+                                                context,
+                                                listen: false)
+                                            .access_token;
+                                        Map<String, String> headers = {};
+                                        for (var i in global_headers.entries) {
+                                          headers[i.key] = i.value.toString();
+                                        }
+                                        headers['token'] = token;
+                                        final response = await http.post(uri,
+                                            headers: headers);
+                                        get_userinfo();
+                                      }
+                                    },
+                                    child: Text("+ Ýazylmak",
+                                        style: TextStyle(
+                                            color: CustomColors.appColors,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 18))),
+                              Spacer(),
+                              Text(user['followers_count'].toString() + "  ",
+                                  style: TextStyle(
+                                      color: CustomColors.appColors,
+                                      fontSize: 18))
                             ],
-                          )),
-                      Expanded(
-                          flex: 8,
-                          child: Column(children: <Widget>[
-                            Container(
-                                margin: EdgeInsets.only(left: 20),
-                                alignment: Alignment.center,
-                                height: 100,
-                                child: Column(
-                                  children: [
-                                    if (user['email'] != '' &&
-                                        user['email'] != null)
-                                      Expanded(
-                                        child: Container(
-                                            alignment: Alignment.centerLeft,
-                                            child: Row(
-                                              children: [
-                                                Icon(Icons.mark_email_unread,
-                                                    color:
-                                                        CustomColors.appColors),
-                                                SizedBox(width: 5),
-                                                Text(
-                                                  user['email'].toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: CustomColors
-                                                          .appColors),
-                                                )
-                                              ],
-                                            )),
-                                      ),
-                                    Expanded(
-                                      child: Container(
-                                          alignment: Alignment.centerLeft,
-                                          child: Row(
-                                            children: [
-                                              Icon(Icons.groups,
-                                                  color:
-                                                      CustomColors.appColors),
-                                              SizedBox(width: 5),
-                                              Text(
-                                                "Maňa ýazylanlar " +
-                                                    user['followers_count']
-                                                        .toString() +
-                                                    " sany",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color:
-                                                        CustomColors.appColors),
-                                              )
-                                            ],
-                                          )),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                          alignment: Alignment.centerLeft,
-                                          child: Row(
-                                            children: [
-                                              Icon(Icons.groups,
-                                                  color:
-                                                      CustomColors.appColors),
-                                              SizedBox(width: 5),
-                                              Text(
-                                                "Meniň ýazylanlarym " +
-                                                    user['subscription_count']
-                                                        .toString() +
-                                                    " sany",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color:
-                                                        CustomColors.appColors),
-                                              )
-                                            ],
-                                          )),
-                                    )
-                                  ],
-                                )),
-                            Container(
-                                height: 115,
-                                width: double.infinity,
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                                child: Row(children: [
-                                  Expanded(
-                                      child: TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => MyStores(
-                                                        user_customer_id: widget
-                                                            .user_customer_id,
-                                                        customer_id: user['id']
-                                                            .toString(),
-                                                        callbackFunc:
-                                                            refreshFunc)));
-                                          },
-                                          child: Column(children: [
-                                            Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                    user['room']['store']
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: CustomColors
-                                                            .appColors,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                    textAlign: TextAlign.center,
-                                                    maxLines: 2)),
-                                            Expanded(
-                                                flex: 2,
-                                                child: Image.asset(
-                                                  'assets/images/store.png',
-                                                  color: CustomColors.appColors,
-                                                  width: 45,
-                                                  height: 45,
-                                                )),
-                                            Expanded(
-                                                flex: 2,
-                                                child: Text('Dükanlar',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: CustomColors
-                                                            .appColors)))
-                                          ]))),
-                                  Expanded(
-                                      child: TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        MyCars(
-                                                          customer_id:
-                                                              user['id']
-                                                                  .toString(),
-                                                          user_customer_id: widget
-                                                              .user_customer_id,
-                                                        )));
-                                          },
-                                          child: Column(children: [
-                                            Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                    user['room']['cars']
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: CustomColors
-                                                            .appColors,
-                                                        fontWeight:
-                                                            FontWeight.bold))),
-                                            Expanded(
-                                                flex: 2,
-                                                child: Image.asset(
-                                                  'assets/images/car.png',
-                                                  color: CustomColors.appColors,
-                                                  width: 45,
-                                                  height: 45,
-                                                )),
-                                            Expanded(
-                                                flex: 2,
-                                                child: Text('Awtoulaglar',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: CustomColors
-                                                            .appColors)))
-                                          ]))),
-                                  Expanded(
-                                      child: TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        AutoPartsList(
-                                                          user_customer_id: widget
-                                                              .user_customer_id,
-                                                          customer_id:
-                                                              user['id']
-                                                                  .toString(),
-                                                          callbackFunc:
-                                                              refreshFunc,
-                                                        )));
-                                          },
-                                          child: Column(children: [
-                                            Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                    user['room']['parts']
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: CustomColors
-                                                            .appColors,
-                                                        fontWeight:
-                                                            FontWeight.bold))),
-                                            Expanded(
-                                                flex: 2,
-                                                child: Image.asset(
-                                                  'assets/images/parts.png',
-                                                  color: CustomColors.appColors,
-                                                  width: 45,
-                                                  height: 45,
-                                                )),
-                                            Expanded(
-                                                flex: 2,
-                                                child: Text('Awtoşaýlar',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: CustomColors
-                                                            .appColors)))
-                                          ])))
-                                ])),
-                            Container(
-                                height: 115,
-                                width: double.infinity,
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                                child: Row(children: [
-                                  Expanded(
-                                      child: TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        RealEstateList(
-                                                          customer_id:
-                                                              user['id']
-                                                                  .toString(),
-                                                          callbackFunc:
-                                                              refreshFunc,
-                                                          user_customer_id: widget
-                                                              .user_customer_id,
-                                                        )));
-                                          },
-                                          child: Column(children: [
-                                            Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                    user['room']['flats']
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: CustomColors
-                                                            .appColors,
-                                                        fontWeight:
-                                                            FontWeight.bold))),
-                                            Expanded(
-                                                flex: 2,
-                                                child: Image.asset(
-                                                  'assets/images/flats.png',
-                                                  color: CustomColors.appColors,
-                                                  width: 45,
-                                                  height: 45,
-                                                )),
-                                            Expanded(
-                                                flex: 2,
-                                                child: Text(
-                                                    'Gozgalmaýan emläkler',
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: CustomColors
-                                                            .appColors),
-                                                    textAlign: TextAlign.center,
-                                                    maxLines: 2))
-                                          ]))),
-                                  Expanded(
-                                      child: TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => MyRibbonList(
-                                                        customer_id: user['id']
-                                                            .toString(),
-                                                        callbackFunc:
-                                                            refreshFunc,
-                                                        user_customer_id: widget
-                                                            .user_customer_id)));
-                                          },
-                                          child: Column(children: [
-                                            Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                  user['room']['lenta']
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      color: CustomColors
-                                                          .appColors,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                )),
-                                            Expanded(
-                                                flex: 2,
-                                                child: Image.asset(
-                                                  'assets/images/lenta.png',
-                                                  color: CustomColors.appColors,
-                                                  width: 45,
-                                                  height: 45,
-                                                )),
-                                            Expanded(
-                                                flex: 2,
-                                                child: Text(
-                                                  'Söwda lentasy',
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: CustomColors
-                                                          .appColors),
-                                                  textAlign: TextAlign.center,
-                                                  maxLines: 2,
-                                                ))
-                                          ]))),
-                                  Expanded(
-                                      child: TextButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        MyOtherGoodsList(
-                                                            customer_id:
-                                                                user['id']
-                                                                    .toString(),
-                                                            callbackFunc:
-                                                                refreshFunc,
-                                                            user_customer_id: widget
-                                                                .user_customer_id)));
-                                          },
-                                          child: Column(children: [
-                                            Expanded(
-                                                flex: 1,
-                                                child: Text(
-                                                    user['room']['products']
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: CustomColors
-                                                            .appColors,
-                                                        fontWeight:
-                                                            FontWeight.bold))),
-                                            Expanded(
-                                                flex: 2,
-                                                child: Image.asset(
-                                                  'assets/images/products.png',
-                                                  color: CustomColors.appColors,
-                                                  width: 45,
-                                                  height: 45,
-                                                )),
-                                            Expanded(
-                                                flex: 2,
-                                                child: Text(
-                                                  'Beýleki bildirişler',
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: CustomColors
-                                                          .appColors),
-                                                  textAlign: TextAlign.center,
-                                                ))
-                                          ])))
-                                ])),
-                            Container(
-                                height: 115,
-                                width: double.infinity,
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                                child: Row(children: [
-                                  if (widget.user_customer_id == '')
-                                    Expanded(
-                                        child: TextButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ArrivedOrders(
-                                                              customer_id: user[
-                                                                      'id']
-                                                                  .toString(),
-                                                              callbackFunc:
-                                                                  refreshFunc)));
-                                            },
-                                            child: Column(children: [
-                                              Expanded(
-                                                  flex: 1,
-                                                  child: Text(
-                                                      user['orders_in']
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: CustomColors
-                                                              .appColors,
-                                                          fontWeight: FontWeight
-                                                              .bold))),
-                                              SizedBox(
-                                                height: 3,
-                                              ),
-                                              Expanded(
-                                                  flex: 2,
-                                                  child: Image.asset(
-                                                    'assets/images/orders_in.png',
-                                                    color:
-                                                        CustomColors.appColors,
-                                                    width: 45,
-                                                    height: 45,
-                                                  )),
-                                              Expanded(
-                                                  flex: 2,
-                                                  child: Text('Gelen sargytlar',
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: CustomColors
-                                                              .appColors)))
-                                            ]))),
-                                  if (widget.user_customer_id == '')
-                                    Expanded(
-                                        child: TextButton(
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          GoneOrders(
-                                                              customer_id: user[
-                                                                      'id']
-                                                                  .toString(),
-                                                              callbackFunc:
-                                                                  refreshFunc)));
-                                            },
-                                            child: Column(children: [
-                                              Expanded(
-                                                  flex: 1,
-                                                  child: Text(
-                                                      user['orders_out']
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: CustomColors
-                                                              .appColors,
-                                                          fontWeight: FontWeight
-                                                              .bold))),
-                                              Expanded(
-                                                  flex: 2,
-                                                  child: Image.asset(
-                                                    'assets/images/orders_out.png',
-                                                    color:
-                                                        CustomColors.appColors,
-                                                    width: 45,
-                                                    height: 45,
-                                                  )),
-                                              Expanded(
-                                                  flex: 2,
-                                                  child: Text('Giden sargytlar',
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          color: CustomColors
-                                                              .appColors)))
-                                            ])))
-                                ])),
-                          ]))
-                    ],
-                  )
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                        margin: EdgeInsets.only(left: 20, right: 20),
+                        child: Text("  Bildirişler",
+                            style: TextStyle(
+                                color: CustomColors.appColors, fontSize: 18))),
+//_______________________________________________________________________________________________________
+                    GestureDetector(
+                      child: Container(
+                          margin: EdgeInsets.only(
+                              left: 20, right: 20, top: 10, bottom: 10),
+                          height: 250,
+                          child: Card(
+                              surfaceTintColor: CustomColors.appColorWhite,
+                              color: CustomColors.appColorWhite,
+                              shadowColor: Colors.black,
+                              elevation: 5,
+                              child: Column(children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyStores(
+                                                user_customer_id:
+                                                    widget.user_customer_id,
+                                                customer_id:
+                                                    user['id'].toString(),
+                                                callbackFunc: refreshFunc)));
+                                  },
+                                  child: Container(
+                                      color: CustomColors.appColorWhite,
+                                      padding: EdgeInsets.all(5),
+                                      child: Row(children: [
+                                        Image.asset(
+                                          'assets/images/store.png',
+                                          color: CustomColors.appColors,
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        Text("  Dükanlar",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Spacer(),
+                                        Text(
+                                            user['room']['store'].toString() +
+                                                "  ",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Icon(Icons.navigate_next,
+                                            color: CustomColors.appColors)
+                                      ])),
+                                ),
+
+//_______________________________________________________________________________________________________
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyCars(
+                                                customer_id:
+                                                    user['id'].toString(),
+                                                user_customer_id:
+                                                    widget.user_customer_id)));
+                                  },
+                                  child: Container(
+                                      color: CustomColors.appColorWhite,
+                                      padding: EdgeInsets.all(5),
+                                      child: Row(children: [
+                                        Image.asset(
+                                          'assets/images/car.png',
+                                          color: CustomColors.appColors,
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        Text("  Awtoulaglar",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Spacer(),
+                                        Text(
+                                            user['room']['cars'].toString() +
+                                                "  ",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Icon(Icons.navigate_next,
+                                            color: CustomColors.appColors)
+                                      ])),
+                                ),
+
+//_______________________________________________________________________________________________________
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => AutoPartsList(
+                                                user_customer_id:
+                                                    widget.user_customer_id,
+                                                customer_id:
+                                                    user['id'].toString(),
+                                                callbackFunc: refreshFunc)));
+                                  },
+                                  child: Container(
+                                      color: CustomColors.appColorWhite,
+                                      padding: EdgeInsets.all(5),
+                                      child: Row(children: [
+                                        Image.asset(
+                                          'assets/images/parts.png',
+                                          color: CustomColors.appColors,
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        Text("  Awtoşaýlar",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Spacer(),
+                                        Text(
+                                            user['room']['parts'].toString() +
+                                                "  ",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Icon(Icons.navigate_next,
+                                            color: CustomColors.appColors)
+                                      ])),
+                                ),
+
+//_______________________________________________________________________________________________________
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RealEstateList(
+                                                    customer_id:
+                                                        user['id'].toString(),
+                                                    callbackFunc: refreshFunc,
+                                                    user_customer_id: widget
+                                                        .user_customer_id)));
+                                  },
+                                  child: Container(
+                                      color: CustomColors.appColorWhite,
+                                      padding: EdgeInsets.all(5),
+                                      child: Row(children: [
+                                        Image.asset(
+                                          'assets/images/flats.png',
+                                          color: CustomColors.appColors,
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        Text("  Gozgalmaýan emläkler",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Spacer(),
+                                        Text(
+                                            user['room']['flats'].toString() +
+                                                "  ",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Icon(Icons.navigate_next,
+                                            color: CustomColors.appColors)
+                                      ])),
+                                ),
+
+//_______________________________________________________________________________________________________
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                MyOtherGoodsList(
+                                                    customer_id:
+                                                        user['id'].toString(),
+                                                    callbackFunc: refreshFunc,
+                                                    user_customer_id: widget
+                                                        .user_customer_id)));
+                                  },
+                                  child: Container(
+                                      color: CustomColors.appColorWhite,
+                                      padding: EdgeInsets.all(5),
+                                      child: Row(children: [
+                                        Image.asset(
+                                          'assets/images/products.png',
+                                          color: CustomColors.appColors,
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        Text("  Beýleki bildirişler",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Spacer(),
+                                        Text(
+                                            user['room']['products']
+                                                    .toString() +
+                                                "  ",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Icon(Icons.navigate_next,
+                                            color: CustomColors.appColors)
+                                      ])),
+                                ),
+
+//_______________________________________________________________________________________________________
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyRibbonList(
+                                                customer_id:
+                                                    user['id'].toString(),
+                                                callbackFunc: refreshFunc,
+                                                user_customer_id:
+                                                    widget.user_customer_id)));
+                                  },
+                                  child: Container(
+                                      color: CustomColors.appColorWhite,
+                                      padding: EdgeInsets.all(5),
+                                      child: Row(children: [
+                                        Image.asset(
+                                          'assets/images/lenta.png',
+                                          color: CustomColors.appColors,
+                                          width: 30,
+                                          height: 30,
+                                        ),
+                                        Text("  Lenta",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Spacer(),
+                                        Text(
+                                            user['room']['lenta'].toString() +
+                                                "  ",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Icon(Icons.navigate_next,
+                                            color: CustomColors.appColors)
+                                      ])),
+                                ),
+                              ]))),
+                    ),
+
+                    if (widget.user_customer_id == '')
+                      Container(
+                          margin: EdgeInsets.only(left: 20, right: 20),
+                          child: Text("  Sargytlar",
+                              style: TextStyle(
+                                  color: CustomColors.appColors,
+                                  fontSize: 18))),
+                    if (widget.user_customer_id == '')
+                      Container(
+                          margin: EdgeInsets.only(
+                              left: 20, right: 20, top: 10, bottom: 10),
+                          height: 80,
+                          child: Card(
+                              surfaceTintColor: CustomColors.appColorWhite,
+                              color: CustomColors.appColorWhite,
+                              shadowColor: Colors.black,
+                              elevation: 5,
+                              child: Column(children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => ArrivedOrders(
+                                                customer_id:
+                                                    user['id'].toString(),
+                                                callbackFunc: refreshFunc)));
+                                  },
+                                  child: Container(
+                                      color: CustomColors.appColorWhite,
+                                      padding: EdgeInsets.all(5),
+                                      child: Row(children: [
+                                        Image.asset(
+                                          'assets/images/orders_in.png',
+                                          color: CustomColors.appColors,
+                                          width: 23,
+                                          height: 23,
+                                        ),
+                                        Text("  Gelen sargytlar",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Spacer(),
+                                        Text(
+                                            user['orders_in'].toString() + "  ",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Icon(Icons.navigate_next,
+                                            color: CustomColors.appColors)
+                                      ])),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => GoneOrders(
+                                                customer_id:
+                                                    user['id'].toString(),
+                                                callbackFunc: refreshFunc)));
+                                  },
+                                  child: Container(
+                                      color: CustomColors.appColorWhite,
+                                      padding: EdgeInsets.all(5),
+                                      child: Row(children: [
+                                        Image.asset(
+                                          'assets/images/orders_out.png',
+                                          color: CustomColors.appColors,
+                                          width: 23,
+                                          height: 23,
+                                        ),
+                                        Text("  Giden sargytlar",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Spacer(),
+                                        Text(
+                                            user['orders_out'].toString() +
+                                                "  ",
+                                            style: TextStyle(
+                                                color: CustomColors.appColors,
+                                                fontSize: 18)),
+                                        Icon(Icons.navigate_next,
+                                            color: CustomColors.appColors)
+                                      ])),
+                                )
+                              ]))),
+                  ])
                 : Center(
                     child: CircularProgressIndicator(
                         color: CustomColors.appColors)))

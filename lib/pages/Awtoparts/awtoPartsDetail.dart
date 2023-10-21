@@ -53,7 +53,6 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
       setState(() {if (determinate==false){status = false;}});
   }
 
-
   _AutoPartsDetailState({required this.id});
   @override
   Widget build(BuildContext context) {
@@ -237,6 +236,7 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                 ),))
               ],),),
           if (data['store_name']!= null && data['store_name']!='')
+          
             SizedBox(
               child: Row(
                 children: [
@@ -245,37 +245,24 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                     SizedBox(width: 10,),
                     Icon(Icons.store, color: Colors.grey,size: 18,),
                     SizedBox(width: 10,),
-                    Text("Dükan", style: CustomText.size_16_black54,)],),),
+                    TextKeyWidget(text: "Dükan", size: 16.0)],),),
 
                    Expanded(child:Align(
                     alignment: Alignment.centerLeft,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        textStyle: TextStyle(fontSize: 13, color: CustomColors.appColorWhite)),
-                      onPressed: () {
-                        if (data['store_id']!=null && data['store_id']!=''){
+                    child:  ElevatedButton(
+                          onPressed: () async {
+                          if (data['store_id']!=null && data['store_id']!=''){
                           Navigator.push(context, MaterialPageRoute(builder: (context) => MarketDetail(id: data['store_id'].toString(), title: 'Dükanlar')));
-                        }
-                      },
-                      child: Text(data['store'].toString(),),)))
+                        }},
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: CustomColors.appColors,
+                        textStyle: TextStyle(fontSize: 13, color:CustomColors.appColorWhite)),
+                        child: Text(data['store'].toString(), style: TextStyle(color: CustomColors.appColorWhite),))))
                 ],
               ),
             ),
               
-          Container(
-            height: 30,
-            margin: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(child: Row(
-                  children: <Widget>[
-                    const Icon(Icons.energy_savings_leaf, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Matory", size:16.0),)],),),
-
-                 Expanded(child: SizedBox(child: TextValueWidget(text: data['engine'].toString() , size: 16.0),))
-              ],),),
-
-
+    
           Container(
             height: 30,
             margin: const EdgeInsets.only(left: 10),
@@ -288,8 +275,6 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                 if (data['location']!=null && data['location']!='')
                   Expanded(child: SizedBox(child: TextValueWidget(text: data['location'].toString(), size: 16.0)))
               ],),),
-
-
 
           Container(
             height: 30,
@@ -329,118 +314,6 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Telefon", size:16.0),)],),),
 
                   Expanded(child: SizedBox(child: TextValueWidget(text: data['phone'].toString(), size: 16.0),))
-              ],),),
-
-
-            Container(
-            height: 30,
-            margin: const EdgeInsets.only(left: 10),
-            child: Row(
-
-              children: <Widget>[
-                Expanded(child: Row(
-                  children: <Widget>[
-                    const Icon(Icons.monetization_on_sharp, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Kredit", size:16.0),)],),),
-                Expanded(child: Container(
-                  alignment: Alignment.topLeft,
-           
-                    child: data['credit'] == null ? MyCheckBox(type: true ): MyCheckBox(type: data['credit'] ),))
-              ],),),
-
-          Container(
-            height: 30,
-            margin: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(child: Row(
-                  children: <Widget>[
-                    const Icon(Icons.library_add_check_outlined, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Çalyşyk", size:16.0),)],),),
-                Expanded(child: Container(
-                    alignment: Alignment.topLeft,
-                    child: data['swap'] == null ? MyCheckBox(type: true ): MyCheckBox(type: data['swap'] ),))
-              ],),),
-
-          Container(
-            height: 30,
-            margin: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(child: Row(
-                  children: <Widget>[
-                    const Icon(Icons.credit_card, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Nagt däl töleg", size:16.0),)],),),
-                Expanded(child: Container(
-                    alignment: Alignment.topLeft,
-                    child: data['none_cash_pay'] == null ? MyCheckBox(type: true ): MyCheckBox(type: data['none_cash_pay'] ),))
-
-              ],),),
-        
-          
-        Container(
-            height: 30,
-            margin: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(child: Row(
-                  children: <Widget>[
-                    const Icon(Icons.invert_colors_on_sharp, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Ýangyjyň görnüşi", size:16.0),)],),),
-
-                Expanded(child: SizedBox(child: TextValueWidget(text: data['fuel'].toString(), size: 16.0),))
-              ],),),
-
-          Container(
-            height: 30,
-            margin: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(child: Row(
-                  children: <Widget>[
-                    const Icon(Icons.invert_colors_on_sharp, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Karopka", size:16.0),)],),),
-
-                Expanded(child: SizedBox(child: TextValueWidget(text: data['transmission'].toString(), size: 16.0),))
-              ],),),
-          
-            Container(
-            height: 30,
-            margin: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(child: Row(
-                  children: <Widget>[
-                    const Icon(Icons.qr_code, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Vin kody", size: 16.0),)],),),
-
-                Expanded(child: SizedBox(child: TextValueWidget(text: data['VIN'].toString(), size: 16.0),))
-              ],),),
-
-              Container(
-            height: 30,
-            margin: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(child: Row(
-                  children: <Widget>[
-                    const Icon(Icons.qr_code, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Original kody", size: 16.0),)],),),
-
-                Expanded(child: SizedBox(child: TextValueWidget(text: data['orig_code'].toString(), size: 16.0),))
-              ],),),
-
-              Container(
-            height: 30,
-            margin: const EdgeInsets.only(left: 10),
-            child: Row(
-              children: <Widget>[
-                Expanded(child: Row(
-                  children: <Widget>[
-                    const Icon(Icons.qr_code, color: Colors.grey,size: 20,),
-                    Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Dublikat kody", size: 16.0),)],),),
-
-                Expanded(child: SizedBox(child: TextValueWidget(text: data['duplicate_code'].toString(), size: 16.0),))
               ],),),
           
           if (data['ad'] != null && data['ad'] !='')

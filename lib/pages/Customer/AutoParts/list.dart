@@ -137,7 +137,7 @@ class _AutoPartsListState extends State<AutoPartsList> {
                                         padding:
                                             const EdgeInsets.only(left: 10),
                                         child: Text(
-                                          "Awtoşaylar sany " +
+                                          "Awtoşaylar " +
                                               data.length.toString(),
                                           style: TextStyle(
                                               fontSize: 18,

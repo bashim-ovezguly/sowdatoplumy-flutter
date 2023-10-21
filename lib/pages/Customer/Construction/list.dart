@@ -136,7 +136,7 @@ class _ConstructionListState extends State<ConstructionList> {
                                         padding: const EdgeInsets.only(
                                             left: 10, top: 5),
                                         child: Text(
-                                          "Gurluşyk harytlaryñ sany " +
+                                          "Gurluşyk harytlar " +
                                               data.length.toString(),
                                           style: TextStyle(
                                               fontSize: 18,

@@ -136,7 +136,7 @@ class _RealEstateListState extends State<RealEstateList> {
                                         padding:
                                             const EdgeInsets.only(left: 10),
                                         child: Text(
-                                          "Emläkler sany" +
+                                          "Emläkler " +
                                               data.length.toString(),
                                           style: TextStyle(
                                               fontSize: 18,

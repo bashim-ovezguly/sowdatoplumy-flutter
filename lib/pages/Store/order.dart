@@ -125,7 +125,7 @@ class _OrderState extends State<Order> {
                                     SliverChildBuilderDelegate(childCount: 1,
                                         (BuildContext context, int index) {
                               return Container(
-                                  margin: EdgeInsets.only(top: 10, bottom: 10),
+                                  margin: EdgeInsets.only(top: 10, bottom: 5),
                                   padding: EdgeInsets.only(left: 10, right: 10),
                                   child: Row(
                                       crossAxisAlignment:
@@ -139,7 +139,9 @@ class _OrderState extends State<Order> {
                                                 style: TextStyle(
                                                     color:
                                                         CustomColors.appColors,
-                                                    fontSize: 16))),
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold))),
                                       ]));
                             })),
                           SliverList(
@@ -147,7 +149,7 @@ class _OrderState extends State<Order> {
                                   SliverChildBuilderDelegate(childCount: 1,
                                       (BuildContext context, int index) {
                             return Container(
-                                margin: EdgeInsets.only(top: 10, bottom: 10),
+                                margin: EdgeInsets.only(top: 5, bottom: 10),
                                 padding: EdgeInsets.only(left: 10, right: 10),
                                 child: Column(
                                     crossAxisAlignment:
@@ -197,11 +199,14 @@ class _OrderState extends State<Order> {
                                 height: 110,
                                 child: Card(
                                     color: CustomColors.appColorWhite,
-                                    shadowColor: const Color.fromARGB(255, 200, 198, 198),
-                                    surfaceTintColor: CustomColors.appColorWhite,
+                                    shadowColor: const Color.fromARGB(
+                                        255, 200, 198, 198),
+                                    surfaceTintColor:
+                                        CustomColors.appColorWhite,
                                     elevation: 5,
                                     child: ClipRRect(
-                                      borderRadius: BorderRadius.all(Radius.circular(7.0)),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(7.0)),
                                       child: Row(children: [
                                         Expanded(
                                             flex: 3,
@@ -215,130 +220,131 @@ class _OrderState extends State<Order> {
                                         Expanded(
                                             flex: 4,
                                             child: Container(
-                                              margin: EdgeInsets.only(left: 5),
-                                              child: Column(
-                                                children: [
-                                                  Expanded(
-                                                      child: Container(
-                                                    alignment:
-                                                        Alignment.bottomLeft,
-                                                    child: Text(
-                                                      'Ady: ' +
+                                                margin:
+                                                    EdgeInsets.only(left: 5),
+                                                child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Expanded(
+                                                          child: Container(
+                                                        alignment: Alignment
+                                                            .bottomLeft,
+                                                        child: Text(
                                                           array[index]
                                                               ['product_name'],
-                                                      style: CustomText.size_16,
-                                                    ),
-                                                  )),
-                                                  Expanded(
-                                                      child: Container(
-                                                    alignment: Alignment.topLeft,
-                                                    child: Text(
-                                                      'Baha: ' +
+                                                          style: CustomText
+                                                              .size_16,
+                                                        ),
+                                                      )),
+                                                      Expanded(
+                                                          child: Container(
+                                                        alignment:
+                                                            Alignment.topLeft,
+                                                        child: Text(
                                                           array[index][
                                                                   'product_price']
                                                               .toString(),
-                                                      style: CustomText.size_16,
-                                                    ),
-                                                  )),
-                                                ],
-                                              ),
-                                            )),
-                                        Expanded(
-                                            flex: 3,
-                                            child: Container(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.spaceEvenly,
-                                                children: [
-                                                  Expanded(
-                                                      child: GestureDetector(
-                                                    onTap: () async {
-                                                      if (array[index]['count'] >
-                                                          1) {
-                                                        var decrement = await dbHelper
-                                                            .product_count_increment(
-                                                                item_id: array[
-                                                                            index]
-                                                                        ['id']
-                                                                    .toString(),
-                                                                count: array[
-                                                                            index]
-                                                                        [
-                                                                        'count'] -
-                                                                    1);
-                                                        get_products();
-                                                      }
-                                                    },
-                                                    child: Container(
-                                                        height: 35,
-                                                        width: 50,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(5),
-                                                            border: Border.all(
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        155,
-                                                                        154,
-                                                                        154))),
-                                                        child: Icon(Icons.remove,
-                                                            color: Colors.green,
-                                                            size: 20)),
-                                                  )),
-                                                  Expanded(
-                                                      child: Align(
-                                                          child: Text(
-                                                              array[index]
-                                                                      ['count']
-                                                                  .toString(),
-                                                              style: CustomText
-                                                                  .size_16))),
-                                                  Expanded(
-                                                      child: GestureDetector(
-                                                          onTap: () async {
-                                                            var increment = await dbHelper
-                                                                .product_count_increment(
-                                                                    item_id: array[
-                                                                                index]
-                                                                            ['id']
-                                                                        .toString(),
-                                                                    count: array[
-                                                                                index]
-                                                                            [
-                                                                            'count'] +
-                                                                        1);
-                                                            setState(() {
-                                                              get_products();
-                                                            });
-                                                          },
+                                                          style: CustomText
+                                                              .size_16,
+                                                        ),
+                                                      )),
+                                                      Expanded(
                                                           child: Container(
-                                                              height: 35,
-                                                              width: 50,
-                                                              alignment: Alignment
-                                                                  .center,
-                                                              decoration: BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
+                                                        margin: EdgeInsets.only(
+                                                            bottom: 5),
+                                                        child: Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              GestureDetector(
+                                                                onTap:
+                                                                    () async {
+                                                                  if (array[index]
+                                                                          [
+                                                                          'count'] >
+                                                                      1) {
+                                                                    var decrement = await dbHelper.product_count_increment(
+                                                                        item_id:
+                                                                            array[index]['id']
+                                                                                .toString(),
+                                                                        count: array[index]['count'] -
+                                                                            1);
+                                                                    get_products();
+                                                                  }
+                                                                },
+                                                                child: Container(
+                                                                    height: 35,
+                                                                    width: 35,
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .center,
+                                                                    decoration: BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                5),
+                                                                        border: Border.all(
+                                                                            color: Color.fromARGB(
+                                                                                255,
+                                                                                155,
+                                                                                154,
+                                                                                154))),
+                                                                    child: Icon(
+                                                                        Icons
+                                                                            .remove,
+                                                                        color: Colors
+                                                                            .green,
+                                                                        size:
+                                                                            20)),
+                                                              ),
+                                                              Text(
+                                                                  "  " +
+                                                                      array[index]
+                                                                              [
+                                                                              'count']
+                                                                          .toString() +
+                                                                      "  ",
+                                                                  style: CustomText
+                                                                      .size_16),
+                                                              GestureDetector(
+                                                                  onTap:
+                                                                      () async {
+                                                                    var increment = await dbHelper.product_count_increment(
+                                                                        item_id:
+                                                                            array[index]['id']
+                                                                                .toString(),
+                                                                        count: array[index]['count'] +
+                                                                            1);
+                                                                    setState(
+                                                                        () {
+                                                                      get_products();
+                                                                    });
+                                                                  },
+                                                                  child: Container(
+                                                                      height:
+                                                                          35,
+                                                                      width: 35,
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .center,
+                                                                      decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.circular(
                                                                               5),
-                                                                  border: Border.all(
-                                                                      color: Color.fromARGB(
-                                                                          255,
-                                                                          155,
-                                                                          154,
-                                                                          154))),
-                                                              child: Icon(
-                                                                  Icons.add,
-                                                                  color: Colors
-                                                                      .green,
-                                                                  size: 20))))
-                                                ],
-                                              ),
-                                            )),
+                                                                          border: Border.all(
+                                                                              color: Color.fromARGB(255, 155, 154,
+                                                                                  154))),
+                                                                      child: Icon(
+                                                                          Icons
+                                                                              .add,
+                                                                          color: Colors
+                                                                              .green,
+                                                                          size:
+                                                                              20)))
+                                                            ]),
+                                                      ))
+                                                    ]))),
                                         Expanded(
                                             flex: 2,
                                             child: Container(
@@ -347,7 +353,8 @@ class _OrderState extends State<Order> {
                                                       var delete_item =
                                                           await dbHelper.delete_item(
                                                               item_id: array[
-                                                                      index]['id']
+                                                                          index]
+                                                                      ['id']
                                                                   .toString());
                                                       widget.refresh();
                                                       setState(() {
@@ -409,7 +416,8 @@ class _OrderState extends State<Order> {
                                   dict: dict,
                                   refresh: widget.refresh)));
                     },
-                    label: const Text('Sagydy taýýarla', style: TextStyle(color: CustomColors.appColorWhite)),
+                    label: const Text('Sagydy taýýarla',
+                        style: TextStyle(color: CustomColors.appColorWhite)),
                     backgroundColor: Colors.green,
                   )
                 : Container())

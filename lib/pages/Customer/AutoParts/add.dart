@@ -44,7 +44,6 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
   final String customer_id;
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
-  final engineController = TextEditingController();
   final priceController = TextEditingController();
   final startYearController = TextEditingController();
   final endYearController = TextEditingController();
@@ -53,16 +52,12 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
   final duplicateCodeController = TextEditingController();
   final vinCodeController = TextEditingController();
   
-
   var markaController = {};
   var storesController = {};
   var modelController = {};  
   var locationDestController = {};
   var categoryController = {};
   var locationController = {};
-  var wdController = {};
-  var transmissionController = {};
-  var fuelController = {};
   
   callbackMarka(new_value) async { setState(() { markaController = new_value; });
   
@@ -78,11 +73,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
   callbackStores(new_value){ setState(() { storesController = new_value; });}
   callbackModel(new_value){ setState(() { modelController = new_value; });}
   callbackCategory(new_value){ setState(() { categoryController = new_value; });}
-  callbackFuel(new_value){ setState(() { fuelController = new_value; });}
-  callbackLocation(new_value){ setState(() { locationController = new_value; });}
-  callbackWd(new_value){ setState(() { wdController = new_value; });}
-  callbackTransmission(new_value){ setState(() { transmissionController = new_value; });}
-  
+  callbackLocation(new_value){ setState(() { locationController = new_value; });}  
   callbackStatus(){Navigator.pop(context);}
 
   bool credit = false ;
@@ -184,17 +175,6 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
                 ),],),),
           const SizedBox(height: 15,),
 
-                    Container(
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 3,child: Text("Ýangyç görnüşi: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
-                Expanded(flex: 4, child: MyDropdownButton(items: fuels, callbackFunc: callbackFuel)
-                ),],),),
-          const SizedBox(height: 15,),
-
           GestureDetector(
               child: Container(
               height: 35,
@@ -226,7 +206,7 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Kategoriýasy: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Kategoriýa: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: categories, callbackFunc: callbackCategory)
                 ),],),),
           const SizedBox(height: 15,),
@@ -249,48 +229,6 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
             },),),
           const SizedBox(height: 15,),
 
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: engineController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(hintText: 'Matory',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-
-
-          Container(
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 3,child: Text("Ýöredijiniň görnüş: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
-                Expanded(flex: 4, child: MyDropdownButton(items: wheel_drives, callbackFunc: callbackWd)
-                ),],),),
-          const SizedBox(height: 15,),
-
-          Container(
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Karopka görnüş: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
-                Expanded(flex: 4, child: MyDropdownButton(items: transmissions, callbackFunc: callbackTransmission)
-                ),],),),
-          const SizedBox(height: 15,),
-        
         Container(
             alignment: Alignment.center,
             height: 35,
@@ -308,157 +246,6 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
               }return null;
             },),),
           const SizedBox(height: 15,),
-
-           Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: startYearController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(hintText: 'Ýyl başy: ',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-        
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: endYearController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(hintText: 'Ýyl soňy: ',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: vinCodeController,
-              decoration: const InputDecoration(hintText: 'VIN',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: origCodeController,
-              decoration: const InputDecoration(hintText: 'Original kod',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-
-                    Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: duplicateCodeController,
-              decoration: const InputDecoration(hintText: 'Dublikat kod',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-          
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: simpleCodeController,
-              decoration: const InputDecoration(hintText: 'Dublikat kod',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-        
-          Container(
-            alignment: Alignment.centerLeft,
-            height: 80,
-            width: double.infinity,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 15),
-                      height: 40,
-                      width: 200,
-                      child: CustomCheckBox(labelText:'Nagt däl töleg',  callbackFunc: callbackNone_cash_pay, status: false),
-                    ),
-                    Spacer(),
-                    Container(
-                      margin: EdgeInsets.only(left: 15),
-                      height: 40,
-                      width: 180,
-                      child: CustomCheckBox(labelText:'Kredit', callbackFunc: callbackCredit, status: false),
-
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 15),
-                      height: 40,
-                      width: 200,
-                      child: CustomCheckBox(labelText:'Çalyşyk', callbackFunc: callbackSwap, status: false),
-                    ),
-                    Spacer(),
-                  ],
-                )
-              ],
-            ),
-          ),
-          const SizedBox(height: 10,),
-
 
           Container(
             margin: const EdgeInsets.all(10),
@@ -540,15 +327,6 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
                     final uri = Uri.parse(url);
                     var  request = new http.MultipartRequest("POST", uri);
                     var token = Provider.of<UserInfo>(context, listen: false).access_token;
-
-                    var swap_num = '0';
-                    if (swap==true){ swap_num = '1';}
-                    
-                    var credit_num = '0';
-                    if (credit==true){ credit_num = '1';}
-
-                    var none_cash_pay_num = '0';
-                    if (none_cash_pay==true){ none_cash_pay_num = '1';}
                    
                     Map<String, String> headers = {};  
                     for (var i in global_headers.entries){
@@ -563,24 +341,9 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
                     request.fields['price'] = priceController.text.toString();
                     request.fields['phone'] = phoneController.text.toString();
                     request.fields['name_tm'] = nameController.text.toString();
-                    request.fields['transmission'] = transmissionController['id'].toString();
-                    request.fields['fuel'] = fuelController['id'].toString();
-                    request.fields['wd'] = wdController['id'].toString();
-                    request.fields['orig_code'] = origCodeController.text.toString();
-                    request.fields['duplicate_code'] = duplicateCodeController.text.toString();
-                    request.fields['simple_code'] = simpleCodeController.text.toString();
-                    request.fields['VIN'] = vinCodeController.text.toString();
-                    request.fields['VIN'] = vinCodeController.text.toString();
                     request.fields['category'] = categoryController['id'].toString();
                     request.fields['customer'] =  customer_id.toString();
-                    request.fields['engine'] =  engineController.text.toString();
                     request.fields['location'] = locationController['id'].toString();
-                    request.fields['swap'] = swap_num;;
-                    request.fields['credit'] = credit_num;
-                    request.fields['none_cash_pay'] = none_cash_pay_num;
-                    request.fields['year_start'] = startYearController.text;
-                    request.fields['year_end'] = endYearController.text;
-                    
                     
                     for (var i in selectedImages){
                        var multiport = await http.MultipartFile.fromPath('images', i.path, contentType: MediaType('image', 'jpeg'),);

@@ -101,7 +101,7 @@ class _MyFactoriesState extends State<MyFactories> {
             child: Row(
               children: [
                 if (data.length>0)
-                  Align(alignment: Alignment.centerLeft,child: Container( padding: const EdgeInsets.only(left: 10, top: 5),child:  Text("Önüm öndürijileriñ sany " + data.length.toString() ,style: TextStyle(fontSize: 18, color:CustomColors.appColors),),),),
+                  Align(alignment: Alignment.centerLeft,child: Container( padding: const EdgeInsets.only(left: 10, top: 5),child:  Text("Önüm öndürijiler " + data.length.toString() ,style: TextStyle(fontSize: 18, color:CustomColors.appColors),),),),
                 if (data.length==0)
                   Align(alignment: Alignment.centerLeft,child: Container( padding: const EdgeInsets.only(left: 10, top: 5),child:  Text("Sizde şu wagtlykça Önüm öndürijiler ýok" ,style: TextStyle(fontSize: 16, color:CustomColors.appColors),),),),
         ],

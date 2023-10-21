@@ -17,7 +17,6 @@ import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/providers.dart';
 import '../../../dB/textStyle.dart';
-import '../../customCheckbox.dart';
 import '../../select.dart';
 import '../../success.dart';
 import '../loadingWidget.dart';
@@ -56,23 +55,13 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
 
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
-  final engineController = TextEditingController();
   final priceController = TextEditingController();
-  final startYearController = TextEditingController();
-  final endYearController = TextEditingController();
-  final simpleCodeController = TextEditingController();
-  final origCodeController = TextEditingController();
-  final duplicateCodeController = TextEditingController();
-  final vinCodeController = TextEditingController();
   final detailController = TextEditingController();
 
   var markaController = {};
   var modelController = {};  
   var categoryController = {};
   var locationController = {};
-  var wdController = {};
-  var transmissionController = {};
-  var fuelController = {};
 
   callbackMarka(new_value) async { setState(() { markaController = new_value; });
     Urls server_url  =  new Urls();
@@ -86,17 +75,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
   }
   callbackModel(new_value){ setState(() { modelController = new_value; });}
   callbackCategory(new_value){ setState(() { categoryController = new_value; });}
-  callbackFuel(new_value){ setState(() { fuelController = new_value; });}
   callbackLocation(new_value){ setState(() { locationController = new_value; });}
-  callbackWd(new_value){ setState(() { wdController = new_value; });}
-  callbackTransmission(new_value){ setState(() { transmissionController = new_value; });}
-
-  bool credit = false;
-  bool swap = false ;
-  bool none_cash_pay = false;
-  callbackCredit(){ setState(() { credit = ! credit; });}
-  callbackSwap(){ setState(() { swap = ! swap; });}
-  callbackNone_cash_pay(){ setState(() { none_cash_pay = ! none_cash_pay; });}
 
   List<File> selectedImages = []; 
   final picker = ImagePicker();
@@ -124,11 +103,6 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
 
 
   void initState() {
-    setState(() {
-      credit = old_data['credit'];
-      swap = old_data['swap'];
-      none_cash_pay = old_data['none_cash_pay'];
-    });
     get_parts_index();
     get_userinfo();
     super.initState();
@@ -214,27 +188,10 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
                 ),],),),
           const SizedBox(height: 15,),
 
-
-                    Container(
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child: Row(
-              children: <Widget>[SizedBox(width: 10,), 
-                if (old_data['fuel']!= null && old_data['fuel']!='')
-                  Expanded(flex: 2,child: Text(old_data['fuel'].toString(), style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
-                if (old_data['fuel']==null || old_data['fuel']=='')
-                  Expanded(flex: 3,child: Text("Ýangyç görnüşi ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
-
-                Expanded(flex: 4, child: MyDropdownButton(items: fuels, callbackFunc: callbackFuel)
-                ),],),),
-          const SizedBox(height: 15,),
-
         GestureDetector(
               child: Container(
               height: 35,
-              margin: const EdgeInsets.only(left: 20,right: 20, top: 10),
+              margin: const EdgeInsets.only(left: 20,right: 20),
               width: double.infinity,
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
               child: Row(
@@ -292,57 +249,6 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
               }return null;
             },),),
           const SizedBox(height: 15,),
-
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: engineController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(hintText: old_data['engine']!= null ? "Matory "+ old_data['engine'].toString(): "Matory ",
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-
-          Container(
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child: Row(
-              children: <Widget>[SizedBox(width: 10,), 
-              if (old_data['wd']!= null && old_data['wd']!='')
-                Expanded(flex: 2,child: Text(old_data['wd'] , style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
-              if (old_data['wd']==null || old_data['wd']=='')
-                Expanded(flex: 3,child: Text("Ýöredijiniň görnüşi", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
-            
-                Expanded(flex: 4, child: MyDropdownButton(items: wheel_drives, callbackFunc: callbackWd)
-                ),],),),
-          const SizedBox(height: 15,),
-
-          Container(
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child: Row(
-              children: <Widget>[SizedBox(width: 10,), 
-              if (old_data['transmission']!= null && old_data['transmission']!='')
-                Expanded(flex: 2,child: Text(old_data['transmission'], style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
-              if (old_data['transmission']==null || old_data['transmission']=='')
-                Expanded(flex: 3,child: Text("Karopka görnüşi", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold,),)),
-
-                Expanded(flex: 4, child: MyDropdownButton(items: transmissions, callbackFunc: callbackTransmission)
-                ),],),),
-          const SizedBox(height: 15,),
         
         Container(
             alignment: Alignment.center,
@@ -360,156 +266,8 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
                 return 'Please enter some text';
               }return null;
             },),),
-          const SizedBox(height: 15,),
-
-           Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: startYearController,
-              decoration: InputDecoration(hintText: old_data['year_start']!= null ? 'Ýyl başy: '+ old_data['year_start'].toString(): "Ýyl başy: " ,
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-        
-
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: endYearController,
-              decoration: InputDecoration(hintText: old_data['year_end']!= null ? 'Ýyl soňy: ' + old_data['year_end'].toString(): 'Ýyl soňy: ',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: vinCodeController,
-              decoration: InputDecoration(hintText: old_data['VIN'] != null? 'VIN ' + old_data['VIN'].toString(): 'VIN ',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: origCodeController,
-              decoration: InputDecoration(hintText: old_data['orig_code']!= null ? 'Original kod' + old_data['orig_code'].toString(): 'Original kod',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-
-                    Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: duplicateCodeController,
-              decoration: InputDecoration(hintText: old_data['duplicate_code']!= null ? 'Dublikat kod ' + old_data['duplicate_code'].toString(): 'Dublikat kod ',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-          
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20,right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-            child:  TextFormField(
-              controller: simpleCodeController,
-              decoration: InputDecoration(hintText: old_data['simple_code']!= null ? 'Ýönekeý kod ' + old_data['simple_code'].toString(): 'Ýönekeý kod ',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)), validator: (String? value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }return null;
-            },),),
-          const SizedBox(height: 15,),
-        
-          Container(
-            alignment: Alignment.centerLeft,
-            height: 80,
-            width: double.infinity,
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 15),
-                      height: 40,
-                      width: 200,
-                      child: CustomCheckBox(labelText:'Nagt däl töleg',  callbackFunc: callbackNone_cash_pay, status: old_data['none_cash_pay']),
-                    ),
-                    Spacer(),
-                    Container(
-                      margin: EdgeInsets.only(left: 15),
-                      height: 40,
-                      width: 180,
-                      child: CustomCheckBox(labelText:'Kredit', callbackFunc: callbackCredit, status: old_data['credit']),
-
-                    )
-                  ],
-                ),
-                Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 15),
-                      height: 40,
-                      width: 200,
-                      child: CustomCheckBox(labelText:'Çalyşyk', callbackFunc: callbackSwap, status: old_data['swap']),
-                    ),
-                    Spacer(),
-                  ],
-                )
-              ],
-            ),
-          ),
-          const SizedBox(height: 10,),
+ 
+          const SizedBox(height: 10),
           Container(
             margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(border: Border.all(color: CustomColors.appColors, style: BorderStyle.solid, width: 1.0,),),
@@ -663,14 +421,6 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
                     var  request = new http.MultipartRequest("PUT", uri);
                     var token = Provider.of<UserInfo>(context, listen: false).access_token;
                     
-                    var swap_num = '0';
-                    if (swap==true){ swap_num = '1';}
-                    
-                    var credit_num = '0';
-                    if (credit==true){ credit_num = '1';}
-
-                    var none_cash_pay_num = '0';
-                    if (none_cash_pay==true){ none_cash_pay_num = '1';}
                       // create request headers
                       Map<String, String> headers = {};  
                       for (var i in global_headers.entries){
@@ -699,63 +449,26 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
                       request.fields['name_tm'] = nameController.text.toString();
                     }
                     
-                    if (transmissionController['id']!=null){
-                      request.fields['transmission'] = transmissionController['id'].toString();
-                    }  
                     if (locationController['id']!=null){
                       request.fields['location'] = locationController['id'].toString();
                     }    
-                    
-                    if (fuelController['id']!=null){
-                      request.fields['fuel'] = fuelController['id'].toString();
-                    }
-
-                    if (wdController['id']!=null){
-                      request.fields['wd'] = wdController['id'].toString();
-                    }
-                    if (origCodeController.text!=''){
-                      request.fields['orig_code'] = origCodeController.text.toString();
-                    } 
 
                     if (_mainImg!=0){
                       request.fields['img'] = _mainImg.toString();
                     }
                     
-
                     if (phoneController.text!=''){
                       request.fields['phone'] = phoneController.text.toString();
                     }
 
-                    if (duplicateCodeController.text!=''){
-                      request.fields['duplicate_code'] = duplicateCodeController.text.toString();
-                    }
-                    if (simpleCodeController!=''){
-                      request.fields['simple_code'] = simpleCodeController.text.toString();
-                    }
-                    if (vinCodeController.text!=''){
-                      request.fields['VIN'] = vinCodeController.text.toString();  
-                    }
                     if (categoryController['id']!=null){
                       request.fields['category'] = categoryController['id'].toString();
                     }
-                    if (engineController.text!=''){
-                      request.fields['engine'] =  engineController.text.toString();
-                    }
-
+           
                     if (detailController.text!=''){
                       request.fields['detail'] =  detailController.text.toString();
                     }
 
-                    if (startYearController.text!=''){
-                      request.fields['year_start'] = startYearController.text;
-                    }
-
-                    if (endYearController.text!=''){
-                      request.fields['year_end'] = endYearController.text;
-                    }
-                    request.fields['swap'] = swap_num;;
-                    request.fields['credit'] = credit_num;
-                    request.fields['none_cash_pay'] = none_cash_pay_num;
                     if (selectedImages.length!=0){
                       for (var i in selectedImages){
                        var multiport = await http.MultipartFile.fromPath('images', i.path, contentType: MediaType('image', 'jpeg'),);
