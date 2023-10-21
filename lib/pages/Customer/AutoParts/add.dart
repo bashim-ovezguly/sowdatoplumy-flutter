@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/providers.dart';
 import '../../../dB/textStyle.dart';
-import '../../customCheckbox.dart';
 import '../../error.dart';
 import '../../select.dart';
 import '../../success.dart';

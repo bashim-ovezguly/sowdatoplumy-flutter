@@ -285,7 +285,7 @@ class _CarStoreState extends State<CarStore> {
                     const Icon(Icons.date_range_sharp, color: Colors.grey,size: 18,),
                     Container(margin: const EdgeInsets.only(left: 10), alignment: Alignment.center, height: 100,child: const TextKeyWidget(text: "Geçen ýoly", size:16.0),)],),),
 
-                Expanded(child: SizedBox(child: TextValueWidget(text: data['millage'].toString() + ' mil', size: 16.0),))
+                Expanded(child: SizedBox(child: TextValueWidget(text: data['millage'].toString(),size: 16.0),))
               ],),),
 
           Container(

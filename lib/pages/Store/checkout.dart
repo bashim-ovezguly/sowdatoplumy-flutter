@@ -94,6 +94,22 @@ class _CheckoutState extends State<Checkout> {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  alignment: Alignment.centerLeft,
+                                  child: Center(
+                                      child: TextField(
+                                    controller:
+                                        dateinput, //editing controller of this TextField
+                                    decoration: InputDecoration(
+                                        icon: Icon(Icons.calendar_today),
+                                        labelStyle: TextStyle(color: CustomColors.appColors),
+                                        labelText: "Wagt saýlaň"),
+                                    readOnly: true,
+                                    onTap: () async {
+                                      dateTimePickerWidget(context);
+                                    },
+                                  ))),
                               SizedBox(height: 10),
                               Text("Salgyňyz",
                                   style: TextStyle(
@@ -160,35 +176,15 @@ class _CheckoutState extends State<Checkout> {
                                     }),
                               )
                             ])),
-
                     Container(
-                      margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "JEMI: " + widget.total_price.toString() + " TMT",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold
-                        ),
-                      )
-                    ),
-
-                    // Container(
-                    //     margin: const EdgeInsets.only(left: 20, right: 20),
-                    //     alignment: Alignment.centerLeft,
-                    //     child: Center(
-                    //         child: TextField(
-                    //       controller:
-                    //           dateinput, //editing controller of this TextField
-                    //       decoration: InputDecoration(
-                    //           icon: Icon(Icons.calendar_today),
-                    //           labelText: "Enter Date"),
-                    //       readOnly: true,
-                    //       onTap: () async {
-                    //         dateTimePickerWidget(context);
-                    //       },
-                    //     ))),
-
+                        margin:
+                            const EdgeInsets.only(left: 20, right: 20, top: 20),
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "JEMI: " + widget.total_price.toString() + " TMT",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        )),
                     Container(
                         margin: const EdgeInsets.only(top: 20),
                         alignment: Alignment.centerLeft),
@@ -235,8 +231,11 @@ class _CheckoutState extends State<Checkout> {
               setState(() {
                 dict['note'] = noteController.text;
                 dict['address'] = addressController.text;
-                // dict['delivery_time'] = dateinput.text;
+                dict['delivery_time'] = dateinput.text;
               });
+
+
+              print(dict);
 
               DateTime.parse(dict['delivery_time']);
               Urls server_url = new Urls();

@@ -4,7 +4,6 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
-import 'package:my_app/pages/Car/carStore.dart';
 import 'package:my_app/pages/Customer/AutoParts/edit.dart';
 import 'package:my_app/pages/fullScreenSlider.dart';
 import 'package:provider/provider.dart';

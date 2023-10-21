@@ -813,7 +813,8 @@ class _GetCarFirstState extends State<GetCarFirst> {
                           ),
                         ),
                         Expanded(
-                            child: SizedBox(
+                            child: Container(
+                              alignment: Alignment.centerLeft,
                           child: TextValueWidget(
                               text: data['transmission'].toString(),
                               size: 16.0),
@@ -846,7 +847,8 @@ class _GetCarFirstState extends State<GetCarFirst> {
                           ),
                         ),
                         Expanded(
-                            child: SizedBox(
+                            child: Container(
+                              alignment: Alignment.centerLeft,
                           child: TextValueWidget(
                               text: data['body_type'].toString(), size: 16.0),
                         ))

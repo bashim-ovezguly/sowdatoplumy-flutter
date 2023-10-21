@@ -184,7 +184,7 @@ class _OrderState extends State<Order> {
                                                 color: CustomColors.appColors,
                                                 fontSize: 15)),
                                         Spacer(),
-                                        Text(total_price.toString() + " TMT",
+                                        Text((total_price + delivery_price_int).toString() + " TMT",
                                             style: TextStyle(
                                                 color: CustomColors.appColors,
                                                 fontSize: 15))
@@ -412,11 +412,11 @@ class _OrderState extends State<Order> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => Checkout(
-                                  total_price: total_price,
+                                  total_price: total_price + delivery_price_int,
                                   dict: dict,
                                   refresh: widget.refresh)));
                     },
-                    label: const Text('Sagydy taýýarla',
+                    label: const Text('Sargydy taýýarla',
                         style: TextStyle(color: CustomColors.appColorWhite)),
                     backgroundColor: Colors.green,
                   )
@@ -446,7 +446,7 @@ class _OrderState extends State<Order> {
     }
     Urls server_url = new Urls();
     setState(() {
-      total_price = total_price1 + delivery_price_int;
+      total_price = total_price1;
       item_count = array1.length;
       baseurl = server_url.get_server_url();
       array = array1;

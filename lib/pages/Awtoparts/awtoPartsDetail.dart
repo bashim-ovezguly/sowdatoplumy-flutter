@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/pages/Car/carStore.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/call.dart';
 import 'package:dots_indicator/dots_indicator.dart';
