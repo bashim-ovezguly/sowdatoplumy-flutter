@@ -7,7 +7,6 @@ import 'package:my_app/pages/Search/otherGoodsSearch.dart';
 import 'package:my_app/pages/Search/outletsSearch.dart';
 import 'package:my_app/pages/Search/pharmaciesSearch.dart';
 import 'package:my_app/pages/Search/propertieSearch.dart';
-import 'package:my_app/pages/Search/serviceSearch.dart';
 
 import '../../dB/colors.dart';
 import '../../dB/textStyle.dart';
