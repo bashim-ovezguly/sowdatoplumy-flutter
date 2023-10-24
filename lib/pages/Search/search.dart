@@ -40,7 +40,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
   void initState() {
     super.initState();  
     print(widget.index);
-    _tabController = TabController(length: 7, vsync: this, initialIndex: widget.index);
+    _tabController = TabController(length: 6, vsync: this, initialIndex: widget.index);
   }
   
   callbackIndex(value){}
@@ -52,7 +52,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
   
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(length: 6, child: Scaffold(
+    return DefaultTabController(length: 5, child: Scaffold(
           backgroundColor: CustomColors.appColorWhite,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -99,10 +99,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
                   child: Row(children: const <Widget>[
                     Icon(Icons.shopify,color: CustomColors.appColors,),
                     Text("Beýleki harytlar",style: TextStyle(color: CustomColors.appColors, fontWeight: FontWeight.bold,fontSize: 15),)],),),
-                Tab(
-                  child: Row(children: const <Widget>[
-                    Icon(Icons.shopify,color: CustomColors.appColors,),
-                    Text("Hyzmatlar",style: TextStyle(color: CustomColors.appColors, fontWeight: FontWeight.bold,fontSize: 15),)],),),
+                // Tab(
+                //   child: Row(children: const <Widget>[
+                //     Icon(Icons.shopify,color: CustomColors.appColors,),
+                //     Text("Hyzmatlar",style: TextStyle(color: CustomColors.appColors, fontWeight: FontWeight.bold,fontSize: 15),)],),),
                 // Tab(
                 //   child: Row(children: const <Widget>[
                 //     Icon(Icons.shopify,color: CustomColors.appColors,),
@@ -124,7 +124,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
                   OutletsSearch(callbackFunc: callbackIndex,),
                   PropertieSearch(callbackFunc: callbackIndex,),
                   OtherGoodsSearch(callbackFunc: callbackIndex,),
-                  ServiceSearch(callbackFunc: callbackIndex,),
+                  // ServiceSearch(callbackFunc: callbackIndex,),
                   // ProductManufacturersSerarch(callbackFunc: callbackIndex,),
                   PharmaciesSerach(callbackFunc: callbackIndex,)
                   

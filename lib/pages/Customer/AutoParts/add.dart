@@ -44,12 +44,6 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final priceController = TextEditingController();
-  final startYearController = TextEditingController();
-  final endYearController = TextEditingController();
-  final simpleCodeController = TextEditingController();
-  final origCodeController = TextEditingController();
-  final duplicateCodeController = TextEditingController();
-  final vinCodeController = TextEditingController();
   
   var markaController = {};
   var storesController = {};
@@ -74,15 +68,6 @@ class _AutoPartsAddState extends State<AutoPartsAdd> {
   callbackCategory(new_value){ setState(() { categoryController = new_value; });}
   callbackLocation(new_value){ setState(() { locationController = new_value; });}  
   callbackStatus(){Navigator.pop(context);}
-
-  bool credit = false ;
-  bool swap = false ;
-  bool none_cash_pay = false ;
-  
-  callbackCredit(){ setState(() { credit = ! credit; });}
-  callbackSwap(){ setState(() { swap = ! swap; });}
-  callbackNone_cash_pay(){ setState(() { none_cash_pay = ! none_cash_pay; });}
-
 
   List<File> selectedImages = []; 
   final picker = ImagePicker();

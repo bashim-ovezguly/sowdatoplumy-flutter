@@ -89,53 +89,59 @@ class _ServiceSearchListState extends State<ServiceSearchList> {
                     child: Container(
                       margin: EdgeInsets.only(left: 10, right: 10),
                       child: Card(
-                        elevation: 2,
-                        child: Container(
-                          height: 110,
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(flex: 1,
-                                   child: ClipRect(
-                                      child: Container(
-                                      
-                                      height: 110,
-                                      child: FittedBox(
-                                        fit: BoxFit.cover,
-                                        child: data[index]['img'] != '' ? Image.network(baseurl + data[index]['img'].toString(),):
-                                        Image.asset('assets/images/default.jpg', ),),),
-                                     )),
-                              Expanded(
-                                flex: 2,
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 2),
-                                  padding: const EdgeInsets.all(10),
-                                  color: CustomColors.appColors,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Container(
-                                              child: Text(data[index]['name'].toString(), style: CustomText.itemTextBold,),)
-                                        ),),
-
-                                      Expanded(child: Container(
-                                        alignment: Alignment.centerLeft,
-                                        child: Row(
-                                          children: <Widget>[
-                                            Text(data[index]['location'].toString(), overflow: TextOverflow.clip, style: CustomText.itemText)],),)),
-                                      Expanded(
-                                          child:Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Text(data[index]['price'].toString(), style: CustomText.itemText)],),)),
-                                    ],
+                        shadowColor: CustomColors.appColorWhite,
+                        surfaceTintColor: CustomColors.appColorWhite,
+                        color: CustomColors.appColorWhite,
+                        elevation: 5,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          child: Container(
+                            height: 110,
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(flex: 1,
+                                     child: ClipRect(
+                                        child: Container(
+                                        
+                                        height: 110,
+                                        child: FittedBox(
+                                          fit: BoxFit.cover,
+                                          child: data[index]['img'] != '' ? Image.network(baseurl + data[index]['img'].toString(),):
+                                          Image.asset('assets/images/default.jpg', ),),),
+                                       )),
+                                Expanded(
+                                  flex: 2,
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 2),
+                                    padding: const EdgeInsets.all(10),
+                                    color: CustomColors.appColors,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Container(
+                                                child: Text(data[index]['name'].toString(), style: CustomText.itemTextBold,),)
+                                          ),),
+                        
+                                        Expanded(child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            children: <Widget>[
+                                              Text(data[index]['location'].toString(), overflow: TextOverflow.clip, style: CustomText.itemText)],),)),
+                                        Expanded(
+                                            child:Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Text(data[index]['price'].toString(), style: CustomText.itemText)],),)),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),

@@ -167,16 +167,11 @@ class _RibbonDetailState extends State<RibbonDetail> {
                                       widget.id +
                                       '/like';
                                   final uri = Uri.parse(url);
-                                  var device_id = Provider.of<UserInfo>(context,
-                                          listen: false)
-                                      .device_id;
-                                  var request =
-                                      http.MultipartRequest("POST", uri);
+                                  var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
+                                  var request =http.MultipartRequest("POST", uri);
                                   request.headers.addAll({
-                                    'Content-Type':
-                                        'application/x-www-form-urlencoded',
-                                    'device_id': device_id,
-                                    'token': data[0]['name']
+                                    'Content-Type':'application/x-www-form-urlencoded',
+                                    'device-id': device_id,
                                   });
 
                                   final response = await request.send();

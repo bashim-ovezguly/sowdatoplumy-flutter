@@ -81,29 +81,39 @@ class _GoneOrdersState extends State<GoneOrders> {
                           Container(height: 2, color: CustomColors.appColors),
                           Expanded(flex: 4, child: Row(
                             children: [
-                              Expanded(flex: 2, child: Container(
-                                width: 100,
-                                margin: EdgeInsets.only(left: 5, top: 5, bottom: 5), 
-                                child: orders[index]['store_img']!=null && orders[index]['store_img']!='' && determinate==true ?Image.network(
-                                  baseurl + orders[index]['store_img'].toString(),
-                                  loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        color: CustomColors.appColors,
-                                        value: loadingProgress.expectedTotalBytes != null
-                                            ? loadingProgress.cumulativeBytesLoaded /
-                                                loadingProgress.expectedTotalBytes!
-                                            : null,
-                                      ),
-                                    );
-                                  },
-                                  height: 110,
-                                  fit: BoxFit.cover
-                              ): Image.asset('assets/images/default16x9.jpg')
-                              )
+                              Expanded(flex: 2, 
                               
+                                child: Container(
+                                  width: 100,
+                                  height: 100,
+                                  margin: EdgeInsets.only(left: 5, top: 5, bottom: 5), 
+                                  child: orders[index]['store_img']!=null && orders[index]['store_img']!='' && determinate==true ?
+                                  
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                    child: Image.network(
+                                    baseurl + orders[index]['store_img'].toString(),
+                                    loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: CustomColors.appColors,
+                                          value: loadingProgress.expectedTotalBytes != null
+                                              ? loadingProgress.cumulativeBytesLoaded /
+                                                  loadingProgress.expectedTotalBytes!
+                                              : null,
+                                        ),
+                                      );
+                                    },
+                                  fit: BoxFit.cover)
+                                  ): ClipRRect(
+                                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                    child: Image.asset('assets/images/default16x9.jpg'),
+                                  )
+                                ),
                               ),
+                              
+                              
                               Expanded(flex: 6, child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,

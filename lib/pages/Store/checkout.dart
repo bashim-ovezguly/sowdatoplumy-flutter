@@ -193,39 +193,13 @@ class _CheckoutState extends State<Checkout> {
               ),
             );
           })),
-          // SliverList(
-          //     delegate: SliverChildBuilderDelegate(childCount: 1,
-          //         (BuildContext context, int index) {
-          //   return Container(
-          //       margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-          //       child: Card(
-          //           color: CustomColors.appColorWhite,
-          //           shadowColor: const Color.fromARGB(255, 200, 198, 198),
-          //           surfaceTintColor: CustomColors.appColorWhite,
-          //           elevation: 5,
-          //           child: Column(children: [
-          //             SizedBox(height: 10),
-          //             Row(children: [
-          //               SizedBox(width: 10),
-          //               Text(" Umumy töleg:",
-          //                   style: TextStyle(
-          //                       color: CustomColors.appColors, fontSize: 16)),
-          //               Spacer(),
-          //               Text(widget.total_price.toString() + " TMT",
-          //                   style: TextStyle(
-          //                       color: CustomColors.appColors, fontSize: 16)),
-          //               SizedBox(width: 10),
-          //             ]),
-          //             SizedBox(height: 150),
-          //           ])));
-          // }))
+
         ]),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () async {
             if (addressController.text == '') {
               showWarningAlert('Salgyňyz hökmany!');
-            }
-            if (dateinput.text == '') {
+            } else if (dateinput.text == '') {
               showWarningAlert('Sargydyň wagty hökmany!');
             } else {
               setState(() {
@@ -234,8 +208,6 @@ class _CheckoutState extends State<Checkout> {
                 dict['delivery_time'] = dateinput.text;
               });
 
-
-              print(dict);
 
               DateTime.parse(dict['delivery_time']);
               Urls server_url = new Urls();

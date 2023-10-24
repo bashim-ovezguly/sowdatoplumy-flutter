@@ -88,82 +88,88 @@ class _CarSearchListState extends State<CarSearchList> {
                      child: Container(
                        margin: EdgeInsets.only(left: 5, right: 5),
                        child: Card(
-                         elevation: 2,
-                         child: Container(
-                           height: 110,
-                           child: Row(
-                             children: <Widget>[
-                               Expanded(flex: 1,
-                                     child: ClipRect(
-                                      child: Container(
-                                      height: 110,
-                                      child: FittedBox(
-                                        fit: BoxFit.cover,
-                                        child: data[index]['img'] != '' ? Image.network(baseurl + data[index]['img'].toString(),):
-                                        Image.asset('assets/images/default.jpg', ),),),
-                                     )),
-                               Expanded(
-                                 flex: 2,
-                                 child: Container(
-                                   color: CustomColors.appColors,
-                                   margin: EdgeInsets.only(left: 2),
-                                   padding: const EdgeInsets.all(5),
-                                   child: Column(
-                                     mainAxisAlignment: MainAxisAlignment.start,
-                                     children: <Widget>[
-                                       Expanded(
-                                         child: Align(
-                                           alignment: Alignment.centerLeft,
-                                           child: Text(
-                                             data[index]['mark'].toString() + " " + data[index]['model'].toString() + " " + data[index]['year'].toString(),
-                                             style: CustomText.itemTextBold,),),),
-                                       Expanded(
-                                         child: Align(
-                                           alignment: Alignment.centerLeft,
-                                           child: Text(data[index]['location'].toString(),
-                                             style: CustomText.itemText),),),
-
-                                        Expanded(
+                         shadowColor: CustomColors.appColorWhite,
+                            surfaceTintColor: CustomColors.appColorWhite,
+                            color: CustomColors.appColorWhite,
+                            elevation: 5,
+                         child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                           child: Container(
+                             height: 110,
+                             child: Row(
+                               children: <Widget>[
+                                 Expanded(flex: 1,
+                                       child: ClipRect(
+                                        child: Container(
+                                        height: 110,
+                                        child: FittedBox(
+                                          fit: BoxFit.cover,
+                                          child: data[index]['img'] != '' ? Image.network(baseurl + data[index]['img'].toString(),):
+                                          Image.asset('assets/images/default.jpg', ),),),
+                                       )),
+                                 Expanded(
+                                   flex: 2,
+                                   child: Container(
+                                     color: CustomColors.appColors,
+                                     margin: EdgeInsets.only(left: 2),
+                                     padding: const EdgeInsets.all(5),
+                                     child: Column(
+                                       mainAxisAlignment: MainAxisAlignment.start,
+                                       children: <Widget>[
+                                         Expanded(
                                            child: Align(
                                              alignment: Alignment.centerLeft,
-                                             child: Row(
-                                              children: [
-                                                Expanded(child: Text(data[index]['price'].toString(),style: CustomText.itemText)),
-                                                Spacer(),
-                                                Expanded(child: Text(data[index]['delta_time'].toString(),style: CustomText.itemText)),
-                                              ],
-                                             ),)),
-                                        
-                                        if (data[index]['store_id']==null || data[index]['store_id']=='')
-                                          Expanded(child:Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                SizedBox(width: 5,),
-                                                Text('Obmen',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                data[index]['swap'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                SizedBox(width: 5,),
-                                                Text('Nagt däl',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                              ],),))
-                                        else
-                                          Expanded(child:Align(
+                                             child: Text(
+                                               data[index]['mark'].toString() + " " + data[index]['model'].toString() + " " + data[index]['year'].toString(),
+                                               style: CustomText.itemTextBold,),),),
+                                         Expanded(
+                                           child: Align(
+                                             alignment: Alignment.centerLeft,
+                                             child: Text(data[index]['location'].toString(),
+                                               style: CustomText.itemText),),),
+                         
+                                          Expanded(
+                                             child: Align(
+                                               alignment: Alignment.centerLeft,
+                                               child: Row(
+                                                children: [
+                                                  Expanded(child: Text(data[index]['price'].toString(),style: CustomText.itemText)),
+                                                  Spacer(),
+                                                  Expanded(child: Text(data[index]['delta_time'].toString(),style: CustomText.itemText)),
+                                                ],
+                                               ),)),
+                                          
+                                          if (data[index]['store_id']==null || data[index]['store_id']=='')
+                                            Expanded(child:Align(
                                               alignment: Alignment.centerLeft,
-                                              child: ElevatedButton(
-                                                onPressed: () {},
-                                                child: Text(
-                                                  data[index]['store_name'],
-                                                  maxLines: 1,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: CustomText.itemText,
-                                                ),)))
-                                     ],
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                  data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                  SizedBox(width: 5,),
+                                                  Text('Obmen',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                  data[index]['swap'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                  SizedBox(width: 5,),
+                                                  Text('Nagt däl',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                  data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                ],),))
+                                          else
+                                            Expanded(child:Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: ElevatedButton(
+                                                  onPressed: () {},
+                                                  child: Text(
+                                                    data[index]['store_name'],
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: CustomText.itemText,
+                                                  ),)))
+                                       ],
+                                     ),
                                    ),
                                  ),
-                               ),
-                             ],
+                               ],
+                             ),
                            ),
                          ),
                        ),

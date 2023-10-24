@@ -86,68 +86,74 @@ class _AutoPartsSearchListState extends State<AutoPartsSearchList> {
                         child: Container(
                           margin: EdgeInsets.only(left: 5, right: 5),
                           child: Card(
-                            elevation: 2,
-                            child: Container(
-                              height: 110,
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(flex: 1,
-                                   child: ClipRect(
+                            shadowColor: CustomColors.appColorWhite,
+                            surfaceTintColor: CustomColors.appColorWhite,
+                            color: CustomColors.appColorWhite,
+                            elevation: 5,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              child: Container(
+                                height: 110,
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(flex: 1,
+                                     child: ClipRect(
+                                        child: Container(
+                                        height: 110,
+                                        child: FittedBox(
+                                          fit: BoxFit.cover,
+                                          child: data[index]['img'] != '' ? Image.network(baseurl + data[index]['img'].toString(),):
+                                          Image.asset('assets/images/default.jpg', ),),),
+                                       )),
+                                    Expanded(
+                                      flex: 2,
                                       child: Container(
-                                      height: 110,
-                                      child: FittedBox(
-                                        fit: BoxFit.cover,
-                                        child: data[index]['img'] != '' ? Image.network(baseurl + data[index]['img'].toString(),):
-                                        Image.asset('assets/images/default.jpg', ),),),
-                                     )),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Container(
-                                      margin: EdgeInsets.only(left: 2),
-                                      padding: const EdgeInsets.all(10),
-                                      color: CustomColors.appColors,
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: Container(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                data[index]['name_tm'].toString(),
-                                                style: CustomText.itemTextBold,),),),
-                                          Expanded(
-                                            child: Container(
-                                              alignment: Alignment.centerLeft,
-                                              child: Text(
-                                                 data[index]['location'].toString(),
-                                                style: CustomText.itemText,),),),
-                                          Expanded(
+                                        margin: EdgeInsets.only(left: 2),
+                                        padding: const EdgeInsets.all(10),
+                                        color: CustomColors.appColors,
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Expanded(
                                               child: Container(
                                                 alignment: Alignment.centerLeft,
                                                 child: Text(
-                                                    data[index]['price'].toString(),
-                                                    style: CustomText.itemText
-                                                ),)),
-                                          Expanded(child:Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Row(
-                                              children:  <Widget>[
-                                                  Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                  SizedBox(width: 5,),
-                                                  Text('Obmen',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['swap'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                  SizedBox(width: 5,),
-                                                  Text('Nagt däl',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                
-                                              ],)
-                                            ,)),
-                                        ],
+                                                  data[index]['name_tm'].toString(),
+                                                  style: CustomText.itemTextBold,),),),
+                                            Expanded(
+                                              child: Container(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                   data[index]['location'].toString(),
+                                                  style: CustomText.itemText,),),),
+                                            Expanded(
+                                                child: Container(
+                                                  alignment: Alignment.centerLeft,
+                                                  child: Text(
+                                                      data[index]['price'].toString(),
+                                                      style: CustomText.itemText
+                                                  ),)),
+                                            Expanded(child:Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Row(
+                                                children:  <Widget>[
+                                                    Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                    data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                    SizedBox(width: 5,),
+                                                    Text('Obmen',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                    data[index]['swap'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                    SizedBox(width: 5,),
+                                                    Text('Nagt däl',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                    data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                  
+                                                ],)
+                                              ,)),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -177,25 +183,13 @@ class _AutoPartsSearchListState extends State<AutoPartsSearchList> {
     if (params['model']!='null'){ url = url + 'model=' + params['model'] + "&"; }
     if (params['mark']!='null'){ url = url + 'mark=' + params['mark'] + "&"; }
     if (params['category']!='null'){ url = url + 'category=' + params['category'] + "&"; }
-    if (params['made_in']!='null'){ url = url + 'made_in=' + params['made_in'] + "&"; }
-    if (params['part_factory']!='null'){ url = url + 'part_factory=' + params['part_factory'] + "&"; }
-    if (params['fuel']!='null'){ url = url + 'fuel=' + params['fuel'] + "&"; }
     
     if (params['location']!='null'){ url = url + 'location=' + params['location'] + "&"; }
-    if (params['transmission']!='null'){ url = url + 'transmission=' + params['transmission'] + "&"; }
-    if (params['wd']!='null'){ url = url + 'wd=' + params['wd'] + "&"; }
     if (params['name_tm']!=null){ url = url + 'name_tm=' + params['name_tm'] + "&"; }
-    if (params['id']!=null){ url = url + 'id=' + params['id'] + "&"; }
+
 
     if (params['price_min']!=null){ url = url + 'price_min=' + params['price_min'] + "&"; }
     if (params['price_max']!=null){ url = url + 'price_max=' + params['price_max'] + "&"; }
-    if (params['yearStart']!=null){ url = url + 'yearStart=' + params['yearStart'] + "&"; }
-    if (params['yearEnd']!=null){ url = url + 'yearEnd=' + params['yearEnd'] + "&"; }
-
-    if (params['credit']!=null && params['credit']=='on'){ url = url + 'credit=' + params['credit'] + "&"; }
-    if (params['swap']!=null && params['swap']=='on'){ url = url + 'swap=' + params['swap'] + "&"; }
-    if (params['none_cash']!=null && params['none_cash']=='on'){ url = url + 'none_cash=' + params['none_cash'] + "&"; }
-    if (params['new']!=null && params['new']=='on'){ url = url + 'new=' + params['new'] + "&"; }
     
     url = url + sort_value.toString();
     final uri = Uri.parse(url);

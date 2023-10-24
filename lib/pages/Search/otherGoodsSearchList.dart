@@ -89,69 +89,75 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
                     child: Container(
                       margin: EdgeInsets.only(left: 5, right: 5),
                       child: Card(
-                        elevation: 2,
-                        child: Container(
-                          height: 110,
-                          child: Row(
-                            children: <Widget>[
-                                 Expanded(flex: 1,
-                                   child: ClipRect(
-                                      child: Container(
-                                      height: 110,
-                                      child: FittedBox(
-                                        fit: BoxFit.cover,
-                                        child: data[index]['img'] != '' && data[index]['img'] != null ? Image.network(baseurl + data[index]['img'].toString(),):
-                                        Image.asset('assets/images/default.jpg', ),),),
-                                     )),
-                              Expanded(
-                                flex: 2,
-                                child: Container(
-                                  color: CustomColors.appColors,
-                                  margin: EdgeInsets.only(left: 2),
-                                  padding: const EdgeInsets.all(5),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Expanded(
+                        shadowColor: CustomColors.appColorWhite,
+                        surfaceTintColor: CustomColors.appColorWhite,
+                        color: CustomColors.appColorWhite,
+                        elevation: 5,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          child: Container(
+                            height: 110,
+                            child: Row(
+                              children: <Widget>[
+                                   Expanded(flex: 1,
+                                     child: ClipRect(
                                         child: Container(
+                                        height: 110,
+                                        child: FittedBox(
+                                          fit: BoxFit.cover,
+                                          child: data[index]['img'] != '' && data[index]['img'] != null ? Image.network(baseurl + data[index]['img'].toString(),):
+                                          Image.asset('assets/images/default.jpg', ),),),
+                                       )),
+                                Expanded(
+                                  flex: 2,
+                                  child: Container(
+                                    color: CustomColors.appColors,
+                                    margin: EdgeInsets.only(left: 2),
+                                    padding: const EdgeInsets.all(5),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Container(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              data[index]['name'],
+                                              style: CustomText.itemTextBold,),),),
+                        
+                                        Expanded(child:Align(
                                           alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            data[index]['name'],
-                                            style: CustomText.itemTextBold,),),),
-
-                                      Expanded(child:Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Row(
-                                          children: <Widget>[
-                                            Text(data[index]['location'].toString(), style: CustomText.itemText)],),)),
-
-                                      Expanded(
-                                          child:Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Row(
-                                              children: <Widget>[
-                                                Text(data[index]['delta_time'].toString(),style: CustomText.itemText)],),)),
-
-                                            Expanded(child:Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Row(
-                                              children:  <Widget>[
-                                                  Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                  SizedBox(width: 5,),
-                                                  Text('Obmen',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['swap'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                  SizedBox(width: 5,),
-                                                  Text('Nagt däl',style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                  data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
-                                                
-                                              ],)
-                                            ,)),
-                                    ],
+                                          child: Row(
+                                            children: <Widget>[
+                                              Text(data[index]['location'].toString(), style: CustomText.itemText)],),)),
+                        
+                                        Expanded(
+                                            child:Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Text(data[index]['delta_time'].toString(),style: CustomText.itemText)],),)),
+                        
+                                              Expanded(child:Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Row(
+                                                children:  <Widget>[
+                                                    Text('Kredit',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                    data[index]['credit'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                    SizedBox(width: 5,),
+                                                    Text('Obmen',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                    data[index]['swap'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                    SizedBox(width: 5,),
+                                                    Text('Nagt däl',style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                    data[index]['none_cash_pay'] ? Icon(Icons.check,color: Colors.green,): Icon(Icons.close,color: Colors.red,),
+                                                  
+                                                ],)
+                                              ,)),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),

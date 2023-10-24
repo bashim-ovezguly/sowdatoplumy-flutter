@@ -1063,10 +1063,14 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
       imgList = [];
       data = json;
 
-      delivery_price_str = json['delivery_price'];
+      if (json['delivery_price']!=null){
+        delivery_price_str = json['delivery_price'];
+      }
+      
       if (delivery_price_str == '0' || delivery_price_str == '0 TMT') {
         delivery_price_str = 'tölegsiz';
       }
+
       baseurl = server_url.get_server_url();
       data_tel = json['phones'];
       store_name = data['name_tm'];

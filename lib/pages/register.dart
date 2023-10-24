@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/colors.dart';
 import 'package:my_app/dB/constants.dart';
+import 'package:my_app/pages/Customer/loadingWidget.dart';
 import 'dart:convert';
 import '../dB/db.dart';
 import '../dB/textStyle.dart';
@@ -183,7 +184,8 @@ class _RegisterState extends State<Register> {
                           Urls server_url  =  new Urls();
                           String url = server_url.get_server_url() + '/mob/reg';
                           final uri = Uri.parse(url);
-                                      
+
+                            showLoaderDialog(context);         
                             final response = await http.post(
                               uri,
                               headers: {'Content-Type': 'application/x-www-form-urlencoded'},
@@ -194,7 +196,8 @@ class _RegisterState extends State<Register> {
                                 'email':emailController.text.toString()
                                 },
                             );
-                              final json = jsonDecode(utf8.decode(response.bodyBytes));
+                            Navigator.pop(context);
+                            final json = jsonDecode(utf8.decode(response.bodyBytes));
 
                             if (json['status']=='success')
                             {

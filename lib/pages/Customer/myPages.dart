@@ -222,14 +222,16 @@ class _MyPagesState extends State<MyPages> {
                               if (widget.user_customer_id != '')
                                 TextButton(
                                     onPressed: () async {
-                                      Urls server_url = new Urls();
-                                      String url = server_url.get_server_url() +
-                                          '/mob/subscribe/' +
-                                          widget.user_customer_id;
+                                      final allRows = await dbHelper.queryAllRows();
+                                      print(allRows);
+                                      print(allRows.length);
+                                      if (allRows.length == 0) {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                                      } else {
+                                         Urls server_url = new Urls();
+                                      String url = server_url.get_server_url() + '/mob/subscribe/' + widget.user_customer_id;
                                       final uri = Uri.parse(url);
-                                      var responsess = Provider.of<UserInfo>(
-                                              context,
-                                              listen: false)
+                                      var responsess = Provider.of<UserInfo>(context, listen: false)
                                           .update_tokenc();
                                       if (await responsess) {
                                         var token = Provider.of<UserInfo>(
@@ -244,6 +246,7 @@ class _MyPagesState extends State<MyPages> {
                                         final response = await http.post(uri,
                                             headers: headers);
                                         get_userinfo();
+                                      } 
                                       }
                                     },
                                     child: Text("+ Ýazylmak",
@@ -711,11 +714,11 @@ class _CustomDialogLogoutState extends State<CustomDialogLogout> {
                   backgroundColor: Colors.green, foregroundColor: Colors.white),
               onPressed: () async {
                 final deleteallRows = await dbHelper.deleteAllRows();
-                final deleteallRows1 = await dbHelper.deleteAllRows();
+                final deleteallRows1 = await dbHelper.deleteAllRows1();
                 Provider.of<UserInfo>(context, listen: false).set_user_info({});
+                Provider.of<UserInfo>(context, listen: false).setAccessToken("", "");
                 Navigator.pop(context);
-                Navigator.pushReplacement(
-                    context, MaterialPageRoute(builder: (context) => Login()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
               },
               child: Text(
                 'Ulgamdan çyk',

@@ -89,67 +89,73 @@ class _ProperrieSearchListState extends State<ProperrieSearchList> {
                     child: Container(
                       margin: EdgeInsets.only(left: 5,right: 5),
                       child: Card(
-                        elevation: 4,
-                        child: Container(
-                          height: 110,
-                          child: Row(
-                            children: <Widget>[
-
-                                 Expanded(flex: 1,
-                                   child: ClipRect(
-                                      child: Container(
-                                      height: 110,
-                                      child: FittedBox(
-                                        fit: BoxFit.cover,
-                                        child: data[index]['img'] != '' ? Image.network(baseurl + data[index]['img'].toString(),):
-                                        Image.asset('assets/images/default.jpg', ),),),
-                                     )),
-                              Expanded(
-                                flex: 2,
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 2),
-                                  padding: const EdgeInsets.all(10),
-                                  color: CustomColors.appColors,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Expanded(
+                        shadowColor: CustomColors.appColorWhite,
+                        surfaceTintColor: CustomColors.appColorWhite,
+                        color: CustomColors.appColorWhite,
+                        elevation: 5,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          child: Container(
+                            height: 110,
+                            child: Row(
+                              children: <Widget>[
+                        
+                                   Expanded(flex: 1,
+                                     child: ClipRect(
                                         child: Container(
-                                            alignment: Alignment.centerLeft,
-
-                                            child: Text(
-                                              data[index]['name'].toString(),
-                                              style: CustomText.itemTextBold,)),),
-
-                                      Expanded(child:Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Row(
-                                              children:  <Widget>[
-                                                Text(data[index]['location'].toString() + " " + data[index]['location_status'].toString(),
-                                                    style: CustomText.itemText)],),)),
-                                      
-                                      Expanded(child: Row(
-                                        children: [
-                                          Expanded(child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Row(
-                                          children:  <Widget>[
-                                            Text(data[index]['price'].toString() + ' man',style: CustomText.itemText)],),),),
-                                            
-                                          Expanded(child:Align(
-                                            alignment: Alignment.topCenter,
-                                            child: Row(
-                                          children:  <Widget>[
-                                            SizedBox(width: 10,),
-                                            Text('otag sany: ', style: CustomText.itemText),
-                                            Text(data[index]['room_count'].toString(),style: CustomText.itemText)],),)),
-                                        ],
-                                      )),    
-                                    ],
+                                        height: 110,
+                                        child: FittedBox(
+                                          fit: BoxFit.cover,
+                                          child: data[index]['img'] != '' ? Image.network(baseurl + data[index]['img'].toString(),):
+                                          Image.asset('assets/images/default.jpg', ),),),
+                                       )),
+                                Expanded(
+                                  flex: 2,
+                                  child: Container(
+                                    margin: EdgeInsets.only(left: 2),
+                                    padding: const EdgeInsets.all(10),
+                                    color: CustomColors.appColors,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Container(
+                                              alignment: Alignment.centerLeft,
+                        
+                                              child: Text(
+                                                data[index]['name'].toString(),
+                                                style: CustomText.itemTextBold,)),),
+                        
+                                        Expanded(child:Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Row(
+                                                children:  <Widget>[
+                                                  Text(data[index]['location'].toString() + " " + data[index]['location_status'].toString(),
+                                                      style: CustomText.itemText)],),)),
+                                        
+                                        Expanded(child: Row(
+                                          children: [
+                                            Expanded(child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            children:  <Widget>[
+                                              Text(data[index]['price'].toString() + ' man',style: CustomText.itemText)],),),),
+                                              
+                                            Expanded(child:Align(
+                                              alignment: Alignment.topCenter,
+                                              child: Row(
+                                            children:  <Widget>[
+                                              SizedBox(width: 10,),
+                                              Text('otag sany: ', style: CustomText.itemText),
+                                              Text(data[index]['room_count'].toString(),style: CustomText.itemText)],),)),
+                                          ],
+                                        )),    
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),

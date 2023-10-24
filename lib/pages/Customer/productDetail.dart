@@ -283,7 +283,6 @@ class _ProductDetailState extends State<ProductDetail> {
                       ),
                       Container(
                         margin: EdgeInsets.only(left: 10, right: 10),
-                        height: 30,
                         child: Row(
                           children: [
                             Expanded(

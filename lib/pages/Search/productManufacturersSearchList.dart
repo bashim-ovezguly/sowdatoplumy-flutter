@@ -87,60 +87,66 @@ class _ProductManufacturersSearchListState extends State<ProductManufacturersSea
                   child: Container(
                     margin: EdgeInsets.only(left: 5, right: 5),
                     child: Card(
-                      elevation: 2,
-                      child: Container(
-                        height: 110,
-                        margin: EdgeInsets.all(5),
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(flex: 1,
-                                   child: ClipRect(
-                                      child: Container(
-                                      
-                                      height: 110,
-                                      child: FittedBox(
-                                        fit: BoxFit.cover,
-                                        child: data[index]['img'] != '' && data[index]['img'] != null ? Image.network(baseurl + data[index]['img'].toString(),):
-                                        Image.asset('assets/images/default.jpg', ),),),
-                                     )),
-
-                            Expanded(
-                              flex: 2,
-                              child: Container(
-                                margin: EdgeInsets.only(left: 2),
-                                padding: const EdgeInsets.all(10),
-                                color: CustomColors.appColors,
-                                child: Column(
-                                  children: <Widget>[
-
-                                    Expanded(
-                                      child: Container(
+                      shadowColor: CustomColors.appColorWhite,
+                      surfaceTintColor: CustomColors.appColorWhite,
+                      color: CustomColors.appColorWhite,
+                      elevation: 5,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        child: Container(
+                          height: 110,
+                          margin: EdgeInsets.all(5),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(flex: 1,
+                                     child: ClipRect(
+                                        child: Container(
+                                        
+                                        height: 110,
+                                        child: FittedBox(
+                                          fit: BoxFit.cover,
+                                          child: data[index]['img'] != '' && data[index]['img'] != null ? Image.network(baseurl + data[index]['img'].toString(),):
+                                          Image.asset('assets/images/default.jpg', ),),),
+                                       )),
+                      
+                              Expanded(
+                                flex: 2,
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 2),
+                                  padding: const EdgeInsets.all(10),
+                                  color: CustomColors.appColors,
+                                  child: Column(
+                                    children: <Widget>[
+                      
+                                      Expanded(
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            data[index]['name'].toString(),
+                                            style: CustomText.itemTextBold,),),),
+                      
+                                      Expanded(child:Align(
                                         alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          data[index]['name'].toString(),
-                                          style: CustomText.itemTextBold,),),),
-
-                                    Expanded(child:Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Row(
-                                        children: <Widget>[
-                                          Text(data[index]['location'].toString(), style: CustomText.itemText)],),)),
-
-                                    // Expanded(
-                                    //     child:Align(
-                                    //       alignment: Alignment.centerLeft,
-                                    //       child: Row(
-                                    //         children: const <Widget>[
-                                    //           SizedBox(width: 10,),
-                                    //           Icon(Icons.access_time_outlined,color: Colors.white,),
-                                    //           SizedBox(width: 10,),
-                                    //           Text('1 sagat öň', style: CustomText.itemText)],),)),
-
-                                  ],
+                                        child: Row(
+                                          children: <Widget>[
+                                            Text(data[index]['location'].toString(), style: CustomText.itemText)],),)),
+                      
+                                      // Expanded(
+                                      //     child:Align(
+                                      //       alignment: Alignment.centerLeft,
+                                      //       child: Row(
+                                      //         children: const <Widget>[
+                                      //           SizedBox(width: 10,),
+                                      //           Icon(Icons.access_time_outlined,color: Colors.white,),
+                                      //           SizedBox(width: 10,),
+                                      //           Text('1 sagat öň', style: CustomText.itemText)],),)),
+                      
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

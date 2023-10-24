@@ -184,7 +184,10 @@ class _OrderState extends State<Order> {
                                                 color: CustomColors.appColors,
                                                 fontSize: 15)),
                                         Spacer(),
-                                        Text((total_price + delivery_price_int).toString() + " TMT",
+                                        Text(
+                                            (total_price + delivery_price_int)
+                                                    .toString() +
+                                                " TMT",
                                             style: TextStyle(
                                                 color: CustomColors.appColors,
                                                 fontSize: 15))
@@ -229,27 +232,28 @@ class _OrderState extends State<Order> {
                                                     children: [
                                                       Expanded(
                                                           child: Container(
-                                                        alignment: Alignment
-                                                            .bottomLeft,
-                                                        child: Text(
-                                                          array[index]
-                                                              ['product_name'],
-                                                          style: CustomText
-                                                              .size_16,
-                                                        ),
-                                                      )),
-                                                      Expanded(
-                                                          child: Container(
-                                                        alignment:
-                                                            Alignment.topLeft,
-                                                        child: Text(
-                                                          array[index][
-                                                                  'product_price']
-                                                              .toString(),
-                                                          style: CustomText
-                                                              .size_16,
-                                                        ),
-                                                      )),
+                                                              height: 60,
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: Text(
+                                                                  array[index][
+                                                                          'product_name'] +
+                                                                      'erwekjlrgnerngelrwk ',
+                                                                  maxLines: 2,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      color: CustomColors
+                                                                          .appColors)))),
+                                                      Container(
+                                                          alignment: Alignment
+                                                              .centerLeft,
+                                                          child: Text(
+                                                              array[index][
+                                                                      'product_price']
+                                                                  .toString(),
+                                                              style: CustomText
+                                                                  .size_16)),
                                                       Expanded(
                                                           child: Container(
                                                         margin: EdgeInsets.only(
@@ -346,7 +350,7 @@ class _OrderState extends State<Order> {
                                                       ))
                                                     ]))),
                                         Expanded(
-                                            flex: 2,
+                                            flex: 1,
                                             child: Container(
                                                 child: GestureDetector(
                                                     onTap: () async {

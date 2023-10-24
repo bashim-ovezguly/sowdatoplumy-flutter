@@ -91,70 +91,76 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
                 child: Container(
                   margin: EdgeInsets.only(left: 5, right: 5),
                   child: Card(
-                        elevation: 2,
-                        child: Container(
-                          height: 110,
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(flex: 1,
-                                   child: ClipRect(
-                                      child: Container(
-                                      height: 110,
-                                      child: FittedBox(
-                                        fit: BoxFit.cover,
-                                        child: data[index]['img'] != '' ? Image.network(baseurl + data[index]['img'].toString(),):
-                                        Image.asset('assets/images/default.jpg', ),),),
-                                     )),
-                              Expanded(
-                                flex: 2,
-                                child: Container(
-                                  color: CustomColors.appColors,
-                                  margin: EdgeInsets.only(left: 2),
-                                  padding: const EdgeInsets.all(5),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Expanded(
+                        shadowColor: CustomColors.appColorWhite,
+                        surfaceTintColor: CustomColors.appColorWhite,
+                        color: CustomColors.appColorWhite,
+                        elevation: 5,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          child: Container(
+                            height: 110,
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(flex: 1,
+                                     child: ClipRect(
                                         child: Container(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            data[index]['name'].toString(),
-                                            overflow: TextOverflow.clip,
-                                            maxLines: 2,
-                                            softWrap: false,
-                                            style: CustomText.itemTextBold,),),),
-                                  
-                                      Expanded(child: Container(
-                                        alignment: Alignment.centerLeft,
-                                        child: Row(
-                                          children: <Widget>[
-                                            SizedBox(
-                                              width: 200,
-                                              child: Text(data[index]['location'],
-                                                style: CustomText.itemText,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                ),
-                                            )],),)),
-                                      if (data[index]['category']!=null && data[index]['category']!='')
+                                        height: 110,
+                                        child: FittedBox(
+                                          fit: BoxFit.cover,
+                                          child: data[index]['img'] != '' ? Image.network(baseurl + data[index]['img'].toString(),):
+                                          Image.asset('assets/images/default.jpg', ),),),
+                                       )),
+                                Expanded(
+                                  flex: 2,
+                                  child: Container(
+                                    color: CustomColors.appColors,
+                                    margin: EdgeInsets.only(left: 2),
+                                    padding: const EdgeInsets.all(5),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Container(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text(
+                                              data[index]['name'].toString(),
+                                              overflow: TextOverflow.clip,
+                                              maxLines: 2,
+                                              softWrap: false,
+                                              style: CustomText.itemTextBold,),),),
+                                    
                                         Expanded(child: Container(
                                           alignment: Alignment.centerLeft,
                                           child: Row(
                                             children: <Widget>[
                                               SizedBox(
-                                                child: Text(data[index]['category'],
+                                                width: 200,
+                                                child: Text(data[index]['location'],
                                                   style: CustomText.itemText,
                                                   maxLines: 1,
                                                   overflow: TextOverflow.ellipsis,
                                                   ),
-                                              )],),))
-
-                                      
-                                    ],
+                                              )],),)),
+                                        if (data[index]['category']!=null && data[index]['category']!='')
+                                          Expanded(child: Container(
+                                            alignment: Alignment.centerLeft,
+                                            child: Row(
+                                              children: <Widget>[
+                                                SizedBox(
+                                                  child: Text(data[index]['category'],
+                                                    style: CustomText.itemText,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                )],),))
+                        
+                                        
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -194,16 +200,16 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
     String url = server_url.get_server_url() + '/mob/stores?';
 
     if (params['category']!='null'){ url = url + 'category=' + params['category'] + "&"; }
-    if (params['size']!='null'){ url = url + 'size=' + params['size'] + "&"; }
     if (params['name_tm']!=null){ url = url + 'name_tm=' + params['name_tm'] + "&"; }
     if (params['id']!=null){ url = url + 'id=' + params['id'] + "&"; }
-    
-    if (params['open_at']!=null){ url = url + 'open_at=' + params['open_at'] + "&"; }
-    if (params['close_at']!=null){ url = url + 'close_at=' + params['close_at'] + "&"; }
     if (params['location']!='null'){ url = url + 'location=' + params['location'] + "&"; }
-
+    
     if (params['credit']!=null && params['credit']=='on'){ url = url + 'credit=' + params['credit'] + "&"; }
     if (params['none_cash']!=null && params['none_cash']=='on'){ url = url + 'none_cash=' + params['none_cash'] + "&"; }
+    
+    // if (params['size']!='null'){ url = url + 'size=' + params['size'] + "&"; }
+    // if (params['open_at']!=null){ url = url + 'open_at=' + params['open_at'] + "&"; }
+    // if (params['close_at']!=null){ url = url + 'close_at=' + params['close_at'] + "&"; }
     url = url + sort_value; 
 
     final uri = Uri.parse(url);

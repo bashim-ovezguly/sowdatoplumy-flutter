@@ -246,22 +246,21 @@ class _CarStoreState extends State<CarStore> {
               ),
             ),
             
-            Container(height: 10,),
-
-            SizedBox(
-              child: Row(children: [
+          Container(
+            margin: const EdgeInsets.only(left: 10, top: 10),
+            child: Row(
+              children: <Widget>[
                 Expanded(child: Row(
-                  children: [
-                    SizedBox(width: 10,),
+                  children: <Widget>[
                     Icon(Icons.location_on, color: Colors.grey,size: 18,),
                     SizedBox(width: 10,),
-                    Text("Address", style: TextStyle(fontSize: 15, color: Colors.black54),)],),),
-                    SizedBox(width: 10,),
+                    Text("Address", style: TextStyle(fontSize: 15, color: Colors.black54))])
+                    ),
                     if (data['location']!=null && data['location']!='')
-                      Expanded(child: Text(data['location'].toString(),  style: TextStyle(fontSize: 15, color: CustomColors.appColors))),
-                    SizedBox(width: 10,),
-                    ],),),
-          
+                      Expanded(child: Text(data['location'].toString(),  style: TextStyle(fontSize: 15, color: CustomColors.appColors)))
+              ],),),
+
+ 
           Container(
             height: 30,
             margin: const EdgeInsets.only(left: 10, top: 10),

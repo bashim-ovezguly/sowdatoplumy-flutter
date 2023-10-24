@@ -109,6 +109,9 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
         title: Text('Giden sargyt: ' + widget.order_id.toString(), style: TextStyle(color: CustomColors.appColorWhite)),
         actions: [
         PopupMenuButton<String>(
+          color: CustomColors.appColorWhite,
+          shadowColor: CustomColors.appColorWhite,
+          surfaceTintColor: CustomColors.appColorWhite,
               itemBuilder: (context) {
                 List<PopupMenuEntry<String>> menuEntries2 = [
                    PopupMenuItem<String>(
@@ -146,53 +149,70 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
             SliverList(delegate: SliverChildBuilderDelegate(
               childCount: 1,(BuildContext context, int index) {
                 return Container(
-                  height: 110,
+                  height: 100,
                   padding: EdgeInsets.only(left: 5, right: 5),
-                  child: Row(
+                  child: Column(
                     children: [
-                      
+
                       Container(
-                        height: 100,
-                        width: 100,
-                        color: Colors.white,
-                        child: order['store_img']!=null && order['store_img']!='' && determinate==true ?Image.network(baseurl + order['store_img'], height: 100, fit:BoxFit.cover):
-                        Image.asset('assets/images/default16x9.jpg')
-                        ,
+                        alignment: Alignment.centerLeft,
+                        margin: EdgeInsets.only(left: 5),
+                        height: 20,
+                        child: Text("Dükan", style: TextStyle(color: CustomColors.appColors, fontSize: 14)),
                       ),
-                     Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(child: Container(
-                          margin: EdgeInsets.only(left: 10),
-                          alignment: Alignment.bottomLeft,
-                          child: Text(order['store'].toString(), overflow: TextOverflow.clip, style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
-                        )),
-                        Expanded(child: Row(
+
+                      Container(
+                        height: 80,
+                        child: Row(
                           children: [
-                            Icon(Icons.person),
-                            Text(order['customer']['name'].toString() + " " + order['customer']['phone'].toString(), style: TextStyle(color: CustomColors.appColors, fontSize: 15))
-                          ]
-                        )),
-                        if (order['status']=='accepted')
-                           Expanded(child: Container(
-                            alignment: Alignment.topLeft,
-                            margin: EdgeInsets.only(left: 5),
-                            padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-                            child: const Text("Kabul edilen", style: TextStyle(color: Color.fromARGB(255, 160, 121, 3))))),
-                          if (order['status']=='canceled')
-                            Expanded(child:  Container(
-                              margin: EdgeInsets.only(left: 5),
-                              alignment: Alignment.topLeft,
-                            padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-                            child: const Text("Gaýtarylan", style: TextStyle(color: Colors.red)))),
-                          if (order['status']=='pending')
-                           Expanded(child: Container(
-                            alignment: Alignment.topLeft,
-                            padding: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-                            child: const Text("Garaşylýar", style: TextStyle(color: Colors.green))))
-                      ]
-                     )
-                  ]));
+                            ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              child: Container(
+                                height: 70,
+                                width: 70,
+                                color: Colors.white,
+                                child: order['store_img']!=null && order['store_img']!='' && determinate==true ?Image.network(baseurl + order['store_img'], height: 70, fit:BoxFit.cover):
+                                Image.asset('assets/images/default16x9.jpg')
+                              ),
+                            ),
+                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(child: Container(
+                                margin: EdgeInsets.only(left: 10),
+                                alignment: Alignment.bottomLeft,
+                                child: Text(order['store'].toString(), overflow: TextOverflow.clip, style: TextStyle(color: CustomColors.appColors, fontSize: 15, fontWeight: FontWeight.bold)),
+                              )),
+                              Expanded(child: Row(
+                                children: [
+                                  SizedBox(width: 5,),
+                                  Icon(Icons.person, color: CustomColors.appColors),
+                                  Text(order['customer']['name'].toString() + " " + order['customer']['phone'].toString(), style: TextStyle(color: CustomColors.appColors, fontSize: 15))
+                                ]
+                              )),
+                              if (order['status']=='accepted')
+                                 Expanded(child: Container(
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.only(left: 5),
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: const Text("Kabul edilen", style: TextStyle(color: Color.fromARGB(255, 160, 121, 3))))),
+                                if (order['status']=='canceled')
+                                  Expanded(child:  Container(
+                                    margin: EdgeInsets.only(left: 5),
+                                    alignment: Alignment.topLeft,
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: const Text("Gaýtarylan", style: TextStyle(color: Colors.red)))),
+                                if (order['status']=='pending')
+                                 Expanded(child: Container(
+                                  alignment: Alignment.topLeft,
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: const Text("Garaşylýar", style: TextStyle(color: Colors.green))))
+                            ]
+                           )
+                        ]),
+                      ),
+                    ],
+                  ));
             })),
 
             SliverList(delegate: SliverChildBuilderDelegate(  
@@ -203,33 +223,59 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
-                        children: [
-                          Text("Harytlaryň bahasy:", style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
-                          Spacer(),
-                          Text(order['product_total'].toString() + " TMT", style: TextStyle(color: CustomColors.appColors, fontSize: 15))
-                      ]),
-                      Row(
-                        children: [
-                          Text("Eltip bermek bahasy:", style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
-                          Spacer(),
-                          Text(order['delivery_price'].toString() + " TMT", style: TextStyle(color: CustomColors.appColors, fontSize: 15))
-                      ]),
-                      Row(
-                        children: [
-                          Text("Umumy töleg:", style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
-                          Spacer(),
-                          Text(order['total'].toString() + " TMT", style: TextStyle(color: CustomColors.appColors, fontSize: 15))
-                      ]),
-                      Row(
-                        children: [
-                          Text("Bellik: " + order['note'].toString(), style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
-                      ]),
-
-                      Row(
-                        children: [
-                          Text(order['product_count'].toString() + "sany haryt", style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
-                      ]),
+                      Container(
+                        child: Card(
+                          shadowColor: CustomColors.appColorWhite,
+                          surfaceTintColor: CustomColors.appColorWhite,
+                          color: CustomColors.appColorWhite,
+                          elevation: 5,
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            child: Column(
+                              children: [
+                                Row(
+                                children: [
+                                  Text("Harytlaryň bahasy:", style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
+                                  Spacer(),
+                                  Text(order['product_total'].toString() + " TMT", style: TextStyle(color: CustomColors.appColors, fontSize: 15))
+                              ]),
+                              Row(
+                                children: [
+                                  Text("Eltip bermek bahasy:", style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
+                                  Spacer(),
+                                  Text(order['delivery_price'].toString() + " TMT", style: TextStyle(color: CustomColors.appColors, fontSize: 15))
+                              ]),
+                              Row(
+                                children: [
+                                  Text("Umumy töleg:", style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
+                                  Spacer(),
+                                  Text(order['total'].toString() + " TMT", style: TextStyle(color: CustomColors.appColors, fontSize: 15))
+                              ]),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 80,
+                        width: double.infinity,
+                        child: Card(
+                          shadowColor: CustomColors.appColorWhite,
+                          surfaceTintColor: CustomColors.appColorWhite,
+                          color: CustomColors.appColorWhite,
+                          elevation: 5,
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            child: 
+                              Text("Bellik: " + order['note'].toString(), style: TextStyle(color: CustomColors.appColors, fontSize: 15))
+                          )
+                        )
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(right: 10, top: 5, bottom: 5),
+                        alignment: Alignment.centerRight,
+                          child: Text(order['product_count'].toString() + "sany haryt", style: TextStyle(color: CustomColors.appColors, fontSize: 15)),
+                      ),
                   ]));
             })),
 
@@ -238,7 +284,10 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
               return Container(
                 height: 110,
                 child: Card(
-                  elevation: 4,
+                  color: CustomColors.appColorWhite,
+                      shadowColor: const Color.fromARGB(255, 200, 198, 198),
+                      surfaceTintColor: CustomColors.appColorWhite,
+                  elevation: 5,
                   child: Row(
                     children: [
                       Expanded(flex: 2, child: Container(

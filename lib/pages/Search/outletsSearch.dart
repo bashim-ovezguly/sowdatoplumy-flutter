@@ -190,94 +190,94 @@ class _OutletsSearchState extends State<OutletsSearch> {
           ],
         ),
 
-          Stack(
-          children: <Widget>[
-            Container(
-              width: double.infinity,
-              height: 40,
-              margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              decoration: BoxDecoration(border: Border.all( color: CustomColors.appColors, width: 1),
-                borderRadius: BorderRadius.circular(5),
-                shape: BoxShape.rectangle,
-              ),
-              child: Container( margin: EdgeInsets.only(left: 15),
-                child: MyDropdownButton(items: sizes, callbackFunc: callbackSize,),
-              ),
-            ),
-            Positioned(
-              left: 25,
-              top: 12,
-              child: Container(color: Colors.white,
-                child: Text('Göwrümi', style: TextStyle(color: Colors.black, fontSize: 12),
-                ),
-              ),
-            ),
-          ],
-        ),
+        //   Stack(
+        //   children: <Widget>[
+        //     Container(
+        //       width: double.infinity,
+        //       height: 40,
+        //       margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+        //       decoration: BoxDecoration(border: Border.all( color: CustomColors.appColors, width: 1),
+        //         borderRadius: BorderRadius.circular(5),
+        //         shape: BoxShape.rectangle,
+        //       ),
+        //       child: Container( margin: EdgeInsets.only(left: 15),
+        //         child: MyDropdownButton(items: sizes, callbackFunc: callbackSize,),
+        //       ),
+        //     ),
+        //     Positioned(
+        //       left: 25,
+        //       top: 12,
+        //       child: Container(color: Colors.white,
+        //         child: Text('Göwrümi', style: TextStyle(color: Colors.black, fontSize: 12),
+        //         ),
+        //       ),
+        //     ),
+        //   ],
+        // ),
 
-        Container(
-          height: 50,
-          margin: EdgeInsets.fromLTRB(20, 15, 20, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-              Container(
-                alignment: Alignment.center,
-                height: 35,
-                width: 150,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-                child:  TextFormField(
-                  controller: open_atController,
-                  decoration: const InputDecoration(hintText: 'Açylýan wagty: ',
-                      border: InputBorder.none,
-                      focusColor: Colors.white,
-                      contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
-                      readOnly: true,
-                      onTap: () async {
-                        TimeOfDay ? pickedTime =  await showTimePicker(
-                          initialTime: TimeOfDay.now(),
-                          context: context,
-                          );
-                        if(pickedTime != null ){
-                          DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
-                          String formattedTime = DateFormat('HH:mm').format(parsedTime);
-                          setState(() {
-                            open_atController.text = formattedTime; 
-                            });
-                        }else{
-                          print("Time is not selected");
-                        }
-                    },),),
-              Container(
-                alignment: Alignment.center,
-                height: 35,
-                width: 150,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
-                child:  TextFormField(
-                  controller: close_atController,
-                  decoration: const InputDecoration(hintText: 'Ýapylyan wagty: ',
-                      border: InputBorder.none,
-                      focusColor: Colors.white,
-                      contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
-                      readOnly: true,
-                      onTap: () async {
-                        TimeOfDay ? pickedTime =  await showTimePicker(
-                          initialTime: TimeOfDay.now(),
-                          context: context,
-                          );
-                        if(pickedTime != null ){
-                          DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
-                          String formattedTime = DateFormat('HH:mm').format(parsedTime);
-                          setState(() {
-                            close_atController.text = formattedTime; 
-                            });
-                        }else{
-                          print("Time is not selected");
-                        }
-                    },),),
-          ],
-        ),
-        ),
+        // Container(
+        //   height: 50,
+        //   margin: EdgeInsets.fromLTRB(20, 15, 20, 0),
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //       Container(
+        //         alignment: Alignment.center,
+        //         height: 35,
+        //         width: 150,
+        //         decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+        //         child:  TextFormField(
+        //           controller: open_atController,
+        //           decoration: const InputDecoration(hintText: 'Açylýan wagty: ',
+        //               border: InputBorder.none,
+        //               focusColor: Colors.white,
+        //               contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
+        //               readOnly: true,
+        //               onTap: () async {
+        //                 TimeOfDay ? pickedTime =  await showTimePicker(
+        //                   initialTime: TimeOfDay.now(),
+        //                   context: context,
+        //                   );
+        //                 if(pickedTime != null ){
+        //                   DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
+        //                   String formattedTime = DateFormat('HH:mm').format(parsedTime);
+        //                   setState(() {
+        //                     open_atController.text = formattedTime; 
+        //                     });
+        //                 }else{
+        //                   print("Time is not selected");
+        //                 }
+        //             },),),
+        //       Container(
+        //         alignment: Alignment.center,
+        //         height: 35,
+        //         width: 150,
+        //         decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
+        //         child:  TextFormField(
+        //           controller: close_atController,
+        //           decoration: const InputDecoration(hintText: 'Ýapylyan wagty: ',
+        //               border: InputBorder.none,
+        //               focusColor: Colors.white,
+        //               contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
+        //               readOnly: true,
+        //               onTap: () async {
+        //                 TimeOfDay ? pickedTime =  await showTimePicker(
+        //                   initialTime: TimeOfDay.now(),
+        //                   context: context,
+        //                   );
+        //                 if(pickedTime != null ){
+        //                   DateTime parsedTime = DateFormat.jm().parse(pickedTime.format(context).toString());
+        //                   String formattedTime = DateFormat('HH:mm').format(parsedTime);
+        //                   setState(() {
+        //                     close_atController.text = formattedTime; 
+        //                     });
+        //                 }else{
+        //                   print("Time is not selected");
+        //                 }
+        //             },),),
+        //   ],
+        // ),
+        // ),
  
         Container(alignment: Alignment.centerLeft,
           margin: EdgeInsets.only(left: 15, top: 15),
@@ -310,15 +310,16 @@ class _OutletsSearchState extends State<OutletsSearch> {
                 onTap: () {
                     Map<String, dynamic> params = {};
                     if (categoryController!={}){params['category'] = categoryController['id'].toString();}
-                    if (sizeController!={}){params['size'] = sizeController['id'].toString();}
                     if (nameCodeController.text!=''){params['name_tm'] = nameCodeController.text.toString();}
                     if (idController.text!=''){params['id'] = idController.text.toString();}
-                    if (open_atController.text!=''){params['open_at'] = open_atController.text.toString();}
-                    if (close_atController.text!=''){params['close_at'] = close_atController.text.toString();}
+                    if (locationController!={}){params['location'] = locationController['id'].toString();}   
+
                     if (credit == true) { params['credit'] = 'on';}
                     if (none_cash_pay == true) { params['none_cash'] = 'on';}                 
-
-                    if (locationController!={}){params['location'] = locationController['id'].toString();}   
+                    
+                    // if (sizeController!={}){params['size'] = sizeController['id'].toString();}
+                    // if (open_atController.text!=''){params['open_at'] = open_atController.text.toString();}
+                    // if (close_atController.text!=''){params['close_at'] = close_atController.text.toString();}
                     
                     Navigator.push(context, MaterialPageRoute(builder: (context) => OutletsSearchList(params: params) )); 
                 },

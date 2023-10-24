@@ -191,8 +191,7 @@ class _AutoPartsListState extends State<AutoPartsList> {
                                           CustomColors.appColorWhite,
                                       elevation: 5,
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0)),
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
                                         child: Row(
                                           children: <Widget>[
                                             Expanded(
