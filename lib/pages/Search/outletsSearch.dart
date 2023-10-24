@@ -10,7 +10,6 @@ import '../../dB/constants.dart';
 import '../../dB/providers.dart';
 import '../customCheckbox.dart';
 import '../select.dart';
-import 'package:intl/intl.dart';
 
 class OutletsSearch extends StatefulWidget {
   
