@@ -9,6 +9,7 @@ import 'package:my_app/pages/Notifications/notificationsDetail.dart';
 import 'package:my_app/pages/Notifications/notificationsList.dart';
 import 'package:my_app/pages/Restaurants/list.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
+import 'package:my_app/pages/appInfo.dart';
 import 'package:my_app/pages/progressIndicator.dart';
 import 'package:my_app/pages/ribbon/ribbonList.dart';
 import 'package:provider/provider.dart';
@@ -1504,39 +1505,37 @@ class _MyDraverState extends State<MyDraver> {
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
-                  // GestureDetector(
-                  //     onTap: () {
-                  //       Navigator.pushNamed(context, "/services/list");
-                  //     },
-                  //     child: Container(
-                  //         width: double.infinity,
-                  //         color: Colors.white,
-                  //         margin: EdgeInsets.only(left: 20, top: 20),
-                  //         child: GestureDetector(
-                  //             onTap: () {
-                  //               Navigator.pushNamed(context, "/services/list");
-                  //             },
-                  //             child: Container(
-                  //                 child: Row(children: [
-                  //               Icon(
-                  //                 Icons.home_repair_service,
-                  //                 size: 25,
-                  //                 color: CustomColors.appColors,
-                  //               ),
-                  //               SizedBox(
-                  //                 width: 14,
-                  //               ),
-                  //               Text('Hyzmatlar',
-                  //                   style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       color: CustomColors.appColors)),
-                  //               Spacer(),
-                  //               Text(statistic['service_count'],
-                  //                   style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       color: CustomColors.appColors)),
-                  //               SizedBox(width: 15),
-                  //             ]))))),
+                  
+                  GestureDetector(
+                      onTap: () {
+                          
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    AppInfo()));      
+                      },
+                      child: Container(
+                          width: double.infinity,
+                          color: Colors.white,
+                          margin: EdgeInsets.only(left: 20, top: 20),
+                          child: GestureDetector(
+                              child: Container(
+                                  child: Row(children: [
+                                Icon(
+                                  Icons.info,
+                                  size: 25,
+                                  color: CustomColors.appColors,
+                                ),
+                                SizedBox(
+                                  width: 14,
+                                ),
+                                Text('Programma barada',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: CustomColors.appColors)),
+                                SizedBox(width: 15),
+                              ]))))),
                 ],
               ),
             )
