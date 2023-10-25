@@ -12,11 +12,9 @@ import 'package:my_app/pages/Restaurants/detail.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/homePages.dart';
 import 'package:provider/provider.dart';
-
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
-import '../Search/search.dart';
 import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
