@@ -91,6 +91,7 @@ class _RealEstateListState extends State<RealEstateList> {
                         PopupMenuItem<String>(
                             child: GestureDetector(
                                 onTap: () {
+                                  Navigator.pop(context);
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(

@@ -88,6 +88,7 @@ class _GetRealEstateFirstState extends State<GetRealEstateFirst> {
                     PopupMenuItem<String>(
                         child: GestureDetector(
                             onTap: () {
+                              Navigator.pop(context);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

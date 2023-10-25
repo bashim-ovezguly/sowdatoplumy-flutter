@@ -297,9 +297,7 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
     if (params['brand'] != 'null') {
       url = url + 'brand=' + params['brand'] + "&";
     }
-    if (params['made_in'] != 'null') {
-      url = url + 'made_in=' + params['made_in'] + "&";
-    }
+    
     if (params['name'] != null) {
       url = url + 'name=' + params['name'] + "&";
     }
@@ -308,16 +306,6 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
     }
     if (params['location'] != 'null') {
       url = url + 'location=' + params['location'] + "&";
-    }
-
-    if (params['credit'] != null && params['credit'] == 'on') {
-      url = url + 'credit=' + params['credit'] + "&";
-    }
-    if (params['swap'] != null && params['swap'] == 'on') {
-      url = url + 'swap=' + params['swap'] + "&";
-    }
-    if (params['none_cash'] != null && params['none_cash'] == 'on') {
-      url = url + 'none_cash=' + params['none_cash'] + "&";
     }
 
     Map<String, String> headers = {};

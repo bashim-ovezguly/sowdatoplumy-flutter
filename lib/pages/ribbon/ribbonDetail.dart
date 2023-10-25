@@ -33,7 +33,7 @@ class _RibbonDetailState extends State<RibbonDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          backgroundColor: CustomColors.appColorWhite,
+        backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
             title: Text('Söwda lentasy',
                 style: TextStyle(color: CustomColors.appColorWhite))),
@@ -54,8 +54,7 @@ class _RibbonDetailState extends State<RibbonDetail> {
                         margin: EdgeInsets.only(top: 10, left: 10, right: 10),
                         height: 40,
                         child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CircleAvatar(
                                 backgroundColor:
@@ -94,11 +93,12 @@ class _RibbonDetailState extends State<RibbonDetail> {
                               SizedBox(width: 10)
                             ])),
                     Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                        height:220,
+                        margin: const EdgeInsets.only(bottom: 10),
+                        height: 220,
                         color: Colors.black12,
                         child: ImageSlideshow(
-                            disableUserScrolling: data['images'].length > 1? false: true,
+                            disableUserScrolling:
+                                data['images'].length > 1 ? false : true,
                             width: double.infinity,
                             initialPage: 0,
                             indicatorColor: CustomColors.appColors,
@@ -110,7 +110,7 @@ class _RibbonDetailState extends State<RibbonDetail> {
                               if (data['images'].length == 0)
                                 ClipRect(
                                   child: Container(
-                                    height:220,
+                                    height: 220,
                                     width: double.infinity,
                                     child: FittedBox(
                                       fit: BoxFit.cover,
@@ -132,7 +132,7 @@ class _RibbonDetailState extends State<RibbonDetail> {
                                       },
                                       child: ClipRect(
                                         child: Container(
-                                          height:220,
+                                          height: 220,
                                           width: double.infinity,
                                           child: FittedBox(
                                             fit: BoxFit.cover,
@@ -167,10 +167,14 @@ class _RibbonDetailState extends State<RibbonDetail> {
                                       widget.id +
                                       '/like';
                                   final uri = Uri.parse(url);
-                                  var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
-                                  var request =http.MultipartRequest("POST", uri);
+                                  var device_id = Provider.of<UserInfo>(context,
+                                          listen: false)
+                                      .device_id;
+                                  var request =
+                                      http.MultipartRequest("POST", uri);
                                   request.headers.addAll({
-                                    'Content-Type':'application/x-www-form-urlencoded',
+                                    'Content-Type':
+                                        'application/x-www-form-urlencoded',
                                     'device-id': device_id,
                                   });
 
@@ -180,6 +184,8 @@ class _RibbonDetailState extends State<RibbonDetail> {
                                   }
                                 },
                                 child: Icon(Icons.favorite_border)),
+                          Text(data['like_count'].toString(),
+                              style: TextStyle(color: CustomColors.appColors)),
                           Spacer(),
                           Icon(Icons.visibility_sharp,
                               size: 20, color: CustomColors.appColors),
