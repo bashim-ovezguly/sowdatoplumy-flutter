@@ -402,6 +402,7 @@ class _CarSearchListState extends State<CarSearchList> {
 
   void getproductlist() async {
     var sort = Provider.of<UserInfo>(context, listen: false).sort;
+    // ignore: unused_local_variable
     var sort_value = "";
 
     if (int.parse(sort) == 2) {
