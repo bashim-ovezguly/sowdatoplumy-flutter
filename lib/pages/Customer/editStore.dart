@@ -691,9 +691,6 @@ class _EditStoreState extends State<EditStore> {
       data = json;
       baseurl = server_url.get_server_url();
       categories = json['categories'];
-      sizes = json['sizes'];
-      trade_centers = json['trade_centers'];
-      streets = json['streets'];
     });
   }
 }

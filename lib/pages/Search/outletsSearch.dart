@@ -341,12 +341,12 @@ class _OutletsSearchState extends State<OutletsSearch> {
     String url = server_url.get_server_url() + '/mob/index/store';
     final uri = Uri.parse(url);
     var device_id = Provider.of<UserInfo>(context, listen: false).device_id;
-    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device_id': device_id});
+    final response = await http.get(uri, headers: {'Content-Type': 'application/x-www-form-urlencoded', 'device-id': device_id});
     final json = jsonDecode(utf8.decode(response.bodyBytes));
+    
     setState(() {
-      data  = json;
-      categories = json['categories'];
-      sizes = json['sizes'];
+      categories = json['categories'];  
+      print(categories);
     });
     }
 }

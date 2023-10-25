@@ -476,9 +476,6 @@ class _NewStoreState extends State<NewStore> {
     setState(() {
       data = json;
       categories = json['categories'];
-      sizes = json['sizes'];
-      trade_centers = json['trade_centers'];
-      streets = json['streets'];
     });
   }
 }
