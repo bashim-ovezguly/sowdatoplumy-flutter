@@ -11,6 +11,7 @@ import '../../dB/textStyle.dart';
 import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
+// ignore: must_be_immutable
 class ProperrieSearchList extends StatefulWidget {
   Map<String, dynamic> params;
   ProperrieSearchList({Key? key, required this.params}) : super(key: key);

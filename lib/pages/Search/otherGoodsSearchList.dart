@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -34,7 +36,6 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
       timers();
       _pageNumber = 1;
       _isLastPage = false;
-      _loading = true;
       _error = false;
       data = [];
       determinate = false;
@@ -45,7 +46,6 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
   void initState() {
     _pageNumber = 1;
     _isLastPage = false;
-    _loading = true;
     _error = false;
     timers();
     getproductlist();
@@ -70,7 +70,6 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
   late bool _isLastPage;
   late int _pageNumber;
   late bool _error;
-  late bool _loading;
   final int _numberOfPostPerRequest = 12;
   final int _nextPageTriger = 3;
 
@@ -94,7 +93,6 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
                   setState(() {
                     _pageNumber = 1;
                     _isLastPage = false;
-                    _loading = true;
                     _error = false;
                     data = [];
                     determinate = false;
@@ -344,13 +342,11 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
         baseurl = server_url.get_server_url();
         determinate = true;
         _isLastPage = data.length < _numberOfPostPerRequest;
-        _loading = false;
         _pageNumber = _pageNumber + 1;
         data.addAll(postList);
       });
     } catch (e) {
       setState(() {
-        _loading = false;
         _error = true;
       });
     }
