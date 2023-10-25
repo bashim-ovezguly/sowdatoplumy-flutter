@@ -74,6 +74,7 @@ class _PharmaciesSearchListState extends State<PharmaciesSearchList> {
   late bool _isLastPage;
   late int _pageNumber;
   late bool _error;
+  // ignore: unused_field
   late bool _loading;
   final int _numberOfPostPerRequest = 12;
   final int _nextPageTriger = 3;

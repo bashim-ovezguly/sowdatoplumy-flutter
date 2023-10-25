@@ -11,6 +11,7 @@ import '../../dB/textStyle.dart';
 import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
+// ignore: must_be_immutable
 class CarSearchList extends StatefulWidget {
   Map<String, dynamic> params;
   CarSearchList({Key? key, required this.params}) : super(key: key);
@@ -37,7 +38,6 @@ class _CarSearchListState extends State<CarSearchList> {
       timers();
       _pageNumber = 1;
       _isLastPage = false;
-      _loading = true;
       _error = false;
       data = [];
       determinate = false;
@@ -48,7 +48,6 @@ class _CarSearchListState extends State<CarSearchList> {
   void initState() {
     _pageNumber = 1;
     _isLastPage = false;
-    _loading = true;
     _error = false;
     timers();
     getproductlist();
@@ -73,7 +72,6 @@ class _CarSearchListState extends State<CarSearchList> {
   late bool _isLastPage;
   late int _pageNumber;
   late bool _error;
-  late bool _loading;
   final int _numberOfPostPerRequest = 12;
   final int _nextPageTriger = 3;
 
@@ -97,7 +95,6 @@ class _CarSearchListState extends State<CarSearchList> {
                   setState(() {
                     _pageNumber = 1;
                     _isLastPage = false;
-                    _loading = true;
                     _error = false;
                     data = [];
                     determinate = false;
@@ -503,13 +500,11 @@ class _CarSearchListState extends State<CarSearchList> {
         baseurl = server_url.get_server_url();
         determinate = true;
         _isLastPage = data.length < _numberOfPostPerRequest;
-        _loading = false;
         _pageNumber = _pageNumber + 1;
         data.addAll(postList);
       });
     } catch (e) {
       setState(() {
-        _loading = false;
         _error = true;
       });
     }
