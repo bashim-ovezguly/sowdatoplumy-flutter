@@ -191,6 +191,7 @@ class _StoreState extends State<Store> {
             appBar: AppBar(
               title: Text(title, style: CustomText.appBarText),
               actions: [
+                if (title != 'Bazarlar' || title != 'Söwda merkezler')
                 Container(
                     padding: const EdgeInsets.all(10),
                     child: GestureDetector(

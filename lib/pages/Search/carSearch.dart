@@ -575,7 +575,7 @@ class _CarSerachState extends State<CarSerach> {
                     if (none_cash_pay == true) { params['none_cash'] = 'on';}
                     if (recolored == true) { params['recolored'] = 'on';}
                   
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CarSearchList(params: params) )); 
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CarSearchList(params: params))); 
                 },
                 child: Icon(
                   Icons.search,

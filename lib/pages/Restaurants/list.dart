@@ -156,17 +156,17 @@ class _RestaurantState extends State<Restaurant> {
             appBar: AppBar(
               title: Text(title, style: CustomText.appBarText),
               actions: [
-                Container(
-                    padding: const EdgeInsets.all(10),
-                    child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Search(index: 2)));
-                        },
-                        child:
-                            Icon(Icons.search, color: Colors.white, size: 25)))
+                // Container(
+                //     padding: const EdgeInsets.all(10),
+                //     child: GestureDetector(
+                //         onTap: () {
+                //           Navigator.push(
+                //               context,
+                //               MaterialPageRoute(
+                //                   builder: (context) => Search(index: 2)));
+                //         },
+                //         child:
+                //             Icon(Icons.search, color: Colors.white, size: 25)))
               ],
             ),
             body: RefreshIndicator(

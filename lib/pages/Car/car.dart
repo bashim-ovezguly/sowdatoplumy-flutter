@@ -15,12 +15,6 @@ import '../progressIndicator.dart';
 import '../sortWidget.dart';
 import '../../dB/colors.dart';
 
-const List<String> list = <String>[
-  'Ulgama gir',
-  'ulgamda cyk',
-  'bilemok',
-  'ozin karar'
-];
 
 class Car extends StatefulWidget {
   const Car({Key? key}) : super(key: key);
@@ -30,7 +24,6 @@ class Car extends StatefulWidget {
 }
 
 class _CarState extends State<Car> {
-  String dropdownValue = list.first;
   List<dynamic> dataSlider = [
     {"img": "", 'name_tm': "", 'price': "", 'location': ''}
   ];

@@ -158,7 +158,7 @@ class _NotificationsState extends State<Notifications> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Search(index: 2)));
+                                  builder: (context) => Search(index: 4)));
                         },
                         child:
                             Icon(Icons.search, color: Colors.white, size: 25)))

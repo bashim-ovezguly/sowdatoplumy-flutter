@@ -737,9 +737,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
     for (var i in global_headers.entries) {
       headers[i.key] = i.value.toString();
     }
-    final response = await get(
-        Uri.parse(
-            url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
+    final response = await get(Uri.parse(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
         headers: headers);
     print(Uri.parse(
         url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));

@@ -73,6 +73,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
         body:Column(
           children: <Widget>[
             TabBar(
+              tabAlignment: TabAlignment.start,
               controller: _tabController,
               indicatorColor: CustomColors.appColors,
               unselectedLabelColor: Colors.black,
@@ -97,7 +98,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
                 Tab(
                   child: Row(children: const <Widget>[
                     Icon(Icons.shopify,color: CustomColors.appColors,),
-                    Text("Beýleki harytlar",style: TextStyle(color: CustomColors.appColors, fontWeight: FontWeight.bold,fontSize: 15),)],),),
+                    Text("Beýleki bildirişler",style: TextStyle(color: CustomColors.appColors, fontWeight: FontWeight.bold,fontSize: 15),)],),),
                 // Tab(
                 //   child: Row(children: const <Widget>[
                 //     Icon(Icons.shopify,color: CustomColors.appColors,),
