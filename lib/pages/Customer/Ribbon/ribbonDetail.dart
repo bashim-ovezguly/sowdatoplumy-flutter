@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:my_app/dB/textStyle.dart';
 import 'package:my_app/pages/Customer/Ribbon/edit.dart';
 import 'package:my_app/pages/Customer/deleteAlert.dart';
+import 'package:my_app/pages/fullScreenSlider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/constants.dart';
 import 'dart:convert';
@@ -25,6 +28,7 @@ class _MyRibbonDetailState extends State<MyRibbonDetail> {
   var data = {};
   var baseurl = '';
   bool determinate = false;
+  List<String> imgList = [];
 
   @override
   void initState() {
@@ -41,13 +45,13 @@ class _MyRibbonDetailState extends State<MyRibbonDetail> {
     get_ribbon_by_id(id: widget.id);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
-          title: Text("Söwda lenta " + widget.id.toString(), style: CustomText.appBarText),
+          title: Text("Söwda lenta " + widget.id.toString(),
+              style: CustomText.appBarText),
           actions: [
             if (widget.user_customer_id == '')
               PopupMenuButton<String>(
@@ -64,7 +68,7 @@ class _MyRibbonDetailState extends State<MyRibbonDetail> {
                                     MaterialPageRoute(
                                         builder: (context) => MyRibbonEdit(
                                             id: widget.id,
-                                            refreshListFunc:refresh)));
+                                            refreshListFunc: refresh)));
                               },
                               child: Container(
                                   color: Colors.white,
@@ -107,55 +111,130 @@ class _MyRibbonDetailState extends State<MyRibbonDetail> {
             ? ListView(
                 children: [
                   Container(
-                    alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.only(left: 20, top: 20),
-                    child: Text("Tekst",
-                        style: TextStyle(
-                            color: CustomColors.appColors,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold)),
+                      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                      height: 40,
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CircleAvatar(
+                              backgroundColor:
+                                  Color.fromARGB(255, 206, 204, 204),
+                              radius: 20,
+                              backgroundImage: NetworkImage(
+                                baseurl + data['customer_photo'],
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                              
+                              Expanded(
+                                  child: Text(data['customer'].toString(),
+                                      style: TextStyle(
+                                          color: CustomColors.appColors,
+                                          fontWeight: FontWeight.bold))),
+                              Expanded(
+                                  child: Text(data['created_at'].toString(),
+                                      style: TextStyle(
+                                          color: CustomColors.appColors,
+                                          fontWeight: FontWeight.bold)))
+                            ]),
+                            Spacer(),
+                            GestureDetector(
+                                onTap: () {
+                                  var url =
+                                      'http://business-complex.com.tm/lenta/' +
+                                          data['id'].toString();
+                                  Share.share(url, subject: 'Söwda Toplumy');
+                                },
+                                child: Image.asset(
+                                    'assets/images/send_link.png',
+                                    width: 30,
+                                    height: 30,
+                                    color: CustomColors.appColors)),
+                            SizedBox(width: 10)
+                          ])),
+                  Container(
+                      margin: const EdgeInsets.all(10),
+                      height: 220,
+                      color: Colors.black12,
+                      child: ImageSlideshow(
+                          width: double.infinity,
+                          initialPage: 0,
+                          indicatorColor: CustomColors.appColors,
+                          indicatorBackgroundColor: Colors.grey,
+                          onPageChanged: (value) {},
+                          autoPlayInterval: null,
+                          isLoop: false,
+                          children: [
+                            if (data['images'].length == 0)
+                              ClipRect(
+                                child: Container(
+                                  height: 220,
+                                  width: double.infinity,
+                                  child: FittedBox(
+                                    fit: BoxFit.cover,
+                                    child: Image.asset(
+                                        'assets/images/default.jpg'),
+                                  ),
+                                ),
+                              ),
+                            for (var item in data['images'])
+                              if (item['img'] != null && item['img'] != '')
+                                GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FullScreenSlider(
+                                                      imgList: imgList)));
+                                    },
+                                    child: ClipRect(
+                                      child: Container(
+                                        height: 220,
+                                        width: double.infinity,
+                                        child: FittedBox(
+                                          fit: BoxFit.cover,
+                                          child: Image.network(
+                                            baseurl + item['img'],
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    ))
+                          ])),
+                  SizedBox(
+                    child: Row(
+                      children: [
+                        SizedBox(width: 10),
+                        GestureDetector(
+                          onTap: () async {},
+                          child: Icon(Icons.favorite, color: Colors.red),
+                        ),
+                        Text(data['like_count'].toString(),
+                            style: TextStyle(color: CustomColors.appColors)),
+                        Spacer(),
+                        Icon(Icons.visibility_sharp,
+                            size: 20, color: CustomColors.appColors),
+                        SizedBox(width: 5),
+                        Text(data['view'].toString(),
+                            style: TextStyle(color: CustomColors.appColors)),
+                        SizedBox(width: 10),
+                      ],
+                    ),
                   ),
                   Container(
-                      height: 250,
-                      margin: const EdgeInsets.only(left: 20, right: 20),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: CustomColors.appColors)),
-                      child: TextFormField(
-                          enabled: false,
-                          maxLines: 10,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                              hintText: data['text'].toString(),
-                              border: InputBorder.none,
-                              focusColor: Colors.white,
-                              contentPadding:
-                                  EdgeInsets.only(left: 10, bottom: 14)),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          })),
-                  Wrap(direction: Axis.horizontal, children: [
-                    for (var i in data['images'])
-                      Container(
-                          margin: EdgeInsets.only(left: 3, right: 3, top: 5),
-                          height: 160,
-                          width: MediaQuery.of(context).size.width / 3 - 10,
-                          child: Card(
-                              shadowColor: CustomColors.appColorWhite,
-                              surfaceTintColor: CustomColors.appColorWhite,
-                              color: CustomColors.appColorWhite,
-                              elevation: 5,
-                              child: Container(
-                                margin: EdgeInsets.all(5),
-                                child: Image.network(
-                                  baseurl + i['img'],
-                                  fit: BoxFit.cover,
-                                ),
-                              )))
-                  ])
+                    padding:
+                        EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+                    child: Text(
+                      data['text'].toString(),
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(color: CustomColors.appColors),
+                      maxLines: 100,
+                    ),
+                  )
                 ],
               )
             : Center(
@@ -177,6 +256,10 @@ class _MyRibbonDetailState extends State<MyRibbonDetail> {
       data = json['msg'];
       determinate = true;
       baseurl = server_url.get_server_url();
+      imgList = [];
+      for (var i in data['images']) {
+        imgList.add(baseurl + i['img']);
+      }
     });
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Car/carStore.dart';
-import 'package:my_app/pages/OtherGoods/otherGoodsDetail.dart';
 import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';

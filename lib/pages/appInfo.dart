@@ -40,7 +40,7 @@ class _AppInfoState extends State<AppInfo> {
                               height: 120, width: 120),
                           Container(
                               margin: EdgeInsets.only(top: 10),
-                              child: Text("Sowda toplumy",
+                              child: Text("Söwda toplumy",
                                   style: TextStyle(
                                       color: CustomColors.appColors,
                                       fontSize: 25,

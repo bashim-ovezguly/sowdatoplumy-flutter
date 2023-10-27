@@ -65,7 +65,9 @@ class _RibbonDetailState extends State<RibbonDetail> {
                                 ),
                               ),
                               SizedBox(width: 5),
-                              Column(children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
                                 Expanded(
                                     child: Text(data['customer'].toString(),
                                         style: TextStyle(
