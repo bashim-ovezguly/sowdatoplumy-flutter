@@ -189,22 +189,21 @@ class _StoreState extends State<Store> {
         ? Scaffold(
             backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
-              title: Text(title, style: CustomText.appBarText),
-              actions: [
-                if (title != 'Bazarlar' || title != 'Söwda merkezler')
-                Container(
-                    padding: const EdgeInsets.all(10),
-                    child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Search(index: 2)));
-                        },
-                        child:
-                            Icon(Icons.search, color: Colors.white, size: 25)))
-              ],
-            ),
+                title: Text(title, style: CustomText.appBarText),
+                actions: [
+                  if (title != 'Bazarlar' || title != 'Söwda merkezler')
+                    Container(
+                        padding: const EdgeInsets.all(10),
+                        child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Search(index: 2)));
+                            },
+                            child: Icon(Icons.search,
+                                color: Colors.white, size: 25)))
+                ]),
             body: RefreshIndicator(
                 color: Colors.white,
                 backgroundColor: CustomColors.appColors,
@@ -235,7 +234,10 @@ class _StoreState extends State<Store> {
                                         height: 220,
                                         viewportFraction: 1,
                                         initialPage: 0,
-                                        enableInfiniteScroll: dataSlider.length>1 ? true: false,
+                                        enableInfiniteScroll:
+                                            dataSlider.length > 1
+                                                ? true
+                                                : false,
                                         reverse: false,
                                         autoPlay: dataSlider.length > 1
                                             ? true
@@ -514,8 +516,15 @@ class _StoreState extends State<Store> {
   void getmarketslist(sort_value) async {
     try {
       Urls server_url = new Urls();
-      String url = server_url.get_server_url() + '/mob/markets?' + sort_value.toString();
-      if (keyword.text != '') { url = server_url.get_server_url() + '/mob/markets?' + sort_value + "&name=" +keyword.text;}
+      String url =
+          server_url.get_server_url() + '/mob/markets?' + sort_value.toString();
+      if (keyword.text != '') {
+        url = server_url.get_server_url() +
+            '/mob/markets?' +
+            sort_value +
+            "&name=" +
+            keyword.text;
+      }
       Map<String, String> headers = {};
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
@@ -576,15 +585,22 @@ class _StoreState extends State<Store> {
     try {
       Urls server_url = new Urls();
       String url = server_url.get_server_url() + '/mob/stores?' + sort_value;
-      
-      if (keyword.text != '') { url = server_url.get_server_url() + '/mob/stores?' + sort_value + "&name=" +keyword.text;}
-    
+
+      if (keyword.text != '') {
+        url = server_url.get_server_url() +
+            '/mob/stores?' +
+            sort_value +
+            "&name=" +
+            keyword.text;
+      }
+
       Map<String, String> headers = {};
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
       if (_getRequest == false) {
-        print(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest")); 
+        print(Uri.parse(
+            url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
         final response = await http.get(
             Uri.parse(
                 url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
@@ -640,16 +656,25 @@ class _StoreState extends State<Store> {
   void getshopping_centerslist(sort_value) async {
     try {
       Urls server_url = new Urls();
-      String url = server_url.get_server_url() + '/mob/shopping_centers?' + sort_value;
-      if (keyword.text != '') { url = server_url.get_server_url() + '/mob/shopping_centers?' + sort_value + "&name=" +keyword.text;}
+      String url =
+          server_url.get_server_url() + '/mob/shopping_centers?' + sort_value;
+      if (keyword.text != '') {
+        url = server_url.get_server_url() +
+            '/mob/shopping_centers?' +
+            sort_value +
+            "&name=" +
+            keyword.text;
+      }
       Map<String, String> headers = {};
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
       if (_getRequest == false) {
-        print(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest")); 
+        print(Uri.parse(
+            url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
         final response = await http.get(
-            Uri.parse(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
+            Uri.parse(
+                url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
             headers: headers);
         final json = jsonDecode(utf8.decode(response.bodyBytes));
         var postList = [];
@@ -698,15 +723,23 @@ class _StoreState extends State<Store> {
     try {
       Urls server_url = new Urls();
       String url = server_url.get_server_url() + '/mob/bazarlar?' + sort_value;
-      if (keyword.text != '') { url = server_url.get_server_url() + '/mob/bazarlar?' + sort_value + "&name=" +keyword.text;}
+      if (keyword.text != '') {
+        url = server_url.get_server_url() +
+            '/mob/bazarlar?' +
+            sort_value +
+            "&name=" +
+            keyword.text;
+      }
       Map<String, String> headers = {};
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
       if (_getRequest == false) {
-        print(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest")); 
+        print(Uri.parse(
+            url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
         final response = await http.get(
-            Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
+            Uri.parse(
+                url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
             headers: headers);
         final json = jsonDecode(utf8.decode(response.bodyBytes));
         var postList = [];

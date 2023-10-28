@@ -591,12 +591,7 @@ class _ServiceDetailState extends State<ServiceDetail> {
                         child: CircularProgressIndicator(
                             color: CustomColors.appColors))),
             floatingActionButton: status
-                ? Container(
-                    margin: EdgeInsets.only(top: 30, left: 25),
-                    alignment: Alignment.bottomCenter,
-                    padding: EdgeInsets.only(top: 50),
-                    child: Call(phone: data['phone'].toString()),
-                  )
+                ? Call(phone: data['phone'].toString())
                 : Container())
         : CustomProgressIndicator(funcInit: initState);
   }

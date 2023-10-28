@@ -143,7 +143,6 @@ class _NewStoreState extends State<NewStore> {
                     fontWeight: FontWeight.bold,
                     color: CustomColors.appColors)),
           ),
-
           Container(
             alignment: Alignment.center,
             height: 35,
@@ -156,7 +155,10 @@ class _NewStoreState extends State<NewStore> {
               controller: nameController,
               decoration: const InputDecoration(
                   hintText: 'Ady',
-                  hintStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),
+                  hintStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black54,
+                  ),
                   border: InputBorder.none,
                   focusColor: Colors.white,
                   contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
@@ -168,33 +170,27 @@ class _NewStoreState extends State<NewStore> {
               },
             ),
           ),
-
           Container(
-            height: 35,
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: CustomColors.appColors)),
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 10,
-                ),
+              height: 35,
+              margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: CustomColors.appColors)),
+              child: Row(children: <Widget>[
+                SizedBox(width: 10),
                 Expanded(
                     flex: 2,
-                    child: Text(
-                      "Kategoriýasy : ",
-                      style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),
-                    )),
+                    child: Text("Kategoriýasy : ",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.bold))),
                 Expanded(
                     flex: 4,
                     child: MyDropdownButton(
-                        items: categories, callbackFunc: callbackCategory)),
-              ],
-            ),
-          ),
-
+                        items: categories, callbackFunc: callbackCategory))
+              ])),
           GestureDetector(
             child: Container(
               height: 35,
@@ -205,14 +201,15 @@ class _NewStoreState extends State<NewStore> {
                   border: Border.all(color: CustomColors.appColors)),
               child: Row(
                 children: <Widget>[
-                  SizedBox(
-                    width: 10,
-                  ),
+                  SizedBox(width: 10),
                   Expanded(
                       flex: 3,
                       child: Text(
                         "Ýerleşýän ýeri : ",
-                        style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.bold),
                       )),
                   if (locationController['name_tm'] != null)
                     Expanded(
@@ -232,7 +229,6 @@ class _NewStoreState extends State<NewStore> {
               );
             },
           ),
-
           Container(
             alignment: Alignment.center,
             height: 35,
@@ -247,7 +243,10 @@ class _NewStoreState extends State<NewStore> {
               decoration: const InputDecoration(
                   hintText: 'Eltip bermek bahasy:',
                   border: InputBorder.none,
-                  hintStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),
+                  hintStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black54,
+                  ),
                   focusColor: Colors.white,
                   contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
               validator: (String? value) {
@@ -258,7 +257,6 @@ class _NewStoreState extends State<NewStore> {
               },
             ),
           ),
-
           GestureDetector(
             onTap: () {
               showConfirmationDialogAddphone(context);
@@ -273,10 +271,12 @@ class _NewStoreState extends State<NewStore> {
                     border: Border.all(color: CustomColors.appColors)),
                 child: Text(
                   " " + phoneController,
-                  style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black54,
+                      fontWeight: FontWeight.bold),
                 )),
           ),
-
           Container(
             height: 100,
             margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
@@ -289,7 +289,10 @@ class _NewStoreState extends State<NewStore> {
               controller: body_tmController,
               decoration: const InputDecoration(
                   hintText: 'Düşündüriliş',
-                  hintStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.black54,),
+                  hintStyle: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black54,
+                  ),
                   border: InputBorder.none,
                   focusColor: Colors.white,
                   contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
@@ -301,10 +304,7 @@ class _NewStoreState extends State<NewStore> {
               },
             ),
           ),
-
-          SizedBox(
-            height: 30,
-          ),
+          SizedBox(height: 10),
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -340,7 +340,6 @@ class _NewStoreState extends State<NewStore> {
                   );
                 }).toList(),
               )),
-
           Container(
             height: 45,
             padding: const EdgeInsets.all(8),
@@ -374,8 +373,7 @@ class _NewStoreState extends State<NewStore> {
                   String url = server_url.get_server_url() + '/mob/stores';
                   final uri = Uri.parse(url);
                   var request = new http.MultipartRequest("POST", uri);
-                  var token = Provider.of<UserInfo>(context, listen: false)
-                      .access_token;
+                  var token = Provider.of<UserInfo>(context, listen: false).access_token;
 
                   request.headers.addAll({
                     'Content-Type': 'application/x-www-form-urlencoded',

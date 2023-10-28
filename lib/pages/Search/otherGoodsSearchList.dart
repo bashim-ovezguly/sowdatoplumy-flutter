@@ -294,10 +294,6 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
     if (params['category'] != 'null') {
       url = url + 'category=' + params['category'] + "&";
     }
-    if (params['brand'] != 'null') {
-      url = url + 'brand=' + params['brand'] + "&";
-    }
-    
     if (params['name'] != null) {
       url = url + 'name=' + params['name'] + "&";
     }
@@ -314,10 +310,7 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
     }
 
     try {
-      final response = await get(
-          Uri.parse(
-              url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
-          headers: headers);
+      final response = await get(Uri.parse(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),headers: headers);
       print(Uri.parse(
           url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
       final json = jsonDecode(utf8.decode(response.bodyBytes));

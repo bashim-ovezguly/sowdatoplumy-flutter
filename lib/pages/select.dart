@@ -55,7 +55,7 @@ class _MyDropdownButtonState extends State<MyDropdownButton> {
                       if (value['parent']=='')
                         Text(value['name_tm'].toString(),style: const TextStyle(fontSize: 17, color: CustomColors.appColors),)
                       else
-                        Text(value['parent']['name'].toString()+ " > " +value['name_tm'].toString(),style: const TextStyle(fontSize: 17, color: CustomColors.appColors),)
+                        Text(value['parent']['name'].toString()+ " > " + value['name_tm'].toString(),style: const TextStyle(fontSize: 17, color: CustomColors.appColors),)
                     else if (value['name'] != null)
                       Text(value['name'].toString(),style: const TextStyle(fontSize: 17, color: CustomColors.appColors),)
                     else

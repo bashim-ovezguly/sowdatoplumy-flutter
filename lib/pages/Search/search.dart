@@ -38,7 +38,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
   @override
   void initState() {
     super.initState();  
-    print(widget.index);
     _tabController = TabController(length: 6, vsync: this, initialIndex: widget.index);
   }
   
@@ -70,7 +69,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
            )
           ],
         ),
-        body:Column(
+        body: Column(
           children: <Widget>[
             TabBar(
               tabAlignment: TabAlignment.start,

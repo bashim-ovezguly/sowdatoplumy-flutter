@@ -62,7 +62,6 @@ class _RealEstateAddState extends State<RealEstateAdd> {
   callbackRemontState(new_value){ setState(() { remontStateController = new_value; });}
   callbackLocation(new_value){ setState(() { locationsController = new_value; });}
   
-
   bool credit = false ;
   bool swap = false ;
   bool none_cash_pay = false ;
@@ -339,7 +338,7 @@ class _RealEstateAddState extends State<RealEstateAdd> {
             width: double.infinity,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), border: Border.all(color: CustomColors.appColors)),
             child: Row(
-              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Remonty: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
+              children: <Widget>[SizedBox(width: 10,), Expanded(flex: 2,child: Text("Remondy: ", style: TextStyle(fontSize: 15, color: Colors.black54, fontWeight: FontWeight.bold),)),
                 Expanded(flex: 4, child: MyDropdownButton(items: remont_states, callbackFunc: callbackRemontState)
                 ),],),),
           const SizedBox(height: 15,),

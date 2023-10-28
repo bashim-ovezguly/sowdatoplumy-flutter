@@ -307,6 +307,9 @@ class _ProperrieSearchListState extends State<ProperrieSearchList> {
     if (params['own'] != null && params['own'] == 'on') {
       url = url + 'own=' + params['own'] + "&";
     }
+    if (params['name'] != null) {
+      url = url + 'name=' + params['name'] + "&";
+    }
 
     url = url + sort_value;
 

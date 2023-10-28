@@ -54,143 +54,135 @@ class _OtherGoodsSearchState extends State<OtherGoodsSearch> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.appColorWhite,
-      body: Column(
-        children: <Widget>[
-          Expanded(
-              child: ListView(
-            scrollDirection: Axis.vertical,
+      body: Column(children: <Widget>[
+        Expanded(
+            child: ListView(scrollDirection: Axis.vertical, children: <Widget>[
+          Stack(
             children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  Container(
+              Container(
+                width: double.infinity,
+                height: 40,
+                margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: CustomColors.appColors, width: 1),
+                  borderRadius: BorderRadius.circular(5),
+                  shape: BoxShape.rectangle,
+                ),
+                child: Container(
+                  margin: EdgeInsets.only(left: 15),
+                  child: MyDropdownButton(
+                    items: categories,
+                    callbackFunc: callbackCategory,
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 25,
+                top: 12,
+                child: Container(
+                  color: Colors.white,
+                  child: Text(
+                    'Kategoriýasy',
+                    style: TextStyle(color: Colors.black, fontSize: 12),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Stack(
+            children: <Widget>[
+              Container(
+                width: double.infinity,
+                height: 40,
+                margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: CustomColors.appColors, width: 1),
+                  borderRadius: BorderRadius.circular(5),
+                  shape: BoxShape.rectangle,
+                ),
+                child: Container(
+                    margin: EdgeInsets.only(left: 15),
+                    child: TextFormField(
+                      controller: idController,
+                      decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          focusColor: Colors.white,
+                          contentPadding:
+                              EdgeInsets.only(left: 10, bottom: 14)),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    )),
+              ),
+              Positioned(
+                left: 25,
+                top: 12,
+                child: Container(
+                  color: Colors.white,
+                  child: Text(
+                    'Id',
+                    style: TextStyle(color: Colors.black, fontSize: 12),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Stack(
+            children: <Widget>[
+              Container(
+                width: double.infinity,
+                height: 40,
+                margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: CustomColors.appColors, width: 1),
+                  borderRadius: BorderRadius.circular(5),
+                  shape: BoxShape.rectangle,
+                ),
+                child: Container(
+                    margin: EdgeInsets.only(left: 15),
+                    child: TextFormField(
+                      controller: nameController,
+                      decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          focusColor: Colors.white,
+                          contentPadding:
+                              EdgeInsets.only(left: 10, bottom: 14)),
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter some text';
+                        }
+                        return null;
+                      },
+                    )),
+              ),
+              Positioned(
+                left: 25,
+                top: 12,
+                child: Container(
+                  color: Colors.white,
+                  child: Text(
+                    'Ady',
+                    style: TextStyle(color: Colors.black, fontSize: 12),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Stack(children: <Widget>[
+            GestureDetector(
+                child: Container(
                     width: double.infinity,
                     height: 40,
                     margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
                     decoration: BoxDecoration(
-                      border:
-                          Border.all(color: CustomColors.appColors, width: 1),
-                      borderRadius: BorderRadius.circular(5),
-                      shape: BoxShape.rectangle,
-                    ),
-                    child: Container(
-                      margin: EdgeInsets.only(left: 15),
-                      child: MyDropdownButton(
-                        items: categories,
-                        callbackFunc: callbackCategory,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 25,
-                    top: 12,
-                    child: Container(
-                      color: Colors.white,
-                      child: Text(
-                        'Kategoriýasy',
-                        style: TextStyle(color: Colors.black, fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Stack(
-                children: <Widget>[
-                  Container(
-                    width: double.infinity,
-                    height: 40,
-                    margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(color: CustomColors.appColors, width: 1),
-                      borderRadius: BorderRadius.circular(5),
-                      shape: BoxShape.rectangle,
-                    ),
-                    child: Container(
-                        margin: EdgeInsets.only(left: 15),
-                        child: TextFormField(
-                          controller: idController,
-                          decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              focusColor: Colors.white,
-                              contentPadding:
-                                  EdgeInsets.only(left: 10, bottom: 14)),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                        )),
-                  ),
-                  Positioned(
-                    left: 25,
-                    top: 12,
-                    child: Container(
-                      color: Colors.white,
-                      child: Text(
-                        'Id',
-                        style: TextStyle(color: Colors.black, fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Stack(
-                children: <Widget>[
-                  Container(
-                    width: double.infinity,
-                    height: 40,
-                    margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(color: CustomColors.appColors, width: 1),
-                      borderRadius: BorderRadius.circular(5),
-                      shape: BoxShape.rectangle,
-                    ),
-                    child: Container(
-                        margin: EdgeInsets.only(left: 15),
-                        child: TextFormField(
-                          controller: nameController,
-                          decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              focusColor: Colors.white,
-                              contentPadding:
-                                  EdgeInsets.only(left: 10, bottom: 14)),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          },
-                        )),
-                  ),
-                  Positioned(
-                    left: 25,
-                    top: 12,
-                    child: Container(
-                      color: Colors.white,
-                      child: Text(
-                        'Ady',
-                        style: TextStyle(color: Colors.black, fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Stack(
-                children: <Widget>[
-                  GestureDetector(
-                    child: Container(
-                      width: double.infinity,
-                      height: 40,
-                      margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                      decoration: BoxDecoration(
                         border:
                             Border.all(color: CustomColors.appColors, width: 1),
                         borderRadius: BorderRadius.circular(5),
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: Container(
+                        shape: BoxShape.rectangle),
+                    child: Container(
                         margin: EdgeInsets.only(left: 15, top: 10),
                         child: locationController['name_tm'] != null
                             ? Text(
@@ -199,69 +191,25 @@ class _OtherGoodsSearchState extends State<OtherGoodsSearch> {
                                   fontSize: 16,
                                 ),
                               )
-                            : Text(''),
-                      ),
-                    ),
-                    onTap: () {
-                      showDialog(
-                        barrierDismissible: false,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return LocationWidget(callbackFunc: callbackLocation);
-                        },
-                      );
-                    },
-                  ),
-                  Positioned(
-                    left: 25,
-                    top: 12,
-                    child: Container(
-                      color: Colors.white,
-                      child: Text(
-                        'Ýerleşýän ýeri',
-                        style: TextStyle(color: Colors.black, fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Stack(
-                children: <Widget>[
-                  Container(
-                    width: double.infinity,
-                    height: 40,
-                    margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    decoration: BoxDecoration(
-                      border:
-                          Border.all(color: CustomColors.appColors, width: 1),
-                      borderRadius: BorderRadius.circular(5),
-                      shape: BoxShape.rectangle,
-                    ),
-                    child: Container(
-                      margin: EdgeInsets.only(left: 15),
-                      child: MyDropdownButton(
-                        items: categories,
-                        callbackFunc: callbackCategory,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 25,
-                    top: 12,
-                    child: Container(
-                      color: Colors.white,
-                      child: Text(
-                        'Kategoriýasy',
-                        style: TextStyle(color: Colors.black, fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          )),
-        ],
-      ),
+                            : Text(''))),
+                onTap: () {
+                  showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return LocationWidget(callbackFunc: callbackLocation);
+                      });
+                }),
+            Positioned(
+                left: 25,
+                top: 12,
+                child: Container(
+                    color: Colors.white,
+                    child: Text('Ýerleşýän ýeri',
+                        style: TextStyle(color: Colors.black, fontSize: 12))))
+          ])
+        ]))
+      ]),
       floatingActionButton: Container(
         height: 45,
         width: 45,

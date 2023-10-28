@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/AddData/addPage.dart';
 import 'package:my_app/pages/Notifications/notificationsDetail.dart';
 import 'package:my_app/pages/Notifications/notificationsList.dart';
 import 'package:my_app/pages/Restaurants/list.dart';
@@ -665,7 +666,29 @@ class _HomeState extends State<Home> {
                               ])
                         : CustomProgressIndicator(funcInit: initState)),
                 drawer: MyDraver(),
-              )
+                floatingActionButton: FloatingActionButton(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(100),
+                            bottomLeft: Radius.circular(100),
+                            bottomRight: Radius.circular(100),
+                            topLeft: Radius.circular(100))),
+                    backgroundColor: Colors.green,
+                    onPressed: () async {
+                      var datas = [];
+                      var allRows = await dbHelper.queryAllRows();
+                      for (final row in allRows) {
+                        datas.add(row);
+                      }
+                      if (datas.length == 0) {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                      } else {
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddDatasPage(index: 0 )));
+                      }
+                    },
+                    child: Icon(Icons.add, color: Colors.white)))
             : HomePageProgressIndicator(
                 funcInit: initState, determinate1: determinate1);
   }
@@ -1505,15 +1528,11 @@ class _MyDraverState extends State<MyDraver> {
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
-                  
+
                   GestureDetector(
                       onTap: () {
-                          
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    AppInfo()));      
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => AppInfo()));
                       },
                       child: Container(
                           width: double.infinity,
@@ -1522,20 +1541,20 @@ class _MyDraverState extends State<MyDraver> {
                           child: GestureDetector(
                               child: Container(
                                   child: Row(children: [
-                                Icon(
-                                  Icons.info,
-                                  size: 25,
-                                  color: CustomColors.appColors,
-                                ),
-                                SizedBox(
-                                  width: 14,
-                                ),
-                                Text('Programma barada',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                SizedBox(width: 15),
-                              ]))))),
+                            Icon(
+                              Icons.info,
+                              size: 25,
+                              color: CustomColors.appColors,
+                            ),
+                            SizedBox(
+                              width: 14,
+                            ),
+                            Text('Programma barada',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: CustomColors.appColors)),
+                            SizedBox(width: 15),
+                          ]))))),
                 ],
               ),
             )

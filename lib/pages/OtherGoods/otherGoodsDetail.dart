@@ -382,14 +382,8 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                     : Center(
                         child: CircularProgressIndicator(
                             color: CustomColors.appColors))),
-            floatingActionButton: status
-                ? Container(
-                    margin: EdgeInsets.only(top: 30, left: 25),
-                    alignment: Alignment.bottomCenter,
-                    padding: EdgeInsets.only(top: 50),
-                    child: Call(phone: number),
-                  )
-                : Container())
+            floatingActionButton:
+                status ? Call(phone: data['phone'].toString()) : Container())
         : CustomProgressIndicator(funcInit: initState);
   }
 
