@@ -9,11 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
 import 'package:my_app/pages/error.dart';
+import 'package:my_app/widgets/inputText.dart';
 import 'package:provider/provider.dart';
 import '../../dB/constants.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
-import '../select.dart';
 import '../success.dart';
 import '../../dB/colors.dart';
 import 'loadingWidget.dart';
@@ -30,38 +30,32 @@ class NewStore extends StatefulWidget {
 }
 
 class _NewStoreState extends State<NewStore> {
-  final String customer_id;
   var data = {};
-  // final Function refreshFunc;
-  List<dynamic> categories = [];
-  List<dynamic> sizes = [];
-  List<dynamic> trade_centers = [];
-  List<dynamic> streets = [];
-  List<File> images = [];
-
-  final nameController = TextEditingController();
-  final body_tmController = TextEditingController();
-  final open_atController = TextEditingController();
-  final close_atController = TextEditingController();
-  final addressController = TextEditingController();
-  final delivery_priceController = TextEditingController();
-
-  String phoneController = "Telefon";
-
-  callbackPhone(new_value) {
-    setState(() {
-      if (phoneController == 'Telefon') {
-        phoneController = new_value;
-      } else {
-        phoneController = phoneController + ", " + new_value;
-      }
-    });
-  }
-
   var categoryController = {};
   var locationController = {};
   var streetController = {};
   var sizeController = {};
+
+  List<dynamic> categories = [];
+  List<File> images = [];
+  List<File> selectedImages = [];
+
+  final picker = ImagePicker();
+  final String customer_id;
+  final nameController = TextEditingController();
+  final body_tmController = TextEditingController();
+  final phoneController = TextEditingController();
+  final delivery_priceController = TextEditingController();
+
+  callbackPhone(new_value) {
+    setState(() {
+      if (phoneController.text == '') {
+        phoneController.text = new_value;
+      } else {
+        phoneController.text = phoneController.text + ", " + new_value;
+      }
+    });
+  }
 
   callbackStatus() {
     Navigator.pop(context);
@@ -79,20 +73,23 @@ class _NewStoreState extends State<NewStore> {
     });
   }
 
-  callbackStreet(new_value) {
+  setName(new_value) {
     setState(() {
-      streetController = new_value;
+      nameController.text = new_value;
     });
   }
 
-  callbackSize(new_value) {
+  setDeliveryPrice(new_value) {
     setState(() {
-      sizeController = new_value;
+      delivery_priceController.text = new_value;
     });
   }
 
-  List<File> selectedImages = [];
-  final picker = ImagePicker();
+  setDescription(new_value) {
+    setState(() {
+      body_tmController.text = new_value;
+    });
+  }
 
   Future getImages() async {
     final pickedFile = await picker.pickMultiImage(
@@ -143,167 +140,95 @@ class _NewStoreState extends State<NewStore> {
                     fontWeight: FontWeight.bold,
                     color: CustomColors.appColors)),
           ),
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: CustomColors.appColors)),
-            child: TextFormField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                  hintText: 'Ady',
-                  hintStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54,
-                  ),
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
+          InputText(title: "Ady", height: 40.0, callFunc: setName),
+          InputSelectText(
+              title: "Kategoriýa",
+              height: 40.0,
+              callFunc: callbackCategory,
+              items: categories),
+          Stack(children: <Widget>[
+            GestureDetector(
+                child: Container(
+                    width: double.infinity,
+                    height: 40,
+                    margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: CustomColors.appColors, width: 1),
+                      borderRadius: BorderRadius.circular(5),
+                      shape: BoxShape.rectangle,
+                    ),
+                    child: Container(
+                        margin: EdgeInsets.only(left: 15, top: 10),
+                        child: locationController['name_tm'] != null
+                            ? Text(locationController['name_tm'],
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ))
+                            : Text(''))),
+                onTap: () {
+                  showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return LocationWidget(callbackFunc: callbackLocation);
+                      });
+                }),
+            Positioned(
+                left: 25,
+                top: 12,
+                child: Container(
+                    color: Colors.white,
+                    child: Text('Ýerleşýän ýeri',
+                        style: TextStyle(color: Colors.black, fontSize: 12))))
+          ]),
+          InputText(
+              title: "Eltip bermek bahasy",
+              height: 40.0,
+              callFunc: setDeliveryPrice),
+          GestureDetector(
+              onTap: () {
+                showConfirmationDialogAddphone(context);
               },
-            ),
-          ),
-          Container(
-              height: 35,
-              margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: CustomColors.appColors)),
-              child: Row(children: <Widget>[
-                SizedBox(width: 10),
-                Expanded(
-                    flex: 2,
-                    child: Text("Kategoriýasy : ",
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.bold))),
-                Expanded(
-                    flex: 4,
-                    child: MyDropdownButton(
-                        items: categories, callbackFunc: callbackCategory))
+              child: Stack(children: <Widget>[
+                Container(
+                    width: double.infinity,
+                    height: 40,
+                    margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                    decoration: BoxDecoration(
+                        border:
+                            Border.all(color: CustomColors.appColors, width: 1),
+                        borderRadius: BorderRadius.circular(5),
+                        shape: BoxShape.rectangle),
+                    child: Container(
+                        margin: EdgeInsets.only(left: 15),
+                        child: TextFormField(
+                            controller: phoneController,
+                            enabled: false,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusColor: Colors.white,
+                                contentPadding:
+                                    EdgeInsets.only(left: 10, bottom: 14)),
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            }))),
+                Positioned(
+                    left: 25,
+                    top: 12,
+                    child: Container(
+                        color: Colors.white,
+                        child: Text('Telefon',
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 12))))
               ])),
-          GestureDetector(
-            child: Container(
-              height: 35,
-              margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: CustomColors.appColors)),
-              child: Row(
-                children: <Widget>[
-                  SizedBox(width: 10),
-                  Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Ýerleşýän ýeri : ",
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.bold),
-                      )),
-                  if (locationController['name_tm'] != null)
-                    Expanded(
-                        flex: 4, child: Text(locationController['name_tm']))
-                  else
-                    Expanded(flex: 4, child: Text(''))
-                ],
-              ),
-            ),
-            onTap: () {
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (BuildContext context) {
-                  return LocationWidget(callbackFunc: callbackLocation);
-                },
-              );
-            },
-          ),
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: CustomColors.appColors)),
-            child: TextFormField(
-              controller: delivery_priceController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                  hintText: 'Eltip bermek bahasy:',
-                  border: InputBorder.none,
-                  hintStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54,
-                  ),
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              showConfirmationDialogAddphone(context);
-            },
-            child: Container(
-                alignment: Alignment.centerLeft,
-                height: 35,
-                margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: CustomColors.appColors)),
-                child: Text(
-                  " " + phoneController,
-                  style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.black54,
-                      fontWeight: FontWeight.bold),
-                )),
-          ),
-          Container(
-            height: 100,
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: CustomColors.appColors)),
-            child: TextFormField(
-              maxLines: 5,
-              controller: body_tmController,
-              decoration: const InputDecoration(
-                  hintText: 'Düşündüriliş',
-                  hintStyle: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black54,
-                  ),
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-          ),
+          InputText(
+              title: "Giňişleýin maglumat",
+              height: 100.0,
+              callFunc: setDescription),
           SizedBox(height: 10),
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -373,28 +298,19 @@ class _NewStoreState extends State<NewStore> {
                   String url = server_url.get_server_url() + '/mob/stores';
                   final uri = Uri.parse(url);
                   var request = new http.MultipartRequest("POST", uri);
-                  var token = Provider.of<UserInfo>(context, listen: false).access_token;
+                  var token = Provider.of<UserInfo>(context, listen: false)
+                      .access_token;
 
                   request.headers.addAll({
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'token': token
                   });
-                  request.fields['name_tm'] = nameController.text;
-                  request.fields['category'] =
-                      categoryController['id'].toString();
-                  request.fields['address'] = addressController.text;
-                  request.fields['delivery_price'] =
-                      delivery_priceController.text;
-
-                  if (phoneController != 'Telefon') {
-                    request.fields['phones'] = phoneController;
-                  }
-                  request.fields['open_at'] = open_atController.text;
-                  request.fields['close_at'] = close_atController.text;
-                  request.fields['body_tm'] = body_tmController.text;
-                  request.fields['location'] =
-                      locationController['id'].toString();
-                  request.fields['street'] = streetController['id'].toString();
+                  request.fields['name'] = nameController.text;
+                  request.fields['category'] = categoryController['id'].toString();
+                  request.fields['delivery_price'] = delivery_priceController.text;
+                  request.fields['phones'] = phoneController.text;
+                  request.fields['description'] = body_tmController.text;
+                  request.fields['location'] = locationController['id'].toString();
                   request.fields['customer'] = customer_id.toString();
 
                   for (var i in selectedImages) {

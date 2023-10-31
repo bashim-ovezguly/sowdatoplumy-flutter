@@ -349,13 +349,13 @@ class _AddStoreState extends State<AddStore> {
                       'Content-Type': 'application/x-www-form-urlencoded',
                       'token': token
                     });
-                    request.fields['name_tm'] = nameController.text;
+                    request.fields['name'] = nameController.text;
                     request.fields['category'] =
                         categoryController['id'].toString();
                     request.fields['delivery_price'] =
                         delivery_priceController.text;
                     request.fields['phones'] = phoneController.text;
-                    request.fields['body_tm'] = body_tmController.text;
+                    request.fields['description'] = body_tmController.text;
                     request.fields['location'] =
                         locationController['id'].toString();
 

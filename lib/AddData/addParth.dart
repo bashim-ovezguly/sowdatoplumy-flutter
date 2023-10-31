@@ -413,11 +413,9 @@ class _AddParthState extends State<AddParth> {
                     request.fields['mark'] = markaController['id'].toString();
                     request.fields['price'] = priceController.text.toString();
                     request.fields['phone'] = phoneController.text.toString();
-                    request.fields['name_tm'] = nameController.text.toString();
-                    request.fields['category'] =
-                        categoryController['id'].toString();
-                    request.fields['location'] =
-                        locationController['id'].toString();
+                    request.fields['name'] = nameController.text.toString();
+                    request.fields['category'] = categoryController['id'].toString();
+                    request.fields['location'] = locationController['id'].toString();
 
                     for (var i in selectedImages) {
                       var multiport = await http.MultipartFile.fromPath(

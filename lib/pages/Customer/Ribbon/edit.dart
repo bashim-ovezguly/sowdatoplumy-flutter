@@ -6,6 +6,7 @@ import 'package:my_app/dB/textStyle.dart';
 import 'package:my_app/pages/Customer/AwtoCar/edit.dart';
 import 'package:my_app/pages/Customer/deleteImage.dart';
 import 'package:my_app/pages/Customer/loadingWidget.dart';
+import 'package:my_app/widgets/inputText.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -36,6 +37,12 @@ class _MyRibbonEditState extends State<MyRibbonEdit> {
   void initState() {
     get_ribbon_by_id(id: widget.id);
     super.initState();
+  }
+
+  void setText(new_value) {
+    setState(() {
+      textController.text = new_value;
+    });
   }
 
   remove_image() {
@@ -107,36 +114,11 @@ class _MyRibbonEditState extends State<MyRibbonEdit> {
         body: determinate
             ? ListView(
                 children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.only(left: 20, top: 20),
-                    child: Text("Tekst",
-                        style: TextStyle(
-                            color: CustomColors.appColors,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold)),
-                  ),
-                  Container(
-                      height: 250,
-                      margin: const EdgeInsets.only(left: 20, right: 20),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: CustomColors.appColors)),
-                      child: TextFormField(
-                          maxLines: 10,
-                          controller: textController,
-                          keyboardType: TextInputType.text,
-                          decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              focusColor: Colors.white,
-                              contentPadding:
-                                  EdgeInsets.only(left: 10, bottom: 14)),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
-                            }
-                            return null;
-                          })),
+                  InputText(
+                      title: "Giňişleýin maglumat",
+                      height: 250.0,
+                      callFunc: setText,
+                      oldData: data['text'].toString()),
                   Row(
                     children: [
                       SizedBox(width: 20),

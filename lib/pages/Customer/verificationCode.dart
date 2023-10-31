@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/colors.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:my_app/dB/db.dart';
 import 'package:my_app/dB/textStyle.dart';
 import 'package:my_app/pages/Customer/newPassword.dart';
 import '../../dB/constants.dart';
@@ -13,10 +14,10 @@ import 'package:http/http.dart' as http;
 
 class MyHomePage extends StatefulWidget {
   final String phone;
-  MyHomePage({
-    Key? key,
-    required this.phone,
-  }) : super(key: key);
+  final String action;
+  final String password;
+  MyHomePage({Key? key, required this.phone, this.action = "", this.password=''})
+      : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState(phone: phone);
@@ -51,11 +52,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
         backgroundColor: CustomColors.appColorWhite,
         appBar: AppBar(
-          title: const Text(
-            "Açar sözüni dikeltmek",
-            style: CustomText.appBarText,
-          ),
-        ),
+            title: widget.action != 'login'
+                ? Text("Açar sözüni dikeltmek", style: CustomText.appBarText)
+                : Text("SMS kody tassykla", style: CustomText.appBarText)),
         body: ListView(
           children: [
             Container(
@@ -138,21 +137,39 @@ class _MyHomePageState extends State<MyHomePage> {
                                       await dbHelper.deleteAllRows();
                                   final deleteallRows1 =
                                       await dbHelper.deleteAllRows1();
+
                                   print('-----1--------  $deleteallRows');
                                   print('-----2--------  $deleteallRows1');
 
                                   String access_token = json['access_token'];
                                   String refresh_token = json['refresh_token'];
                                   int customer_id = json['id'];
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ConfirmNewPassword(
-                                                  phone: phone,
-                                                  access_token: access_token,
-                                                  refresh_token: refresh_token,
-                                                  customer_id: customer_id)));
+                                  if (widget.action != 'login') {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ConfirmNewPassword(
+                                                    phone: phone,
+                                                    access_token: access_token,
+                                                    refresh_token:
+                                                        refresh_token,
+                                                    customer_id: customer_id)));
+                                  } else {
+                                    Map<String, dynamic> row = {
+                                      DatabaseSQL.columnUserId: customer_id,
+                                      DatabaseSQL.columnName: access_token,
+                                      DatabaseSQL.columnPassword: refresh_token,
+                                    };
+
+                                    Map<String, dynamic> row1 = {
+                                      DatabaseSQL.columnName: widget.phone.toString(),
+                                      DatabaseSQL.columnPassword: widget.password.toString()
+                                    };
+
+                                    final id = await dbHelper.insert(row);
+                                    final id1 = await dbHelper.inser1(row1);
+                                  }
                                 } else {
                                   showDialog(
                                       context: context,

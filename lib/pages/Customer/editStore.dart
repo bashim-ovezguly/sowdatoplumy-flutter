@@ -9,11 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_app/pages/Customer/deleteImage.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
+import 'package:my_app/widgets/inputText.dart';
 import 'package:provider/provider.dart';
 import '../../dB/constants.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
-import '../select.dart';
 import '../success.dart';
 import '../../dB/colors.dart';
 import 'loadingWidget.dart';
@@ -44,21 +44,8 @@ class _EditStoreState extends State<EditStore> {
 
   final nameController = TextEditingController();
   final body_tmController = TextEditingController();
-  final open_atController = TextEditingController();
-  final close_atController = TextEditingController();
-  final addressController = TextEditingController();
   final delivery_priceController = TextEditingController();
-  String phoneController = "Telefon";
-
-  callbackPhone(new_value) {
-    setState(() {
-      if (phoneController == 'Telefon') {
-        phoneController = new_value;
-      } else {
-        phoneController = phoneController + ", " + new_value;
-      }
-    });
-  }
+  final phoneController = TextEditingController();
 
   bool status = false;
   callbackStatus() {
@@ -85,15 +72,13 @@ class _EditStoreState extends State<EditStore> {
     });
   }
 
-  callbackStreet(new_value) {
+  callbackPhone(new_value) {
     setState(() {
-      streetController = new_value;
-    });
-  }
-
-  callbackSize(new_value) {
-    setState(() {
-      sizeController = new_value;
+      if (phoneController.text == '') {
+        phoneController.text = new_value;
+      } else {
+        phoneController.text = phoneController.text + ", " + new_value;
+      }
     });
   }
 
@@ -126,12 +111,36 @@ class _EditStoreState extends State<EditStore> {
   }
 
   void initState() {
-    print(status);
     if (status == true) {
       Navigator.pop(context);
     }
     get_store_index();
+    setName(old_data['name_tm']);
+
+    if (old_data['location'] != '') {
+      setState(() {
+        locationController = old_data['location'];
+      });
+    }
     super.initState();
+  }
+
+  setName(new_value) {
+    setState(() {
+      nameController.text = new_value;
+    });
+  }
+
+  setDeliveryPrice(new_value) {
+    setState(() {
+      delivery_priceController.text = new_value;
+    });
+  }
+
+  setDescription(new_value) {
+    setState(() {
+      body_tmController.text = new_value;
+    });
   }
 
   _EditStoreState({required this.old_data, required this.callbackFunc});
@@ -139,191 +148,115 @@ class _EditStoreState extends State<EditStore> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.appColorWhite,
-      appBar: AppBar(
-        title: Text(
-          "Meniň sahypam",
-          style: CustomText.appBarText,
-        ),
-      ),
+      appBar:
+          AppBar(title: Text("Meniň sahypam", style: CustomText.appBarText)),
       body: ListView(
         children: <Widget>[
           Container(
-            alignment: Alignment.topLeft,
-            padding: const EdgeInsets.only(left: 10, top: 10),
-            child: Text("Dükan üýtgetmek",
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: CustomColors.appColors)),
-          ),
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: CustomColors.appColors)),
-            child: TextFormField(
-              controller: nameController,
-              decoration: InputDecoration(
-                  hintText: old_data['name_tm'] != null
-                      ? old_data['name_tm'].toString()
-                      : 'Ady',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-          ),
-          Container(
-            height: 35,
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: CustomColors.appColors)),
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 10,
-                ),
-                if (old_data['category'] != null && old_data['category'] != '')
-                  Expanded(
-                      flex: 2,
-                      child: Text(
-                        old_data['category'].toString(),
-                        style: TextStyle(fontSize: 15, color: Colors.black54),
-                      )),
-                if (old_data['category'] == null || old_data['category'] == '')
-                  Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Kategoriýasy",
-                        style: TextStyle(fontSize: 15, color: Colors.black54),
-                      )),
-                Expanded(
-                    flex: 4,
-                    child: MyDropdownButton(
-                        items: categories, callbackFunc: callbackCategory)),
-              ],
-            ),
-          ),
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.only(left: 10, top: 10),
+              child: Text("Dükan üýtgetmek",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: CustomColors.appColors))),
+          InputText(
+              title: "Ady",
+              height: 40.0,
+              callFunc: setName,
+              oldData: old_data['name_tm']),
+          InputSelectText(
+              title: "Kategoriýa",
+              height: 40.0,
+              callFunc: callbackCategory,
+              items: categories,
+              oldData: old_data['category']),
+          Stack(children: <Widget>[
+            GestureDetector(
+                child: Container(
+                    width: double.infinity,
+                    height: 40,
+                    margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(color: CustomColors.appColors, width: 1),
+                      borderRadius: BorderRadius.circular(5),
+                      shape: BoxShape.rectangle,
+                    ),
+                    child: Container(
+                        margin: EdgeInsets.only(left: 15, top: 10),
+                        child: locationController['name'] != null
+                            ? Text(locationController['name'],
+                                style: TextStyle(
+                                  fontSize: 16,
+                                ))
+                            : Text(''))),
+                onTap: () {
+                  showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return LocationWidget(callbackFunc: callbackLocation);
+                      });
+                }),
+            Positioned(
+                left: 25,
+                top: 12,
+                child: Container(
+                    color: Colors.white,
+                    child: Text('Ýerleşýän ýeri',
+                        style: TextStyle(color: Colors.black, fontSize: 12))))
+          ]),
+          InputText(
+              title: "Eltip bermek bahasy",
+              height: 40.0,
+              callFunc: setDeliveryPrice,
+              oldData: old_data['delivery_price']),
           GestureDetector(
-            child: Container(
-              height: 35,
-              margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: CustomColors.appColors)),
-              child: Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                      flex: 3,
-                      child: Text(
-                        "Ýerleşýän ýeri : ",
-                        style: TextStyle(fontSize: 15, color: Colors.black54),
-                      )),
-                  if (locationController['name_tm'] != null)
-                    Expanded(
-                        flex: 4, child: Text(locationController['name_tm']))
-                  else if (old_data['location'] != null &&
-                      old_data['location'] != '')
-                    Expanded(flex: 4, child: Text(old_data['location']['name']))
-                  else
-                    Expanded(flex: 4, child: Text(''))
-                ],
-              ),
-            ),
-            onTap: () {
-              showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (BuildContext context) {
-                  return LocationWidget(callbackFunc: callbackLocation);
-                },
-              );
-            },
-          ),
-          Container(
-            alignment: Alignment.center,
-            height: 35,
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: CustomColors.appColors)),
-            child: TextFormField(
-              controller: delivery_priceController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  hintText: old_data['address'] != null
-                      ? 'Eltip bermek bahasy:' + old_data['address'].toString()
-                      : 'Address :',
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
+              onTap: () {
+                showConfirmationDialogAddphone(context);
               },
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              showConfirmationDialogAddphone(context);
-            },
-            child: Container(
-                alignment: Alignment.centerLeft,
-                height: 35,
-                margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(color: CustomColors.appColors)),
-                child: Text(
-                  " " + phoneController,
-                )),
-          ),
-          Container(
-            alignment: Alignment.topLeft,
-            height: 100,
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            width: double.infinity,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(color: CustomColors.appColors)),
-            child: TextFormField(
-              controller: body_tmController,
-              decoration: InputDecoration(
-                  hintText: old_data['body_tm'] != null
-                      ? old_data['body_tm']
-                      : "Düşündiriliş",
-                  border: InputBorder.none,
-                  focusColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
+              child: Stack(children: <Widget>[
+                Container(
+                    width: double.infinity,
+                    height: 40,
+                    margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                    decoration: BoxDecoration(
+                        border:
+                            Border.all(color: CustomColors.appColors, width: 1),
+                        borderRadius: BorderRadius.circular(5),
+                        shape: BoxShape.rectangle),
+                    child: Container(
+                        margin: EdgeInsets.only(left: 15),
+                        child: TextFormField(
+                            controller: phoneController,
+                            enabled: false,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusColor: Colors.white,
+                                contentPadding:
+                                    EdgeInsets.only(left: 10, bottom: 14)),
+                            validator: (String? value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            }))),
+                Positioned(
+                    left: 25,
+                    top: 12,
+                    child: Container(
+                        color: Colors.white,
+                        child: Text('Telefon',
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 12))))
+              ])),
+          InputText(
+              title: "Giňişleýin maglumat",
+              height: 100.0,
+              callFunc: setDescription,
+              oldData: old_data['body_tm']),
+          SizedBox(height: 15),
           if (old_data['images'].length > 0)
             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -335,157 +268,126 @@ class _EditStoreState extends State<EditStore> {
                         style: TextStyle(
                             color: CustomColors.appColors, fontSize: 16),
                       ),
-                      Row(
-                        children: [
-                          for (var country in old_data['images'])
-                            Column(
-                              children: [
-                                Stack(
-                                  children: [
-                                    Container(
-                                        margin: const EdgeInsets.only(
-                                            left: 10, bottom: 10),
-                                        height: 100,
-                                        width: 100,
-                                        alignment: Alignment.topLeft,
-                                        child: Image.network(
-                                          baseurl + country['img_m'],
-                                          fit: BoxFit.cover,
-                                          height: 100,
-                                          width: 100,
-                                          errorBuilder: (BuildContext context,
-                                              Object exception,
-                                              StackTrace? stackTrace) {
-                                            return Center(
-                                              child: CircularProgressIndicator(
-                                                color: CustomColors.appColors,
-                                              ),
-                                            );
-                                          },
-                                        )),
-                                    GestureDetector(
-                                      onTap: () {
-                                        showDialog(
-                                          barrierDismissible: false,
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return DeleteImage(
-                                              action: 'cars',
-                                              image: country,
-                                              callbackFunc: remove_image,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      child: Container(
-                                        height: 100,
-                                        width: 110,
-                                        alignment: Alignment.topRight,
-                                        child: Icon(Icons.close,
-                                            color: Colors.red),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                if (_mainImg == country['id'])
-                                  Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    child: OutlinedButton(
-                                      child: Text(
-                                        "Esasy img",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      style: OutlinedButton.styleFrom(
-                                        backgroundColor:
-                                            Color.fromARGB(255, 15, 138, 19),
-                                        side: BorderSide(
-                                          color: Colors.green,
+                      Row(children: [
+                        for (var country in old_data['images'])
+                          Column(children: [
+                            Stack(children: [
+                              Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 10, bottom: 10),
+                                  height: 100,
+                                  width: 100,
+                                  alignment: Alignment.topLeft,
+                                  child: Image.network(
+                                    baseurl + country['img_m'],
+                                    fit: BoxFit.cover,
+                                    height: 100,
+                                    width: 100,
+                                    errorBuilder: (BuildContext context,
+                                        Object exception,
+                                        StackTrace? stackTrace) {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          color: CustomColors.appColors,
                                         ),
-                                      ),
+                                      );
+                                    },
+                                  )),
+                              GestureDetector(
+                                  onTap: () {
+                                    showDialog(
+                                        barrierDismissible: false,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return DeleteImage(
+                                              action: 'stores',
+                                              image: country,
+                                              callbackFunc: remove_image);
+                                        });
+                                  },
+                                  child: Container(
+                                      height: 100,
+                                      width: 110,
+                                      alignment: Alignment.topRight,
+                                      child:
+                                          Icon(Icons.close, color: Colors.red)))
+                            ]),
+                            if (_mainImg == country['id'])
+                              Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: OutlinedButton(
+                                      child: Text("Esasy img",
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      style: OutlinedButton.styleFrom(
+                                          backgroundColor:
+                                              Color.fromARGB(255, 15, 138, 19),
+                                          side:
+                                              BorderSide(color: Colors.green)),
                                       onPressed: () {
                                         setState(() {
                                           _mainImg = country['id'];
                                         });
-                                      },
-                                    ),
-                                  )
-                                else
-                                  Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    child: OutlinedButton(
+                                      }))
+                            else
+                              Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: OutlinedButton(
                                       child: Text("Esasy img"),
                                       style: OutlinedButton.styleFrom(
-                                        primary: Colors.red,
-                                        side: BorderSide(
-                                          color: Colors.red,
-                                        ),
-                                      ),
+                                          primary: Colors.red,
+                                          side: BorderSide(color: Colors.red)),
                                       onPressed: () {
                                         setState(() {
                                           _mainImg = country['id'];
                                         });
-                                      },
-                                    ),
-                                  )
-                              ],
-                            )
-                        ],
-                      )
+                                      }))
+                          ])
+                      ])
                     ])),
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: selectedImages.map((country) {
-                  return Stack(
-                    children: [
-                      Container(
-                          margin: const EdgeInsets.only(
-                              left: 10, bottom: 10, right: 10),
-                          height: 100,
-                          width: 100,
-                          alignment: Alignment.topLeft,
-                          child: Image.file(
-                            country,
-                            fit: BoxFit.cover,
-                            height: 100,
-                            width: 100,
-                          )),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selectedImages.remove(country);
-                          });
-                        },
-                        child: Container(
+                  children: selectedImages.map((country) {
+                return Stack(children: [
+                  Container(
+                      margin: const EdgeInsets.only(
+                          left: 10, bottom: 10, right: 10),
+                      height: 100,
+                      width: 100,
+                      alignment: Alignment.topLeft,
+                      child: Image.file(
+                        country,
+                        fit: BoxFit.cover,
+                        height: 100,
+                        width: 100,
+                      )),
+                  GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedImages.remove(country);
+                        });
+                      },
+                      child: Container(
                           height: 100,
                           width: 110,
                           alignment: Alignment.topRight,
-                          child: Icon(Icons.close, color: Colors.red),
-                        ),
-                      ),
-                    ],
-                  );
-                }).toList(),
-              )),
+                          child: Icon(Icons.close, color: Colors.red)))
+                ]);
+              }).toList())),
           Container(
-            height: 45,
-            padding: const EdgeInsets.all(8),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: CustomColors.appColors,
-                    foregroundColor: Colors.white),
-                onPressed: () async {
-                  getImages();
-                },
-                child: const Text(
-                  'Surat goş',
-                  style: TextStyle(),
-                ),
-              ),
-            ),
-          ),
+              height: 45,
+              padding: const EdgeInsets.all(8),
+              child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: CustomColors.appColors,
+                          foregroundColor: Colors.white),
+                      onPressed: () async {
+                        getImages();
+                      },
+                      child: const Text('Surat goş', style: TextStyle())))),
           Container(
             height: 45,
             padding: const EdgeInsets.all(8),
@@ -512,7 +414,7 @@ class _EditStoreState extends State<EditStore> {
                   request.headers.addAll(headers);
 
                   if (nameController.text != '') {
-                    request.fields['name_tm'] = nameController.text;
+                    request.fields['name'] = nameController.text;
                   }
 
                   if (categoryController['id'] != null) {
@@ -524,26 +426,13 @@ class _EditStoreState extends State<EditStore> {
                     request.fields['img'] = _mainImg.toString();
                   }
 
-                  if (sizeController['id'] != null) {
-                    request.fields['size'] = sizeController['id'].toString();
-                  }
-
                   if (locationController['id'] != null) {
                     request.fields['location'] =
                         locationController['id'].toString();
                   }
 
-                  if (streetController['id'] != null) {
-                    request.fields['street'] =
-                        streetController['id'].toString();
-                  }
-
-                  if (addressController.text != '') {
-                    request.fields['address'] = addressController.text;
-                  }
-
                   if (phoneController != '' && phoneController != 'Telefon') {
-                    request.fields['phone'] = phoneController;
+                    request.fields['phone'] = phoneController.text;
                   }
 
                   if (delivery_priceController.text != '') {
@@ -551,24 +440,14 @@ class _EditStoreState extends State<EditStore> {
                         delivery_priceController.text;
                   }
 
-                  if (open_atController.text != '') {
-                    request.fields['open_at'] = open_atController.text;
-                  }
-
-                  if (close_atController.text != '') {
-                    request.fields['close_at'] = close_atController.text;
-                  }
-
                   if (body_tmController.text != '') {
-                    request.fields['body_tm'] = body_tmController.text;
+                    request.fields['description'] = body_tmController.text;
                   }
                   if (selectedImages.length != 0) {
                     for (var i in selectedImages) {
                       var multiport = await http.MultipartFile.fromPath(
-                        'images',
-                        i.path,
-                        contentType: MediaType('image', 'jpeg'),
-                      );
+                          'images', i.path,
+                          contentType: MediaType('image', 'jpeg'));
                       request.files.add(multiport);
                     }
                   }
@@ -579,36 +458,31 @@ class _EditStoreState extends State<EditStore> {
                     Navigator.pop(context);
 
                     showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          shadowColor: CustomColors.appColorWhite,
-                          surfaceTintColor: CustomColors.appColorWhite,
-                          backgroundColor: CustomColors.appColorWhite,
-                          content: Container(
-                            width: 200,
-                            height: 100,
-                            child: Text(
-                                'Maglumat üýtgedildi operatoryň tassyklamagyna garaşyň'),
-                          ),
-                          actions: <Widget>[
-                            Align(
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green,
-                                    foregroundColor: Colors.white),
-                                onPressed: () async {
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Dowam et'),
-                              ),
-                            )
-                          ],
-                        );
-                      },
-                    );
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                              shadowColor: CustomColors.appColorWhite,
+                              surfaceTintColor: CustomColors.appColorWhite,
+                              backgroundColor: CustomColors.appColorWhite,
+                              content: Container(
+                                  width: 200,
+                                  height: 100,
+                                  child: Text(
+                                      'Maglumat üýtgedildi operatoryň tassyklamagyna garaşyň')),
+                              actions: <Widget>[
+                                Align(
+                                    child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green,
+                                            foregroundColor: Colors.white),
+                                        onPressed: () async {
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('Dowam et')))
+                              ]);
+                        });
                   } else {
                     Navigator.pop(context);
                     showDialog(

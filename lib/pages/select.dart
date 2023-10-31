@@ -5,8 +5,9 @@ import 'package:my_app/dB/colors.dart';
 class MyDropdownButton extends StatefulWidget {
   final  List<dynamic> items;
   final Function callbackFunc;
+  final String oldData;
 
-  MyDropdownButton({required this.items, required this.callbackFunc});
+  MyDropdownButton({required this.items, required this.callbackFunc, this.oldData=''});
   @override
   _MyDropdownButtonState createState() => _MyDropdownButtonState(callbackFunc: callbackFunc, items: items);
 }
@@ -16,8 +17,7 @@ class _MyDropdownButtonState extends State<MyDropdownButton> {
   final Function callbackFunc;
   
   
-  void initState() {
-    print(items);
+  void initState() {    
     super.initState();
   }
   
@@ -27,11 +27,11 @@ class _MyDropdownButtonState extends State<MyDropdownButton> {
     return
       DropdownButton<String>(   
         dropdownColor: CustomColors.appColorWhite,
-        
         isExpanded: true,
         alignment: Alignment. center,
         elevation: 16,
         value: selectedItem,
+        hint: Align(alignment: Alignment.centerLeft, child: Text(widget.oldData)),
         underline: const SizedBox(),
         onChanged: (dynamic newValue) {
           setState(() {

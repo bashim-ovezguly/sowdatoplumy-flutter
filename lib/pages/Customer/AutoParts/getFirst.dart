@@ -278,7 +278,6 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                         padding: EdgeInsets.all(10),
                         child: Text(data['error_reason'].toString(),
                             maxLines: 10, style: TextStyle(color: Colors.red))),
-            
                   Container(
                     height: 30,
                     margin: const EdgeInsets.only(left: 10),
@@ -372,7 +371,6 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                       ],
                     ),
                   ),
- 
                   Container(
                     height: 40,
                     margin: const EdgeInsets.only(left: 10),
@@ -498,25 +496,21 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                       ],
                     ),
                   ),
-    
-                  if (data['detail'] != null && data['detail'] != '')
-                    Container(
-                      margin: const EdgeInsets.all(10),
-                      height: 100,
-                      width: double.infinity,
-                      child: TextField(
-                        enabled: false,
-                        maxLines: 3,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                          filled: true,
-                          hintText: data['detail'].toString(),
-                          fillColor: Colors.white,
-                        ),
-                      ),
-                    ),
+                  if (data['description'] != null && data['description'] != '')
+                    SizedBox(
+                        width: double.infinity,
+                        child: TextField(
+                            enabled: false,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none),
+                                filled: true,
+                                hintMaxLines: 10,
+                                hintStyle: TextStyle(
+                                    fontSize: 14,
+                                    color: CustomColors.appColors),
+                                hintText: data['description'].toString(),
+                                fillColor: Colors.white)))
                 ],
               )
             : Center(

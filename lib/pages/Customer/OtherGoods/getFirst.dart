@@ -351,7 +351,7 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                       ],
                     ),
                   ),
-                    Container(
+                  Container(
                     margin: EdgeInsets.only(left: 10, right: 10),
                     height: 35,
                     child: Row(
@@ -376,7 +376,9 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                             ],
                           ),
                         ),
-                        Expanded(child: Text(data['store'].toString(), style: CustomText.size_16))
+                        Expanded(
+                            child: Text(data['store'].toString(),
+                                style: CustomText.size_16))
                       ],
                     ),
                   ),
@@ -473,25 +475,21 @@ class _MyOtherGoodsDetailState extends State<MyOtherGoodsDetail> {
                       ],
                     ),
                   ),
-
-                  if (data['body_tm'] != '' && data['body_tm'] != null)
-                    Container(
-                      margin: const EdgeInsets.all(10),
-                      height: 100,
-                      width: double.infinity,
-                      child: TextField(
-                        enabled: false,
-                        maxLines: 3,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                          filled: true,
-                          hintText: data['body_tm'].toString(),
-                          fillColor: Colors.white,
-                        ),
-                      ),
-                    ),
+                  if (data['description'] != null && data['description'] != '')
+                    SizedBox(
+                        width: double.infinity,
+                        child: TextField(
+                            enabled: false,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none),
+                                filled: true,
+                                hintMaxLines: 10,
+                                hintStyle: TextStyle(
+                                    fontSize: 14,
+                                    color: CustomColors.appColors),
+                                hintText: data['description'].toString(),
+                                fillColor: Colors.white)))
                 ],
               )
             : Center(

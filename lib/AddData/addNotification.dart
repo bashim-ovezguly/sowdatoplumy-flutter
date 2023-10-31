@@ -370,12 +370,11 @@ class _AddNotificationsState extends State<AddNotifications> {
                       request.fields['store'] =
                           storesController['id'].toString();
                     }
-                    request.fields['name_tm'] = nameController.text;
-                    request.fields['category'] =
-                        categoryController['id'].toString();
+                    request.fields['name'] = nameController.text;
+                    request.fields['category'] = categoryController['id'].toString();
                     request.fields['price'] = priceController.text;
                     request.fields['phone'] = phoneController.text;
-                    request.fields['body_tm'] = detailController.text;
+                    request.fields['description'] = detailController.text;
                     request.fields['location'] =
                         locationController['id'].toString();
                     for (var i in selectedImages) {

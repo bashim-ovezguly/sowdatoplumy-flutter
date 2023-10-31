@@ -705,7 +705,7 @@ class _AddRealestateState extends State<AddRealestate> {
                     request.fields['ipoteka'] = ipoteka_num;
                     request.fields['documents_ready'] = document_num;
                     request.fields['phone'] = phoneController.text;
-                    request.fields['detail'] = detailController.text;
+                    request.fields['description'] = detailController.text;
                     request.fields['square'] = squareController.text;
                     request.fields['room_count'] = roomCountController.text;
                     request.fields['at_floor'] = atFloorController.text;

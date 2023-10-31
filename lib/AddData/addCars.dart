@@ -7,7 +7,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:my_app/dB/providers.dart';
 import 'package:my_app/main.dart';
-import 'package:my_app/pages/Customer/editStore.dart';
 import 'package:my_app/pages/Customer/loadingWidget.dart';
 import 'package:my_app/pages/Customer/login.dart';
 import 'package:my_app/pages/customCheckbox.dart';
@@ -19,7 +18,6 @@ import 'package:http_parser/http_parser.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:sqflite/utils/utils.dart';
 
 class AddCars extends StatefulWidget {
   const AddCars({super.key});
@@ -724,18 +722,15 @@ class _AddCarsState extends State<AddCars> {
                     request.fields['price'] = priceController.text.toString();
                     request.fields['vin'] = vinCodeController.text;
                     request.fields['engine'] = engineController.text;
-                    request.fields['location'] =
-                        locationController['id'].toString();
-                    request.fields['transmission'] =
-                        transmissionController['id'].toString();
+                    request.fields['location'] = locationController['id'].toString();
+                    request.fields['transmission'] = transmissionController['id'].toString();
                     request.fields['color'] = colorController['id'].toString();
-                    request.fields['body_type'] =
-                        body_typeController['id'].toString();
+                    request.fields['body_type'] = body_typeController['id'].toString();
                     request.fields['phone'] = phoneController.text;
                     request.fields['wd'] = wdController['id'].toString();
                     request.fields['year'] = yearController.text;
                     request.fields['millage'] = millageController.text;
-                    request.fields['detail'] = detailController.text;
+                    request.fields['description'] = detailController.text;
 
                     request.fields['swap'] = swap_num;
                     request.fields['credit'] = credit_num;

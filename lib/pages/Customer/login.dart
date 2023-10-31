@@ -7,6 +7,8 @@ import 'package:my_app/dB/constants.dart';
 import 'package:my_app/dB/db.dart';
 import 'package:my_app/pages/Customer/myPages.dart';
 import 'package:my_app/pages/Customer/newPassword.dart';
+import 'package:my_app/pages/Customer/verificationCode.dart';
+import 'package:my_app/pages/Store/checkout.dart';
 import 'package:my_app/pages/register.dart';
 import 'package:quickalert/quickalert.dart';
 import '../../dB/textStyle.dart';
@@ -108,7 +110,8 @@ class _LoginState extends State<Login> {
                                                           TextInputType.number,
                                                       decoration:
                                                           InputDecoration(
-                                                              labelText:"Telefon",
+                                                              labelText:
+                                                                  "Telefon",
                                                               labelStyle: TextStyle(
                                                                   color: CustomColors
                                                                       .appColors),
@@ -117,22 +120,28 @@ class _LoginState extends State<Login> {
                                                                       .appColors,
                                                               prefixIcon:
                                                                   Padding(
-                                                                padding:EdgeInsets.all(1),
-                                                                child: Container(
-                                                                  margin: EdgeInsets.only(left: 10, top: 8),
-                                                                  width: 50,
-                                                                  alignment: Alignment.centerLeft,
-                                                                  child: Text(
-                                                                    "+993 ",
-                                                                    style:
-                                                                        TextStyle(
-                                                                      color: CustomColors
-                                                                          .appColors,
-                                                                      fontSize:
-                                                                          16,
-                                                                    )),
-                                                                )
-                                                              ),
+                                                                      padding:
+                                                                          EdgeInsets.all(
+                                                                              1),
+                                                                      child:
+                                                                          Container(
+                                                                        margin: EdgeInsets.only(
+                                                                            left:
+                                                                                10,
+                                                                            top:
+                                                                                8),
+                                                                        width:
+                                                                            50,
+                                                                        alignment:
+                                                                            Alignment.centerLeft,
+                                                                        child: Text(
+                                                                            "+993 ",
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: CustomColors.appColors,
+                                                                              fontSize: 16,
+                                                                            )),
+                                                                      )),
                                                               focusedBorder:
                                                                   OutlineInputBorder(
                                                                 borderSide: const BorderSide(
@@ -256,11 +265,23 @@ class _LoginState extends State<Login> {
                                     final json = jsonDecode(
                                         utf8.decode(response.bodyBytes));
                                     if (response.statusCode != 200) {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertError();
-                                          });
+                                      if (json['error_code'] == 5) {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return SmsCodeSend(
+                                                phone: phoneController.text,
+                                                password:
+                                                    passwordController.text,
+                                              );
+                                            });
+                                      } else {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertError();
+                                            });
+                                      }
                                     }
 
                                     if (json['status'] == 'success') {
@@ -289,7 +310,7 @@ class _LoginState extends State<Login> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => MyPages()));
-                                    } else {}
+                                    }
                                   } else {
                                     showDialog(
                                         context: context,
@@ -343,6 +364,55 @@ class _LoginState extends State<Login> {
             : Center(
                 child:
                     CircularProgressIndicator(color: CustomColors.appColors)));
+  }
+}
+
+class SmsCodeSend extends StatefulWidget {
+  final String password;
+  final String phone;
+
+  SmsCodeSend({Key? key, required this.phone, required this.password})
+      : super(key: key);
+  @override
+  _SmsCodeSendState createState() => _SmsCodeSendState();
+}
+
+class _SmsCodeSendState extends State<SmsCodeSend> {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        shadowColor: CustomColors.appColorWhite,
+        surfaceTintColor: CustomColors.appColorWhite,
+        backgroundColor: CustomColors.appColorWhite,
+        content: Container(
+            width: 80,
+            height: 110,
+            child: Column(children: [
+              Text(
+                  'Hormatly ulanyjy, siziň belgiňiz tassyklanmadyk. SMS kod üsti bile belgiňizi tassyklamagyňyzy haýyş edýäris!',
+                  style: TextStyle(fontSize: 17, color: CustomColors.appColors),
+                  textAlign: TextAlign.center,
+                  maxLines: 4)
+            ])),
+        actions: <Widget>[
+          Align(
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: CustomColors.appColors,
+                      foregroundColor: Colors.white),
+                  onPressed: () {
+                    Navigator.pop(context, 'Close');
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MyHomePage(
+                                  action: "login",
+                                  phone: widget.phone,
+                                  password: widget.password,
+                                )));
+                  },
+                  child: const Text('SMS kod ugrat')))
+        ]);
   }
 }
 

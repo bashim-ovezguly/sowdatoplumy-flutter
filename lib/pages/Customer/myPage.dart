@@ -118,14 +118,7 @@ class _MyPageState extends State<MyPage> {
                   : Text(
                       user_customer_name.toString() + " şahsy otag",
                       style: CustomText.appBarText,
-                    ),
-              Text(
-                'Söwda nokady',
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 15,
-                    color: CustomColors.appColors),
-              ),
+                    )
             ],
           ),
           actions: [
