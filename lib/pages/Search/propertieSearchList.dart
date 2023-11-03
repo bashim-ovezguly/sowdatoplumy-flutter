@@ -199,7 +199,7 @@ class _ProperrieSearchListState extends State<ProperrieSearchList> {
                                                                             .all(
                                                                             10),
                                                                         color: CustomColors
-                                                                            .appColors,
+                                                                            .appColorWhite,
                                                                         child: Column(
                                                                             mainAxisAlignment:
                                                                                 MainAxisAlignment.start,

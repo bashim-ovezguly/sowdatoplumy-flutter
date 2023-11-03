@@ -226,7 +226,7 @@ class _AutoPartsListState extends State<AutoPartsList> {
                                                     EdgeInsets.only(left: 2),
                                                 padding:
                                                     const EdgeInsets.all(10),
-                                                color: CustomColors.appColors,
+                                                color: CustomColors.appColorWhite,
                                                 child: Column(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
@@ -238,8 +238,7 @@ class _AutoPartsListState extends State<AutoPartsList> {
                                                         child: Text(
                                                           data[index]['name_tm']
                                                               .toString(),
-                                                          style: CustomText
-                                                              .itemTextBold,
+                                                          style: CustomText.itemTextBold,
                                                         ),
                                                       ),
                                                     ),
@@ -256,7 +255,7 @@ class _AutoPartsListState extends State<AutoPartsList> {
                                                           softWrap: false,
                                                           style: TextStyle(
                                                                 fontSize: 12,
-                                                                color: CustomColors.appColorWhite),
+                                                                color: CustomColors.appColors),
                                                         ),
                                                       ),
                                                     ),
@@ -271,7 +270,7 @@ class _AutoPartsListState extends State<AutoPartsList> {
                                                                   .toString(),
                                                               style: TextStyle(
                                                                 fontSize: 12,
-                                                                color: CustomColors.appColorWhite))),
+                                                                color: CustomColors.appColors))),
                                                     ])),
                                                     Expanded(
                                                         child: Align(

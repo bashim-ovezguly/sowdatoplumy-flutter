@@ -62,6 +62,7 @@ class UserInfo extends ChangeNotifier {
   }
 
   void set_user_info(value){
+    print("user Info isledi");
     user_info = value;
     notifyListeners(); 
   }

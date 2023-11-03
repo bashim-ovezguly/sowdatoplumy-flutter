@@ -108,11 +108,9 @@ class _NewPasswordState extends State<NewPassword> {
                                         MyHomePage(phone: phone)));
 
                             Urls server_url = new Urls();
-                            String url = server_url.get_server_url() +
-                                '/mob/customers/send/code';
+                            String url = server_url.get_server_url() +'/mob/customers/send/code';
                             final uri = Uri.parse(url);
-                            var request =
-                                new http.MultipartRequest("POST", uri);
+                            var request = new http.MultipartRequest("POST", uri);
 
                             request.headers.addAll({
                               'Content-Type':

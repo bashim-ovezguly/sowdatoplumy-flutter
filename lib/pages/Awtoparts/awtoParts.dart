@@ -297,7 +297,7 @@ class _AutoPartsState extends State<AutoParts> {
                                                         const EdgeInsets.all(
                                                             10),
                                                     color:
-                                                        CustomColors.appColors,
+                                                        CustomColors.appColorWhite,
                                                     child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment

@@ -195,7 +195,7 @@ class _AutoPartsSearchListState extends State<AutoPartsSearchList> {
                                                                           .all(
                                                                           10),
                                                                   color: CustomColors
-                                                                      .appColors,
+                                                                      .appColorWhite,
                                                                   child: Column(
                                                                       mainAxisAlignment:
                                                                           MainAxisAlignment

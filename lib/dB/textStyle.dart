@@ -4,8 +4,8 @@ import 'package:my_app/dB/colors.dart';
 class CustomText {
 
   static const appBarText = TextStyle( color: CustomColors.appColorWhite);
-  static const itemText = TextStyle(fontSize: 12, color: CustomColors.appColorWhite);
-  static const itemTextBold = TextStyle(fontSize: 14, color: CustomColors.appColorWhite, overflow: TextOverflow.clip, fontWeight: FontWeight.bold);
+  static const itemText = TextStyle(fontSize: 12, color: CustomColors.appColors);
+  static const itemTextBold = TextStyle(fontSize: 14, color: CustomColors.appColors, overflow: TextOverflow.clip, fontWeight: FontWeight.bold);
   
 
   static const size_16_black54 = TextStyle(fontSize: 14, color: CustomColors.appColorBlack54);

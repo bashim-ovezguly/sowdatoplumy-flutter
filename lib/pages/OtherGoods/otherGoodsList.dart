@@ -349,8 +349,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                                 flex: 2,
                                                                 child:
                                                                     Container(
-                                                                  color: CustomColors
-                                                                      .appColors,
+                                                                  color: CustomColors.appColorWhite,
                                                                   margin: EdgeInsets
                                                                       .only(
                                                                           left:
@@ -550,7 +549,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                               )),
                                                           Expanded(
                                                             flex: 2,
-                                                            child: Container(color: CustomColors.appColors,
+                                                            child: Container(color: CustomColors.appColorWhite,
                                                               margin: EdgeInsets.only(left: 2),
                                                               padding: EdgeInsets.all(10),
                                                               child: Column(

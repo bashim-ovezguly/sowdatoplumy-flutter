@@ -227,7 +227,7 @@ class _RealEstateListState extends State<RealEstateList> {
                                                         left: 2),
                                                     padding: EdgeInsets.all(10),
                                                     color:
-                                                        CustomColors.appColors,
+                                                        CustomColors.appColorWhite,
                                                     child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
@@ -271,7 +271,7 @@ class _RealEstateListState extends State<RealEstateList> {
                                                                         fontSize:
                                                                             12,
                                                                         color: CustomColors
-                                                                            .appColorWhite),
+                                                                            .appColors),
                                                                   ),
                                                                 ))),
                                                         Expanded(
@@ -288,7 +288,7 @@ class _RealEstateListState extends State<RealEstateList> {
                                                                         fontSize:
                                                                             12,
                                                                         color: CustomColors
-                                                                            .appColorWhite)),
+                                                                            .appColors)),
                                                               ],
                                                             ),
                                                           ),

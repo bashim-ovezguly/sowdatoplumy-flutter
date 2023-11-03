@@ -114,7 +114,7 @@ class _ProductManufacturersSearchListState extends State<ProductManufacturersSea
                                 child: Container(
                                   margin: EdgeInsets.only(left: 2),
                                   padding: const EdgeInsets.all(10),
-                                  color: CustomColors.appColors,
+                                  color: CustomColors.appColorWhite,
                                   child: Column(
                                     children: <Widget>[
                       

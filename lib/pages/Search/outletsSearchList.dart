@@ -195,7 +195,7 @@ class _OutletsSearchListState extends State<OutletsSearchList> {
                                                     flex: 2,
                                                     child: Container(
                                                       color: CustomColors
-                                                          .appColors,
+                                                          .appColorWhite,
                                                       margin: EdgeInsets.only(
                                                           left: 2),
                                                       padding:

@@ -289,7 +289,7 @@ class _PropertiesState extends State<Properties> {
                                                       EdgeInsets.only(left: 2),
                                                   padding:
                                                       const EdgeInsets.all(5),
-                                                  color: CustomColors.appColors,
+                                                  color: CustomColors.appColorWhite,
                                                   child: Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment.start,

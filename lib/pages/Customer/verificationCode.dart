@@ -16,7 +16,8 @@ class MyHomePage extends StatefulWidget {
   final String phone;
   final String action;
   final String password;
-  MyHomePage({Key? key, required this.phone, this.action = "", this.password=''})
+  MyHomePage(
+      {Key? key, required this.phone, this.action = "", this.password = ''})
       : super(key: key);
 
   @override
@@ -36,6 +37,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    if (widget.action == 'login') {
+      sendSms();
+     
+    }
     super.initState();
   }
 
@@ -163,8 +168,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                     };
 
                                     Map<String, dynamic> row1 = {
-                                      DatabaseSQL.columnName: widget.phone.toString(),
-                                      DatabaseSQL.columnPassword: widget.password.toString()
+                                      DatabaseSQL.columnName:
+                                          widget.phone.toString(),
+                                      DatabaseSQL.columnPassword:
+                                          widget.password.toString()
                                     };
 
                                     final id = await dbHelper.insert(row);
@@ -213,11 +220,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     )),
                     if (status == false)
                       Align(
-                        child: TextButton(
-                          onPressed: null,
-                          child: Text("SMS kody täzeden ugratmak"),
-                        ),
-                      )
+                          child: TextButton(
+                              onPressed: null,
+                              child: Text("SMS kody täzeden ugratmak")))
                     else
                       Align(
                         child: TextButton(
@@ -261,5 +266,19 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ],
         ));
+  }
+
+  Future<void> sendSms() async {
+     Urls server_url = new Urls();
+      String url = server_url.get_server_url() + '/mob/customers/send/code';
+      final uri = Uri.parse(url);
+      var request = new http.MultipartRequest("POST", uri);
+
+      request.headers.addAll({
+        'Content-Type': 'application/x-www-form-urlencoded',
+      });
+      request.fields['phone'] = phone;
+      final response = await request.send();
+      print('SUCCESS');
   }
 }

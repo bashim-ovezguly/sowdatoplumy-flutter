@@ -20,13 +20,6 @@ import '../Search/search.dart';
 import '../progressIndicator.dart';
 import '../sortWidget.dart';
 
-const List<String> list = <String>[
-  'Ulgama gir',
-  'ulgamda cyk',
-  'bilemok',
-  'ozin karar'
-];
-
 class CheckBoxModal {
   String title;
   bool value;
@@ -42,7 +35,6 @@ class Store extends StatefulWidget {
 }
 
 class _StoreState extends State<Store> {
-  String dropdownValue = list.first;
   late List<String> imgList = [];
   String title;
   var keyword = TextEditingController();
@@ -57,6 +49,7 @@ class _StoreState extends State<Store> {
   bool _getRequest = false;
   bool status = true;
   bool filter = false;
+  int total_count = 0;
 
   callbackFilter() {
     timers();
@@ -169,9 +162,8 @@ class _StoreState extends State<Store> {
   final int _numberOfPostPerRequest = 12;
   final ScrollController _controller = ScrollController();
   final double _height = 100.0;
-
-  late int total_page;
-  late int current_page;
+  late int total_page = 0;
+  late int current_page = 0;
 
   void _animateToIndex(int index) {
     _controller.animateTo(
@@ -217,280 +209,267 @@ class _StoreState extends State<Store> {
                 child: determinate && determinate1
                     ? SingleChildScrollView(
                         controller: _controller,
-                        child: Column(
-                          children: [
-                            Stack(
-                              alignment: Alignment.bottomCenter,
-                              textDirection: TextDirection.rtl,
-                              fit: StackFit.loose,
-                              clipBehavior: Clip.hardEdge,
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 10),
-                                  height: 220,
-                                  color: Colors.white,
-                                  child: CarouselSlider(
-                                    options: CarouselOptions(
-                                        height: 220,
-                                        viewportFraction: 1,
-                                        initialPage: 0,
-                                        enableInfiniteScroll:
-                                            dataSlider.length > 1
-                                                ? true
-                                                : false,
-                                        reverse: false,
-                                        autoPlay: dataSlider.length > 1
-                                            ? true
-                                            : false,
-                                        autoPlayInterval:
-                                            const Duration(seconds: 4),
-                                        autoPlayAnimationDuration:
-                                            const Duration(milliseconds: 800),
-                                        autoPlayCurve: Curves.fastOutSlowIn,
-                                        enlargeCenterPage: true,
-                                        enlargeFactor: 0.3,
-                                        scrollDirection: Axis.horizontal,
-                                        onPageChanged: (index, reason) {
-                                          setState(() {
-                                            _current = index;
-                                          });
-                                        }),
-                                    items: dataSlider
-                                        .map((item) => GestureDetector(
-                                              onTap: () {
-                                                if (title == 'Marketler' ||
-                                                    title == 'Dükanlar') {
-                                                  if (item['id'] != null) {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                MarketDetail(
+                        child: Column(children: [
+                          Stack(
+                            alignment: Alignment.bottomCenter,
+                            textDirection: TextDirection.rtl,
+                            fit: StackFit.loose,
+                            clipBehavior: Clip.hardEdge,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 10),
+                                height: 220,
+                                color: Colors.white,
+                                child: CarouselSlider(
+                                  options: CarouselOptions(
+                                      height: 220,
+                                      viewportFraction: 1,
+                                      initialPage: 0,
+                                      enableInfiniteScroll:
+                                          dataSlider.length > 1 ? true : false,
+                                      reverse: false,
+                                      autoPlay:
+                                          dataSlider.length > 1 ? true : false,
+                                      autoPlayInterval:
+                                          const Duration(seconds: 4),
+                                      autoPlayAnimationDuration:
+                                          const Duration(milliseconds: 800),
+                                      autoPlayCurve: Curves.fastOutSlowIn,
+                                      enlargeCenterPage: true,
+                                      enlargeFactor: 0.3,
+                                      scrollDirection: Axis.horizontal,
+                                      onPageChanged: (index, reason) {
+                                        setState(() {
+                                          _current = index;
+                                        });
+                                      }),
+                                  items: dataSlider
+                                      .map((item) => GestureDetector(
+                                            onTap: () {
+                                              if (title == 'Marketler' ||
+                                                  title == 'Dükanlar') {
+                                                if (item['id'] != null) {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              MarketDetail(
+                                                                id: item['id']
+                                                                    .toString(),
+                                                                title: title,
+                                                              )));
+                                                }
+                                              } else {
+                                                if (item['id'] != null) {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              StoreFirst(
                                                                   id: item['id']
                                                                       .toString(),
-                                                                  title: title,
-                                                                )));
-                                                  }
-                                                } else {
-                                                  if (item['id'] != null) {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    StoreFirst(
-                                                                      id: item[
-                                                                              'id']
-                                                                          .toString(),
-                                                                      title:
-                                                                          title,
-                                                                    )));
-                                                  }
+                                                                  title:
+                                                                      title)));
                                                 }
-                                              },
-                                              child: Stack(
-                                                children: [
-                                                  Container(
-                                                    height: 220,
-                                                    width: double.infinity,
-                                                    child: FittedBox(
-                                                      fit: BoxFit.cover,
-                                                      child: item['img'] != ''
-                                                          ? Image.network(
-                                                              baseurl +
-                                                                  item['img']
-                                                                      .toString(),
-                                                            )
-                                                          : Image.asset(
-                                                              'assets/images/default16x9.jpg'),
-                                                    ),
+                                              }
+                                            },
+                                            child: Stack(
+                                              children: [
+                                                Container(
+                                                  height: 220,
+                                                  width: double.infinity,
+                                                  child: FittedBox(
+                                                    fit: BoxFit.cover,
+                                                    child: item['img'] != ''
+                                                        ? Image.network(
+                                                            baseurl +
+                                                                item['img']
+                                                                    .toString(),
+                                                          )
+                                                        : Image.asset(
+                                                            'assets/images/default16x9.jpg'),
                                                   ),
-                                                ],
-                                              ),
-                                            ))
-                                        .toList(),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 7),
-                                  child: DotsIndicator(
-                                    dotsCount: dataSlider.length,
-                                    position: _current.toDouble(),
-                                    decorator: DotsDecorator(
-                                      color: Colors.white,
-                                      activeColor: CustomColors.appColors,
-                                      activeShape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0)),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: 10, right: 10, top: 10, bottom: 10),
-                              width: double.infinity,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 228, 228, 228),
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Center(
-                                child: TextFormField(
-                                  controller: keyword,
-                                  decoration: InputDecoration(
-                                      prefixIcon: IconButton(
-                                        icon: const Icon(Icons.search),
-                                        onPressed: () {
-                                          setState(() {
-                                            _pageNumber = 1;
-                                            _isLastPage = false;
-                                            _loading = true;
-                                            _error = false;
-                                            data = [];
-                                          });
-                                          var sort_value = "";
-                                          if (title == 'Marketler') {
-                                            getmarketslist(sort_value);
-                                            getmarkets_slider();
-                                          }
-                                          if (title == 'Söwda merkezler') {
-                                            getshopping_centerslist(sort_value);
-                                            getslider_shopping_centers();
-                                          }
-                                          if (title == 'Dükanlar') {
-                                            getstoreslist(sort_value);
-                                            getslider_stores();
-                                          }
-                                          if (title == 'Bazarlar') {
-                                            getbazarlarlist(sort_value);
-                                            getslider_shopping();
-                                          }
-                                        },
-                                      ),
-                                      suffixIcon: IconButton(
-                                        icon: const Icon(Icons.clear),
-                                        onPressed: () {
-                                          setState(() {
-                                            _pageNumber = 1;
-                                            _isLastPage = false;
-                                            _loading = true;
-                                            _error = false;
-                                            data = [];
-                                            keyword.text = '';
-                                          });
-                                          var sort_value = "";
-                                          if (title == 'Marketler') {
-                                            getmarketslist(sort_value);
-                                            getmarkets_slider();
-                                          }
-                                          if (title == 'Söwda merkezler') {
-                                            getshopping_centerslist(sort_value);
-                                            getslider_shopping_centers();
-                                          }
-                                          if (title == 'Dükanlar') {
-                                            getstoreslist(sort_value);
-                                            getslider_stores();
-                                          }
-                                          if (title == 'Bazarlar') {
-                                            getbazarlarlist(sort_value);
-                                            getslider_shopping();
-                                          }
-                                        },
-                                      ),
-                                      hintText: 'Ady boýunça gözleg...',
-                                      border: InputBorder.none),
+                                                ),
+                                              ],
+                                            ),
+                                          ))
+                                      .toList(),
                                 ),
                               ),
+                              Container(
+                                margin: EdgeInsets.only(bottom: 7),
+                                child: DotsIndicator(
+                                  dotsCount: dataSlider.length,
+                                  position: _current.toDouble(),
+                                  decorator: DotsDecorator(
+                                    color: Colors.white,
+                                    activeColor: CustomColors.appColors,
+                                    activeShape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0)),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: 10, right: 10, top: 10, bottom: 10),
+                            width: double.infinity,
+                            height: 40,
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 228, 228, 228),
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Center(
+                              child: TextFormField(
+                                controller: keyword,
+                                decoration: InputDecoration(
+                                    prefixIcon: IconButton(
+                                      icon: const Icon(Icons.search),
+                                      onPressed: () {
+                                        setState(() {
+                                          _pageNumber = 1;
+                                          _isLastPage = false;
+                                          _loading = true;
+                                          _error = false;
+                                          data = [];
+                                        });
+                                        var sort_value = "";
+                                        if (title == 'Marketler') {
+                                          getmarketslist(sort_value);
+                                          getmarkets_slider();
+                                        }
+                                        if (title == 'Söwda merkezler') {
+                                          getshopping_centerslist(sort_value);
+                                          getslider_shopping_centers();
+                                        }
+                                        if (title == 'Dükanlar') {
+                                          getstoreslist(sort_value);
+                                          getslider_stores();
+                                        }
+                                        if (title == 'Bazarlar') {
+                                          getbazarlarlist(sort_value);
+                                          getslider_shopping();
+                                        }
+                                      },
+                                    ),
+                                    suffixIcon: IconButton(
+                                      icon: const Icon(Icons.clear),
+                                      onPressed: () {
+                                        setState(() {
+                                          _pageNumber = 1;
+                                          _isLastPage = false;
+                                          _loading = true;
+                                          _error = false;
+                                          data = [];
+                                          keyword.text = '';
+                                        });
+                                        var sort_value = "";
+                                        if (title == 'Marketler') {
+                                          getmarketslist(sort_value);
+                                          getmarkets_slider();
+                                        }
+                                        if (title == 'Söwda merkezler') {
+                                          getshopping_centerslist(sort_value);
+                                          getslider_shopping_centers();
+                                        }
+                                        if (title == 'Dükanlar') {
+                                          getstoreslist(sort_value);
+                                          getslider_stores();
+                                        }
+                                        if (title == 'Bazarlar') {
+                                          getbazarlarlist(sort_value);
+                                          getslider_shopping();
+                                        }
+                                      },
+                                    ),
+                                    hintText: 'Ady boýunça gözleg...',
+                                    border: InputBorder.none),
+                              ),
                             ),
-                            Wrap(
-                              alignment: WrapAlignment.start,
-                              children: data.map((item) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    if (title == 'Marketler' ||
-                                        title == 'Dükanlar') {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => MarketDetail(
-                                                id: item['id'].toString(),
-                                                title: title),
-                                          ));
-                                    } else {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => StoreFirst(
-                                                    id: item['id'].toString(),
-                                                    title: title,
-                                                  )));
-                                    }
-                                  },
-                                  child: Container(
-                                    height: 160,
-                                    width:
-                                        MediaQuery.of(context).size.width / 3,
-                                    child: Card(
-                                      color: CustomColors.appColorWhite,
-                                      shadowColor: const Color.fromARGB(
-                                          255, 200, 198, 198),
-                                      surfaceTintColor:
-                                          CustomColors.appColorWhite,
-                                      elevation: 5,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(7.0)),
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              color: Colors.white,
-                                              height: 120,
-                                              child: item['img'] != ''
-                                                  ? Image.network(
-                                                      baseurl +
-                                                          item['img']
-                                                              .toString(),
-                                                      fit: BoxFit.cover,
-                                                      height: 120,
-                                                      width: double.infinity,
-                                                    )
-                                                  : Image.asset(
-                                                      'assets/images/default.jpg',
-                                                    ),
+                          ),
+                          Wrap(
+                            alignment: WrapAlignment.start,
+                            children: data.map((item) {
+                              return GestureDetector(
+                                onTap: () {
+                                  if (title == 'Marketler' ||
+                                      title == 'Dükanlar') {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => MarketDetail(
+                                              id: item['id'].toString(),
+                                              title: title),
+                                        ));
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => StoreFirst(
+                                                  id: item['id'].toString(),
+                                                  title: title,
+                                                )));
+                                  }
+                                },
+                                child: Container(
+                                  height: 160,
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  child: Card(
+                                    color: CustomColors.appColorWhite,
+                                    shadowColor: const Color.fromARGB(
+                                        255, 200, 198, 198),
+                                    surfaceTintColor:
+                                        CustomColors.appColorWhite,
+                                    elevation: 5,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(7.0)),
+                                      child: Column(
+                                        children: [
+                                          Container(
+                                            color: Colors.white,
+                                            height: 120,
+                                            child: item['img'] != ''
+                                                ? Image.network(
+                                                    baseurl +
+                                                        item['img'].toString(),
+                                                    fit: BoxFit.cover,
+                                                    height: 120,
+                                                    width: double.infinity,
+                                                  )
+                                                : Image.asset(
+                                                    'assets/images/default.jpg',
+                                                  ),
+                                          ),
+                                          Container(
+                                            color: Colors.white,
+                                            padding: EdgeInsets.all(5),
+                                            child: Text(
+                                              item['name'].toString(),
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color:
+                                                      CustomColors.appColors),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            Container(
-                                              color: Colors.white,
-                                              padding: EdgeInsets.all(5),
-                                              child: Text(
-                                                item['name'].toString(),
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color:
-                                                        CustomColors.appColors),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            )
-                                          ],
-                                        ),
+                                          )
+                                        ],
                                       ),
                                     ),
                                   ),
-                                );
-                              }).toList(),
-                            ),
-                            if (total_page > current_page &&
-                                _getRequest == true)
-                              Container(
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                          if (total_page > current_page && _getRequest == true)
+                            Container(
                                 height: 100,
                                 child: Center(
                                     child: CircularProgressIndicator(
-                                        color: CustomColors.appColors)),
-                              )
-                          ],
-                        ),
-                      )
+                                        color: CustomColors.appColors)))
+                        ]))
                     : Center(
                         child: CircularProgressIndicator(
                             color: CustomColors.appColors))),
@@ -529,7 +508,8 @@ class _StoreState extends State<Store> {
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
-      if (_getRequest == false) {
+      if ((_getRequest == false && total_count > data.length) ||
+          data.length == 0) {
         final response = await http.get(
             Uri.parse(
                 url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
@@ -543,12 +523,15 @@ class _StoreState extends State<Store> {
         setState(() {
           current_page = json['current_page'];
           total_page = json['total_page'];
+          total_count = json['count'];
           baseurl = server_url.get_server_url();
           determinate = true;
           _isLastPage = data.length < _numberOfPostPerRequest;
           _loading = false;
           _pageNumber = _pageNumber + 1;
-          data.addAll(postList);
+          if (json['count'] > data.length) {
+            data.addAll(postList);
+          }
         });
       }
     } catch (e) {
@@ -598,7 +581,8 @@ class _StoreState extends State<Store> {
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
-      if (_getRequest == false) {
+      if ((_getRequest == false && total_count > data.length) ||
+          data.length == 0) {
         print(Uri.parse(
             url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
         final response = await http.get(
@@ -614,12 +598,15 @@ class _StoreState extends State<Store> {
         setState(() {
           current_page = json['current_page'];
           total_page = json['total_page'];
+          total_count = json['count'];
           baseurl = server_url.get_server_url();
           determinate = true;
           _isLastPage = data.length < _numberOfPostPerRequest;
           _loading = false;
           _pageNumber = _pageNumber + 1;
-          data.addAll(postList);
+          if (json['count'] > data.length) {
+            data.addAll(postList);
+          }
           _getRequest = false;
         });
       }
@@ -669,7 +656,8 @@ class _StoreState extends State<Store> {
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
-      if (_getRequest == false) {
+      if ((_getRequest == false && total_count > data.length) ||
+          data.length == 0) {
         print(Uri.parse(
             url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
         final response = await http.get(
@@ -681,22 +669,25 @@ class _StoreState extends State<Store> {
         for (var i in json['data']) {
           postList.add(i);
         }
+        print(postList);
         setState(() {
           current_page = json['current_page'];
           total_page = json['total_page'];
+          total_count = json['count'];
           baseurl = server_url.get_server_url();
           determinate = true;
           _isLastPage = data.length < _numberOfPostPerRequest;
-          _loading = false;
           _pageNumber = _pageNumber + 1;
-          data.addAll(postList);
+          if (json['count'] > data.length) {
+            data.addAll(postList);
+          }
           _getRequest == false;
         });
       }
     } catch (e) {
       setState(() {
-        _loading = false;
         _error = true;
+        _getRequest = false;
       });
     }
   }
@@ -734,7 +725,8 @@ class _StoreState extends State<Store> {
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
-      if (_getRequest == false) {
+      if ((_getRequest == false && total_count > data.length) ||
+          data.length == 0) {
         print(Uri.parse(
             url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
         final response = await http.get(
@@ -749,14 +741,17 @@ class _StoreState extends State<Store> {
         setState(() {
           current_page = json['current_page'];
           total_page = json['total_page'];
+          total_count = json['count'];
           baseurl = server_url.get_server_url();
           determinate = true;
           _isLastPage = data.length < _numberOfPostPerRequest;
           _loading = false;
           _pageNumber = _pageNumber + 1;
-          data.addAll(postList);
+          if (json['count'] > data.length) {
+            data.addAll(postList);
+          }
+          _getRequest = false;
         });
-        _getRequest = false;
       }
     } catch (e) {
       setState(() {
@@ -802,9 +797,7 @@ class _StoreState extends State<Store> {
   }
 
   void _controllListener() {
-    if (_controller.offset > _controller.position.maxScrollExtent - 1000 &&
-        total_page > current_page &&
-        _getRequest == false) {
+    if (_controller.offset == _controller.position.maxScrollExtent  && data.length < total_count) {
       var sort_value = "";
       var sort = Provider.of<UserInfo>(context, listen: false).sort;
       if (int.parse(sort) == 2) {
@@ -821,23 +814,16 @@ class _StoreState extends State<Store> {
       }
       if (title == 'Marketler') {
         getmarketslist(sort_value);
-        getmarkets_slider();
       }
       if (title == 'Söwda merkezler') {
         getshopping_centerslist(sort_value);
-        getslider_shopping_centers();
       }
       if (title == 'Dükanlar') {
         getstoreslist(sort_value);
-        getslider_stores();
       }
       if (title == 'Bazarlar') {
         getbazarlarlist(sort_value);
-        getslider_shopping();
       }
-      setState(() {
-        _getRequest = true;
-      });
     }
   }
 }

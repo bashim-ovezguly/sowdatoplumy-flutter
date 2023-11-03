@@ -198,7 +198,7 @@ class _PharmaciesSearchListState extends State<PharmaciesSearchList> {
                                                                             .all(
                                                                             10),
                                                                         color: CustomColors
-                                                                            .appColors,
+                                                                            .appColorWhite,
                                                                         child: Column(
                                                                             mainAxisAlignment:
                                                                                 MainAxisAlignment.start,

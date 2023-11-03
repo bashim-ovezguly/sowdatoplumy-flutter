@@ -216,7 +216,7 @@ class _MyStoresState extends State<MyStores> {
                                               Expanded(
                                                 flex: 2,
                                                 child: Container(
-                                                  color: CustomColors.appColors,
+                                                  color: CustomColors.appColorWhite,
                                                   margin:
                                                       EdgeInsets.only(left: 2),
                                                   padding: const EdgeInsets.all(10),
@@ -254,7 +254,7 @@ class _MyStoresState extends State<MyStores> {
                                                                     'location'],
                                                                 style: TextStyle(
                                                                 fontSize: 12,
-                                                                color: CustomColors.appColorWhite),
+                                                                color: CustomColors.appColors),
                                                                 maxLines: 1,
                                                                 overflow:
                                                                     TextOverflow

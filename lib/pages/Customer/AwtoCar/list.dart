@@ -210,7 +210,7 @@ class _MyCarsState extends State<MyCars> {
                                               Expanded(
                                                 flex: 2,
                                                 child: Container(
-                                                  color: CustomColors.appColors,
+                                                  color: CustomColors.appColorWhite,
                                                   margin: EdgeInsets.only(left: 2),
                                                   padding: const EdgeInsets.all(5),
                                                   child: Column(
@@ -252,7 +252,7 @@ class _MyCarsState extends State<MyCars> {
                                                               softWrap: false,
                                                               style: TextStyle(
                                                                 fontSize: 12,
-                                                                color: CustomColors.appColorWhite)
+                                                                color: CustomColors.appColors)
                                                                 ),
                                                         ),
                                                       ),
@@ -269,7 +269,7 @@ class _MyCarsState extends State<MyCars> {
                                                                       .toString(),
                                                                   style: TextStyle(
                                                                 fontSize: 12,
-                                                                color: CustomColors.appColorWhite)),
+                                                                color: CustomColors.appColors)),
                                                             ),
                                                           ),
                                                         ],

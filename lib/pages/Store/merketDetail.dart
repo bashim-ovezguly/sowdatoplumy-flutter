@@ -167,75 +167,69 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
         backgroundColor: CustomColors.appColorWhite,
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text(
-            store_name.toString(),
-            style: CustomText.appBarText,
-          ),
-          actions: [
-            badges.Badge(
-              badgeColor: Colors.green,
-              badgeContent: Text(
-                item_count.toString(),
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-              position: BadgePosition(start: 30, bottom: 25),
-              child: IconButton(
-                onPressed: () async {
-                  var allRows = await dbHelper.queryAllRows();
-                  var data1 = [];
-                  for (final row in allRows) {
-                    data1.add(row);
-                  }
-                  if (data1.length == 0) {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Login()));
-                  } else {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Order(
-                                store_name: data['name_tm'].toString(),
-                                store_id: widget.id,
-                                refresh: refresh,
-                                delivery_price: delivery_price_str)));
-                  }
-                },
-                icon: const Icon(Icons.shopping_cart),
-              ),
+            title: Text(
+              store_name.toString(),
+              style: CustomText.appBarText,
             ),
-            const SizedBox(
-              width: 5.0,
-            ),
-            PopupMenuButton<String>(
-              surfaceTintColor: CustomColors.appColorWhite,
-              shadowColor: CustomColors.appColorWhite,
-              color: CustomColors.appColorWhite,
-              itemBuilder: (context) {
-                List<PopupMenuEntry<String>> menuEntries2 = [
-                  PopupMenuItem<String>(
-                      child: GestureDetector(
-                          onTap: () {
-                            var url = data['share_link'].toString();
-                            Share.share(url, subject: 'Söwda Toplumy');
-                          },
-                          child: Container(
-                              color: Colors.white,
-                              height: 30,
-                              width: double.infinity,
-                              child: Row(children: [
-                                Image.asset('assets/images/send_link.png',
-                                    width: 20,
-                                    height: 20,
-                                    color: CustomColors.appColors),
-                                Text('  Paýlaş')
-                              ])))),
-                ];
-                return menuEntries2;
-              },
-            ),
-          ],
-        ),
+            actions: [
+              badges.Badge(
+                  badgeColor: Colors.green,
+                  badgeContent: Text(
+                    item_count.toString(),
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  position: BadgePosition(start: 30, bottom: 25),
+                  child: IconButton(
+                      onPressed: () async {
+                        var allRows = await dbHelper.queryAllRows();
+                        var data1 = [];
+                        for (final row in allRows) {
+                          data1.add(row);
+                        }
+                        if (data1.length == 0) {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Login()));
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Order(
+                                      store_name: data['name_tm'].toString(),
+                                      store_id: widget.id,
+                                      refresh: refresh,
+                                      delivery_price: delivery_price_str)));
+                        }
+                      },
+                      icon: const Icon(Icons.shopping_cart))),
+              const SizedBox(width: 5.0),
+              PopupMenuButton<String>(
+                  surfaceTintColor: CustomColors.appColorWhite,
+                  shadowColor: CustomColors.appColorWhite,
+                  color: CustomColors.appColorWhite,
+                  itemBuilder: (context) {
+                    List<PopupMenuEntry<String>> menuEntries2 = [
+                      PopupMenuItem<String>(
+                          child: GestureDetector(
+                              onTap: () {
+                                var url = data['share_link'].toString();
+                                Share.share(url, subject: 'Söwda Toplumy');
+                              },
+                              child: Container(
+                                  color: Colors.white,
+                                  height: 30,
+                                  width: double.infinity,
+                                  child: Row(children: [
+                                    Image.asset('assets/images/send_link.png',
+                                        width: 20,
+                                        height: 20,
+                                        color: CustomColors.appColors),
+                                    Text('  Paýlaş')
+                                  ]))))
+                    ];
+                    return menuEntries2;
+                  })
+            ]),
         body: determinate && determinate1
             ? SingleChildScrollView(
                 controller: _controller,
@@ -253,51 +247,47 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                               height: 220,
                               child: GestureDetector(
                                   child: CarouselSlider(
-                                    options: CarouselOptions(
-                                        height: 220,
-                                        viewportFraction: 1,
-                                        initialPage: 0,
-                                        enableInfiniteScroll:
-                                            imgList.length > 1 ? true : false,
-                                        reverse: false,
-                                        autoPlay:
-                                            imgList.length > 1 ? true : false,
-                                        autoPlayInterval:
-                                            const Duration(seconds: 4),
-                                        autoPlayAnimationDuration:
-                                            const Duration(milliseconds: 800),
-                                        autoPlayCurve: Curves.fastOutSlowIn,
-                                        enlargeCenterPage: true,
-                                        enlargeFactor: 0.3,
-                                        scrollDirection: Axis.horizontal,
-                                        onPageChanged: (index, reason) {
-                                          setState(() {
-                                            _current = index;
-                                          });
-                                        }),
-                                    items: imgList
-                                        .map((item) => Container(
+                                      options: CarouselOptions(
+                                          height: 220,
+                                          viewportFraction: 1,
+                                          initialPage: 0,
+                                          enableInfiniteScroll:
+                                              imgList.length > 1 ? true : false,
+                                          reverse: false,
+                                          autoPlay:
+                                              imgList.length > 1 ? true : false,
+                                          autoPlayInterval:
+                                              const Duration(seconds: 4),
+                                          autoPlayAnimationDuration:
+                                              const Duration(milliseconds: 800),
+                                          autoPlayCurve: Curves.fastOutSlowIn,
+                                          enlargeCenterPage: true,
+                                          enlargeFactor: 0.3,
+                                          scrollDirection: Axis.horizontal,
+                                          onPageChanged: (index, reason) {
+                                            setState(() {
+                                              _current = index;
+                                            });
+                                          }),
+                                      items: imgList
+                                          .map((item) => Container(
                                               color: Colors.white,
                                               child: Center(
-                                                child: ClipRect(
-                                                  child: Container(
-                                                    height: 220,
-                                                    width: double.infinity,
-                                                    child: FittedBox(
-                                                      fit: BoxFit.cover,
-                                                      child: item != 'x'
-                                                          ? Image.network(
-                                                              item.toString(),
-                                                            )
-                                                          : Image.asset(
-                                                              'assets/images/default16x9.jpg'),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ))
-                                        .toList(),
-                                  ),
+                                                  child: ClipRect(
+                                                      child: Container(
+                                                          height: 220,
+                                                          width:
+                                                              double.infinity,
+                                                          child: FittedBox(
+                                                              fit: BoxFit.cover,
+                                                              child: item != 'x'
+                                                                  ? Image
+                                                                      .network(
+                                                                      item.toString(),
+                                                                    )
+                                                                  : Image.asset(
+                                                                      'assets/images/default16x9.jpg')))))))
+                                          .toList()),
                                   onTap: () {
                                     if (imgList.length == 1 &&
                                         imgList[0] == 'x') {
@@ -316,64 +306,41 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                   dotsCount: imgList.length,
                                   position: _current.toDouble(),
                                   decorator: DotsDecorator(
-                                    color: Colors.white,
-                                    activeColor: CustomColors.appColors,
-                                    activeShape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0)),
-                                  )))
+                                      color: Colors.white,
+                                      activeColor: CustomColors.appColors,
+                                      activeShape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0)))))
                         ]),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
+                    Row(children: <Widget>[
+                      Expanded(
                           flex: 4,
-                          child: Row(
-                            children: <Widget>[
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Icon(
-                                Icons.access_time_outlined,
-                                size: 20,
-                                color: CustomColors.appColors,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                data['created_at'].toString(),
+                          child: Row(children: <Widget>[
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(Icons.access_time_outlined,
+                                size: 20, color: CustomColors.appColors),
+                            SizedBox(width: 10),
+                            Text(data['created_at'].toString(),
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'Raleway',
-                                  color: CustomColors.appColors,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Spacer(),
-                        Expanded(
-                          child: Row(
-                            children: <Widget>[
-                              Icon(
-                                Icons.visibility_sharp,
-                                size: 20,
-                                color: CustomColors.appColors,
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                data['viewed'].toString(),
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'Raleway',
-                                  color: CustomColors.appColors,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                                    fontSize: 16,
+                                    fontFamily: 'Raleway',
+                                    color: CustomColors.appColors))
+                          ])),
+                      Spacer(),
+                      Expanded(
+                          child: Row(children: <Widget>[
+                        Icon(Icons.visibility_sharp,
+                            size: 20, color: CustomColors.appColors),
+                        SizedBox(width: 10),
+                        Text(data['viewed'].toString(),
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'Raleway',
+                                color: CustomColors.appColors))
+                      ]))
+                    ]),
                     if (store_name != '')
                       Container(
                         padding: EdgeInsets.all(10),
@@ -385,21 +352,18 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                       SizedBox(
                           child: Row(children: [
                         Expanded(
-                          flex: 1,
-                          child: Icon(Icons.location_on,
-                              color: CustomColors.appColors, size: 25),
-                        ),
+                            flex: 1,
+                            child: Icon(Icons.location_on,
+                                color: CustomColors.appColors, size: 25)),
                         SizedBox(width: 5),
                         Expanded(
-                          flex: 10,
-                          child: Text(data['location']['name'].toString(),
-                              style: TextStyle(
-                                  color: CustomColors.appColors, fontSize: 14)),
-                        )
+                            flex: 10,
+                            child: Text(data['location']['name'].toString(),
+                                style: TextStyle(
+                                    color: CustomColors.appColors,
+                                    fontSize: 14)))
                       ])),
-                    SizedBox(
-                      height: 5,
-                    ),
+                    SizedBox(height: 5),
                     if (data['category'] != '' && data['category'] != null)
                       SizedBox(
                           child: Row(children: [
@@ -1063,10 +1027,10 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
       imgList = [];
       data = json;
 
-      if (json['delivery_price']!=null){
+      if (json['delivery_price'] != null) {
         delivery_price_str = json['delivery_price'];
       }
-      
+
       if (delivery_price_str == '0' || delivery_price_str == '0 TMT') {
         delivery_price_str = 'tölegsiz';
       }

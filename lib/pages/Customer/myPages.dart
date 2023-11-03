@@ -662,14 +662,13 @@ class _MyPagesState extends State<MyPages> {
 
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
-      print(json);
       user = json['data'];
       determinate = true;
       stores = json['data']['stores'];
       baseurl = server_url.get_server_url();
+      Provider.of<UserInfo>(context, listen: false).set_user_info(json['data']);
     });
-    Provider.of<UserInfo>(context, listen: false)
-        .setAccessToken(data[0]['name'], data[0]['age']);
+    Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);
   }
 }
 

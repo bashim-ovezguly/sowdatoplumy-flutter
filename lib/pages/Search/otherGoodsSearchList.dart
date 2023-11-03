@@ -191,7 +191,7 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
                                                                 child:
                                                                     Container(
                                                                         color: CustomColors
-                                                                            .appColors,
+                                                                            .appColorWhite,
                                                                         margin: EdgeInsets.only(
                                                                             left:
                                                                                 2),
@@ -221,7 +221,7 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
                                                                                   child: Align(
                                                                                       alignment: Alignment.centerLeft,
                                                                                       child: Row(children: <Widget>[
-                                                                                        Text('Kredit', style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                                                        Text('Kredit', style: TextStyle(color: CustomColors.appColors, fontSize: 12)),
                                                                                         data[index]['credit']
                                                                                             ? Icon(
                                                                                                 Icons.check,
@@ -229,7 +229,7 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
                                                                                               )
                                                                                             : Icon(Icons.close, color: Colors.red),
                                                                                         SizedBox(width: 5),
-                                                                                        Text('Obmen', style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                                                        Text('Obmen', style: TextStyle(color: CustomColors.appColors, fontSize: 12)),
                                                                                         data[index]['swap']
                                                                                             ? Icon(
                                                                                                 Icons.check,
@@ -237,7 +237,7 @@ class _OtherGoodsSearchListState extends State<OtherGoodsSearchList> {
                                                                                               )
                                                                                             : Icon(Icons.close, color: Colors.red),
                                                                                         SizedBox(width: 5),
-                                                                                        Text('Nagt däl', style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                                                        Text('Nagt däl', style: TextStyle(color: CustomColors.appColors, fontSize: 12)),
                                                                                         data[index]['none_cash_pay']
                                                                                             ? Icon(
                                                                                                 Icons.check,

@@ -130,8 +130,7 @@ class _CarSearchListState extends State<CarSearchList> {
                                 controller: _controller,
                                 itemCount: data.length + (_isLastPage ? 0 : 1),
                                 itemBuilder: (context, index) {
-                                  if (index == data.length - _nextPageTriger &&
-                                      data.length != total_price) {
+                                  if (index == data.length - _nextPageTriger && data.length != total_price) {
                                     getproductlist();
                                   }
                                   if (index == data.length) {
@@ -203,7 +202,7 @@ class _CarSearchListState extends State<CarSearchList> {
                                                                 Expanded(
                                                                     flex: 2,
                                                                     child: Container(
-                                                                        color: CustomColors.appColors,
+                                                                        color: CustomColors.appColorWhite,
                                                                         margin: EdgeInsets.only(left: 2),
                                                                         padding: EdgeInsets.all(10),
                                                                         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
@@ -233,7 +232,7 @@ class _CarSearchListState extends State<CarSearchList> {
                                                                                 child: Align(
                                                                                     alignment: Alignment.centerLeft,
                                                                                     child: Row(children: <Widget>[
-                                                                                      Text('Kredit', style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                                                      Text('Kredit', style: TextStyle(color: CustomColors.appColors, fontSize: 12)),
                                                                                       data[index]['credit']
                                                                                           ? Icon(
                                                                                               Icons.check,
@@ -241,10 +240,10 @@ class _CarSearchListState extends State<CarSearchList> {
                                                                                             )
                                                                                           : Icon(Icons.close, color: Colors.red),
                                                                                       SizedBox(width: 5),
-                                                                                      Text('Obmen', style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                                                      Text('Obmen', style: TextStyle(color: CustomColors.appColors, fontSize: 12)),
                                                                                       data[index]['swap'] ? Icon(Icons.check, color: Colors.green) : Icon(Icons.close, color: Colors.red),
                                                                                       SizedBox(width: 5),
-                                                                                      Text('Nagt däl', style: TextStyle(color: Colors.white, fontSize: 12)),
+                                                                                      Text('Nagt däl', style: TextStyle(color: CustomColors.appColors, fontSize: 12)),
                                                                                       data[index]['none_cash_pay'] ? Icon(Icons.check, color: Colors.green) : Icon(Icons.close, color: Colors.red)
                                                                                     ])))
                                                                           else

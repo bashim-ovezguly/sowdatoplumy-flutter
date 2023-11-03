@@ -223,7 +223,7 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                                               Expanded(
                                                 flex: 2,
                                                 child: Container(
-                                                  color: CustomColors.appColors,
+                                                  color: CustomColors.appColorWhite,
                                                   margin:
                                                       EdgeInsets.only(left: 2),
                                                   padding:
@@ -268,7 +268,7 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                                                                                 .toString(),
                                                                             overflow:
                                                                                 TextOverflow.ellipsis,
-                                                                            style: TextStyle(fontSize: 12, color: CustomColors.appColorWhite)),
+                                                                            style: TextStyle(fontSize: 12, color: CustomColors.appColors)),
                                                                       ))
                                                                     ]))),
                                                       Expanded(
@@ -281,7 +281,7 @@ class _MyOtherGoodsListState extends State<MyOtherGoodsList> {
                                                                 style: TextStyle(
                                                                     fontSize: 12,
                                                                     color: CustomColors
-                                                                        .appColorWhite)),
+                                                                        .appColors)),
                                                           )),
                                                       Expanded(
                                                           child: Row(

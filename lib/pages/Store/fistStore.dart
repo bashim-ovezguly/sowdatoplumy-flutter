@@ -61,7 +61,7 @@ _StoreFirstState({required this.title, required this.id});
             children: [
               Icon(Icons.location_on, color: CustomColors.appColorWhite,),
               Text(data['location'].toString(), style: TextStyle(fontSize: 15, color: CustomColors.appColorWhite))
-            ],
+            ]
           ): Text(''),
           ]
         )

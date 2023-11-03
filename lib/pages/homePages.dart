@@ -11,6 +11,7 @@ import 'package:my_app/pages/Notifications/notificationsList.dart';
 import 'package:my_app/pages/Restaurants/list.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/appInfo.dart';
+import 'package:my_app/pages/chatAdmin.dart';
 import 'package:my_app/pages/progressIndicator.dart';
 import 'package:my_app/pages/ribbon/ribbonList.dart';
 import 'package:provider/provider.dart';
@@ -52,13 +53,13 @@ class _HomeState extends State<Home> {
 
   void initState() {
     timers();
+    get_userinfo();
     setState(() {
       determinate = false;
       status = true;
       region = Provider.of<UserInfo>(context, listen: false).regionsCode;
     });
-    getHomePage();
-    get_userinfo();
+    getHomePage();    
     super.initState();
   }
 
@@ -547,26 +548,26 @@ class _HomeState extends State<Home> {
                                                                   child: Container(
                                                                       margin: EdgeInsets.only(left: 2),
                                                                       padding: const EdgeInsets.all(5),
-                                                                      color: CustomColors.appColors,
+                                                                      color: CustomColors.appColorWhite,
                                                                       child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
                                                                         SizedBox(
                                                                             height:
                                                                                 10),
                                                                         Expanded(
                                                                             child:
-                                                                                Align(alignment: Alignment.topLeft, child: Text(stores_list[index]['name'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColorWhite, fontSize: 14, fontWeight: FontWeight.bold)))),
+                                                                                Align(alignment: Alignment.topLeft, child: Text(stores_list[index]['name'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14, fontWeight: FontWeight.bold)))),
                                                                         SizedBox(
                                                                             height:
                                                                                 5),
                                                                         Expanded(
                                                                             child:
-                                                                                Container(alignment: Alignment.centerLeft, child: Text(stores_list[index]['created_at'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColorWhite, fontSize: 14)))),
+                                                                                Container(alignment: Alignment.centerLeft, child: Text(stores_list[index]['location'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14)))),
                                                                         SizedBox(
                                                                             height:
                                                                                 5),
                                                                         Expanded(
                                                                             child:
-                                                                                Container(alignment: Alignment.centerLeft, child: Text(stores_list[index]['location'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColorWhite, fontSize: 14)))),
+                                                                                Container(alignment: Alignment.centerLeft, child: Text(stores_list[index]['description'].toString(), overflow: TextOverflow.ellipsis, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14)))),
                                                                         SizedBox(
                                                                             height:
                                                                                 10)
@@ -599,22 +600,17 @@ class _HomeState extends State<Home> {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       NotificationsDetail(
-                                                        id: announcements_list[
-                                                                index]['id']
-                                                            .toString(),
-                                                        title: 'Bildiriş',
-                                                      )));
+                                                          id: announcements_list[
+                                                                  index]['id']
+                                                              .toString(),
+                                                          title: 'Bildiriş')));
                                         },
                                         child: Container(
                                             height: 110,
                                             child: Card(
-                                                color:
-                                                    CustomColors.appColorWhite,
-                                                shadowColor:
-                                                    const Color.fromARGB(
-                                                        255, 200, 198, 198),
-                                                surfaceTintColor:
-                                                    CustomColors.appColorWhite,
+                                                color:CustomColors.appColorWhite,
+                                                shadowColor:const Color.fromARGB(255, 200, 198, 198),
+                                                surfaceTintColor:CustomColors.appColorWhite,
                                                 elevation: 5,
                                                 child: ClipRRect(
                                                     borderRadius:
@@ -637,26 +633,26 @@ class _HomeState extends State<Home> {
                                                                   child: Container(
                                                                       margin: EdgeInsets.only(left: 2),
                                                                       padding: const EdgeInsets.all(5),
-                                                                      color: CustomColors.appColors,
+                                                                      color: CustomColors.appColorWhite,
                                                                       child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
                                                                         SizedBox(
                                                                             height:
                                                                                 10),
                                                                         Expanded(
                                                                             child:
-                                                                                Align(alignment: Alignment.topLeft, child: Text(announcements_list[index]['name'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColorWhite, fontSize: 14, fontWeight: FontWeight.bold)))),
+                                                                                Align(alignment: Alignment.topLeft, child: Text(announcements_list[index]['name'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14, fontWeight: FontWeight.bold)))),
                                                                         SizedBox(
                                                                             height:
                                                                                 5),
                                                                         Expanded(
                                                                             child:
-                                                                                Container(alignment: Alignment.centerLeft, child: Text(announcements_list[index]['created_at'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColorWhite, fontSize: 14)))),
+                                                                                Container(alignment: Alignment.centerLeft, child: Text(announcements_list[index]['created_at'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14)))),
                                                                         SizedBox(
                                                                             height:
                                                                                 5),
                                                                         Expanded(
                                                                             child:
-                                                                                Container(alignment: Alignment.centerLeft, child: Text(announcements_list[index]['location'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColorWhite, fontSize: 14)))),
+                                                                                Container(alignment: Alignment.centerLeft, child: Text(announcements_list[index]['location'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14)))),
                                                                         SizedBox(
                                                                             height:
                                                                                 10)
@@ -681,16 +677,17 @@ class _HomeState extends State<Home> {
                         datas.add(row);
                       }
                       if (datas.length == 0) {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Login()));
                       } else {
                         Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AddDatasPage(index: 0 )));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddDatasPage(index: 0)));
                       }
                     },
                     child: Icon(Icons.add, color: Colors.white)))
-            : HomePageProgressIndicator(
-                funcInit: initState, determinate1: determinate1);
+            : HomePageProgressIndicator(funcInit: initState, determinate1: determinate1);
   }
 
   showConfirmationDialog(BuildContext context) {
@@ -760,8 +757,7 @@ class _HomeState extends State<Home> {
       if (json['data']['update'] == true) {
         determinate1 = true;
       }
-      Provider.of<UserInfo>(context, listen: false)
-          .set_statistic(new_statistic);
+      Provider.of<UserInfo>(context, listen: false).set_statistic(new_statistic);
       // Provider.of<UserInfo>(context, listen: false).set_update_app(json['data']['update']);
       Provider.of<UserInfo>(context, listen: false).set_update_app(false);
     });
@@ -789,11 +785,9 @@ class _HomeState extends State<Home> {
       final json = jsonDecode(utf8.decode(response1.bodyBytes));
       Map<String, dynamic> row = {'id': json['device_id']};
       var device = await dbHelper.insert2(row);
-      Provider.of<UserInfo>(context, listen: false)
-          .set_device_id(json['device_id']);
+      Provider.of<UserInfo>(context, listen: false).set_device_id(json['device_id']);
     } else {
-      Provider.of<UserInfo>(context, listen: false)
-          .set_device_id(_allids[0]['id']);
+      Provider.of<UserInfo>(context, listen: false) .set_device_id(_allids[0]['id']);
     }
 
     var allRows = await dbHelper.queryAllRows();
@@ -815,8 +809,7 @@ class _HomeState extends State<Home> {
       response = await http.get(uri, headers: headers);
       final json = jsonDecode(utf8.decode(response.bodyBytes));
       setState(() {
-        Provider.of<UserInfo>(context, listen: false)
-            .set_user_info(json['data']);
+        Provider.of<UserInfo>(context, listen: false).set_user_info(json['data']);
         baseurl = server_url.get_server_url();
       });
       Provider.of<UserInfo>(context, listen: false)
@@ -836,7 +829,6 @@ class _MyDraverState extends State<MyDraver> {
   @override
   void initState() {
     Urls server_url = new Urls();
-
     setState(() {
       base_url = server_url.get_server_url();
     });
@@ -847,7 +839,6 @@ class _MyDraverState extends State<MyDraver> {
   Widget build(BuildContext context) {
     var statistic = Provider.of<UserInfo>(context, listen: false).statistic;
     var user = Provider.of<UserInfo>(context, listen: false).user_info;
-
     var updateApp = Provider.of<UserInfo>(context, listen: false).updateApp;
 
     return Drawer(
@@ -1300,48 +1291,47 @@ class _MyDraverState extends State<MyDraver> {
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
-
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Store(title: "Bazarlar")));
-                      },
-                      child: Container(
-                          width: double.infinity,
-                          color: Colors.white,
-                          margin: EdgeInsets.only(left: 20, top: 20),
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            Store(title: "Bazarlar")));
-                              },
-                              child: Container(
-                                  child: Row(children: [
-                                Icon(
-                                  Icons.storefront_sharp,
-                                  size: 25,
-                                  color: CustomColors.appColors,
-                                ),
-                                SizedBox(
-                                  width: 14,
-                                ),
-                                Text('Bazarlar',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                Spacer(),
-                                Text(statistic['bazar_count'],
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                SizedBox(width: 15),
-                              ]))))),
+                  // GestureDetector(
+                  //     onTap: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) =>
+                  //                   Store(title: "Bazarlar")));
+                  //     },
+                  //     child: Container(
+                  //         width: double.infinity,
+                  //         color: Colors.white,
+                  //         margin: EdgeInsets.only(left: 20, top: 20),
+                  //         child: GestureDetector(
+                  //             onTap: () {
+                  //               Navigator.push(
+                  //                   context,
+                  //                   MaterialPageRoute(
+                  //                       builder: (context) =>
+                  //                           Store(title: "Bazarlar")));
+                  //             },
+                  //             child: Container(
+                  //                 child: Row(children: [
+                  //               Icon(
+                  //                 Icons.storefront_sharp,
+                  //                 size: 25,
+                  //                 color: CustomColors.appColors,
+                  //               ),
+                  //               SizedBox(
+                  //                 width: 14,
+                  //               ),
+                  //               Text('Bazarlar',
+                  //                   style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       color: CustomColors.appColors)),
+                  //               Spacer(),
+                  //               Text(statistic['bazar_count'],
+                  //                   style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       color: CustomColors.appColors)),
+                  //               SizedBox(width: 15),
+                  //             ]))))),
                   GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -1550,6 +1540,30 @@ class _MyDraverState extends State<MyDraver> {
                               width: 14,
                             ),
                             Text('Programma barada',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: CustomColors.appColors)),
+                            SizedBox(width: 15)
+                          ]))))),
+
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatAdmin()));
+                      },
+                      child: Container(
+                          width: double.infinity,
+                          color: Colors.white,
+                          margin: EdgeInsets.only(left: 20, top: 20),
+                          child: GestureDetector(
+                              child: Container(
+                                  child: Row(children: [
+                            Icon(Icons.chat_sharp,
+                                size: 25, color: CustomColors.appColors),
+                            SizedBox(width: 14),
+                            Text('Admine ýaz',
                                 style: TextStyle(
                                     fontSize: 16,
                                     color: CustomColors.appColors)),

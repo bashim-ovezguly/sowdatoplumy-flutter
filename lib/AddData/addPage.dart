@@ -65,7 +65,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
                     Tab(
                         child: Row(children: const <Widget>[
                       Icon(
-                        Icons.car_rental_rounded,
+                        Icons.store_outlined,
                         color: CustomColors.appColors,
                       ),
                       Text("Dükan",
@@ -76,7 +76,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
                     ])),
                     Tab(
                         child: Row(children: const <Widget>[
-                      Icon(Icons.settings, color: CustomColors.appColors),
+                      Icon(Icons.car_repair, color: CustomColors.appColors),
                       Text("Awtoulag",
                           style: TextStyle(
                               color: CustomColors.appColors,
@@ -86,7 +86,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
                     Tab(
                         child: Row(children: const <Widget>[
                       Icon(
-                        Icons.storefront_outlined,
+                        Icons.settings_outlined,
                         color: CustomColors.appColors,
                       ),
                       Text("Awtoşaý",
@@ -98,7 +98,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
                     Tab(
                         child: Row(children: const <Widget>[
                       Icon(
-                        Icons.notification_add,
+                        Icons.campaign,
                         color: CustomColors.appColors,
                       ),
                       Text("Bildiriş",
@@ -109,7 +109,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
                     ])),
                     Tab(
                         child: Row(children: const <Widget>[
-                      Icon(Icons.flood_rounded, color: CustomColors.appColors),
+                      Icon(Icons.other_houses, color: CustomColors.appColors),
                       Text("Emläk ",
                           style: TextStyle(
                               color: CustomColors.appColors,

@@ -8,7 +8,6 @@ import 'package:my_app/dB/db.dart';
 import 'package:my_app/pages/Customer/myPages.dart';
 import 'package:my_app/pages/Customer/newPassword.dart';
 import 'package:my_app/pages/Customer/verificationCode.dart';
-import 'package:my_app/pages/Store/checkout.dart';
 import 'package:my_app/pages/register.dart';
 import 'package:quickalert/quickalert.dart';
 import '../../dB/textStyle.dart';
@@ -77,154 +76,142 @@ class _LoginState extends State<Login> {
             ? ListView(
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height / 2 - 10,
-                    width: double.infinity,
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Expanded(
-                              flex: 3,
-                              child: Center(
-                                child: Icon(Icons.account_circle,
-                                    color: CustomColors.appColors, size: 150),
-                              )),
-                          Expanded(
-                              flex: 2,
-                              child: Container(
+                      height: MediaQuery.of(context).size.height / 2 - 10,
+                      width: double.infinity,
+                      child: Center(
+                          child: Column(children: [
+                        Expanded(
+                            flex: 3,
+                            child: Center(
+                              child: Icon(Icons.account_circle,
+                                  color: CustomColors.appColors, size: 150),
+                            )),
+                        Expanded(
+                            flex: 2,
+                            child: Container(
                                 margin: EdgeInsets.only(left: 20, right: 20),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                        height: 50,
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                                flex: 4,
-                                                child: Container(
-                                                  height: 50,
-                                                  width: double.infinity,
-                                                  child: TextFormField(
-                                                      controller:
-                                                          usernameController,
-                                                      keyboardType:
-                                                          TextInputType.number,
-                                                      decoration:
-                                                          InputDecoration(
-                                                              labelText:
-                                                                  "Telefon",
-                                                              labelStyle: TextStyle(
-                                                                  color: CustomColors
-                                                                      .appColors),
-                                                              fillColor:
-                                                                  CustomColors
-                                                                      .appColors,
-                                                              prefixIcon:
-                                                                  Padding(
-                                                                      padding:
-                                                                          EdgeInsets.all(
-                                                                              1),
-                                                                      child:
-                                                                          Container(
-                                                                        margin: EdgeInsets.only(
-                                                                            left:
-                                                                                10,
-                                                                            top:
-                                                                                8),
-                                                                        width:
-                                                                            50,
-                                                                        alignment:
-                                                                            Alignment.centerLeft,
-                                                                        child: Text(
-                                                                            "+993 ",
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: CustomColors.appColors,
-                                                                              fontSize: 16,
-                                                                            )),
-                                                                      )),
-                                                              focusedBorder:
-                                                                  OutlineInputBorder(
-                                                                borderSide: const BorderSide(
-                                                                    color: Colors
-                                                                        .black12,
-                                                                    width: 1.0),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            15.0),
-                                                              ),
-                                                              enabledBorder:
-                                                                  OutlineInputBorder(
-                                                                borderSide: const BorderSide(
-                                                                    color: Colors
-                                                                        .black12,
-                                                                    width: 1.0),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            15.0),
-                                                              ))),
-                                                ))
-                                          ],
-                                        )),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
+                                child: Column(children: [
+                                  Container(
+                                      height: 50,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                              flex: 4,
+                                              child: Container(
+                                                height: 50,
+                                                width: double.infinity,
+                                                child: TextFormField(
+                                                    controller:
+                                                        usernameController,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    decoration: InputDecoration(
+                                                        labelText: "Telefon",
+                                                        labelStyle: TextStyle(
+                                                            color: CustomColors
+                                                                .appColors),
+                                                        fillColor: CustomColors
+                                                            .appColors,
+                                                        prefixIcon: Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    1),
+                                                            child: Container(
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left: 10,
+                                                                      top: 8),
+                                                              width: 50,
+                                                              alignment: Alignment
+                                                                  .centerLeft,
+                                                              child: Text(
+                                                                  "+993 ",
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: CustomColors
+                                                                        .appColors,
+                                                                    fontSize:
+                                                                        16,
+                                                                  )),
+                                                            )),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              const BorderSide(
+                                                                  color: Colors
+                                                                      .black12,
+                                                                  width: 1.0),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      15.0),
+                                                        ),
+                                                        enabledBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              const BorderSide(
+                                                                  color: Colors
+                                                                      .black12,
+                                                                  width: 1.0),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      15.0),
+                                                        ))),
+                                              ))
+                                        ],
+                                      )),
+                                  SizedBox(height: 10),
+                                  Container(
                                       height: 50,
                                       child: TextFormField(
-                                        controller: passwordController,
-                                        obscureText: _password,
-                                        focusNode: passwordFieldFocusNode,
-                                        decoration: InputDecoration(
-                                          prefixIcon: Icon(
-                                            Icons.lock_rounded,
-                                            size: 24,
-                                            color: CustomColors.appColors,
-                                          ),
-                                          suffixIcon: Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0, 0, 4, 0),
-                                            child: GestureDetector(
-                                              onTap: _toggleObscured,
-                                              child: Icon(
-                                                  _password
-                                                      ? Icons.visibility_rounded
-                                                      : Icons
-                                                          .visibility_off_rounded,
-                                                  size: 24,
+                                          controller: passwordController,
+                                          obscureText: _password,
+                                          focusNode: passwordFieldFocusNode,
+                                          decoration: InputDecoration(
+                                              prefixIcon: Icon(
+                                                Icons.lock_rounded,
+                                                size: 24,
+                                                color: CustomColors.appColors,
+                                              ),
+                                              suffixIcon: Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 0, 4, 0),
+                                                child: GestureDetector(
+                                                  onTap: _toggleObscured,
+                                                  child: Icon(
+                                                      _password
+                                                          ? Icons
+                                                              .visibility_rounded
+                                                          : Icons
+                                                              .visibility_off_rounded,
+                                                      size: 24,
+                                                      color: CustomColors
+                                                          .appColors),
+                                                ),
+                                              ),
+                                              labelText: "Açar sözi",
+                                              labelStyle: TextStyle(
                                                   color:
                                                       CustomColors.appColors),
-                                            ),
-                                          ),
-                                          labelText: "Açar sözi",
-                                          labelStyle: TextStyle(
-                                              color: CustomColors.appColors),
-                                          fillColor: CustomColors.appColors,
-                                          focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: Colors.black12,
-                                                width: 1.0),
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                          ),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
-                                                color: Colors.black12,
-                                                width: 1.0),
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )),
-                        ],
-                      ),
-                    ),
-                  ),
+                                              fillColor: CustomColors.appColors,
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: const BorderSide(
+                                                    color: Colors.black12,
+                                                    width: 1.0),
+                                                borderRadius:
+                                                    BorderRadius.circular(15.0),
+                                              ),
+                                              enabledBorder: OutlineInputBorder(
+                                                  borderSide: const BorderSide(
+                                                      color: Colors.black12,
+                                                      width: 1.0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15.0)))))
+                                ])))
+                      ]))),
                   Container(
                       height: MediaQuery.of(context).size.height / 2 - 100,
                       width: double.infinity,
@@ -270,10 +257,10 @@ class _LoginState extends State<Login> {
                                             context: context,
                                             builder: (context) {
                                               return SmsCodeSend(
-                                                phone: phoneController.text,
-                                                password:
-                                                    passwordController.text,
-                                              );
+                                                  phone:
+                                                      usernameController.text,
+                                                  password:
+                                                      passwordController.text);
                                             });
                                       } else {
                                         showDialog(
