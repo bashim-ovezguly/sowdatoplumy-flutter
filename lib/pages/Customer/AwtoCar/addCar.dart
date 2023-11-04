@@ -16,7 +16,6 @@ import '../../../dB/textStyle.dart';
 import '../../../main.dart';
 import '../../customCheckbox.dart';
 import '../../error.dart';
-import '../../select.dart';
 import '../loadingWidget.dart';
 
 class AddCar extends StatefulWidget {

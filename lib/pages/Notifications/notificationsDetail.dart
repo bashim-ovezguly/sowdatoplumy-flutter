@@ -8,7 +8,6 @@ import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Customer/myPages.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../dB/textStyle.dart';
 import '../call.dart';
 import '../fullScreenSlider.dart';
 import '../../dB/colors.dart';

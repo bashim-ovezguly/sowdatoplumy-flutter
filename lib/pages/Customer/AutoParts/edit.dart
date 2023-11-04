@@ -12,13 +12,11 @@ import 'package:my_app/pages/Customer/AwtoCar/edit.dart';
 import 'package:my_app/pages/Customer/deleteImage.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
 import 'package:my_app/pages/Customer/login.dart';
-import 'package:my_app/pages/Customer/selectEdit.dart';
 import 'package:my_app/widgets/inputText.dart';
 import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/providers.dart';
 import '../../../dB/textStyle.dart';
-import '../../select.dart';
 import '../../success.dart';
 import '../loadingWidget.dart';
 
