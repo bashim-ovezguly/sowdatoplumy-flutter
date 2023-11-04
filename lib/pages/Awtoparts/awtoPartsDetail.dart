@@ -171,6 +171,14 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                                       top: 1,
                                       right: 10,
                                       child: PopupMenuButton<String>(
+                                        icon: Icon(Icons.more_vert,
+                                                size: 30,
+                                                shadows: <Shadow>[
+                                                  Shadow(
+                                                      color: Color.fromARGB(
+                                                          255, 113, 113, 113),
+                                                      blurRadius: 15.0)
+                                                ]),
                                           iconColor: CustomColors.appColorWhite,
                                           surfaceTintColor:
                                               CustomColors.appColorWhite,
@@ -216,7 +224,12 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                                         },
                                         child: Icon(Icons.arrow_back,
                                             color: CustomColors.appColorWhite,
-                                            size: 30),
+                                            size: 30, shadows: <Shadow>[
+                                                  Shadow(
+                                                      color: Color.fromARGB(
+                                                          255, 113, 113, 113),
+                                                      blurRadius: 15.0)
+                                                ]),
                                       ))
                                 ],
                               ),
@@ -339,6 +352,41 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                                         child: SizedBox(
                                       child: TextValueWidget(
                                           text: data['mark'].toString(),
+                                          size: 16.0),
+                                    ))
+                                  ],
+                                ),
+                              ),
+
+                              Container(
+                                height: 30,
+                                margin: const EdgeInsets.only(left: 10),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Row(
+                                        children: <Widget>[
+                                          const Icon(
+                                            Icons.model_training_sharp,
+                                            color: Colors.grey,
+                                            size: 20,
+                                          ),
+                                          Container(
+                                            margin:
+                                                const EdgeInsets.only(left: 10),
+                                            alignment: Alignment.center,
+                                            height: 100,
+                                            child: const TextKeyWidget(
+                                                text: "Awtoulag model",
+                                                size: 16.0),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                        child: SizedBox(
+                                      child: TextValueWidget(
+                                          text: data['model'].toString(),
                                           size: 16.0),
                                     ))
                                   ],

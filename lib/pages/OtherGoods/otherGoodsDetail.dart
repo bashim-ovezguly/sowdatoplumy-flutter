@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:share_plus/share_plus.dart';
-import '../../dB/textStyle.dart';
 import '../call.dart';
 import '../fullScreenSlider.dart';
 import '../../dB/colors.dart';
@@ -89,7 +88,9 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                                     child: GestureDetector(
                                       child: CarouselSlider(
                                         options: CarouselOptions(
-                                            height: MediaQuery.of(context).size.width,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .width,
                                             viewportFraction: 1,
                                             initialPage: 0,
                                             enableInfiniteScroll:
@@ -120,7 +121,10 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                                                   child: Center(
                                                     child: ClipRect(
                                                       child: Container(
-                                                        height: MediaQuery.of(context).size.width,
+                                                        height: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
                                                         width: double.infinity,
                                                         child: FittedBox(
                                                           fit: BoxFit.cover,
@@ -167,6 +171,14 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                                       top: 1,
                                       right: 10,
                                       child: PopupMenuButton<String>(
+                                          icon: Icon(Icons.more_vert,
+                                              size: 30,
+                                              shadows: <Shadow>[
+                                                Shadow(
+                                                    color: Color.fromARGB(
+                                                        255, 113, 113, 113),
+                                                    blurRadius: 15.0)
+                                              ]),
                                           iconColor: CustomColors.appColorWhite,
                                           surfaceTintColor:
                                               CustomColors.appColorWhite,
@@ -212,7 +224,13 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                                           },
                                           child: Icon(Icons.arrow_back,
                                               color: CustomColors.appColorWhite,
-                                              size: 30)))
+                                              size: 30,
+                                              shadows: <Shadow>[
+                                                Shadow(
+                                                    color: Color.fromARGB(
+                                                        255, 113, 113, 113),
+                                                    blurRadius: 15.0)
+                                              ])))
                                 ],
                               ),
                               Row(

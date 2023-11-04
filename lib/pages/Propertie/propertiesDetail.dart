@@ -91,7 +91,9 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
                                     child: GestureDetector(
                                       child: CarouselSlider(
                                         options: CarouselOptions(
-                                            height: MediaQuery.of(context).size.width,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .width,
                                             viewportFraction: 1,
                                             initialPage: 0,
                                             enableInfiniteScroll:
@@ -122,7 +124,10 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
                                                   child: Center(
                                                     child: ClipRect(
                                                       child: Container(
-                                                        height: MediaQuery.of(context).size.width,
+                                                        height: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
                                                         width: double.infinity,
                                                         child: FittedBox(
                                                           fit: BoxFit.cover,
@@ -399,228 +404,116 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                                height: 30,
-                                child: Row(
-                                  children: [
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  height: 30,
+                                  child: Row(children: [
                                     Expanded(
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Icon(
-                                            Icons.price_change_rounded,
-                                            color: Colors.black26,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            "Bahasy",
-                                            style: CustomText.size_16_black54,
-                                          )
-                                        ],
-                                      ),
-                                    ),
+                                        child: Row(children: [
+                                      SizedBox(width: 10),
+                                      Icon(Icons.price_change_rounded,
+                                          color: Colors.black26),
+                                      SizedBox(width: 10),
+                                      Text("Bahasy",
+                                          style: CustomText.size_16_black54)
+                                    ])),
                                     Expanded(
                                         child: Text(data['price'].toString(),
                                             style: CustomText.size_16))
-                                  ],
-                                ),
-                              ),
+                                  ])),
+                              SizedBox(height: 5),
                               SizedBox(
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 25,
-                                          ),
-                                          Icon(
-                                            Icons.location_on,
-                                            color: Colors.black26,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            "Ýerleşýän ýeri",
-                                            style: CustomText.size_16_black54,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    if (data['location'] != null &&
-                                        data['location'] != '')
-                                      Expanded(
-                                          child: Text(
-                                              data['location'].toString(),
-                                              style: CustomText.size_16))
-                                  ],
-                                ),
-                              ),
+                                  child: Row(children: [
+                                Expanded(
+                                    child: Row(children: [
+                                  SizedBox(width: 20),
+                                  Icon(Icons.location_on,
+                                      color: Colors.black26),
+                                  SizedBox(width: 10),
+                                  Text("Ýerleşýän ýeri",
+                                      style: CustomText.size_16_black54)
+                                ])),
+                                if (data['location'] != null &&
+                                    data['location'] != '')
+                                  Expanded(
+                                      child: Text(data['location'].toString(),
+                                          style: CustomText.size_16))
+                              ])),
+                              SizedBox(height: 5),
                               Container(
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                                height: 30,
-                                child: Row(
-                                  children: [
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  height: 30,
+                                  child: Row(children: [
                                     Expanded(
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Icon(
-                                            Icons.phone_callback,
-                                            color: Colors.black26,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            "Telefon",
-                                            style: CustomText.size_16_black54,
-                                          )
-                                        ],
+                                        child: Row(children: [
+                                      SizedBox(
+                                        width: 10,
                                       ),
-                                    ),
+                                      Icon(
+                                        Icons.phone_callback,
+                                        color: Colors.black26,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text("Telefon",
+                                          style: CustomText.size_16_black54)
+                                    ])),
                                     Expanded(
                                         child: Text(data['phone'].toString(),
                                             style: CustomText.size_16))
-                                  ],
-                                ),
-                              ),
+                                  ])),
                               Container(
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                                height: 30,
-                                child: Row(
-                                  children: [
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  height: 30,
+                                  child: Row(children: [
                                     Expanded(
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Icon(
-                                            Icons.drive_file_rename_outline,
-                                            color: Colors.black26,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            "Eyesiniň ady",
-                                            style: CustomText.size_16_black54,
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    if (data['customer'] != null &&
-                                        data['customer'] != '')
-                                      Expanded(
-                                          child: Text(
-                                              data['customer']['name']
-                                                  .toString(),
-                                              style: CustomText.size_16))
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                                height: 30,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Icon(
-                                            Icons.home_work_outlined,
-                                            color: Colors.black26,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            "Binadaky gat sany",
-                                            style: CustomText.size_16_black54,
-                                          )
-                                        ],
-                                      ),
-                                    ),
+                                        child: Row(children: [
+                                      SizedBox(width: 10),
+                                      Icon(Icons.home_work_outlined,
+                                          color: Colors.black26),
+                                      SizedBox(width: 10),
+                                      Text("Binadaky gat sany",
+                                          style: CustomText.size_16_black54)
+                                    ])),
                                     Expanded(
                                         child: Text(data['floor'].toString(),
                                             style: CustomText.size_16))
-                                  ],
-                                ),
-                              ),
+                                  ])),
                               Container(
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                                height: 30,
-                                child: Row(
-                                  children: [
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  height: 30,
+                                  child: Row(children: [
                                     Expanded(
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Icon(
-                                            Icons.numbers_sharp,
-                                            color: Colors.black26,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            "Ýerleşýan gaty",
-                                            style: CustomText.size_16_black54,
-                                          )
-                                        ],
-                                      ),
-                                    ),
+                                        child: Row(children: [
+                                      SizedBox(width: 10),
+                                      Icon(Icons.numbers_sharp,
+                                          color: Colors.black26),
+                                      SizedBox(width: 10),
+                                      Text("Ýerleşýan gaty",
+                                          style: CustomText.size_16_black54)
+                                    ])),
                                     Expanded(
                                         child: Text(data['at_floor'].toString(),
                                             style: CustomText.size_16))
-                                  ],
-                                ),
-                              ),
+                                  ])),
                               Container(
-                                margin: EdgeInsets.only(left: 10, right: 10),
-                                height: 30,
-                                child: Row(
-                                  children: [
+                                  margin: EdgeInsets.only(left: 10, right: 10),
+                                  height: 30,
+                                  child: Row(children: [
                                     Expanded(
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Icon(
-                                            Icons.home_work,
-                                            color: Colors.black26,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            "Otag any",
-                                            style: CustomText.size_16_black54,
-                                          )
-                                        ],
-                                      ),
-                                    ),
+                                        child: Row(children: [
+                                      SizedBox(width: 10),
+                                      Icon(Icons.home_work,
+                                          color: Colors.black26),
+                                      SizedBox(width: 10),
+                                      Text("Otag any",
+                                          style: CustomText.size_16_black54)
+                                    ])),
                                     Expanded(
                                         child: Text(
                                             data['room_count'].toString(),
                                             style: CustomText.size_16))
-                                  ],
-                                ),
-                              ),
+                                  ])),
                               Container(
                                 height: 30,
                                 margin:
@@ -689,7 +582,8 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
                                     ),
                                     Expanded(
                                         child: Container(
-                                      alignment: Alignment.topLeft,
+                                      margin: EdgeInsets.only(right: 5),
+                                      alignment: Alignment.centerLeft,
                                       child: data['swap'] == null
                                           ? MyCheckBox(type: true)
                                           : MyCheckBox(type: data['swap']),

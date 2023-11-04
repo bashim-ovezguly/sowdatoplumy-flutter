@@ -4,9 +4,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
-import 'package:my_app/pages/call.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/dB/constants.dart';
+import 'package:my_app/pages/call.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../dB/textStyle.dart';
 import '../fullScreenSlider.dart';
@@ -64,21 +64,20 @@ class _CarStoreState extends State<CarStore> {
     return status
         ? SafeArea(
             child: Scaffold(
-              backgroundColor: CustomColors.appColorWhite,
-              body: RefreshIndicator(
-                  color: Colors.white,
-                  backgroundColor: CustomColors.appColors,
-                  onRefresh: () async {
-                    setState(() {
-                      determinate = false;
-                      initState();
-                    });
-                  },
-                  child: determinate
-                      ? Container(
-                          color: CustomColors.appColorWhite,
-                          child: ListView(
-                            children: <Widget>[
+                backgroundColor: CustomColors.appColorWhite,
+                body: RefreshIndicator(
+                    color: Colors.white,
+                    backgroundColor: CustomColors.appColors,
+                    onRefresh: () async {
+                      setState(() {
+                        determinate = false;
+                        initState();
+                      });
+                    },
+                    child: determinate
+                        ? Container(
+                            color: CustomColors.appColorWhite,
+                            child: ListView(children: <Widget>[
                               Stack(
                                   alignment: Alignment.bottomCenter,
                                   textDirection: TextDirection.rtl,
@@ -955,33 +954,26 @@ class _CarStoreState extends State<CarStore> {
                               if (data['detail'] != null &&
                                   data['detail'] != '')
                                 SizedBox(
-                                  width: double.infinity,
-                                  child: TextField(
-                                    enabled: false,
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      filled: true,
-                                      hintMaxLines: 10,
-                                      hintStyle: TextStyle(
-                                          fontSize: 14,
-                                          color: CustomColors.appColors),
-                                      hintText: data['detail'].toString(),
-                                      fillColor: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              SizedBox(
-                                height: 70,
-                              ),
-                            ],
-                          ),
-                        )
-                      : Center(
-                          child: CircularProgressIndicator(
-                              color: CustomColors.appColors))),
-            ),
+                                    width: double.infinity,
+                                    child: TextField(
+                                        enabled: false,
+                                        decoration: InputDecoration(
+                                            border: OutlineInputBorder(
+                                              borderSide: BorderSide.none,
+                                            ),
+                                            filled: true,
+                                            hintMaxLines: 10,
+                                            hintStyle: TextStyle(
+                                                fontSize: 14,
+                                                color: CustomColors.appColors),
+                                            hintText: data['detail'].toString(),
+                                            fillColor: Colors.white))),
+                              SizedBox(height: 70)
+                            ]))
+                        : Center(
+                            child: CircularProgressIndicator(
+                                color: CustomColors.appColors))),
+                floatingActionButton: Call(phone: data['phone'].toString())),
             // floatingActionButton: status ? Call(phone: data['phone'].toString()) : Container()
           )
         : CustomProgressIndicator(funcInit: initState);

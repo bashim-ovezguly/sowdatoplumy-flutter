@@ -32,7 +32,7 @@ class _AppInfoState extends State<AppInfo> {
             ? ListView(children: [
                 Container(
                     margin: EdgeInsets.only(top: 20),
-                    height: 200,
+                    height: 220,
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -50,7 +50,12 @@ class _AppInfoState extends State<AppInfo> {
                                   style: TextStyle(
                                       color: CustomColors.appColors,
                                       fontSize: 18,
-                                      fontWeight: FontWeight.bold)))
+                                      fontWeight: FontWeight.bold))),
+                          Container(
+                              child: Text(data['android_version'].toString(),
+                                  style: TextStyle(
+                                      color: CustomColors.appColors,
+                                      fontSize: 18)))
                         ])),
                 Container(
                     padding: EdgeInsets.all(15),

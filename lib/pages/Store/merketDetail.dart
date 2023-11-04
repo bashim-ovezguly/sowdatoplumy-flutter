@@ -172,37 +172,37 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
               style: CustomText.appBarText,
             ),
             actions: [
-              badges.Badge(
-                  badgeColor: Colors.green,
-                  badgeContent: Text(
-                    item_count.toString(),
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  position: BadgePosition(start: 30, bottom: 25),
-                  child: IconButton(
-                      onPressed: () async {
-                        var allRows = await dbHelper.queryAllRows();
-                        var data1 = [];
-                        for (final row in allRows) {
-                          data1.add(row);
-                        }
-                        if (data1.length == 0) {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => Login()));
-                        } else {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Order(
-                                      store_name: data['name_tm'].toString(),
-                                      store_id: widget.id,
-                                      refresh: refresh,
-                                      delivery_price: delivery_price_str)));
-                        }
-                      },
-                      icon: const Icon(Icons.shopping_cart))),
-              const SizedBox(width: 5.0),
+              // badges.Badge(
+              //     badgeColor: Colors.green,
+              //     badgeContent: Text(
+              //       item_count.toString(),
+              //       style: const TextStyle(
+              //           color: Colors.white, fontWeight: FontWeight.bold),
+              //     ),
+              //     position: BadgePosition(start: 30, bottom: 25),
+              //     child: IconButton(
+              //         onPressed: () async {
+              //           var allRows = await dbHelper.queryAllRows();
+              //           var data1 = [];
+              //           for (final row in allRows) {
+              //             data1.add(row);
+              //           }
+              //           if (data1.length == 0) {
+              //             Navigator.push(context,
+              //                 MaterialPageRoute(builder: (context) => Login()));
+              //           } else {
+              //             Navigator.push(
+              //                 context,
+              //                 MaterialPageRoute(
+              //                     builder: (context) => Order(
+              //                         store_name: data['name_tm'].toString(),
+              //                         store_id: widget.id,
+              //                         refresh: refresh,
+              //                         delivery_price: delivery_price_str)));
+              //           }
+              //         },
+              //         icon: const Icon(Icons.shopping_cart))),
+              // const SizedBox(width: 5.0),
               PopupMenuButton<String>(
                   surfaceTintColor: CustomColors.appColorWhite,
                   shadowColor: CustomColors.appColorWhite,
@@ -248,7 +248,8 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                               child: GestureDetector(
                                   child: CarouselSlider(
                                       options: CarouselOptions(
-                                          height: MediaQuery.of(context).size.width,
+                                          height:
+                                              MediaQuery.of(context).size.width,
                                           viewportFraction: 1,
                                           initialPage: 0,
                                           enableInfiniteScroll:
@@ -275,7 +276,10 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                               child: Center(
                                                   child: ClipRect(
                                                       child: Container(
-                                                          height: MediaQuery.of(context).size.width,
+                                                          height: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
                                                           width:
                                                               double.infinity,
                                                           child: FittedBox(
@@ -918,17 +922,92 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                 child:
                     CircularProgressIndicator(color: CustomColors.appColors)),
         floatingActionButton: buttonTop
-            ? FloatingActionButton.small(
-                backgroundColor: CustomColors.appColors,
-                onPressed: () {
-                  isTopList();
-                },
-                child: Icon(
-                  Icons.north,
-                  color: CustomColors.appColorWhite,
+            ? Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                FloatingActionButton.small(
+                  backgroundColor: CustomColors.appColors,
+                  onPressed: () {},
+                  child: badges.Badge(
+                      badgeColor: Colors.green,
+                      badgeContent: Text(
+                        item_count.toString(),
+                        style: const TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      position: BadgePosition(start: 30, bottom: 25),
+                      child: IconButton(
+                          onPressed: () async {
+                            var allRows = await dbHelper.queryAllRows();
+                            var data1 = [];
+                            for (final row in allRows) {
+                              data1.add(row);
+                            }
+                            if (data1.length == 0) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Login()));
+                            } else {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Order(
+                                          store_name:
+                                              data['name_tm'].toString(),
+                                          store_id: widget.id,
+                                          refresh: refresh,
+                                          delivery_price: delivery_price_str)));
+                            }
+                          },
+                          icon: const Icon(Icons.shopping_cart,
+                              color: CustomColors.appColorWhite))),
                 ),
-              )
-            : Container());
+                SizedBox(height: 10),
+                FloatingActionButton.small(
+                    backgroundColor: CustomColors.appColors,
+                    onPressed: () {
+                      isTopList();
+                    },
+                    child: Icon(Icons.north, color: CustomColors.appColorWhite))
+              ])
+            : FloatingActionButton.small(
+                backgroundColor: CustomColors.appColors,
+                onPressed: () {},
+                child: badges.Badge(
+                    badgeColor: Colors.green,
+                    badgeContent: Text(
+                      item_count.toString(),
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
+                    position: BadgePosition(start: 30, bottom: 25),
+                    child: IconButton(
+                        onPressed: () async {
+                          var allRows = await dbHelper.queryAllRows();
+                          var data1 = [];
+                          for (final row in allRows) {
+                            data1.add(row);
+                          }
+                          if (data1.length == 0) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Login()));
+                          } else {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Order(
+                                        store_name: data['name_tm'].toString(),
+                                        store_id: widget.id,
+                                        refresh: refresh,
+                                        delivery_price: delivery_price_str)));
+                          }
+                        },
+                        icon: const Icon(
+                          Icons.shopping_cart,
+                          color: CustomColors.appColorWhite,
+                        ))),
+              ));
   }
 
   void get_products_modul(id) async {

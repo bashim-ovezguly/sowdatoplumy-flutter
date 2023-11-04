@@ -258,7 +258,7 @@ class _HomeState extends State<Home> {
                                             top: 5),
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.all(
-                                              Radius.circular(20.0)),
+                                              Radius.circular(10.0)),
                                           child: Container(
                                             child: ImageSlideshow(
                                               indicatorColor:
@@ -341,7 +341,7 @@ class _HomeState extends State<Home> {
                                             Expanded(
                                                 child: ClipRRect(
                                               borderRadius: BorderRadius.all(
-                                                  Radius.circular(20.0)),
+                                                  Radius.circular(10.0)),
                                               child: Container(
                                                 height: 180,
                                                 color: Colors.black12,
@@ -417,7 +417,7 @@ class _HomeState extends State<Home> {
                                             Expanded(
                                                 child: ClipRRect(
                                               borderRadius: BorderRadius.all(
-                                                  Radius.circular(20.0)),
+                                                  Radius.circular(10.0)),
                                               child: Container(
                                                 height: 180,
                                                 color: Colors.black12,

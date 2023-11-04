@@ -16,7 +16,6 @@ import '../../../dB/providers.dart';
 import '../../../dB/textStyle.dart';
 import '../../../main.dart';
 import '../../customCheckbox.dart';
-import '../../select.dart';
 import '../../success.dart';
 import '../loadingWidget.dart';
 
