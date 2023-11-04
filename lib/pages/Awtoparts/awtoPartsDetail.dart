@@ -10,7 +10,6 @@ import 'package:my_app/pages/fullScreenSlider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
-import '../../dB/textStyle.dart';
 import '../progressIndicator.dart';
 
 class AutoPartsDetail extends StatefulWidget {
@@ -86,12 +85,12 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                                 children: [
                                   Container(
                                       margin: const EdgeInsets.only(bottom: 10),
-                                      height: 230,
+                                      height: MediaQuery.of(context).size.width,
                                       color: Colors.white,
                                       child: GestureDetector(
                                           child: CarouselSlider(
                                             options: CarouselOptions(
-                                                height: 230,
+                                                height: MediaQuery.of(context).size.width,
                                                 viewportFraction: 1,
                                                 initialPage: 0,
                                                 enableInfiniteScroll:
@@ -124,7 +123,7 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                                                       child: Center(
                                                         child: ClipRect(
                                                           child: Container(
-                                                            height: 230,
+                                                            height: MediaQuery.of(context).size.width,
                                                             width:
                                                                 double.infinity,
                                                             child: FittedBox(

@@ -114,11 +114,11 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
                                   clipBehavior: Clip.hardEdge,
                                   children: [
                                     Container(
-                                        height: 230,
+                                        height: MediaQuery.of(context).size.width,
                                         child: GestureDetector(
                                             child: CarouselSlider(
                                               options: CarouselOptions(
-                                                  height: 230,
+                                                  height: MediaQuery.of(context).size.width,
                                                   viewportFraction: 1,
                                                   initialPage: 0,
                                                   enableInfiniteScroll:
@@ -151,7 +151,7 @@ class _PharmacieFirstState extends State<PharmacieFirst> {
                                                         child: Center(
                                                           child: ClipRect(
                                                             child: Container(
-                                                              height: 230,
+                                                              height: MediaQuery.of(context).size.width,
                                                               width:
                                                                   double.infinity,
                                                               child: FittedBox(

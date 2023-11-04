@@ -134,13 +134,13 @@ _StoreFirstState({required this.title, required this.id});
                                   )
                                 ]
                               )
-                            ),
-                        ) 
-                        ),
+                            )
+                          ) 
+                        )
                       )
                     );
-                  }).toList(),
-                ),
+                  }).toList()
+                )
         ],
       ):Center(child: CircularProgressIndicator(color: CustomColors.appColors))
       )

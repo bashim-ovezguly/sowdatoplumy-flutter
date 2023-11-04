@@ -244,11 +244,11 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                         clipBehavior: Clip.hardEdge,
                         children: [
                           Container(
-                              height: 220,
+                              height: MediaQuery.of(context).size.width,
                               child: GestureDetector(
                                   child: CarouselSlider(
                                       options: CarouselOptions(
-                                          height: 220,
+                                          height: MediaQuery.of(context).size.width,
                                           viewportFraction: 1,
                                           initialPage: 0,
                                           enableInfiniteScroll:
@@ -275,7 +275,7 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                               child: Center(
                                                   child: ClipRect(
                                                       child: Container(
-                                                          height: 220,
+                                                          height: MediaQuery.of(context).size.width,
                                                           width:
                                                               double.infinity,
                                                           child: FittedBox(

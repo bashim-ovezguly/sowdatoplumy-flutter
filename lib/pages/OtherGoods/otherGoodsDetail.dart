@@ -89,7 +89,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                                     child: GestureDetector(
                                       child: CarouselSlider(
                                         options: CarouselOptions(
-                                            height: 220,
+                                            height: MediaQuery.of(context).size.width,
                                             viewportFraction: 1,
                                             initialPage: 0,
                                             enableInfiniteScroll:
@@ -120,7 +120,7 @@ class _OtherGoodsDetailState extends State<OtherGoodsDetail> {
                                                   child: Center(
                                                     child: ClipRect(
                                                       child: Container(
-                                                        height: 220,
+                                                        height: MediaQuery.of(context).size.width,
                                                         width: double.infinity,
                                                         child: FittedBox(
                                                           fit: BoxFit.cover,

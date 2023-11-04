@@ -91,7 +91,9 @@ class _CarStoreState extends State<CarStore> {
                                         child: GestureDetector(
                                             child: CarouselSlider(
                                               options: CarouselOptions(
-                                                  height: 230,
+                                                  height: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
                                                   viewportFraction: 1,
                                                   initialPage: 0,
                                                   enableInfiniteScroll:
@@ -126,7 +128,11 @@ class _CarStoreState extends State<CarStore> {
                                                         child: Center(
                                                           child: ClipRect(
                                                             child: Container(
-                                                              height: 230,
+                                                              height:
+                                                                  MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width,
                                                               width: double
                                                                   .infinity,
                                                               child: FittedBox(
@@ -174,12 +180,23 @@ class _CarStoreState extends State<CarStore> {
                                                                 .circular(
                                                                     15.0))))),
                                     Positioned(
-                                      top: 1,
+                                        top: 1,
                                         right: 10,
                                         child: PopupMenuButton<String>(
-                                          iconColor: CustomColors.appColorWhite,
-                                            surfaceTintColor:CustomColors.appColorWhite,
-                                            shadowColor: CustomColors.appColorWhite,
+                                            icon: Icon(Icons.more_vert,
+                                                size: 30,
+                                                shadows: <Shadow>[
+                                                  Shadow(
+                                                      color: Color.fromARGB(
+                                                          255, 113, 113, 113),
+                                                      blurRadius: 15.0)
+                                                ]),
+                                            iconColor:
+                                                CustomColors.appColorWhite,
+                                            surfaceTintColor:
+                                                CustomColors.appColorWhite,
+                                            shadowColor:
+                                                CustomColors.appColorWhite,
                                             color: CustomColors.appColorWhite,
                                             itemBuilder: (context) {
                                               List<PopupMenuEntry<String>>
@@ -221,7 +238,13 @@ class _CarStoreState extends State<CarStore> {
                                           },
                                           child: Icon(Icons.arrow_back,
                                               color: CustomColors.appColorWhite,
-                                              size: 30),
+                                              size: 30,
+                                              shadows: <Shadow>[
+                                                Shadow(
+                                                    color: Color.fromARGB(
+                                                        255, 113, 113, 113),
+                                                    blurRadius: 15.0)
+                                              ]),
                                         ))
                                   ]),
                               Row(

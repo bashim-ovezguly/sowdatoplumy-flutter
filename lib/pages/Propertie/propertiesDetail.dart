@@ -91,7 +91,7 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
                                     child: GestureDetector(
                                       child: CarouselSlider(
                                         options: CarouselOptions(
-                                            height: 230,
+                                            height: MediaQuery.of(context).size.width,
                                             viewportFraction: 1,
                                             initialPage: 0,
                                             enableInfiniteScroll:
@@ -122,7 +122,7 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
                                                   child: Center(
                                                     child: ClipRect(
                                                       child: Container(
-                                                        height: 230,
+                                                        height: MediaQuery.of(context).size.width,
                                                         width: double.infinity,
                                                         child: FittedBox(
                                                           fit: BoxFit.cover,
