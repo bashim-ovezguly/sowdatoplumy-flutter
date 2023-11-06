@@ -86,10 +86,7 @@ class _RibbonListState extends State<RibbonList> {
                               child: Row(children: [
                                 GestureDetector(
                                     onTap: () {
-                                      Provider.of<UserInfo>(context,
-                                              listen: false)
-                                          .set_user_customer_name(
-                                              data[index]['customer']);
+                                      Provider.of<UserInfo>(context, listen: false).set_user_customer_name(data[index]['customer']);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -117,8 +114,7 @@ class _RibbonListState extends State<RibbonList> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => MyPages(
-                                                user_customer_id: data[index]
-                                                        ['customer_id']
+                                                user_customer_id: data[index]['customer_id']
                                                     .toString())));
                                   },
                                   child: Column(

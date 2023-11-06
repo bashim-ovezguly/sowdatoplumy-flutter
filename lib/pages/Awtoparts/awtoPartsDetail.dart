@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/dB/providers.dart';
+import 'package:my_app/pages/Customer/myPages.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/call.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:my_app/pages/fullScreenSlider.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
@@ -90,7 +93,9 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                                       child: GestureDetector(
                                           child: CarouselSlider(
                                             options: CarouselOptions(
-                                                height: MediaQuery.of(context).size.width,
+                                                height: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
                                                 viewportFraction: 1,
                                                 initialPage: 0,
                                                 enableInfiniteScroll:
@@ -123,7 +128,11 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                                                       child: Center(
                                                         child: ClipRect(
                                                           child: Container(
-                                                            height: MediaQuery.of(context).size.width,
+                                                            height:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
                                                             width:
                                                                 double.infinity,
                                                             child: FittedBox(
@@ -171,14 +180,14 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                                       top: 1,
                                       right: 10,
                                       child: PopupMenuButton<String>(
-                                        icon: Icon(Icons.more_vert,
-                                                size: 30,
-                                                shadows: <Shadow>[
-                                                  Shadow(
-                                                      color: Color.fromARGB(
-                                                          255, 113, 113, 113),
-                                                      blurRadius: 15.0)
-                                                ]),
+                                          icon: Icon(Icons.more_vert,
+                                              size: 30,
+                                              shadows: <Shadow>[
+                                                Shadow(
+                                                    color: Color.fromARGB(
+                                                        255, 113, 113, 113),
+                                                    blurRadius: 15.0)
+                                              ]),
                                           iconColor: CustomColors.appColorWhite,
                                           surfaceTintColor:
                                               CustomColors.appColorWhite,
@@ -224,12 +233,13 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                                         },
                                         child: Icon(Icons.arrow_back,
                                             color: CustomColors.appColorWhite,
-                                            size: 30, shadows: <Shadow>[
-                                                  Shadow(
-                                                      color: Color.fromARGB(
-                                                          255, 113, 113, 113),
-                                                      blurRadius: 15.0)
-                                                ]),
+                                            size: 30,
+                                            shadows: <Shadow>[
+                                              Shadow(
+                                                  color: Color.fromARGB(
+                                                      255, 113, 113, 113),
+                                                  blurRadius: 15.0)
+                                            ]),
                                       ))
                                 ],
                               ),
@@ -357,7 +367,6 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                                   ],
                                 ),
                               ),
-
                               Container(
                                 height: 30,
                                 margin: const EdgeInsets.only(left: 10),
@@ -524,40 +533,59 @@ class _AutoPartsDetailState extends State<AutoPartsDetail> {
                                   ],
                                 ),
                               ),
-                              Container(
-                                height: 30,
-                                margin: const EdgeInsets.only(left: 10),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Row(
-                                        children: <Widget>[
-                                          const Icon(
-                                            Icons.category,
-                                            color: Colors.grey,
-                                            size: 20,
-                                          ),
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(left: 10),
-                                            alignment: Alignment.center,
-                                            height: 100,
-                                            child: const TextKeyWidget(
-                                                text: "Kategoriýasy",
-                                                size: 16.0),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    if (data['category'] != null &&
-                                        data['category'] != '')
+                              GestureDetector(
+                                onTap: () {
+                                  if (data['customer'] != "" &&
+                                      data['customer'] != null) {
+                                    Provider.of<UserInfo>(context,
+                                            listen: false)
+                                        .set_user_customer_name(
+                                            data['customer']['name']);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyPages(
+                                                user_customer_id:
+                                                    data['customer']['id']
+                                                        .toString())));
+                                  }
+                                },
+                                child: Container(
+                                  height: 30,
+                                  margin: const EdgeInsets.only(left: 10),
+                                  child: Row(
+                                    children: <Widget>[
                                       Expanded(
-                                          child: SizedBox(
-                                              child: TextValueWidget(
-                                                  text: data['category']['name']
-                                                      .toString(),
-                                                  size: 16.0)))
-                                  ],
+                                        child: Row(
+                                          children: <Widget>[
+                                            const Icon(
+                                              Icons.category,
+                                              color: Colors.grey,
+                                              size: 20,
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 10),
+                                              alignment: Alignment.center,
+                                              height: 100,
+                                              child: const TextKeyWidget(
+                                                  text: "Kategoriýasy",
+                                                  size: 16.0),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      if (data['category'] != null &&
+                                          data['category'] != '')
+                                        Expanded(
+                                            child: SizedBox(
+                                                child: TextValueWidget(
+                                                    text: data['category']
+                                                            ['name']
+                                                        .toString(),
+                                                    size: 16.0)))
+                                    ],
+                                  ),
                                 ),
                               ),
                               Container(

@@ -7,9 +7,12 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 
 import 'package:my_app/dB/constants.dart';
+import 'package:my_app/dB/providers.dart';
 import 'package:my_app/pages/Car/carStore.dart';
+import 'package:my_app/pages/Customer/myPages.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/progressIndicator.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../dB/textStyle.dart';
 import '../call.dart';
@@ -514,83 +517,102 @@ class _PropertiesDetailState extends State<PropertiesDetail> {
                                             data['room_count'].toString(),
                                             style: CustomText.size_16))
                                   ])),
-                              Container(
-                                height: 30,
-                                margin:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Row(
-                                        children: <Widget>[
-                                          SizedBox(
-                                            width: 10,
-                                          ),
+                              GestureDetector(
+                                  onTap: () {
+                                    if (data['customer'] != "" &&
+                                        data['customer'] != null) {
+                                      Provider.of<UserInfo>(context,
+                                              listen: false)
+                                          .set_user_customer_name(
+                                              data['customer']['name']);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => MyPages(
+                                                  user_customer_id:
+                                                      data['customer']['id']
+                                                          .toString())));
+                                    }
+                                  },
+                                  child: Container(
+                                      height: 30,
+                                      margin: const EdgeInsets.only(left: 20),
+                                      child: Row(children: <Widget>[
+                                        Expanded(
+                                            child: Row(children: <Widget>[
                                           const Icon(
-                                            Icons.change_circle_outlined,
-                                            color: Colors.black26,
-                                            size: 20,
+                                            Icons.person_outline_outlined,
+                                            color: Colors.grey,
+                                            size: 18,
                                           ),
                                           Container(
-                                            margin:
-                                                const EdgeInsets.only(left: 10),
-                                            alignment: Alignment.center,
-                                            height: 100,
-                                            child: const TextKeyWidget(
-                                                text: "Eýesinden", size: 16.0),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                        child: Container(
-                                      alignment: Alignment.topLeft,
-                                      child: data['own'] == null
-                                          ? MyCheckBox(type: true)
-                                          : MyCheckBox(type: data['own']),
-                                    ))
-                                  ],
-                                ),
-                              ),
+                                              margin: const EdgeInsets.only(
+                                                  left: 10),
+                                              alignment: Alignment.center,
+                                              height: 100,
+                                              child: const TextKeyWidget(
+                                                  text: "Satyjy", size: 16.0))
+                                        ])),
+                                        Expanded(
+                                            child: SizedBox(
+                                                child: TextValueWidget(
+                                                    text: data['customer_name']
+                                                        .toString(),
+                                                    size: 16.0)))
+                                      ]))),
                               Container(
-                                height: 30,
-                                margin:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                child: Row(
-                                  children: <Widget>[
+                                  height: 30,
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10),
+                                  child: Row(children: <Widget>[
                                     Expanded(
-                                      child: Row(
-                                        children: <Widget>[
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          const Icon(
-                                            Icons.change_circle_outlined,
-                                            color: Colors.black26,
-                                            size: 20,
-                                          ),
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(left: 10),
-                                            alignment: Alignment.center,
-                                            height: 100,
-                                            child: const TextKeyWidget(
-                                                text: "Çalşyk", size: 16.0),
-                                          )
-                                        ],
-                                      ),
-                                    ),
+                                        child: Row(children: <Widget>[
+                                      SizedBox(width: 10),
+                                      const Icon(Icons.change_circle_outlined,
+                                          color: Colors.black26, size: 20),
+                                      Container(
+                                          margin:
+                                              const EdgeInsets.only(left: 10),
+                                          alignment: Alignment.center,
+                                          height: 100,
+                                          child: const TextKeyWidget(
+                                              text: "Eýesinden", size: 16.0))
+                                    ])),
                                     Expanded(
                                         child: Container(
-                                      margin: EdgeInsets.only(right: 5),
-                                      alignment: Alignment.centerLeft,
-                                      child: data['swap'] == null
-                                          ? MyCheckBox(type: true)
-                                          : MyCheckBox(type: data['swap']),
-                                    ))
-                                  ],
-                                ),
-                              ),
+                                            alignment: Alignment.topLeft,
+                                            child: data['own'] == null
+                                                ? MyCheckBox(type: true)
+                                                : MyCheckBox(
+                                                    type: data['own'])))
+                                  ])),
+                              Container(
+                                  height: 30,
+                                  margin: const EdgeInsets.only(
+                                      left: 10, right: 10),
+                                  child: Row(children: <Widget>[
+                                    Expanded(
+                                        child: Row(children: <Widget>[
+                                      SizedBox(width: 10),
+                                      const Icon(Icons.change_circle_outlined,
+                                          color: Colors.black26, size: 20),
+                                      Container(
+                                          margin:
+                                              const EdgeInsets.only(left: 10),
+                                          alignment: Alignment.center,
+                                          height: 100,
+                                          child: const TextKeyWidget(
+                                              text: "Çalşyk", size: 16.0))
+                                    ])),
+                                    Expanded(
+                                        child: Container(
+                                            margin: EdgeInsets.only(right: 5),
+                                            alignment: Alignment.centerLeft,
+                                            child: data['swap'] == null
+                                                ? MyCheckBox(type: true)
+                                                : MyCheckBox(
+                                                    type: data['swap'])))
+                                  ])),
                               Container(
                                 height: 30,
                                 margin:

@@ -67,6 +67,7 @@ class _InputTextState extends State<InputText> {
   }
 }
 
+// ignore: must_be_immutable
 class InputSelectText extends StatefulWidget {
   final String title;
   final double height;

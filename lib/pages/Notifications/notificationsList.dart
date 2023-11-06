@@ -351,7 +351,7 @@ class _NotificationsState extends State<Notifications> {
                                                 )));
                                   },
                                   child: Container(
-                                    height: 220,
+                                    height: 235,
                                     width:
                                         MediaQuery.of(context).size.width / 2,
                                     child: Card(
@@ -443,6 +443,18 @@ class _NotificationsState extends State<Notifications> {
                                               color: Colors.white,
                                               child: Text(
                                                 item['location'].toString(),
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color:
+                                                        CustomColors.appColors),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                             Container(
+                                              color: Colors.white,
+                                              child: Text(
+                                                item['delta_time'].toString(),
                                                 style: TextStyle(
                                                     fontSize: 12,
                                                     color:

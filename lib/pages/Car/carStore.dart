@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/dB/providers.dart';
+import 'package:my_app/pages/Customer/myPages.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/call.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../dB/textStyle.dart';
 import '../fullScreenSlider.dart';
@@ -826,38 +829,56 @@ class _CarStoreState extends State<CarStore> {
                                   ],
                                 ),
                               ),
-                              Container(
-                                height: 30,
-                                margin: const EdgeInsets.only(left: 10),
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Row(
-                                        children: <Widget>[
-                                          const Icon(
-                                            Icons.person_outline_outlined,
-                                            color: Colors.grey,
-                                            size: 18,
-                                          ),
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(left: 10),
-                                            alignment: Alignment.center,
-                                            height: 100,
-                                            child: const TextKeyWidget(
-                                                text: "Satyjy", size: 16.0),
-                                          )
-                                        ],
+                              GestureDetector(
+                                onTap: () {
+                                  if (data['customer'] != "" &&
+                                      data['customer'] != null) {
+                                    Provider.of<UserInfo>(context,
+                                            listen: false)
+                                        .set_user_customer_name(
+                                            data['customer']['name']);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => MyPages(
+                                                user_customer_id:
+                                                    data['customer']['id']
+                                                        .toString())));
+                                  }
+                                },
+                                child: Container(
+                                  height: 30,
+                                  margin: const EdgeInsets.only(left: 10),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Row(
+                                          children: <Widget>[
+                                            const Icon(
+                                              Icons.person_outline_outlined,
+                                              color: Colors.grey,
+                                              size: 18,
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 10),
+                                              alignment: Alignment.center,
+                                              height: 100,
+                                              child: const TextKeyWidget(
+                                                  text: "Satyjy", size: 16.0),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Expanded(
-                                        child: SizedBox(
-                                      child: TextValueWidget(
-                                          text:
-                                              data['customer_name'].toString(),
-                                          size: 16.0),
-                                    ))
-                                  ],
+                                      Expanded(
+                                          child: SizedBox(
+                                        child: TextValueWidget(
+                                            text: data['customer_name']
+                                                .toString(),
+                                            size: 16.0),
+                                      ))
+                                    ],
+                                  ),
                                 ),
                               ),
                               Container(

@@ -666,7 +666,9 @@ class _MyPagesState extends State<MyPages> {
       determinate = true;
       stores = json['data']['stores'];
       baseurl = server_url.get_server_url();
-      Provider.of<UserInfo>(context, listen: false).set_user_info(json['data']);
+      if (widget.user_customer_id==''){
+        Provider.of<UserInfo>(context, listen: false).set_user_info(json['data']);
+      }
     });
     Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);
   }
