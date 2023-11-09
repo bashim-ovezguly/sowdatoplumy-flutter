@@ -1212,50 +1212,55 @@ class _MyDraverState extends State<MyDraver> {
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Notifications(
-                                      title: 'Beýleki bildirişler',
-                                    )));
-                      },
-                      child: Container(
-                          width: double.infinity,
-                          color: Colors.white,
-                          margin: EdgeInsets.only(left: 20, top: 20),
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Notifications(
-                                              title: 'Beýleki bildirişler',
-                                            )));
-                              },
-                              child: Container(
-                                  child: Row(children: [
-                                Icon(Icons.campaign,
-                                    size: 25, color: CustomColors.appColors),
-                                SizedBox(
-                                  width: 14,
-                                ),
-                                Text('Beýleki bildirişler',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                Spacer(),
-                                Text(statistic['announcements'],
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        color: CustomColors.appColors)),
-                                SizedBox(width: 15),
-                              ]))))),
+                  // GestureDetector(
+                  //     onTap: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) => Notifications(
+                  //                     title: 'Beýleki bildirişler',
+                  //                   )));
+                  //     },
+                  //     child: Container(
+                  //         width: double.infinity,
+                  //         color: Colors.white,
+                  //         margin: EdgeInsets.only(left: 20, top: 20),
+                  //         child: GestureDetector(
+                  //             onTap: () {
+                  //               Navigator.push(
+                  //                   context,
+                  //                   MaterialPageRoute(
+                  //                       builder: (context) => Notifications(
+                  //                             title: 'Beýleki bildirişler',
+                  //                           )));
+                  //             },
+                  //             child: Container(
+                  //                 child: Row(children: [
+                  //               Icon(Icons.campaign,
+                  //                   size: 25, color: CustomColors.appColors),
+                  //               SizedBox(
+                  //                 width: 14,
+                  //               ),
+                  //               Text('Beýleki bildirişler',
+                  //                   style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       color: CustomColors.appColors)),
+                  //               Spacer(),
+                  //               Text(statistic['announcements'],
+                  //                   style: TextStyle(
+                  //                       fontSize: 16,
+                  //                       color: CustomColors.appColors)),
+                  //               SizedBox(width: 15),
+                  //             ]))))),
 
                   GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "/properties/list");
+                        Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Restaurant(
+                                              title: "Naharhanalar",
+                                            )));
                       },
                       child: Container(
                           width: double.infinity,

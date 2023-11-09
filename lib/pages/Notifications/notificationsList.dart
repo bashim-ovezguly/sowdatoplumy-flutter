@@ -17,6 +17,7 @@ import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
+import '../OtherGoods/otherGoodsDetail.dart';
 import '../Search/search.dart';
 import '../progressIndicator.dart';
 import '../sortWidget.dart';
@@ -44,6 +45,7 @@ class _NotificationsState extends State<Notifications> {
   bool status = true;
   bool filter = false;
   bool buttonTop = false;
+  final int _nextPageTriger = 3;
   var keyword = TextEditingController();
   var sort_value = "";
 
@@ -180,307 +182,443 @@ class _NotificationsState extends State<Notifications> {
                   return Future<void>.delayed(const Duration(seconds: 3));
                 },
                 child: determinate && determinate1
-                    ? SingleChildScrollView(
-                        controller: _controller,
-                        child: Column(
-                          children: [
-                            Stack(
-                              alignment: Alignment.bottomCenter,
-                              textDirection: TextDirection.rtl,
-                              fit: StackFit.loose,
-                              clipBehavior: Clip.hardEdge,
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 10),
-                                  height: 220,
-                                  color: Colors.white,
-                                  child: CarouselSlider(
-                                    options: CarouselOptions(
-                                        height: 220,
-                                        viewportFraction: 1,
-                                        initialPage: 0,
-                                        enableInfiniteScroll:
-                                            dataSlider.length > 1
-                                                ? true
-                                                : false,
-                                        reverse: false,
-                                        autoPlay: dataSlider.length > 1
-                                            ? true
-                                            : false,
-                                        autoPlayInterval:
-                                            const Duration(seconds: 4),
-                                        autoPlayAnimationDuration:
-                                            const Duration(milliseconds: 800),
-                                        autoPlayCurve: Curves.fastOutSlowIn,
-                                        enlargeCenterPage: true,
-                                        enlargeFactor: 0.3,
-                                        scrollDirection: Axis.horizontal,
-                                        onPageChanged: (index, reason) {
-                                          setState(() {
-                                            _current = index;
-                                          });
-                                        }),
-                                    items: dataSlider
-                                        .map((item) => GestureDetector(
-                                              onTap: () {
-                                                if (title == 'Marketler' ||
-                                                    title == 'Dükanlar') {
-                                                  if (item['id'] != null) {
+                    ? Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(left: 10, right: 10),
+                            width: double.infinity,
+                            height: 40,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: Center(
+                              child: TextFormField(
+                                controller: keyword,
+                                decoration: InputDecoration(
+                                    prefixIcon: IconButton(
+                                      icon: const Icon(Icons.search),
+                                      onPressed: () {
+                                        determinate = false;
+                                        _pageNumber = 1;
+                                        _isLastPage = false;
+                                        _loading = true;
+                                        _error = false;
+                                        data = [];
+                                        getmarketslist(sort_value);
+                                      },
+                                    ),
+                                    suffixIcon: IconButton(
+                                      icon: const Icon(Icons.clear),
+                                      onPressed: () {
+                                        setState(() {
+                                          determinate = false;
+                                          _pageNumber = 1;
+                                          _isLastPage = false;
+                                          _loading = true;
+                                          _error = false;
+                                          data = [];
+                                          keyword.text = '';
+                                        });
+                                        getmarketslist(sort_value);
+                                      },
+                                    ),
+                                    hintText: 'Ady boýunça gözleg...',
+                                    border: InputBorder.none),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height - 125,
+                            child: ListView.builder(
+                                itemCount: data.length + (_isLastPage ? 0 : 1),
+                                itemBuilder: (context, index) {
+                                  if (index == data.length - _nextPageTriger) {
+                                    getmarketslist(sort_value);
+                                  }
+                                  if (index == data.length) {
+                                    if (_error) {
+                                      return Center(
+                                          child: errorDialog(size: 15));
+                                    } else {
+                                      return Center(
+                                          child: Padding(
+                                        padding: EdgeInsets.all(8),
+                                        child: CircularProgressIndicator(),
+                                      ));
+                                    }
+                                  }
+
+                                  return Container(
+                                      child: index == 0
+                                          ? Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                GestureDetector(
+                                                    onTap: () {},
+                                                    child: Stack(
+                                                        alignment: Alignment
+                                                            .bottomCenter,
+                                                        children: [
+                                                          Container(
+                                                              margin:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      bottom:
+                                                                          10),
+                                                              height: 220,
+                                                              color:
+                                                                  Colors.white,
+                                                              child: CarouselSlider(
+                                                                  options: CarouselOptions(
+                                                                      height: 220,
+                                                                      viewportFraction: 1,
+                                                                      initialPage: 0,
+                                                                      enableInfiniteScroll: dataSlider.length > 1 ? true : false,
+                                                                      reverse: false,
+                                                                      autoPlay: dataSlider.length > 1 ? true : false,
+                                                                      autoPlayInterval: const Duration(seconds: 4),
+                                                                      autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                                                                      autoPlayCurve: Curves.fastOutSlowIn,
+                                                                      enlargeCenterPage: true,
+                                                                      enlargeFactor: 0.3,
+                                                                      scrollDirection: Axis.horizontal,
+                                                                      onPageChanged: (index, reason) {
+                                                                        setState(
+                                                                            () {
+                                                                          _current =
+                                                                              index;
+                                                                        });
+                                                                      }),
+                                                                  items: dataSlider
+                                                                      .map((item) => GestureDetector(
+                                                                          onTap: () {
+                                                                            if (item['id'] != null &&
+                                                                                item['id'] != '') {
+                                                                              Navigator.push(
+                                                                                  context,
+                                                                                  MaterialPageRoute(
+                                                                                      builder: (context) => OtherGoodsDetail(
+                                                                                            id: item['id'].toString(),
+                                                                                            title: 'Harytlar',
+                                                                                          )));
+                                                                            }
+                                                                          },
+                                                                          child: Container(
+                                                                              color: Colors.white,
+                                                                              child: Center(
+                                                                                  child: Stack(children: [
+                                                                                ClipRect(child: Container(height: 220, width: double.infinity, child: FittedBox(fit: BoxFit.cover, child: item['img'] != null && item['img'] != '' ? Image.network(baseurl + item['img'].toString()) : Image.asset('assets/images/default16x9.jpg')))),
+                                                                              ])))))
+                                                                      .toList())),
+                                                          Container(
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      bottom:
+                                                                          7),
+                                                              child: DotsIndicator(
+                                                                  dotsCount:
+                                                                      dataSlider
+                                                                          .length,
+                                                                  position:
+                                                                      _current
+                                                                          .toDouble(),
+                                                                  decorator: DotsDecorator(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      activeColor:
+                                                                          CustomColors
+                                                                              .appColors,
+                                                                      activeShape:
+                                                                          RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.circular(15.0)))))
+                                                        ])),
+                                                GestureDetector(
+                                                  onTap: () {
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                MarketDetail(
-                                                                  id: item['id']
+                                                                OtherGoodsDetail(
+                                                                  id: data[index]
+                                                                          ['id']
                                                                       .toString(),
-                                                                  title: title,
+                                                                  title:
+                                                                      'Harytlar',
                                                                 )));
-                                                  }
-                                                } else {
-                                                  if (item['id'] != null) {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    StoreFirst(
-                                                                      id: item[
-                                                                              'id']
-                                                                          .toString(),
-                                                                      title:
-                                                                          title,
-                                                                    )));
-                                                  }
-                                                }
-                                              },
-                                              child: Stack(
-                                                children: [
-                                                  Container(
-                                                    height: 220,
-                                                    width: double.infinity,
-                                                    child: FittedBox(
-                                                      fit: BoxFit.cover,
-                                                      child: item['img'] != ''
-                                                          ? Image.network(
-                                                              baseurl +
-                                                                  item['img']
-                                                                      .toString(),
-                                                            )
-                                                          : Image.asset(
-                                                              'assets/images/default16x9.jpg'),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ))
-                                        .toList(),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 7),
-                                  child: DotsIndicator(
-                                    dotsCount: dataSlider.length,
-                                    position: _current.toDouble(),
-                                    decorator: DotsDecorator(
-                                      color: Colors.white,
-                                      activeColor: CustomColors.appColors,
-                                      activeShape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0)),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(
-                                  left: 10, right: 10, top: 10, bottom: 10),
-                              width: double.infinity,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 228, 228, 228),
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Center(
-                                child: TextFormField(
-                                  controller: keyword,
-                                  decoration: InputDecoration(
-                                      prefixIcon: IconButton(
-                                        icon: const Icon(Icons.search),
-                                        onPressed: () {
-                                          setState(() {
-                                            _pageNumber = 1;
-                                            _isLastPage = false;
-                                            _loading = true;
-                                            _error = false;
-                                            data = [];
-                                          });
-                                          getmarketslist(sort_value);
-                                        },
-                                      ),
-                                      suffixIcon: IconButton(
-                                        icon: const Icon(Icons.clear),
-                                        onPressed: () {
-                                          setState(() {
-                                            _pageNumber = 1;
-                                            _isLastPage = false;
-                                            _loading = true;
-                                            _error = false;
-                                            data = [];
-                                            keyword.text = '';
-                                          });
-                                          getmarketslist(sort_value);
-                                        },
-                                      ),
-                                      hintText: 'Ady boýunça gözleg...',
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ),
-                            Wrap(
-                              alignment: WrapAlignment.start,
-                              children: data.map((item) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                NotificationsDetail(
-                                                  id: item['id'].toString(),
-                                                  title: 'Bildiriş',
-                                                )));
-                                  },
-                                  child: Container(
-                                    height: 235,
-                                    width:
-                                        MediaQuery.of(context).size.width / 2,
-                                    child: Card(
-                                      color: CustomColors.appColorWhite,
-                                      shadowColor: const Color.fromARGB(
-                                          255, 200, 198, 198),
-                                      surfaceTintColor:
-                                          CustomColors.appColorWhite,
-                                      elevation: 5,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(7.0)),
-                                        child: Column(
-                                          children: [
-                                            Stack(
-                                              alignment: Alignment.bottomCenter,
-                                              textDirection: TextDirection.rtl,
-                                              fit: StackFit.loose,
-                                              clipBehavior: Clip.hardEdge,
-                                              children: [
-                                                Container(
-                                                  color: Colors.white,
-                                                  height: 170,
-                                                  child: item['img'] != ''
-                                                      ? Image.network(
-                                                          baseurl +
-                                                              item['img']
-                                                                  .toString(),
-                                                          fit: BoxFit.cover,
-                                                          height: 170,
-                                                          width:
-                                                              double.infinity,
-                                                        )
-                                                      : Image.asset(
-                                                          'assets/images/default.jpg',
-                                                        ),
-                                                ),
-                                                Container(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  margin: EdgeInsets.only(
-                                                      left: 5, bottom: 5),
-                                                  child: SizedBox(
-                                                    height: 25,
-                                                    child: DecoratedBox(
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        5),
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    10,
-                                                                    35,
-                                                                    98)),
+                                                  },
+                                                  child: Container(
+                                                    height: 110,
+                                                    child: Card(
+                                                      color: CustomColors
+                                                          .appColorWhite,
+                                                      shadowColor:
+                                                          Color.fromARGB(255,
+                                                              200, 198, 198),
+                                                      surfaceTintColor:
+                                                          CustomColors
+                                                              .appColorWhite,
+                                                      elevation: 5,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10.0)),
                                                         child: Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  top: 5),
-                                                          child: Text(
-                                                            "   " +
-                                                                item['price']
-                                                                    .toString() +
-                                                                "   ",
-                                                            style: TextStyle(
-                                                                fontSize: 12,
-                                                                color: CustomColors
-                                                                    .appColorWhite),
+                                                          height: 110,
+                                                          child: Row(
+                                                            children: <Widget>[
+                                                              Expanded(
+                                                                  flex: 1,
+                                                                  child:
+                                                                      ClipRect(
+                                                                    child:
+                                                                        Container(
+                                                                      height:
+                                                                          110,
+                                                                      child:
+                                                                          FittedBox(
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                        child: data[index]['img'] != '' &&
+                                                                                data[index]['img'] != null
+                                                                            ? Image.network(
+                                                                                baseurl + data[index]['img'].toString(),
+                                                                              )
+                                                                            : Image.asset(
+                                                                                'assets/images/default.jpg',
+                                                                              ),
+                                                                      ),
+                                                                    ),
+                                                                  )),
+                                                              Expanded(
+                                                                flex: 2,
+                                                                child:
+                                                                    Container(
+                                                                  color: CustomColors
+                                                                      .appColorWhite,
+                                                                  margin: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              2),
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .all(
+                                                                          10),
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: <Widget>[
+                                                                      if (data[index]['name'] !=
+                                                                              null &&
+                                                                          data[index]['name'] !=
+                                                                              '')
+                                                                        Expanded(
+                                                                          child:
+                                                                              Container(
+                                                                            alignment:
+                                                                                Alignment.centerLeft,
+                                                                            child:
+                                                                                Text(
+                                                                              data[index]['name'],
+                                                                              maxLines: 1,
+                                                                              style: CustomText.itemTextBold,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      if (data[index]['location'] !=
+                                                                              null &&
+                                                                          data[index]['location'] !=
+                                                                              '')
+                                                                        Expanded(
+                                                                            child:
+                                                                                Align(
+                                                                          alignment:
+                                                                              Alignment.centerLeft,
+                                                                          child:
+                                                                              Row(
+                                                                            children: <Widget>[
+                                                                              Text(data[index]['location'].toString(), style: CustomText.itemText)
+                                                                            ],
+                                                                          ),
+                                                                        )),
+                                                                      Expanded(
+                                                                          child: Align(
+                                                                              alignment: Alignment.centerLeft,
+                                                                              child: Text(data[index]['price'].toString(), style: CustomText.itemText))),
+                                                                      Expanded(
+                                                                          child: Align(
+                                                                              alignment: Alignment.centerLeft,
+                                                                              child: Row(children: <Widget>[
+                                                                                Text(data[index]['delta_time'].toString(), style: CustomText.itemText),
+                                                                                Spacer(),
+                                                                              ]))),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
-                                                        )),
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
                                                 )
                                               ],
-                                            ),
-                                            Container(
-                                              color: Colors.white,
-                                              child: Text(
-                                                item['name'].toString(),
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color:
-                                                        CustomColors.appColors),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                            Container(
-                                              color: Colors.white,
-                                              child: Text(
-                                                item['location'].toString(),
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color:
-                                                        CustomColors.appColors),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                             Container(
-                                              color: Colors.white,
-                                              child: Text(
-                                                item['delta_time'].toString(),
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color:
-                                                        CustomColors.appColors),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
                                             )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                            if (total_page > current_page &&
-                                _getRequest == true)
-                              Container(
-                                height: 100,
-                                child: Center(
-                                    child: CircularProgressIndicator(
-                                        color: CustomColors.appColors)),
-                              )
-                          ],
-                        ),
+                                          : GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            OtherGoodsDetail(
+                                                              id: data[index]
+                                                                      ['id']
+                                                                  .toString(),
+                                                              title: 'Harytlar',
+                                                            )));
+                                              },
+                                              child: Container(
+                                                height: 110,
+                                                child: Card(
+                                                  color: CustomColors
+                                                      .appColorWhite,
+                                                  shadowColor:
+                                                      const Color.fromARGB(
+                                                          255, 200, 198, 198),
+                                                  surfaceTintColor: CustomColors
+                                                      .appColorWhite,
+                                                  elevation: 5,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                10.0)),
+                                                    child: Container(
+                                                      height: 110,
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                              flex: 1,
+                                                              child: ClipRect(
+                                                                child:
+                                                                    Container(
+                                                                  height: 110,
+                                                                  child:
+                                                                      FittedBox(
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    child: data[index]['img'] !=
+                                                                                '' &&
+                                                                            data[index]['img'] !=
+                                                                                null
+                                                                        ? Image
+                                                                            .network(
+                                                                            baseurl +
+                                                                                data[index]['img'].toString(),
+                                                                          )
+                                                                        : Image
+                                                                            .asset(
+                                                                            'assets/images/default.jpg',
+                                                                          ),
+                                                                  ),
+                                                                ),
+                                                              )),
+                                                          Expanded(
+                                                            flex: 2,
+                                                            child: Container(
+                                                              color: CustomColors
+                                                                  .appColorWhite,
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left: 2),
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(10),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: <Widget>[
+                                                                  if (data[index]
+                                                                              [
+                                                                              'name'] !=
+                                                                          null &&
+                                                                      data[index]
+                                                                              [
+                                                                              'name'] !=
+                                                                          '')
+                                                                    Expanded(
+                                                                      child:
+                                                                          Container(
+                                                                        alignment:
+                                                                            Alignment.centerLeft,
+                                                                        child:
+                                                                            Text(
+                                                                          data[index]
+                                                                              [
+                                                                              'name'],
+                                                                          maxLines:
+                                                                              1,
+                                                                          style:
+                                                                              CustomText.itemTextBold,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  if (data[index]
+                                                                              [
+                                                                              'location'] !=
+                                                                          null &&
+                                                                      data[index]
+                                                                              [
+                                                                              'location'] !=
+                                                                          '')
+                                                                    Expanded(
+                                                                        child:
+                                                                            Align(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child:
+                                                                          Row(
+                                                                        children: <Widget>[
+                                                                          Text(
+                                                                              data[index]['location'].toString(),
+                                                                              style: CustomText.itemText)
+                                                                        ],
+                                                                      ),
+                                                                    )),
+                                                                  Expanded(
+                                                                      child: Align(
+                                                                          alignment: Alignment.centerLeft,
+                                                                          child: Row(children: <Widget>[
+                                                                            Text(data[index]['delta_time'].toString(),
+                                                                                style: CustomText.itemText),
+                                                                            Spacer(),
+                                                                            Text(data[index]['price'].toString(),
+                                                                                style: CustomText.itemText),
+                                                                          ]))),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ));
+                                }),
+                          )
+                        ],
                       )
                     : Center(
                         child: CircularProgressIndicator(
@@ -518,9 +656,7 @@ class _NotificationsState extends State<Notifications> {
   void getmarketslist(sort_value) async {
     try {
       Urls server_url = new Urls();
-      String url = server_url.get_server_url() +
-          '/mob/announcements?' +
-          sort_value.toString();
+      String url = server_url.get_server_url() + '/mob/announcements?' + sort_value.toString();
 
       if (keyword.text != '') {
         url = server_url.get_server_url() +

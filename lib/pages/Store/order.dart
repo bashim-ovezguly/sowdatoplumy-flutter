@@ -237,8 +237,7 @@ class _OrderState extends State<Order> {
                                                                   .centerLeft,
                                                               child: Text(
                                                                   array[index][
-                                                                          'product_name'] +
-                                                                      'erwekjlrgnerngelrwk ',
+                                                                          'product_name'],
                                                                   maxLines: 2,
                                                                   style: TextStyle(
                                                                       fontSize:

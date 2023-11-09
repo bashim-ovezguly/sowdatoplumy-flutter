@@ -86,10 +86,7 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
         ? Scaffold(
             backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
-              title: const Text(
-                "Harytlar",
-                style: CustomText.appBarText,
-              ),
+              title: const Text("Harytlar", style: CustomText.appBarText),
               actions: [
                 Row(
                   children: <Widget>[
@@ -130,6 +127,8 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                     data = [];
                     determinate = false;
                     determinate1 = false;
+                    getproductlist();
+                    getslider_products();
                   });
                   return Future<void>.delayed(const Duration(seconds: 3));
                 },
@@ -349,7 +348,8 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                                 flex: 2,
                                                                 child:
                                                                     Container(
-                                                                  color: CustomColors.appColorWhite,
+                                                                  color: CustomColors
+                                                                      .appColorWhite,
                                                                   margin: EdgeInsets
                                                                       .only(
                                                                           left:
@@ -407,58 +407,10 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                                                 Spacer(),
                                                                                 Text(data[index]['price'].toString(), style: CustomText.itemText),
                                                                               ]))),
-                                                                      if (data[index]['store_id'] ==
+                                                                      if (data[index]['store_id'] !=
                                                                               null ||
-                                                                          data[index]['store_id'] ==
+                                                                          data[index]['store_id'] !=
                                                                               '')
-                                                                        Expanded(
-                                                                            child:
-                                                                                Align(
-                                                                          alignment:
-                                                                              Alignment.centerLeft,
-                                                                          child:
-                                                                              Row(
-                                                                            children: <Widget>[
-                                                                              Text('Kredit', style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                                              data[index]['credit']
-                                                                                  ? Icon(
-                                                                                      Icons.check,
-                                                                                      color: Colors.green,
-                                                                                    )
-                                                                                  : Icon(
-                                                                                      Icons.close,
-                                                                                      color: Colors.red,
-                                                                                    ),
-                                                                              SizedBox(
-                                                                                width: 5,
-                                                                              ),
-                                                                              Text('Obmen', style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                                              data[index]['swap']
-                                                                                  ? Icon(
-                                                                                      Icons.check,
-                                                                                      color: Colors.green,
-                                                                                    )
-                                                                                  : Icon(
-                                                                                      Icons.close,
-                                                                                      color: Colors.red,
-                                                                                    ),
-                                                                              SizedBox(
-                                                                                width: 5,
-                                                                              ),
-                                                                              Text('Nagt däl', style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                                              data[index]['none_cash_pay']
-                                                                                  ? Icon(
-                                                                                      Icons.check,
-                                                                                      color: Colors.green,
-                                                                                    )
-                                                                                  : Icon(
-                                                                                      Icons.close,
-                                                                                      color: Colors.red,
-                                                                                    ),
-                                                                            ],
-                                                                          ),
-                                                                        ))
-                                                                      else
                                                                         Expanded(
                                                                             child:
                                                                                 Align(
@@ -549,14 +501,28 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                               )),
                                                           Expanded(
                                                             flex: 2,
-                                                            child: Container(color: CustomColors.appColorWhite,
-                                                              margin: EdgeInsets.only(left: 2),
-                                                              padding: EdgeInsets.all(10),
+                                                            child: Container(
+                                                              color: CustomColors
+                                                                  .appColorWhite,
+                                                              margin: EdgeInsets
+                                                                  .only(
+                                                                      left: 2),
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(10),
                                                               child: Column(
-                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
                                                                 children: <Widget>[
-                                                                  if (data[index]['name'] !=null &&
-                                                                      data[index]['name'] !='')
+                                                                  if (data[index]
+                                                                              [
+                                                                              'name'] !=
+                                                                          null &&
+                                                                      data[index]
+                                                                              [
+                                                                              'name'] !=
+                                                                          '')
                                                                     Expanded(
                                                                       child:
                                                                           Container(
@@ -574,8 +540,14 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                  if (data[index]['location'] != null &&
-                                                                      data[index]['location'] !='')
+                                                                  if (data[index]
+                                                                              [
+                                                                              'location'] !=
+                                                                          null &&
+                                                                      data[index]
+                                                                              [
+                                                                              'location'] !=
+                                                                          '')
                                                                     Expanded(
                                                                         child:
                                                                             Align(
@@ -603,69 +575,12 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                                           ]))),
                                                                   if (data[index]
                                                                               [
-                                                                              'store_id'] ==
+                                                                              'store_id'] !=
                                                                           null ||
                                                                       data[index]
                                                                               [
-                                                                              'store_id'] ==
+                                                                              'store_id'] !=
                                                                           '')
-                                                                    Expanded(
-                                                                        child:
-                                                                            Align(
-                                                                      alignment:
-                                                                          Alignment
-                                                                              .centerLeft,
-                                                                      child:
-                                                                          Row(
-                                                                        children: <Widget>[
-                                                                          Text(
-                                                                              'Kredit',
-                                                                              style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                                          data[index]['credit']
-                                                                              ? Icon(
-                                                                                  Icons.check,
-                                                                                  color: Colors.green,
-                                                                                )
-                                                                              : Icon(
-                                                                                  Icons.close,
-                                                                                  color: Colors.red,
-                                                                                ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                5,
-                                                                          ),
-                                                                          Text(
-                                                                              'Obmen',
-                                                                              style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                                          data[index]['swap']
-                                                                              ? Icon(
-                                                                                  Icons.check,
-                                                                                  color: Colors.green,
-                                                                                )
-                                                                              : Icon(
-                                                                                  Icons.close,
-                                                                                  color: Colors.red,
-                                                                                ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                5,
-                                                                          ),
-                                                                          Text(
-                                                                              'Nagt däl',
-                                                                              style: TextStyle(color: Colors.white, fontSize: 12)),
-                                                                          data[index]['none_cash_pay']
-                                                                              ? Icon(
-                                                                                  Icons.check,
-                                                                                  color: Colors.green,
-                                                                                )
-                                                                              : Icon(
-                                                                                  Icons.close,
-                                                                                  color: Colors.red,
-                                                                                ),
-                                                                        ],
-                                                                      ),
-                                                                    ))
-                                                                  else
                                                                     Expanded(
                                                                         child: Container(
                                                                             height: 25,
@@ -736,7 +651,9 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
     for (var i in global_headers.entries) {
       headers[i.key] = i.value.toString();
     }
-    final response = await get(Uri.parse(url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
+    final response = await get(
+        Uri.parse(
+            url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
         headers: headers);
     print(Uri.parse(
         url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
