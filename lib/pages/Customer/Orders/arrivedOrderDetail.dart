@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/providers.dart';
 import 'package:my_app/dB/textStyle.dart';
-import 'package:my_app/pages/Car/car.dart';
 import 'package:my_app/pages/Customer/myPages.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/quickalert.dart';
