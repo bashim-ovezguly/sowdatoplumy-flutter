@@ -1332,7 +1332,6 @@ class _MyDraverState extends State<MyDraver> {
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
-                  if (user != {} && user['id']!=null && user['id']!='')
                     GestureDetector(
                         onTap: () {
                           print(user);

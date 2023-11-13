@@ -3,6 +3,7 @@ import 'package:my_app/dB/colors.dart';
 import 'package:my_app/dB/constants.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:my_app/main.dart';
 
 class AdminMessage extends StatefulWidget {
   final Map<dynamic, dynamic> user;
@@ -16,7 +17,6 @@ class _AdminMessageState extends State<AdminMessage> {
   List<dynamic> data = [];
   @override
   void initState() {
-    // print(widget.user);
     get_messages();
     super.initState();
   }
@@ -107,16 +107,25 @@ class _AdminMessageState extends State<AdminMessage> {
 
   void get_messages() async {
     Urls server_url = new Urls();
-    String url = server_url.get_server_url() +
-        '/mob/notifs/' +
-        widget.user['id'].toString();
-
+    String url = server_url.get_server_url() + '/mob/notifs/';
+    
+    var data1 = [];
+    var allRows = await dbHelper.queryAllRows();
+    for (final row in allRows) {
+      data1.add(row);
+    }
     Map<String, String> headers = {};
     for (var i in global_headers.entries) {
       headers[i.key] = i.value.toString();
     }
+    if (data1.length>0){
+      headers['Token'] = data1[0]['name'];
+    }
+
+    print("");
+    print(headers);
+    print("");
     final uri = Uri.parse(url);
-    print(uri);
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
