@@ -390,16 +390,15 @@ class _GoneOrderDetailState extends State<GoneOrderDetail> {
                                                           .appColors,
                                                       fontSize: 15))))),
                                   Container(
-                                    margin: EdgeInsets.only(
-                                        right: 10, top: 5, bottom: 5),
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                        order['product_count'].toString() +
-                                            " sany haryt",
-                                        style: TextStyle(
-                                            color: CustomColors.appColors,
-                                            fontSize: 15)),
-                                  ),
+                                      margin: EdgeInsets.only(
+                                          right: 10, top: 5, bottom: 5),
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                          order['product_count'].toString() +
+                                              " sany haryt",
+                                          style: TextStyle(
+                                              color: CustomColors.appColors,
+                                              fontSize: 15)))
                                 ]));
                       })),
                       SliverList(

@@ -7,11 +7,11 @@ import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/AddData/addPage.dart';
 import 'package:my_app/pages/Notifications/notificationsDetail.dart';
-import 'package:my_app/pages/Notifications/notificationsList.dart';
 import 'package:my_app/pages/Restaurants/list.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/appInfo.dart';
 import 'package:my_app/pages/chatAdmin.dart';
+import 'package:my_app/pages/messageAdmin.dart';
 import 'package:my_app/pages/progressIndicator.dart';
 import 'package:my_app/pages/ribbon/ribbonList.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +59,7 @@ class _HomeState extends State<Home> {
       status = true;
       region = Provider.of<UserInfo>(context, listen: false).regionsCode;
     });
-    getHomePage();    
+    getHomePage();
     super.initState();
   }
 
@@ -608,9 +608,13 @@ class _HomeState extends State<Home> {
                                         child: Container(
                                             height: 110,
                                             child: Card(
-                                                color:CustomColors.appColorWhite,
-                                                shadowColor:const Color.fromARGB(255, 200, 198, 198),
-                                                surfaceTintColor:CustomColors.appColorWhite,
+                                                color:
+                                                    CustomColors.appColorWhite,
+                                                shadowColor:
+                                                    const Color.fromARGB(
+                                                        255, 200, 198, 198),
+                                                surfaceTintColor:
+                                                    CustomColors.appColorWhite,
                                                 elevation: 5,
                                                 child: ClipRRect(
                                                     borderRadius:
@@ -687,7 +691,8 @@ class _HomeState extends State<Home> {
                       }
                     },
                     child: Icon(Icons.add, color: Colors.white)))
-            : HomePageProgressIndicator(funcInit: initState, determinate1: determinate1);
+            : HomePageProgressIndicator(
+                funcInit: initState, determinate1: determinate1);
   }
 
   showConfirmationDialog(BuildContext context) {
@@ -753,13 +758,14 @@ class _HomeState extends State<Home> {
         "factory_count": json['data']['factory_count'].toString(),
         "flat_count": json['data']['flat_count'].toString(),
         "announcements": json['data']['announcements'].toString(),
+        "count_message": json['data']['notifs'].toString(),
       };
       if (json['data']['update'] == true) {
         determinate1 = true;
       }
       Provider.of<UserInfo>(context, listen: false).set_statistic(new_statistic);
-      // Provider.of<UserInfo>(context, listen: false).set_update_app(json['data']['update']);
-      Provider.of<UserInfo>(context, listen: false).set_update_app(false);
+      Provider.of<UserInfo>(context, listen: false).set_update_app(json['data']['update']);
+      // Provider.of<UserInfo>(context, listen: false).set_update_app(false);
     });
   }
 
@@ -785,9 +791,11 @@ class _HomeState extends State<Home> {
       final json = jsonDecode(utf8.decode(response1.bodyBytes));
       Map<String, dynamic> row = {'id': json['device_id']};
       var device = await dbHelper.insert2(row);
-      Provider.of<UserInfo>(context, listen: false).set_device_id(json['device_id']);
+      Provider.of<UserInfo>(context, listen: false)
+          .set_device_id(json['device_id']);
     } else {
-      Provider.of<UserInfo>(context, listen: false) .set_device_id(_allids[0]['id']);
+      Provider.of<UserInfo>(context, listen: false)
+          .set_device_id(_allids[0]['id']);
     }
 
     var allRows = await dbHelper.queryAllRows();
@@ -809,7 +817,8 @@ class _HomeState extends State<Home> {
       response = await http.get(uri, headers: headers);
       final json = jsonDecode(utf8.decode(response.bodyBytes));
       setState(() {
-        Provider.of<UserInfo>(context, listen: false).set_user_info(json['data']);
+        Provider.of<UserInfo>(context, listen: false)
+            .set_user_info(json['data']);
         baseurl = server_url.get_server_url();
       });
       Provider.of<UserInfo>(context, listen: false)
@@ -1110,7 +1119,6 @@ class _MyDraverState extends State<MyDraver> {
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
-
                   GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, "/car");
@@ -1177,7 +1185,6 @@ class _MyDraverState extends State<MyDraver> {
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
-
                   GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, "/properties/list");
@@ -1193,14 +1200,9 @@ class _MyDraverState extends State<MyDraver> {
                               },
                               child: Container(
                                   child: Row(children: [
-                                Icon(
-                                  Icons.other_houses,
-                                  size: 25,
-                                  color: CustomColors.appColors,
-                                ),
-                                SizedBox(
-                                  width: 14,
-                                ),
+                                Icon(Icons.other_houses,
+                                    size: 25, color: CustomColors.appColors),
+                                SizedBox(width: 14),
                                 Text('Gozgalmaýan emläkler',
                                     style: TextStyle(
                                         fontSize: 16,
@@ -1212,55 +1214,14 @@ class _MyDraverState extends State<MyDraver> {
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
-                  // GestureDetector(
-                  //     onTap: () {
-                  //       Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (context) => Notifications(
-                  //                     title: 'Beýleki bildirişler',
-                  //                   )));
-                  //     },
-                  //     child: Container(
-                  //         width: double.infinity,
-                  //         color: Colors.white,
-                  //         margin: EdgeInsets.only(left: 20, top: 20),
-                  //         child: GestureDetector(
-                  //             onTap: () {
-                  //               Navigator.push(
-                  //                   context,
-                  //                   MaterialPageRoute(
-                  //                       builder: (context) => Notifications(
-                  //                             title: 'Beýleki bildirişler',
-                  //                           )));
-                  //             },
-                  //             child: Container(
-                  //                 child: Row(children: [
-                  //               Icon(Icons.campaign,
-                  //                   size: 25, color: CustomColors.appColors),
-                  //               SizedBox(
-                  //                 width: 14,
-                  //               ),
-                  //               Text('Beýleki bildirişler',
-                  //                   style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       color: CustomColors.appColors)),
-                  //               Spacer(),
-                  //               Text(statistic['announcements'],
-                  //                   style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       color: CustomColors.appColors)),
-                  //               SizedBox(width: 15),
-                  //             ]))))),
-
                   GestureDetector(
                       onTap: () {
                         Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Restaurant(
-                                              title: "Naharhanalar",
-                                            )));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Restaurant(
+                                      title: "Naharhanalar",
+                                    )));
                       },
                       child: Container(
                           width: double.infinity,
@@ -1296,47 +1257,6 @@ class _MyDraverState extends State<MyDraver> {
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
-                  // GestureDetector(
-                  //     onTap: () {
-                  //       Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (context) =>
-                  //                   Store(title: "Bazarlar")));
-                  //     },
-                  //     child: Container(
-                  //         width: double.infinity,
-                  //         color: Colors.white,
-                  //         margin: EdgeInsets.only(left: 20, top: 20),
-                  //         child: GestureDetector(
-                  //             onTap: () {
-                  //               Navigator.push(
-                  //                   context,
-                  //                   MaterialPageRoute(
-                  //                       builder: (context) =>
-                  //                           Store(title: "Bazarlar")));
-                  //             },
-                  //             child: Container(
-                  //                 child: Row(children: [
-                  //               Icon(
-                  //                 Icons.storefront_sharp,
-                  //                 size: 25,
-                  //                 color: CustomColors.appColors,
-                  //               ),
-                  //               SizedBox(
-                  //                 width: 14,
-                  //               ),
-                  //               Text('Bazarlar',
-                  //                   style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       color: CustomColors.appColors)),
-                  //               Spacer(),
-                  //               Text(statistic['bazar_count'],
-                  //                   style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       color: CustomColors.appColors)),
-                  //               SizedBox(width: 15),
-                  //             ]))))),
                   GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -1378,117 +1298,6 @@ class _MyDraverState extends State<MyDraver> {
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
-
-                  // GestureDetector(
-                  //     onTap: () {
-                  //       Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (context) =>
-                  //                   Store(title: "Marketler")));
-                  //     },
-                  //     child: Container(
-                  //         width: double.infinity,
-                  //         color: Colors.white,
-                  //         margin: EdgeInsets.only(left: 20, top: 20),
-                  //         child: GestureDetector(
-                  //             onTap: () {
-                  //               Navigator.push(
-                  //                   context,
-                  //                   MaterialPageRoute(
-                  //                       builder: (context) =>
-                  //                           Store(title: "Marketler")));
-                  //             },
-                  //             child: Container(
-                  //                 child: Row(children: [
-                  //               Icon(
-                  //                 Icons.storefront_outlined,
-                  //                 size: 25,
-                  //                 color: CustomColors.appColors,
-                  //               ),
-                  //               SizedBox(
-                  //                 width: 14,
-                  //               ),
-                  //               Text('Marketler',
-                  //                   style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       color: CustomColors.appColors)),
-                  //               Spacer(),
-                  //               Text(statistic['market_count'],
-                  //                   style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       color: CustomColors.appColors)),
-                  //               SizedBox(width: 15),
-                  //             ]))))),
-
-                  // GestureDetector(
-                  //     onTap: () {
-                  //       Navigator.pushNamed(context, "/productManufacturers");
-                  //     },
-                  //     child: Container(
-                  //         color: Colors.white,
-                  //         width: double.infinity,
-                  //         margin: EdgeInsets.only(left: 20, top: 20),
-                  //         child: GestureDetector(
-                  //             onTap: () {
-                  //               Navigator.pushNamed(
-                  //                   context, "/productManufacturers");
-                  //             },
-                  //             child: Container(
-                  //                 child: Row(children: [
-                  //               Icon(
-                  //                 Icons.store_outlined,
-                  //                 size: 25,
-                  //                 color: CustomColors.appColors,
-                  //               ),
-                  //               SizedBox(
-                  //                 width: 14,
-                  //               ),
-                  //               Text('Önüm öndürijiler',
-                  //                   style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       color: CustomColors.appColors)),
-                  //               Spacer(),
-                  //               Text(statistic['factory_count'],
-                  //                   style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       color: CustomColors.appColors)),
-                  //               SizedBox(width: 15),
-                  //             ]))))),
-                  // GestureDetector(
-                  //     onTap: () {
-                  //       Navigator.pushNamed(context, "/constructions/list");
-                  //     },
-                  //     child: Container(
-                  //         color: Colors.white,
-                  //         width: double.infinity,
-                  //         margin: EdgeInsets.only(left: 20, top: 20),
-                  //         child: GestureDetector(
-                  //             onTap: () {
-                  //               Navigator.pushNamed(
-                  //                   context, "/constructions/list");
-                  //             },
-                  //             child: Container(
-                  //                 child: Row(children: [
-                  //               Icon(
-                  //                 Icons.build_circle,
-                  //                 size: 25,
-                  //                 color: CustomColors.appColors,
-                  //               ),
-                  //               SizedBox(
-                  //                 width: 14,
-                  //               ),
-                  //               Text('Gurluşyk harytlary',
-                  //                   style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       color: CustomColors.appColors)),
-                  //               Spacer(),
-                  //               Text(statistic['material_count'],
-                  //                   style: TextStyle(
-                  //                       fontSize: 16,
-                  //                       color: CustomColors.appColors)),
-                  //               SizedBox(width: 15),
-                  //             ]))))),
                   GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, "/pharmacies/list");
@@ -1523,7 +1332,62 @@ class _MyDraverState extends State<MyDraver> {
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
+                  if (user != {} && user['id']!=null && user['id']!='')
+                    GestureDetector(
+                        onTap: () {
+                          print(user);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      AdminMessage(user: user)));
+                        },
+                        child: Container(
+                            width: double.infinity,
+                            color: Colors.white,
+                            margin: EdgeInsets.only(left: 20, top: 20),
+                            child: GestureDetector(
+                                child: Container(
+                                    child: Row(children: [
+                              Icon(Icons.notifications,
+                                  size: 25, color: CustomColors.appColors),
+                              SizedBox(width: 14),
+                              Text('Habarnamalar',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: CustomColors.appColors)),
+                              SizedBox(width: 15),
+                              Spacer(),
+                              Text(statistic['count_message'].toString()+"   ",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: CustomColors.appColors)),
+                            ]))))),
 
+
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChatAdmin()));
+                      },
+                      child: Container(
+                          width: double.infinity,
+                          color: Colors.white,
+                          margin: EdgeInsets.only(left: 20, top: 20),
+                          child: GestureDetector(
+                              child: Container(
+                                  child: Row(children: [
+                            Icon(Icons.chat_sharp,
+                                size: 25, color: CustomColors.appColors),
+                            SizedBox(width: 14),
+                            Text('Admine ýaz',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: CustomColors.appColors)),
+                            SizedBox(width: 15),
+                          ]))))),
                   GestureDetector(
                       onTap: () {
                         Navigator.push(context,
@@ -1549,30 +1413,6 @@ class _MyDraverState extends State<MyDraver> {
                                     fontSize: 16,
                                     color: CustomColors.appColors)),
                             SizedBox(width: 15)
-                          ]))))),
-
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChatAdmin()));
-                      },
-                      child: Container(
-                          width: double.infinity,
-                          color: Colors.white,
-                          margin: EdgeInsets.only(left: 20, top: 20),
-                          child: GestureDetector(
-                              child: Container(
-                                  child: Row(children: [
-                            Icon(Icons.chat_sharp,
-                                size: 25, color: CustomColors.appColors),
-                            SizedBox(width: 14),
-                            Text('Admine ýaz',
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: CustomColors.appColors)),
-                            SizedBox(width: 15),
                           ]))))),
                 ],
               ),

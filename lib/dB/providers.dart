@@ -42,7 +42,8 @@ class UserInfo extends ChangeNotifier {
                                     "factory_count": "",
                                     "flat_count": "",
                                     "announcements": "",
-                                    "restaurants": ""};
+                                    "restaurants": "",
+                                    "count_message": ""};
 
   void set_statistic(value){
     statistic = value;

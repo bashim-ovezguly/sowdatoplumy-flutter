@@ -478,9 +478,8 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                           modules['services'] > 0 ||
                           modules['flats'] > 0)
                         SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
+                            scrollDirection: Axis.horizontal,
+                            child: Row(children: [
                               if (modules['products'] > 0)
                                 Row(
                                   children: [
@@ -490,7 +489,6 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                     ElevatedButton(
                                         onPressed: () async {
                                           setState(() {
-                                            determinate1 = false;
                                             tab_control = 1;
                                             data_array = [];
                                             _pageNumber = 1;
@@ -520,13 +518,10 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                               if (modules['cars'] > 0)
                                 Row(
                                   children: [
-                                    SizedBox(
-                                      width: 5,
-                                    ),
+                                    SizedBox(width: 5),
                                     ElevatedButton(
                                         onPressed: () async {
                                           setState(() {
-                                            determinate1 = false;
                                             tab_control = 2;
                                             data_array = [];
                                             _pageNumber = 1;
@@ -558,7 +553,6 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                     onPressed: () async {
                                       setState(() {
                                         setState(() {
-                                          determinate1 = false;
                                           tab_control = 3;
                                           data_array = [];
                                           _pageNumber = 1;
@@ -591,7 +585,6 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                     ElevatedButton(
                                         onPressed: () async {
                                           setState(() {
-                                            determinate1 = false;
                                             tab_control = 4;
                                             data_array = [];
                                             _pageNumber = 1;
@@ -619,90 +612,85 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                   ],
                                 ),
                               if (modules['flats'] > 0)
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    ElevatedButton(
-                                        onPressed: () async {
-                                          setState(() {
-                                            tab_control = 5;
-                                            data_array = [];
-                                            _pageNumber = 1;
-                                            _isLastPage = false;
-                                            _loading = true;
-                                            _error = false;
-                                          });
-                                          get_products_modul(widget.id);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: tab_control != 5
-                                              ? Color.fromARGB(
-                                                  255, 222, 222, 222)
-                                              : CustomColors.appColors,
-                                        ),
-                                        child: Text(
-                                            "Emläkler (" +
-                                                modules['flats'].toString() +
-                                                ")",
-                                            style: TextStyle(
-                                                color: tab_control != 5
-                                                    ? CustomColors.appColors
-                                                    : CustomColors
-                                                        .appColorWhite))),
-                                  ],
+                                Row(children: [
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  ElevatedButton(
+                                      onPressed: () async {
+                                        setState(() {
+                                          data_array = [];
+                                          _pageNumber = 1;
+                                          _isLastPage = false;
+                                          _loading = true;
+                                          _error = false;
+                                        });
+                                        get_products_modul(widget.id);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: tab_control != 5
+                                            ? Color.fromARGB(255, 222, 222, 222)
+                                            : CustomColors.appColors,
+                                      ),
+                                      child: Text(
+                                          "Emläkler (" +
+                                              modules['flats'].toString() +
+                                              ")",
+                                          style: TextStyle(
+                                              color: tab_control != 5
+                                                  ? CustomColors.appColors
+                                                  : CustomColors
+                                                      .appColorWhite))),
+                                ]),
+                              SizedBox(width: 5)
+                            ])),
+                    if (tab_control != 2)
+                      Container(
+                        margin: EdgeInsets.only(
+                            left: 10, right: 10, top: 10, bottom: 10),
+                        width: double.infinity,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 228, 228, 228),
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Center(
+                          child: TextFormField(
+                            controller: keyword,
+                            decoration: InputDecoration(
+                                prefixIcon: IconButton(
+                                  icon: const Icon(Icons.search),
+                                  onPressed: () {
+                                    setState(() {
+                                      _pageNumber = 1;
+                                      _isLastPage = false;
+                                      _loading = true;
+                                      _error = false;
+                                      tab_control = 1;
+                                      data_array = [];
+                                    });
+                                    get_products_modul(widget.id);
+                                  },
                                 ),
-                              SizedBox(width: 5),
-                            ],
+                                suffixIcon: IconButton(
+                                  icon: const Icon(Icons.clear),
+                                  onPressed: () {
+                                    setState(() {
+                                      _pageNumber = 1;
+                                      _isLastPage = false;
+                                      _loading = true;
+                                      _error = false;
+                                      tab_control = 1;
+                                      data_array = [];
+                                      keyword.text = '';
+                                    });
+                                    get_products_modul(widget.id);
+                                  },
+                                ),
+                                hintText: 'Ady boýunça gözleg...',
+                                border: InputBorder.none),
                           ),
                         ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: 10, right: 10, top: 10, bottom: 10),
-                      width: double.infinity,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 228, 228, 228),
-                          borderRadius: BorderRadius.circular(5)),
-                      child: Center(
-                        child: TextFormField(
-                          controller: keyword,
-                          decoration: InputDecoration(
-                              prefixIcon: IconButton(
-                                icon: const Icon(Icons.search),
-                                onPressed: () {
-                                  setState(() {
-                                    _pageNumber = 1;
-                                    _isLastPage = false;
-                                    _loading = true;
-                                    _error = false;
-                                    tab_control = 1;
-                                    data_array = [];
-                                  });
-                                  get_products_modul(widget.id);
-                                },
-                              ),
-                              suffixIcon: IconButton(
-                                icon: const Icon(Icons.clear),
-                                onPressed: () {
-                                  setState(() {
-                                    _pageNumber = 1;
-                                    _isLastPage = false;
-                                    _loading = true;
-                                    _error = false;
-                                    tab_control = 1;
-                                    data_array = [];
-                                    keyword.text = '';
-                                  });
-                                  get_products_modul(widget.id);
-                                },
-                              ),
-                              hintText: 'Ady boýunça gözleg...',
-                              border: InputBorder.none),
-                        ),
                       ),
-                    ),
                     if (data_array.length > 0)
                       Wrap(
                         alignment: WrapAlignment.start,
@@ -792,8 +780,8 @@ class _MyTabStatefulWidgetState extends State<MyTabStatefulWidget>
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                               )
-                                            : Text(item['mark'].toString() +
-                                                item['model'] +
+                                            : Text(item['mark'].toString() + " " + 
+                                                item['model'] + " " +
                                                 item['year'].toString()),
                                       ),
                                       Container(
