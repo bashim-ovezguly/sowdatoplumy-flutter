@@ -45,6 +45,7 @@ class _HomeState extends State<Home> {
   List<dynamic> stores_list = [];
   List<dynamic> announcements_list = [];
   List<dynamic> items = [];
+  List<dynamic> messages = [];
   String store_count = '';
   var region = {};
   bool determinate = false;
@@ -54,6 +55,7 @@ class _HomeState extends State<Home> {
   void initState() {
     timers();
     get_userinfo();
+    get_messages();
     setState(() {
       determinate = false;
       status = true;
@@ -88,6 +90,8 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    var user = Provider.of<UserInfo>(context, listen: false).user_info;
+
     return determinate1 == true
         ? Scaffold(
             body: Container(
@@ -107,8 +111,8 @@ class _HomeState extends State<Home> {
                           Text("ýükläp alyň!",
                               style: TextStyle(
                                   color: CustomColors.appColors, fontSize: 18))
-                        ],
-                      ),
+                        ]
+                      )
                     )),
                 Expanded(
                     flex: 3,
@@ -242,130 +246,46 @@ class _HomeState extends State<Home> {
                       return Future<void>.delayed(const Duration(seconds: 3));
                     },
                     child: determinate
-                        ? CustomScrollView(
-                            physics: ClampingScrollPhysics(),
-                            slivers: [
-                                SliverList(
-                                    delegate: SliverChildBuilderDelegate(
-                                  childCount: 1,
-                                  (BuildContext context, int index) {
-                                    return ClipRRect(
-                                      child: Container(
-                                        margin: EdgeInsets.only(
-                                            bottom: 10,
-                                            left: 5,
-                                            right: 5,
-                                            top: 5),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10.0)),
+                        ? Stack(
+                            children: [
+                              CustomScrollView(
+                                  physics: ClampingScrollPhysics(),
+                                  slivers: [
+                                    SliverList(
+                                        delegate: SliverChildBuilderDelegate(
+                                      childCount: 1,
+                                      (BuildContext context, int index) {
+                                        return ClipRRect(
                                           child: Container(
-                                            child: ImageSlideshow(
-                                              indicatorColor:
-                                                  CustomColors.appColors,
-                                              indicatorBackgroundColor:
-                                                  Colors.grey,
-                                              disableUserScrolling:
-                                                  dataSlider1.length > 1
-                                                      ? false
-                                                      : true,
-                                              onPageChanged: (value) {},
-                                              autoPlayInterval: 6666,
-                                              isLoop: true,
-                                              children: [
-                                                if (dataSlider1.length == 0)
-                                                  ClipRect(
-                                                    child: Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                      child: FittedBox(
-                                                        fit: BoxFit.cover,
-                                                        child: Image.asset(
-                                                            'assets/images/default.jpg'),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                for (var item in dataSlider1)
-                                                  if (item['img'] != null &&
-                                                      item['img'] != '')
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        AdPage(
-                                                                          id: item['id']
-                                                                              .toString(),
-                                                                        )));
-                                                      },
-                                                      child: Container(
-                                                        width: MediaQuery.of(
-                                                                context)
-                                                            .size
-                                                            .width,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          image:
-                                                              DecorationImage(
-                                                            image: NetworkImage(
-                                                                baseurl +
-                                                                    item[
-                                                                        'img']),
-                                                            fit: BoxFit
-                                                                .cover, // -> 02
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                )),
-                                SliverList(
-                                    delegate: SliverChildBuilderDelegate(
-                                  childCount: 1,
-                                  (BuildContext context, int index) {
-                                    return ClipRRect(
-                                      child: Container(
-                                          margin: EdgeInsets.only(
-                                              left: 5, right: 5),
-                                          child: Row(children: <Widget>[
-                                            Expanded(
-                                                child: ClipRRect(
+                                            margin: EdgeInsets.only(
+                                                bottom: 10,
+                                                left: 5,
+                                                right: 5,
+                                                top: 5),
+                                            child: ClipRRect(
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(10.0)),
                                               child: Container(
-                                                height: 180,
-                                                color: Colors.black12,
                                                 child: ImageSlideshow(
-                                                  width: double.infinity,
-                                                  initialPage: 0,
                                                   indicatorColor:
                                                       CustomColors.appColors,
-                                                  disableUserScrolling:
-                                                      dataSlider2.length > 1
-                                                          ? false
-                                                          : true,
                                                   indicatorBackgroundColor:
                                                       Colors.grey,
+                                                  disableUserScrolling:
+                                                      dataSlider1.length > 1
+                                                          ? false
+                                                          : true,
                                                   onPageChanged: (value) {},
-                                                  autoPlayInterval: 5555,
+                                                  autoPlayInterval: 6666,
                                                   isLoop: true,
                                                   children: [
-                                                    if (dataSlider2.length == 0)
+                                                    if (dataSlider1.length == 0)
                                                       ClipRect(
                                                         child: Container(
-                                                          height: 220,
-                                                          width:
-                                                              double.infinity,
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
                                                           child: FittedBox(
                                                             fit: BoxFit.cover,
                                                             child: Image.asset(
@@ -374,71 +294,87 @@ class _HomeState extends State<Home> {
                                                         ),
                                                       ),
                                                     for (var item
-                                                        in dataSlider2)
+                                                        in dataSlider1)
                                                       if (item['img'] != null &&
                                                           item['img'] != '')
                                                         GestureDetector(
-                                                            onTap: () {
-                                                              Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder: (context) =>
-                                                                          AdPage(
-                                                                            id: item['id'].toString(),
-                                                                          )));
-                                                            },
-                                                            child: ClipRect(
-                                                              child: Container(
-                                                                height: 220,
-                                                                width: double
-                                                                    .infinity,
-                                                                child:
-                                                                    FittedBox(
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                  child: Image
-                                                                      .network(
+                                                          onTap: () {
+                                                            Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            AdPage(
+                                                                              id: item['id'].toString(),
+                                                                            )));
+                                                          },
+                                                          child: Container(
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              image:
+                                                                  DecorationImage(
+                                                                image: NetworkImage(
                                                                     baseurl +
                                                                         item[
-                                                                            'img'],
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                  ),
-                                                                ),
+                                                                            'img']),
+                                                                fit: BoxFit
+                                                                    .cover, // -> 02
                                                               ),
-                                                            ))
+                                                            ),
+                                                          ),
+                                                        )
                                                   ],
                                                 ),
                                               ),
-                                            )),
-                                            SizedBox(
-                                              width: 5,
                                             ),
-                                            Expanded(
-                                                child: ClipRRect(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10.0)),
-                                              child: Container(
-                                                height: 180,
-                                                color: Colors.black12,
-                                                child: ImageSlideshow(
-                                                  disableUserScrolling:
-                                                      dataSlider3.length > 1
-                                                          ? false
-                                                          : true,
-                                                  width: double.infinity,
-                                                  initialPage: 0,
-                                                  indicatorColor:
-                                                      CustomColors.appColors,
-                                                  indicatorBackgroundColor:
-                                                      Colors.grey,
-                                                  onPageChanged: (value) {},
-                                                  autoPlayInterval: 4444,
-                                                  isLoop: true,
-                                                  children: [
-                                                    if (dataSlider3.length == 0)
-                                                      ClipRect(
-                                                          child: Container(
+                                          ),
+                                        );
+                                      },
+                                    )),
+                                    SliverList(
+                                        delegate: SliverChildBuilderDelegate(
+                                      childCount: 1,
+                                      (BuildContext context, int index) {
+                                        return ClipRRect(
+                                          child: Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 5, right: 5),
+                                              child: Row(children: <Widget>[
+                                                Expanded(
+                                                    child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              10.0)),
+                                                  child: Container(
+                                                    height: 180,
+                                                    color: Colors.black12,
+                                                    child: ImageSlideshow(
+                                                      width: double.infinity,
+                                                      initialPage: 0,
+                                                      indicatorColor:
+                                                          CustomColors
+                                                              .appColors,
+                                                      disableUserScrolling:
+                                                          dataSlider2.length > 1
+                                                              ? false
+                                                              : true,
+                                                      indicatorBackgroundColor:
+                                                          Colors.grey,
+                                                      onPageChanged: (value) {},
+                                                      autoPlayInterval: 5555,
+                                                      isLoop: true,
+                                                      children: [
+                                                        if (dataSlider2
+                                                                .length ==
+                                                            0)
+                                                          ClipRect(
+                                                            child: Container(
                                                               height: 220,
                                                               width: double
                                                                   .infinity,
@@ -447,26 +383,31 @@ class _HomeState extends State<Home> {
                                                                     .cover,
                                                                 child: Image.asset(
                                                                     'assets/images/default.jpg'),
-                                                              ))),
-                                                    for (var item
-                                                        in dataSlider3)
-                                                      if (item['img'] != null &&
-                                                          item['img'] != '')
-                                                        GestureDetector(
-                                                            onTap: () {
-                                                              Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder: (context) =>
-                                                                          AdPage(
-                                                                            id: item['id'].toString(),
-                                                                          )));
-                                                            },
-                                                            child: ClipRect(
-                                                                child: Container(
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        for (var item
+                                                            in dataSlider2)
+                                                          if (item['img'] !=
+                                                                  null &&
+                                                              item['img'] != '')
+                                                            GestureDetector(
+                                                                onTap: () {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) => AdPage(
+                                                                                id: item['id'].toString(),
+                                                                              )));
+                                                                },
+                                                                child: ClipRect(
+                                                                  child:
+                                                                      Container(
                                                                     height: 220,
-                                                                    width: double.infinity,
-                                                                    child: FittedBox(
+                                                                    width: double
+                                                                        .infinity,
+                                                                    child:
+                                                                        FittedBox(
                                                                       fit: BoxFit
                                                                           .cover,
                                                                       child: Image
@@ -476,194 +417,349 @@ class _HomeState extends State<Home> {
                                                                         fit: BoxFit
                                                                             .cover,
                                                                       ),
-                                                                    ))))
-                                                  ],
+                                                                    ),
+                                                                  ),
+                                                                ))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )),
+                                                SizedBox(
+                                                  width: 5,
                                                 ),
-                                              ),
-                                            )),
-                                          ])),
+                                                Expanded(
+                                                    child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(
+                                                              10.0)),
+                                                  child: Container(
+                                                    height: 180,
+                                                    color: Colors.black12,
+                                                    child: ImageSlideshow(
+                                                      disableUserScrolling:
+                                                          dataSlider3.length > 1
+                                                              ? false
+                                                              : true,
+                                                      width: double.infinity,
+                                                      initialPage: 0,
+                                                      indicatorColor:
+                                                          CustomColors
+                                                              .appColors,
+                                                      indicatorBackgroundColor:
+                                                          Colors.grey,
+                                                      onPageChanged: (value) {},
+                                                      autoPlayInterval: 4444,
+                                                      isLoop: true,
+                                                      children: [
+                                                        if (dataSlider3
+                                                                .length ==
+                                                            0)
+                                                          ClipRect(
+                                                              child: Container(
+                                                                  height: 220,
+                                                                  width: double
+                                                                      .infinity,
+                                                                  child:
+                                                                      FittedBox(
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            'assets/images/default.jpg'),
+                                                                  ))),
+                                                        for (var item
+                                                            in dataSlider3)
+                                                          if (item['img'] !=
+                                                                  null &&
+                                                              item['img'] != '')
+                                                            GestureDetector(
+                                                                onTap: () {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) => AdPage(
+                                                                                id: item['id'].toString(),
+                                                                              )));
+                                                                },
+                                                                child: ClipRect(
+                                                                    child: Container(
+                                                                        height: 220,
+                                                                        width: double.infinity,
+                                                                        child: FittedBox(
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                          child:
+                                                                              Image.network(
+                                                                            baseurl +
+                                                                                item['img'],
+                                                                            fit:
+                                                                                BoxFit.cover,
+                                                                          ),
+                                                                        ))))
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )),
+                                              ])),
+                                        );
+                                      },
+                                    )),
+                                    if (stores_list.length > 0)
+                                      SliverList(
+                                          delegate: SliverChildBuilderDelegate(
+                                              childCount: 1,
+                                              (BuildContext context,
+                                                  int index) {
+                                        return Container(
+                                            margin: EdgeInsets.only(
+                                                left: 10, top: 5, bottom: 5),
+                                            child: Text('Dükanlar',
+                                                style: TextStyle(
+                                                    color:
+                                                        CustomColors.appColors,
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.bold)));
+                                      })),
+                                    if (stores_list.length > 0)
+                                      SliverList(
+                                          delegate: SliverChildBuilderDelegate(
+                                              childCount: stores_list.length,
+                                              (BuildContext context,
+                                                  int index) {
+                                        return GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          MarketDetail(
+                                                              id: stores_list[
+                                                                          index]
+                                                                      ['id']
+                                                                  .toString(),
+                                                              title:
+                                                                  'Dükanlar')));
+                                            },
+                                            child: Container(
+                                                height: 110,
+                                                child: Card(
+                                                    color: CustomColors
+                                                        .appColorWhite,
+                                                    shadowColor:
+                                                        const Color.fromARGB(
+                                                            255, 200, 198, 198),
+                                                    surfaceTintColor:
+                                                        CustomColors
+                                                            .appColorWhite,
+                                                    elevation: 5,
+                                                    child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10.0)),
+                                                        child: Container(
+                                                            height: 110,
+                                                            child: Row(
+                                                                children: <Widget>[
+                                                                  Expanded(
+                                                                      flex: 1,
+                                                                      child: Container(
+                                                                          child:
+                                                                              ClipRect(child: Container(height: 110, width: double.infinity, child: FittedBox(fit: BoxFit.cover, child: stores_list[index]['img'] != null && stores_list[index]['img'] != '' ? Image.network(baseurl + stores_list[index]['img'].toString()) : Image.asset('assets/images/default.jpg')))))),
+                                                                  Expanded(
+                                                                      flex: 2,
+                                                                      child: Container(
+                                                                          margin: EdgeInsets.only(left: 2),
+                                                                          padding: const EdgeInsets.all(5),
+                                                                          color: CustomColors.appColorWhite,
+                                                                          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                                                                            SizedBox(height: 10),
+                                                                            Expanded(child: Align(alignment: Alignment.topLeft, child: Text(stores_list[index]['name'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14, fontWeight: FontWeight.bold)))),
+                                                                            SizedBox(height: 5),
+                                                                            Expanded(child: Container(alignment: Alignment.centerLeft, child: Text(stores_list[index]['location'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14)))),
+                                                                            SizedBox(height: 5),
+                                                                            Expanded(child: Container(alignment: Alignment.centerLeft, child: Text(stores_list[index]['description'].toString(), overflow: TextOverflow.ellipsis, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14)))),
+                                                                            SizedBox(height: 10)
+                                                                          ])))
+                                                                ]))))));
+                                      })),
+                                    if (announcements_list.length > 0)
+                                      SliverList(
+                                          delegate: SliverChildBuilderDelegate(
+                                              childCount: 1,
+                                              (BuildContext context,
+                                                  int index) {
+                                        return Container(
+                                            margin: EdgeInsets.only(
+                                                left: 10, top: 5, bottom: 5),
+                                            child: Text('Bildirişler',
+                                                style: TextStyle(
+                                                    color:
+                                                        CustomColors.appColors,
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.bold)));
+                                      })),
+                                    if (announcements_list.length > 0)
+                                      SliverList(
+                                          delegate: SliverChildBuilderDelegate(
+                                              childCount:
+                                                  announcements_list.length,
+                                              (BuildContext context,
+                                                  int index) {
+                                        return GestureDetector(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          NotificationsDetail(
+                                                              id: announcements_list[
+                                                                          index]
+                                                                      ['id']
+                                                                  .toString(),
+                                                              title:
+                                                                  'Bildiriş')));
+                                            },
+                                            child: Container(
+                                                height: 110,
+                                                child: Card(
+                                                    color: CustomColors
+                                                        .appColorWhite,
+                                                    shadowColor:
+                                                        const Color.fromARGB(
+                                                            255, 200, 198, 198),
+                                                    surfaceTintColor:
+                                                        CustomColors
+                                                            .appColorWhite,
+                                                    elevation: 5,
+                                                    child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10.0)),
+                                                        child: Container(
+                                                            height: 110,
+                                                            child: Row(
+                                                                children: <Widget>[
+                                                                  Expanded(
+                                                                      flex: 1,
+                                                                      child: Container(
+                                                                          child:
+                                                                              ClipRect(child: Container(height: 110, width: double.infinity, child: FittedBox(fit: BoxFit.cover, child: announcements_list[index]['img'] != null && announcements_list[index]['img'] != '' ? Image.network(baseurl + announcements_list[index]['img'].toString()) : Image.asset('assets/images/default.jpg')))))),
+                                                                  Expanded(
+                                                                      flex: 2,
+                                                                      child: Container(
+                                                                          margin: EdgeInsets.only(left: 2),
+                                                                          padding: const EdgeInsets.all(5),
+                                                                          color: CustomColors.appColorWhite,
+                                                                          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+                                                                            SizedBox(height: 10),
+                                                                            Expanded(child: Align(alignment: Alignment.topLeft, child: Text(announcements_list[index]['name'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14, fontWeight: FontWeight.bold)))),
+                                                                            SizedBox(height: 5),
+                                                                            Expanded(child: Container(alignment: Alignment.centerLeft, child: Text(announcements_list[index]['created_at'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14)))),
+                                                                            SizedBox(height: 5),
+                                                                            Expanded(child: Container(alignment: Alignment.centerLeft, child: Text(announcements_list[index]['location'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14)))),
+                                                                            SizedBox(height: 10)
+                                                                          ])))
+                                                                ]))))));
+                                      }))
+                                  ]),
+                              ListView.builder(
+                                  itemCount: messages.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        print(user);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AdminMessage(user: user)));
+                                      },
+                                      child: Container(
+                                          margin: EdgeInsets.only(
+                                              left: 5, right: 5, top: 5),
+                                          child: Card(
+                                              color: CustomColors.appColorWhite,
+                                              surfaceTintColor:
+                                                  CustomColors.appColorWhite,
+                                              shadowColor:
+                                                  CustomColors.appColorWhite,
+                                              elevation: 5,
+                                              child: Container(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  padding: EdgeInsets.all(10),
+                                                  child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                  messages[index]
+                                                                          [
+                                                                          'created_at']
+                                                                      .toString(),
+                                                                  style: TextStyle(
+                                                                      color: CustomColors
+                                                                          .appColors)),
+                                                              Spacer(),
+                                                              GestureDetector(
+                                                                  onTap: () {
+                                                                    setState(() {
+                                                                       this.messages.removeAt(index);
+                                                                    });
+                                                                  },
+                                                                  child: Icon(
+                                                                      Icons
+                                                                          .close,
+                                                                      color: Colors
+                                                                          .black))
+                                                            ]),
+                                                        SizedBox(
+                                                            child: Text(
+                                                                messages[index]
+                                                                        ['name']
+                                                                    .toString(),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .start,
+                                                                style: TextStyle(
+                                                                    color: CustomColors
+                                                                        .appColors,
+                                                                    fontSize:
+                                                                        18,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold))),
+                                                        SizedBox(
+                                                            child: Text(
+                                                                messages[index]
+                                                                        ['msg']
+                                                                    .toString(),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .start,
+                                                                maxLines: 1,
+                                                                style: TextStyle(
+                                                                    color: CustomColors
+                                                                        .appColors,
+                                                                    fontSize:
+                                                                        13)))
+                                                      ])))),
                                     );
-                                  },
-                                )),
-                                if (stores_list.length > 0)
-                                  SliverList(
-                                      delegate: SliverChildBuilderDelegate(
-                                          childCount: 1,
-                                          (BuildContext context, int index) {
-                                    return Container(
-                                        margin: EdgeInsets.only(
-                                            left: 10, top: 5, bottom: 5),
-                                        child: Text('Dükanlar',
-                                            style: TextStyle(
-                                                color: CustomColors.appColors,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold)));
-                                  })),
-                                if (stores_list.length > 0)
-                                  SliverList(
-                                      delegate: SliverChildBuilderDelegate(
-                                          childCount: stores_list.length,
-                                          (BuildContext context, int index) {
-                                    return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MarketDetail(
-                                                          id: stores_list[index]
-                                                                  ['id']
-                                                              .toString(),
-                                                          title: 'Dükanlar')));
-                                        },
-                                        child: Container(
-                                            height: 110,
-                                            child: Card(
-                                                color:
-                                                    CustomColors.appColorWhite,
-                                                shadowColor:
-                                                    const Color.fromARGB(
-                                                        255, 200, 198, 198),
-                                                surfaceTintColor:
-                                                    CustomColors.appColorWhite,
-                                                elevation: 5,
-                                                child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.all(Radius
-                                                            .circular(10.0)),
-                                                    child: Container(
-                                                        height: 110,
-                                                        child: Row(
-                                                            children: <Widget>[
-                                                              Expanded(
-                                                                  flex: 1,
-                                                                  child: Container(
-                                                                      child: ClipRect(
-                                                                          child: Container(
-                                                                              height: 110,
-                                                                              width: double.infinity,
-                                                                              child: FittedBox(fit: BoxFit.cover, child: stores_list[index]['img'] != null && stores_list[index]['img'] != '' ? Image.network(baseurl + stores_list[index]['img'].toString()) : Image.asset('assets/images/default.jpg')))))),
-                                                              Expanded(
-                                                                  flex: 2,
-                                                                  child: Container(
-                                                                      margin: EdgeInsets.only(left: 2),
-                                                                      padding: const EdgeInsets.all(5),
-                                                                      color: CustomColors.appColorWhite,
-                                                                      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-                                                                        SizedBox(
-                                                                            height:
-                                                                                10),
-                                                                        Expanded(
-                                                                            child:
-                                                                                Align(alignment: Alignment.topLeft, child: Text(stores_list[index]['name'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14, fontWeight: FontWeight.bold)))),
-                                                                        SizedBox(
-                                                                            height:
-                                                                                5),
-                                                                        Expanded(
-                                                                            child:
-                                                                                Container(alignment: Alignment.centerLeft, child: Text(stores_list[index]['location'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14)))),
-                                                                        SizedBox(
-                                                                            height:
-                                                                                5),
-                                                                        Expanded(
-                                                                            child:
-                                                                                Container(alignment: Alignment.centerLeft, child: Text(stores_list[index]['description'].toString(), overflow: TextOverflow.ellipsis, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14)))),
-                                                                        SizedBox(
-                                                                            height:
-                                                                                10)
-                                                                      ])))
-                                                            ]))))));
-                                  })),
-                                if (announcements_list.length > 0)
-                                  SliverList(
-                                      delegate: SliverChildBuilderDelegate(
-                                          childCount: 1,
-                                          (BuildContext context, int index) {
-                                    return Container(
-                                        margin: EdgeInsets.only(
-                                            left: 10, top: 5, bottom: 5),
-                                        child: Text('Bildirişler',
-                                            style: TextStyle(
-                                                color: CustomColors.appColors,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold)));
-                                  })),
-                                if (announcements_list.length > 0)
-                                  SliverList(
-                                      delegate: SliverChildBuilderDelegate(
-                                          childCount: announcements_list.length,
-                                          (BuildContext context, int index) {
-                                    return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      NotificationsDetail(
-                                                          id: announcements_list[
-                                                                  index]['id']
-                                                              .toString(),
-                                                          title: 'Bildiriş')));
-                                        },
-                                        child: Container(
-                                            height: 110,
-                                            child: Card(
-                                                color:
-                                                    CustomColors.appColorWhite,
-                                                shadowColor:
-                                                    const Color.fromARGB(
-                                                        255, 200, 198, 198),
-                                                surfaceTintColor:
-                                                    CustomColors.appColorWhite,
-                                                elevation: 5,
-                                                child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.all(Radius
-                                                            .circular(10.0)),
-                                                    child: Container(
-                                                        height: 110,
-                                                        child: Row(
-                                                            children: <Widget>[
-                                                              Expanded(
-                                                                  flex: 1,
-                                                                  child: Container(
-                                                                      child: ClipRect(
-                                                                          child: Container(
-                                                                              height: 110,
-                                                                              width: double.infinity,
-                                                                              child: FittedBox(fit: BoxFit.cover, child: announcements_list[index]['img'] != null && announcements_list[index]['img'] != '' ? Image.network(baseurl + announcements_list[index]['img'].toString()) : Image.asset('assets/images/default.jpg')))))),
-                                                              Expanded(
-                                                                  flex: 2,
-                                                                  child: Container(
-                                                                      margin: EdgeInsets.only(left: 2),
-                                                                      padding: const EdgeInsets.all(5),
-                                                                      color: CustomColors.appColorWhite,
-                                                                      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-                                                                        SizedBox(
-                                                                            height:
-                                                                                10),
-                                                                        Expanded(
-                                                                            child:
-                                                                                Align(alignment: Alignment.topLeft, child: Text(announcements_list[index]['name'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14, fontWeight: FontWeight.bold)))),
-                                                                        SizedBox(
-                                                                            height:
-                                                                                5),
-                                                                        Expanded(
-                                                                            child:
-                                                                                Container(alignment: Alignment.centerLeft, child: Text(announcements_list[index]['created_at'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14)))),
-                                                                        SizedBox(
-                                                                            height:
-                                                                                5),
-                                                                        Expanded(
-                                                                            child:
-                                                                                Container(alignment: Alignment.centerLeft, child: Text(announcements_list[index]['location'].toString(), overflow: TextOverflow.clip, maxLines: 1, style: TextStyle(color: CustomColors.appColors, fontSize: 14)))),
-                                                                        SizedBox(
-                                                                            height:
-                                                                                10)
-                                                                      ])))
-                                                            ]))))));
-                                  }))
-                              ])
+                                  })
+                            ],
+                          )
                         : CustomProgressIndicator(funcInit: initState)),
                 drawer: MyDraver(),
                 floatingActionButton: FloatingActionButton(
@@ -703,6 +799,36 @@ class _HomeState extends State<Home> {
         return RegionWidget();
       },
     );
+  }
+
+  void get_messages() async {
+    Urls server_url = new Urls();
+    String url = server_url.get_server_url() + '/mob/notifs?status=preview';
+
+    var data1 = [];
+    var allRows = await dbHelper.queryAllRows();
+    for (final row in allRows) {
+      data1.add(row);
+    }
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
+    if (data1.length > 0) {
+      headers['Token'] = data1[0]['name'];
+    }
+
+    print("");
+    print(headers);
+    print("");
+
+    final uri = Uri.parse(url);
+    final response = await http.get(uri, headers: headers);
+    final json = jsonDecode(utf8.decode(response.bodyBytes));
+    setState(() {
+      messages = json;
+      print(messages);
+    });
   }
 
   void getHomePage() async {
@@ -763,8 +889,10 @@ class _HomeState extends State<Home> {
       if (json['data']['update'] == true) {
         determinate1 = true;
       }
-      Provider.of<UserInfo>(context, listen: false).set_statistic(new_statistic);
-      Provider.of<UserInfo>(context, listen: false).set_update_app(json['data']['update']);
+      Provider.of<UserInfo>(context, listen: false)
+          .set_statistic(new_statistic);
+      Provider.of<UserInfo>(context, listen: false)
+          .set_update_app(json['data']['update']);
       // Provider.of<UserInfo>(context, listen: false).set_update_app(false);
     });
   }
@@ -1332,38 +1460,36 @@ class _MyDraverState extends State<MyDraver> {
                                         color: CustomColors.appColors)),
                                 SizedBox(width: 15),
                               ]))))),
-                    GestureDetector(
-                        onTap: () {
-                          print(user);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      AdminMessage(user: user)));
-                        },
-                        child: Container(
-                            width: double.infinity,
-                            color: Colors.white,
-                            margin: EdgeInsets.only(left: 20, top: 20),
-                            child: GestureDetector(
-                                child: Container(
-                                    child: Row(children: [
-                              Icon(Icons.notifications,
-                                  size: 25, color: CustomColors.appColors),
-                              SizedBox(width: 14),
-                              Text('Habarnamalar',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: CustomColors.appColors)),
-                              SizedBox(width: 15),
-                              Spacer(),
-                              Text(statistic['count_message'].toString()+"   ",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: CustomColors.appColors)),
-                            ]))))),
-
-
+                  GestureDetector(
+                      onTap: () {
+                        print(user);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    AdminMessage(user: user)));
+                      },
+                      child: Container(
+                          width: double.infinity,
+                          color: Colors.white,
+                          margin: EdgeInsets.only(left: 20, top: 20),
+                          child: GestureDetector(
+                              child: Container(
+                                  child: Row(children: [
+                            Icon(Icons.notifications,
+                                size: 25, color: CustomColors.appColors),
+                            SizedBox(width: 14),
+                            Text('Habarnamalar',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: CustomColors.appColors)),
+                            SizedBox(width: 15),
+                            Spacer(),
+                            Text(statistic['count_message'].toString() + "   ",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: CustomColors.appColors)),
+                          ]))))),
                   GestureDetector(
                       onTap: () {
                         Navigator.push(
