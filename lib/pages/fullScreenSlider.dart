@@ -49,26 +49,24 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
     }
 
     return Scaffold(
-      backgroundColor: CustomColors.appColorWhite,
-      body: Container(
-          color: Colors.black,
-          child: Column(children: <Widget>[
-            Row(
-              children: [
+        backgroundColor: CustomColors.appColorWhite,
+        body: Container(
+            color: Colors.black,
+            child: Column(children: <Widget>[
+              Row(children: [
                 Expanded(
                     child: Container(
                         margin: const EdgeInsets.only(left: 20, top: 30),
                         alignment: Alignment.centerLeft,
                         child: GestureDetector(
-                          child: const Icon(
-                            Icons.arrow_back,
-                            size: 30,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ))),
+                            child: const Icon(
+                              Icons.arrow_back,
+                              size: 30,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            ),
+                            onTap: () {
+                              Navigator.pop(context);
+                            }))),
                 Spacer(),
                 GestureDetector(
                     onTap: () async {
@@ -89,71 +87,63 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
                     child: Container(
                         margin: const EdgeInsets.only(right: 20, top: 30),
                         child: Icon(Icons.arrow_downward, color: Colors.white)))
-              ],
-            ),
-            Stack(alignment: Alignment.center, children: [
-              if (_turns % 2 == 0)
-                RotatedBox(
-                  quarterTurns: 0,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - 100,
-                    child: PhotoViewGallery.builder(
-                      itemCount: imgList.length,
-                      pageController: _pageController,
-                      builder: (BuildContext context, int index) {
-                        String myImg = imgList[index];
+              ]),
+              Stack(alignment: Alignment.center, children: [
+                if (_turns % 2 == 0)
+                  RotatedBox(
+                      quarterTurns: 0,
+                      child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height - 100,
+                          child: PhotoViewGallery.builder(
+                              itemCount: imgList.length,
+                              pageController: _pageController,
+                              builder: (BuildContext context, int index) {
+                                String myImg = imgList[index];
 
-                        return PhotoViewGalleryPageOptions(
-                          imageProvider: NetworkImage(myImg),
-                        );
-                      },
-                      onPageChanged: (int index) {
-                        setState(() {
-                          _current = index;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              if (_turns % 2 == 1)
-                RotatedBox(
-                  quarterTurns: 1,
-                  child: Container(
-                    width: MediaQuery.of(context).size.height - 100,
-                    height: MediaQuery.of(context).size.width,
-                    child: PhotoViewGallery.builder(
-                      itemCount: imgList.length,
-                      pageController: _pageController,
-                      builder: (BuildContext context, int index) {
-                        String myImg = imgList[index];
+                                return PhotoViewGalleryPageOptions(
+                                  imageProvider: NetworkImage(myImg),
+                                );
+                              },
+                              onPageChanged: (int index) {
+                                setState(() {
+                                  _current = index;
+                                });
+                              }))),
+                if (_turns % 2 == 1)
+                  RotatedBox(
+                      quarterTurns: 1,
+                      child: Container(
+                          width: MediaQuery.of(context).size.height - 100,
+                          height: MediaQuery.of(context).size.width,
+                          child: PhotoViewGallery.builder(
+                              itemCount: imgList.length,
+                              pageController: _pageController,
+                              builder: (BuildContext context, int index) {
+                                String myImg = imgList[index];
 
-                        return PhotoViewGalleryPageOptions(
-                          imageProvider: NetworkImage(myImg),
-                        );
-                      },
-                      onPageChanged: (int index) {
-                        setState(() {
-                          _current = index;
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              Container(color: Colors.amberAccent),
-              Positioned(
-                  bottom: 10,
-                  child: Container(
-                      child: DotsIndicator(
-                          dotsCount: imgList.length,
-                          position: _current.toDouble(),
-                          decorator: DotsDecorator(
-                              color: Colors.white,
-                              activeColor: CustomColors.appColors,
-                              activeShape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0))))))
-            ])
-          ])),
-    );
+                                return PhotoViewGalleryPageOptions(
+                                    imageProvider: NetworkImage(myImg));
+                              },
+                              onPageChanged: (int index) {
+                                setState(() {
+                                  _current = index;
+                                });
+                              }))),
+                Container(color: Colors.amberAccent),
+                Positioned(
+                    bottom: 10,
+                    child: Container(
+                        child: DotsIndicator(
+                            dotsCount: imgList.length,
+                            position: _current.toDouble(),
+                            decorator: DotsDecorator(
+                                color: Colors.white,
+                                activeColor: CustomColors.appColors,
+                                activeShape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(15.0))))))
+              ])
+            ])));
   }
 }
