@@ -13,6 +13,7 @@ import 'package:my_app/pages/Customer/RealEstate/list.dart';
 import 'package:my_app/pages/Customer/Ribbon/list.dart';
 import 'package:my_app/pages/Customer/editProfil.dart';
 import 'package:my_app/pages/Customer/login.dart';
+import 'package:my_app/pages/Customer/myCustomerList.dart';
 import 'package:my_app/pages/Customer/myStores.dart';
 import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
@@ -152,13 +153,11 @@ class _MyPagesState extends State<MyPages> {
                                         SizedBox(height: 5),
                                         if (user['email'] != null &&
                                             user['email'] != '')
-                                          Text(
-                                            user['email'].toString(),
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color:
-                                                    CustomColors.appColorWhite),
-                                          ),
+                                          Text(user['email'].toString(),
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: CustomColors
+                                                      .appColorWhite)),
                                         if (widget.user_customer_id == '')
                                           Container(
                                               alignment: Alignment.centerRight,
@@ -203,7 +202,25 @@ class _MyPagesState extends State<MyPages> {
                                       ])))
                         ])),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () async {
+                        String id = "";
+                        if (widget.user_customer_id != '') {
+                          id = widget.user_customer_id;
+                        } else {
+                          var data = [];
+                          var allRows = await dbHelper.queryAllRows();
+                          for (final row in allRows) {
+                            data.add(row);
+                          }
+                          id = data[0]['userId'].toString();
+                        }
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    CustomerList(customer_id: id)));
+                      },
                       child: Container(
                         margin: EdgeInsets.only(
                             left: 20, right: 20, top: 10, bottom: 10),
@@ -222,31 +239,41 @@ class _MyPagesState extends State<MyPages> {
                               if (widget.user_customer_id != '')
                                 TextButton(
                                     onPressed: () async {
-                                      final allRows = await dbHelper.queryAllRows();
+                                      final allRows =
+                                          await dbHelper.queryAllRows();
                                       print(allRows);
                                       print(allRows.length);
                                       if (allRows.length == 0) {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Login()));
                                       } else {
-                                         Urls server_url = new Urls();
-                                      String url = server_url.get_server_url() + '/mob/subscribe/' + widget.user_customer_id;
-                                      final uri = Uri.parse(url);
-                                      var responsess = Provider.of<UserInfo>(context, listen: false)
-                                          .update_tokenc();
-                                      if (await responsess) {
-                                        var token = Provider.of<UserInfo>(
+                                        Urls server_url = new Urls();
+                                        String url =
+                                            server_url.get_server_url() +
+                                                '/mob/subscribe/' +
+                                                widget.user_customer_id;
+                                        final uri = Uri.parse(url);
+                                        var responsess = Provider.of<UserInfo>(
                                                 context,
                                                 listen: false)
-                                            .access_token;
-                                        Map<String, String> headers = {};
-                                        for (var i in global_headers.entries) {
-                                          headers[i.key] = i.value.toString();
+                                            .update_tokenc();
+                                        if (await responsess) {
+                                          var token = Provider.of<UserInfo>(
+                                                  context,
+                                                  listen: false)
+                                              .access_token;
+                                          Map<String, String> headers = {};
+                                          for (var i
+                                              in global_headers.entries) {
+                                            headers[i.key] = i.value.toString();
+                                          }
+                                          headers['token'] = token;
+                                          final response = await http.post(uri,
+                                              headers: headers);
+                                          get_userinfo();
                                         }
-                                        headers['token'] = token;
-                                        final response = await http.post(uri,
-                                            headers: headers);
-                                        get_userinfo();
-                                      } 
                                       }
                                     },
                                     child: Text("+ Ýazylmak",
@@ -666,11 +693,13 @@ class _MyPagesState extends State<MyPages> {
       determinate = true;
       stores = json['data']['stores'];
       baseurl = server_url.get_server_url();
-      if (widget.user_customer_id==''){
-        Provider.of<UserInfo>(context, listen: false).set_user_info(json['data']);
+      if (widget.user_customer_id == '') {
+        Provider.of<UserInfo>(context, listen: false)
+            .set_user_info(json['data']);
       }
     });
-    Provider.of<UserInfo>(context, listen: false).setAccessToken(data[0]['name'], data[0]['age']);
+    Provider.of<UserInfo>(context, listen: false)
+        .setAccessToken(data[0]['name'], data[0]['age']);
   }
 }
 
@@ -717,9 +746,11 @@ class _CustomDialogLogoutState extends State<CustomDialogLogout> {
                 final deleteallRows = await dbHelper.deleteAllRows();
                 final deleteallRows1 = await dbHelper.deleteAllRows1();
                 Provider.of<UserInfo>(context, listen: false).set_user_info({});
-                Provider.of<UserInfo>(context, listen: false).setAccessToken("", "");
+                Provider.of<UserInfo>(context, listen: false)
+                    .setAccessToken("", "");
                 Navigator.pop(context);
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login()));
+                Navigator.pushReplacement(
+                    context, MaterialPageRoute(builder: (context) => Login()));
               },
               child: Text(
                 'Ulgamdan çyk',

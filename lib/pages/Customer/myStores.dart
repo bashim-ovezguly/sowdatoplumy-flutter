@@ -329,8 +329,7 @@ class _MyStoresState extends State<MyStores> {
 
   void get_my_stores({required customer_id}) async {
     Urls server_url = new Urls();
-    String url =
-        server_url.get_server_url() + '/mob/stores?customer=$customer_id';
+    String url = server_url.get_server_url() + '/mob/stores?customer=$customer_id';
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
     for (var i in global_headers.entries) {
