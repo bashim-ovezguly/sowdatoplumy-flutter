@@ -1,4 +1,4 @@
-package com.sowda_toplum.sowda_toplum
+package com.sowda_toplumy.sowda_toplumy
 
 import io.flutter.embedding.android.FlutterActivity
 
