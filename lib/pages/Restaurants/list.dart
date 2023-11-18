@@ -11,6 +11,7 @@ import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Restaurants/detail.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/homePages.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
@@ -197,7 +198,10 @@ class _RestaurantState extends State<Restaurant> {
                                         height: 220,
                                         viewportFraction: 1,
                                         initialPage: 0,
-                                        enableInfiniteScroll: dataSlider.length>1 ? true: false,
+                                        enableInfiniteScroll:
+                                            dataSlider.length > 1
+                                                ? true
+                                                : false,
                                         reverse: false,
                                         autoPlay: dataSlider.length > 1
                                             ? true
@@ -220,14 +224,16 @@ class _RestaurantState extends State<Restaurant> {
                                               onTap: () {
                                                 if (item['id'] != null) {
                                                   Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              MarketDetail(
-                                                                id: item['id']
-                                                                    .toString(),
-                                                                title: title,
-                                                              )));
+                                                    context,
+                                                    PageTransition(
+                                                      type: PageTransitionType
+                                                          .leftToRight,
+                                                      child: RestaurantDetail(
+                                                          id: item['id']
+                                                              .toString(),
+                                                          title: title),
+                                                    ),
+                                                  );
                                                 }
                                               },
                                               child: Stack(
@@ -359,13 +365,14 @@ class _RestaurantState extends State<Restaurant> {
                                 return GestureDetector(
                                   onTap: () {
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              RestaurantDetail(
-                                                  id: item['id'].toString(),
-                                                  title: title),
-                                        ));
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.leftToRight,
+                                        child: RestaurantDetail(
+                                            id: item['id'].toString(),
+                                            title: title),
+                                      ),
+                                    );
                                   },
                                   child: Container(
                                     height: 160,
@@ -456,15 +463,26 @@ class _RestaurantState extends State<Restaurant> {
   void getstoreslist(sort_value) async {
     try {
       Urls server_url = new Urls();
-      String url = server_url.get_server_url() + '/mob/restaurants?' + sort_value;
-      if (keyword.text != '') { url = server_url.get_server_url() + '/mob/restaurants?' + sort_value + "&name=" +keyword.text;}
+      String url =
+          server_url.get_server_url() + '/mob/restaurants?' + sort_value;
+      if (keyword.text != '') {
+        url = server_url.get_server_url() +
+            '/mob/restaurants?' +
+            sort_value +
+            "&name=" +
+            keyword.text;
+      }
       Map<String, String> headers = {};
       for (var i in global_headers.entries) {
         headers[i.key] = i.value.toString();
       }
-      print(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
+      print(Uri.parse(
+          url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
       if (_getRequest == false) {
-        final response = await http.get(Uri.parse( url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"), headers: headers);
+        final response = await http.get(
+            Uri.parse(
+                url + "&page=$_pageNumber&page_size=$_numberOfPostPerRequest"),
+            headers: headers);
 
         final json = jsonDecode(utf8.decode(response.bodyBytes));
         var postList = [];

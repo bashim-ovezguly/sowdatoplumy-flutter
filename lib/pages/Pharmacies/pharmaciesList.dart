@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Pharmacies/pharmacieFirst.dart';
 import 'package:my_app/pages/homePages.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
@@ -139,7 +140,10 @@ class _PharmaciesListState extends State<PharmaciesList> {
                                         height: 220,
                                         viewportFraction: 1,
                                         initialPage: 0,
-                                        enableInfiniteScroll: dataSlider.length>1 ? true: false,
+                                        enableInfiniteScroll:
+                                            dataSlider.length > 1
+                                                ? true
+                                                : false,
                                         reverse: false,
                                         autoPlay: dataSlider.length > 1
                                             ? true
@@ -162,12 +166,14 @@ class _PharmaciesListState extends State<PharmaciesList> {
                                               onTap: () {
                                                 if (item['id'] != null) {
                                                   Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              PharmacieFirst(
-                                                                  id: item['id']
-                                                                      .toString())));
+                                                    context,
+                                                    PageTransition(
+                                                        type: PageTransitionType
+                                                            .leftToRight,
+                                                        child: PharmacieFirst(
+                                                            id: item['id']
+                                                                .toString())),
+                                                  );
                                                 }
                                               },
                                               child: Stack(
@@ -268,13 +274,24 @@ class _PharmaciesListState extends State<PharmaciesList> {
                                             data = [];
                                             keyword.text = '';
                                           });
-                                          var sort = Provider.of<UserInfo>(context, listen: false).sort;
+                                          var sort = Provider.of<UserInfo>(
+                                                  context,
+                                                  listen: false)
+                                              .sort;
                                           var sort_value = "";
 
-                                          if (int.parse(sort) == 2) { sort_value = 'sort=price'; }
-                                          if (int.parse(sort) == 3) { sort_value = 'sort=-price'; }
-                                          if (int.parse(sort) == 4) { sort_value = 'sort=id'; }
-                                          if (int.parse(sort) == 4) { sort_value = 'sort=-id'; }
+                                          if (int.parse(sort) == 2) {
+                                            sort_value = 'sort=price';
+                                          }
+                                          if (int.parse(sort) == 3) {
+                                            sort_value = 'sort=-price';
+                                          }
+                                          if (int.parse(sort) == 4) {
+                                            sort_value = 'sort=id';
+                                          }
+                                          if (int.parse(sort) == 4) {
+                                            sort_value = 'sort=-id';
+                                          }
                                           getpharmacieslist();
                                           getslider_shopping_centers();
                                         },
@@ -290,12 +307,12 @@ class _PharmaciesListState extends State<PharmaciesList> {
                                 return GestureDetector(
                                   onTap: () {
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                PharmacieFirst(
-                                                    id: item['id']
-                                                        .toString())));
+                                      context,
+                                      PageTransition(
+                                          type: PageTransitionType.leftToRight,
+                                          child: PharmacieFirst(
+                                              id: item['id'].toString())),
+                                    );
                                   },
                                   child: Container(
                                     height: 160,

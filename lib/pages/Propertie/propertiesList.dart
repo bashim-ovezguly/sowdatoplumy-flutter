@@ -8,6 +8,7 @@ import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Propertie/propertiesDetail.dart';
 import 'package:my_app/pages/homePages.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
@@ -174,12 +175,14 @@ class _PropertiesState extends State<Properties> {
                                                       if (item['id'] != null &&
                                                           item['id'] != '') {
                                                         Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    PropertiesDetail(
-                                                                        id: item['id']
-                                                                            .toString())));
+                                                          context,
+                                                          PageTransition(
+                                                              type: PageTransitionType
+                                                                  .leftToRight,
+                                                              child: PropertiesDetail(
+                                                                  id: item['id']
+                                                                      .toString())),
+                                                        );
                                                       }
                                                     },
                                                     child: Container(
@@ -242,12 +245,14 @@ class _PropertiesState extends State<Properties> {
                                 return GestureDetector(
                                     onTap: () {
                                       Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PropertiesDetail(
-                                                      id: data[index]['id']
-                                                          .toString())));
+                                        context,
+                                        PageTransition(
+                                            type:
+                                                PageTransitionType.leftToRight,
+                                            child: PropertiesDetail(
+                                                id: data[index]['id']
+                                                    .toString())),
+                                      );
                                     },
                                     child: Container(
                                         height: 110,

@@ -10,6 +10,7 @@ import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/OtherGoods/otherGoodsDetail.dart';
 import 'package:my_app/pages/homePages.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/providers.dart';
@@ -289,16 +290,19 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                                 GestureDetector(
                                                   onTap: () {
                                                     Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                OtherGoodsDetail(
-                                                                  id: data[index]
-                                                                          ['id']
-                                                                      .toString(),
-                                                                  title:
-                                                                      'Harytlar',
-                                                                )));
+                                                      context,
+                                                      PageTransition(
+                                                          type:
+                                                              PageTransitionType
+                                                                  .leftToRight,
+                                                          child:
+                                                              OtherGoodsDetail(
+                                                            id: data[index]
+                                                                    ['id']
+                                                                .toString(),
+                                                            title: 'Harytlar',
+                                                          )),
+                                                    );
                                                   },
                                                   child: Container(
                                                     height: 110,
@@ -443,15 +447,16 @@ class _OtherGoodsListState extends State<OtherGoodsList> {
                                           : GestureDetector(
                                               onTap: () {
                                                 Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            OtherGoodsDetail(
-                                                              id: data[index]
-                                                                      ['id']
-                                                                  .toString(),
-                                                              title: 'Harytlar',
-                                                            )));
+                                                  context,
+                                                  PageTransition(
+                                                      type: PageTransitionType
+                                                          .leftToRight,
+                                                      child: OtherGoodsDetail(
+                                                        id: data[index]['id']
+                                                            .toString(),
+                                                        title: 'Harytlar',
+                                                      )),
+                                                );
                                               },
                                               child: Container(
                                                 height: 110,

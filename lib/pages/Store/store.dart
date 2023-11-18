@@ -11,6 +11,7 @@ import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Store/fistStore.dart';
 import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/homePages.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 import '../../dB/colors.dart';
@@ -250,26 +251,31 @@ class _StoreState extends State<Store> {
                                                   title == 'Dükanlar') {
                                                 if (item['id'] != null) {
                                                   Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              MarketDetail(
-                                                                id: item['id']
-                                                                    .toString(),
-                                                                title: title,
-                                                              )));
+                                                    context,
+                                                    PageTransition(
+                                                      type: PageTransitionType
+                                                          .leftToRight,
+                                                      child: MarketDetail(
+                                                        id: item['id']
+                                                            .toString(),
+                                                        title: title,
+                                                      ),
+                                                    ),
+                                                  );
                                                 }
                                               } else {
                                                 if (item['id'] != null) {
                                                   Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              StoreFirst(
-                                                                  id: item['id']
-                                                                      .toString(),
-                                                                  title:
-                                                                      title)));
+                                                    context,
+                                                    PageTransition(
+                                                      type: PageTransitionType
+                                                          .leftToRight,
+                                                      child: StoreFirst(
+                                                          id: item['id']
+                                                              .toString(),
+                                                          title: title),
+                                                    ),
+                                                  );
                                                 }
                                               }
                                             },
@@ -396,20 +402,25 @@ class _StoreState extends State<Store> {
                                   if (title == 'Marketler' ||
                                       title == 'Dükanlar') {
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MarketDetail(
-                                              id: item['id'].toString(),
-                                              title: title),
-                                        ));
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.leftToRight,
+                                        child: MarketDetail(
+                                            id: item['id'].toString(),
+                                            title: title),
+                                      ),
+                                    );
                                   } else {
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => StoreFirst(
-                                                  id: item['id'].toString(),
-                                                  title: title,
-                                                )));
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.leftToRight,
+                                        child: StoreFirst(
+                                          id: item['id'].toString(),
+                                          title: title,
+                                        ),
+                                      ),
+                                    );
                                   }
                                 },
                                 child: Container(
@@ -797,7 +808,8 @@ class _StoreState extends State<Store> {
   }
 
   void _controllListener() {
-    if (_controller.offset == _controller.position.maxScrollExtent  && data.length < total_count) {
+    if (_controller.offset == _controller.position.maxScrollExtent &&
+        data.length < total_count) {
       var sort_value = "";
       var sort = Provider.of<UserInfo>(context, listen: false).sort;
       if (int.parse(sort) == 2) {
