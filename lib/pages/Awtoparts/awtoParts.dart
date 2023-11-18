@@ -6,6 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/Search/search.dart';
 import 'package:my_app/pages/homePages.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import '../../dB/colors.dart';
 import '../../dB/constants.dart';
@@ -172,13 +173,17 @@ class _AutoPartsState extends State<AutoParts> {
                                                   if (item['id'] != null &&
                                                       item['id'] != '') {
                                                     Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) =>
-                                                                AutoPartsDetail(
-                                                                  id: item['id']
-                                                                      .toString(),
-                                                                )));
+                                                      context,
+                                                      PageTransition(
+                                                          type:
+                                                              PageTransitionType
+                                                                  .leftToRight,
+                                                          child:
+                                                              AutoPartsDetail(
+                                                            id: item['id']
+                                                                .toString(),
+                                                          )),
+                                                    );
                                                   }
                                                 },
                                                 child: Container(
@@ -241,12 +246,14 @@ class _AutoPartsState extends State<AutoParts> {
                                       if (data[index]['id'] != null &&
                                           data[index]['id'] != '') {
                                         Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AutoPartsDetail(
-                                                        id: data[index]['id']
-                                                            .toString())));
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType
+                                                  .leftToRight,
+                                              child: AutoPartsDetail(
+                                                  id: data[index]['id']
+                                                      .toString())),
+                                        );
                                       }
                                     },
                                     child: Container(
@@ -296,8 +303,8 @@ class _AutoPartsState extends State<AutoParts> {
                                                     padding:
                                                         const EdgeInsets.all(
                                                             10),
-                                                    color:
-                                                        CustomColors.appColorWhite,
+                                                    color: CustomColors
+                                                        .appColorWhite,
                                                     child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment

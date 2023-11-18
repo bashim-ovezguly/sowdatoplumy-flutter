@@ -28,6 +28,7 @@ import '../main.dart';
 import 'Search/search.dart';
 import 'Store/store.dart';
 import 'homePageLocation.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -63,7 +64,6 @@ class _HomeState extends State<Home> {
     });
     getHomePage();
     super.initState();
-
   }
 
   callbackLocation(new_value) {
@@ -88,11 +88,12 @@ class _HomeState extends State<Home> {
       status = false;
     });
   }
+
   double screenWidth = 0;
   @override
   Widget build(BuildContext context) {
     var user = Provider.of<UserInfo>(context, listen: false).user_info;
-    screenWidth = MediaQuery.of(context).size.width; 
+    screenWidth = MediaQuery.of(context).size.width;
     return determinate1 == true
         ? Scaffold(
             body: Container(
@@ -701,18 +702,16 @@ class _HomeState extends State<Home> {
       },
     );
   }
+
   Widget item(int index) {
     var user = Provider.of<UserInfo>(context, listen: false).user_info;
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    AdminMessage(user: user)));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => AdminMessage(user: user)));
       },
       child: AnimatedContainer(
-       duration: Duration (seconds: 1),
+        duration: Duration(seconds: 1),
         child: Container(
             height: 100,
             margin: EdgeInsets.only(left: 5, right: 5, top: 5),
@@ -731,8 +730,8 @@ class _HomeState extends State<Home> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(messages[index]['created_at'].toString(),
-                                    style:
-                                        TextStyle(color: CustomColors.appColors)),
+                                    style: TextStyle(
+                                        color: CustomColors.appColors)),
                                 Spacer(),
                                 GestureDetector(
                                     onTap: () {
@@ -740,7 +739,8 @@ class _HomeState extends State<Home> {
                                         this.messages.removeAt(index);
                                       });
                                     },
-                                    child: Icon(Icons.close, color: Colors.black))
+                                    child:
+                                        Icon(Icons.close, color: Colors.black))
                               ]),
                           SizedBox(
                               child: Text(messages[index]['name'].toString(),
@@ -788,7 +788,6 @@ class _HomeState extends State<Home> {
     setState(() {
       messages = json;
       print(messages);
-      
     });
   }
 
@@ -1061,52 +1060,37 @@ class _MyDraverState extends State<MyDraver> {
                   ),
                   if (updateApp == true)
                     GestureDetector(
-                      onTap: () async {
-                        const url =
-                            'https://play.google.com/store/apps/details?id=com.sowda_toplum.sowda_toplum&hl=ru&gl=US';
-                        final uri = Uri.parse(url);
-                        if (await canLaunchUrl(uri)) {
-                          await FlutterWebBrowser.openWebPage(url: url);
-                        } else {
-                          throw 'Could not launch $url';
-                        }
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            left: 20, right: 20, top: 10, bottom: 10),
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              offset: Offset(0, 1),
-                              blurRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 10),
-                            Image.asset(
-                              "assets/images/playmarket.png",
-                              width: 30,
-                              height: 30,
-                              fit: BoxFit.cover,
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              'Täze wersiýasyny ýükläp alyň!',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: CustomColors.appColors,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                        onTap: () async {
+                          const url =
+                              'https://play.google.com/store/apps/details?id=com.sowda_toplum.sowda_toplum&hl=ru&gl=US';
+                          final uri = Uri.parse(url);
+                          if (await canLaunchUrl(uri)) {
+                            await FlutterWebBrowser.openWebPage(url: url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                        },
+                        child: Container(
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, top: 10, bottom: 10),
+                            height: 40,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(offset: Offset(0, 1), blurRadius: 2)
+                                ]),
+                            child: Row(children: [
+                              SizedBox(width: 10),
+                              Image.asset("assets/images/playmarket.png",
+                                  width: 30, height: 30, fit: BoxFit.cover),
+                              SizedBox(width: 10),
+                              Text('Täze wersiýasyny ýükläp alyň!',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: CustomColors.appColors))
+                            ]))),
                   GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, "/");
@@ -1121,24 +1105,17 @@ class _MyDraverState extends State<MyDraver> {
                               },
                               child: Container(
                                   child: Row(children: [
-                                Icon(
-                                  Icons.home,
-                                  size: 25,
-                                  color: CustomColors.appColors,
-                                ),
-                                SizedBox(
-                                  width: 14,
-                                ),
-                                Text(
-                                  'Baş sahypa',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: CustomColors.appColors,
-                                  ),
-                                ),
+                                Icon(Icons.home,
+                                    size: 25, color: CustomColors.appColors),
+                                SizedBox(width: 14),
+                                Text('Baş sahypa',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: CustomColors.appColors))
                               ]))))),
                   GestureDetector(
                       onTap: () {
+                        
                         Navigator.push(
                             context,
                             MaterialPageRoute(

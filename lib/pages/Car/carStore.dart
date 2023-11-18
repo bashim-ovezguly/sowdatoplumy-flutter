@@ -15,6 +15,7 @@ import '../../dB/textStyle.dart';
 import '../fullScreenSlider.dart';
 import '../../dB/colors.dart';
 import '../progressIndicator.dart';
+import 'package:page_transition/page_transition.dart';
 
 class CarStore extends StatefulWidget {
   CarStore({Key? key, required this.id}) : super(key: key);
@@ -837,13 +838,17 @@ class _CarStoreState extends State<CarStore> {
                                             listen: false)
                                         .set_user_customer_name(
                                             data['customer']['name']);
+
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => MyPages(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.leftToRight,
+                                        child: MyPages(
                                                 user_customer_id:
                                                     data['customer']['id']
-                                                        .toString())));
+                                                        .toString()),
+                                      ),
+                                    );
                                   }
                                 },
                                 child: Container(

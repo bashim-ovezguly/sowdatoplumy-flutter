@@ -7,6 +7,7 @@ import 'package:my_app/pages/Car/carStore.dart';
 import 'package:my_app/pages/homePages.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/dB/constants.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
@@ -114,230 +115,270 @@ class _CarState extends State<Car> {
                   return Future<void>.delayed(const Duration(seconds: 3));
                 },
                 child: determinate && determinate1
-                    ? CustomScrollView(
-                        slivers: [
-                          SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                            childCount: 1,
-                            (BuildContext context, int index) {
-                              return Stack(
-                                alignment: Alignment.bottomCenter,
-                                textDirection: TextDirection.rtl,
-                                fit: StackFit.loose,
-                                clipBehavior: Clip.hardEdge,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(bottom: 10),
-                                    height: 220,
-                                    color: Colors.black12,
-                                    child: CarouselSlider(
-                                      options: CarouselOptions(
-                                          height: 220,
-                                          viewportFraction: 1,
-                                          initialPage: 3,
-                                          enableInfiniteScroll:
-                                              dataSlider.length > 1
-                                                  ? true
-                                                  : false,
-                                          reverse: false,
-                                          autoPlay: dataSlider.length > 1
-                                              ? true
-                                              : false,
-                                          autoPlayInterval:
-                                              const Duration(seconds: 4),
-                                          autoPlayAnimationDuration:
-                                              const Duration(milliseconds: 800),
-                                          autoPlayCurve: Curves.fastOutSlowIn,
-                                          enlargeCenterPage: true,
-                                          enlargeFactor: 0.3,
-                                          scrollDirection: Axis.horizontal,
-                                          onPageChanged: (index, reason) {
-                                            setState(() {
-                                              _current = index;
-                                            });
-                                          }),
-                                      items: dataSlider
-                                          .map((item) => GestureDetector(
-                                                onTap: () {
-                                                  if (item['id'] != "") {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    CarStore(
-                                                                      id: item[
-                                                                              'id']
+                    ? CustomScrollView(slivers: [
+                        SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                          childCount: 1,
+                          (BuildContext context, int index) {
+                            return Stack(
+                              alignment: Alignment.bottomCenter,
+                              textDirection: TextDirection.rtl,
+                              fit: StackFit.loose,
+                              clipBehavior: Clip.hardEdge,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  height: 220,
+                                  color: Colors.black12,
+                                  child: CarouselSlider(
+                                    options: CarouselOptions(
+                                        height: 220,
+                                        viewportFraction: 1,
+                                        initialPage: 3,
+                                        enableInfiniteScroll:
+                                            dataSlider.length > 1
+                                                ? true
+                                                : false,
+                                        reverse: false,
+                                        autoPlay: dataSlider.length > 1
+                                            ? true
+                                            : false,
+                                        autoPlayInterval:
+                                            const Duration(seconds: 4),
+                                        autoPlayAnimationDuration:
+                                            const Duration(milliseconds: 800),
+                                        autoPlayCurve: Curves.fastOutSlowIn,
+                                        enlargeCenterPage: true,
+                                        enlargeFactor: 0.3,
+                                        scrollDirection: Axis.horizontal,
+                                        onPageChanged: (index, reason) {
+                                          setState(() {
+                                            _current = index;
+                                          });
+                                        }),
+                                    items: dataSlider
+                                        .map((item) => GestureDetector(
+                                              onTap: () {
+                                                if (item['id'] != "") {
+                                                  Navigator.push(
+                                                    context,
+                                                    PageTransition(
+                                                        type: PageTransitionType
+                                                            .leftToRight,
+                                                        child: CarStore(
+                                                          id: item['id']
+                                                              .toString(),
+                                                        )),
+                                                  );
+                                                }
+                                              },
+                                              child: Container(
+                                                color: Colors.white,
+                                                child: Center(
+                                                    child: Stack(
+                                                  children: [
+                                                    ClipRect(
+                                                      child: Container(
+                                                        height: 220,
+                                                        width: double.infinity,
+                                                        child: FittedBox(
+                                                          fit: BoxFit.cover,
+                                                          child: item['img'] !=
+                                                                      null &&
+                                                                  item['img'] !=
+                                                                      ''
+                                                              ? Image.network(
+                                                                  baseurl +
+                                                                      item['img']
                                                                           .toString(),
-                                                                    )));
-                                                  }
-                                                },
-                                                child: Container(
-                                                  color: Colors.white,
-                                                  child: Center(
-                                                      child: Stack(
-                                                    children: [
-                                                      ClipRect(
-                                                        child: Container(
-                                                          height: 220,
-                                                          width:
-                                                              double.infinity,
-                                                          child: FittedBox(
-                                                            fit: BoxFit.cover,
-                                                            child: item['img'] !=
-                                                                        null &&
-                                                                    item['img'] !=
-                                                                        ''
-                                                                ? Image.network(
-                                                                    baseurl +
-                                                                        item['img']
-                                                                            .toString(),
-                                                                  )
-                                                                : Image.asset(
-                                                                    'assets/images/default16x9.jpg'),
-                                                          ),
+                                                                )
+                                                              : Image.asset(
+                                                                  'assets/images/default16x9.jpg'),
                                                         ),
                                                       ),
-                                                    ],
-                                                  )),
-                                                ),
-                                              ))
-                                          .toList(),
+                                                    ),
+                                                  ],
+                                                )),
+                                              ),
+                                            ))
+                                        .toList(),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 10),
+                                  child: DotsIndicator(
+                                    dotsCount: dataSlider.length,
+                                    position: _current.toDouble(),
+                                    decorator: DotsDecorator(
+                                      color: Colors.white,
+                                      activeColor: CustomColors.appColors,
+                                      activeShape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15.0)),
                                     ),
                                   ),
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 10),
-                                    child: DotsIndicator(
-                                      dotsCount: dataSlider.length,
-                                      position: _current.toDouble(),
-                                      decorator: DotsDecorator(
-                                        color: Colors.white,
-                                        activeColor: CustomColors.appColors,
-                                        activeShape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0)),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              );
-                            },
-                          )),
-                          SliverList(
+                                )
+                              ],
+                            );
+                          },
+                        )),
+                        SliverList(
                             delegate: SliverChildBuilderDelegate(
-                              childCount: data.length,
-                              (BuildContext context, int index) {
-                                return GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => CarStore(
-                                                  id: data[index]['id']
-                                                      .toString())));
-                                    },
-                                    child: Container(
-                                        height: 110,
-                                        child: Card(
-                                            color: CustomColors.appColorWhite,
-                                            shadowColor: const Color.fromARGB(
-                                                255, 200, 198, 198),
-                                            surfaceTintColor:
-                                                CustomColors.appColorWhite,
-                                            elevation: 5,
-                                            child: ClipRRect(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(10.0)),
-                                                child: Container(
-                                                    height: 110,
-                                                    child: Row(
-                                                        children: <Widget>[
-                                                          Expanded(
-                                                              flex: 1,
-                                                              child: ClipRect(
-                                                                  child: Container(
-                                                                      height:
-                                                                          110,
-                                                                      child: FittedBox(
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                          child: data[index]['img'] != ''
-                                                                              ? Image.network(baseurl + data[index]['img'].toString())
-                                                                              : Image.asset('assets/images/default.jpg'))))),
-                                                          Expanded(
-                                                              flex: 2,
-                                                              child: Container(
-                                                                  color: CustomColors
-                                                                      .appColorWhite,
-                                                                  margin: EdgeInsets
-                                                                      .only(
-                                                                          left:
-                                                                              2),
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          5),
-                                                                  child: Column(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .start,
-                                                                      children: <Widget>[
-                                                                        Expanded(
-                                                                            child:
-                                                                                Align(alignment: Alignment.centerLeft, child: Text(data[index]['mark'].toString() + " " + data[index]['model'].toString() + " " + data[index]['year'].toString(), style: CustomText.itemTextBold))),
-                                                                        Expanded(
-                                                                            child:
-                                                                                Align(alignment: Alignment.centerLeft, child: Text(data[index]['location'].toString(), style: CustomText.itemText))),
-                                                                        Expanded(
-                                                                            child:
-                                                                                Row(children: [
-                                                                          Text(
-                                                                              data[index]['price'].toString(),
-                                                                              style: CustomText.itemText),
-                                                                          Spacer(),
-                                                                          Text(
-                                                                              data[index]['delta_time'].toString(),
-                                                                              style: CustomText.itemText)
-                                                                        ])),
-                                                                        if (data[index]['store_id'] ==
-                                                                                null ||
-                                                                            data[index]['store_id'] ==
-                                                                                '')
-                                                                          Expanded(
-                                                                              child: Align(
-                                                                                  alignment: Alignment.centerLeft,
-                                                                                  child: Row(children: <Widget>[
-                                                                                    Text('Kredit', style: TextStyle(color: CustomColors.appColors, fontSize: 12)),
-                                                                                    data[index]['credit'] ? Icon(Icons.check, color: Colors.green) : Icon(Icons.close, color: Colors.red),
-                                                                                    SizedBox(width: 5),
-                                                                                    Text('Obmen', style: TextStyle(color: CustomColors.appColors, fontSize: 12)),
-                                                                                    data[index]['swap']
-                                                                                        ? Icon(Icons.check, color: Colors.green)
-                                                                                        : Icon(
-                                                                                            Icons.close,
-                                                                                            color: Colors.red,
-                                                                                          ),
-                                                                                    SizedBox(
-                                                                                      width: 5,
-                                                                                    ),
-                                                                                    Text('Nagt däl', style: TextStyle(color: CustomColors.appColors, fontSize: 12)),
-                                                                                    data[index]['none_cash_pay'] ? Icon(Icons.check, color: Colors.green) : Icon(Icons.close, color: Colors.red)
-                                                                                  ])))
-                                                                        else
-                                                                          Expanded(
-                                                                              child: Align(alignment: Alignment.centerLeft, child: ElevatedButton(onPressed: () {}, child: Text(data[index]['store_name'], maxLines: 1, overflow: TextOverflow.ellipsis, style: CustomText.itemText))))
-                                                                      ])))
-                                                        ]))))));
+                                childCount: data.length,
+                                (BuildContext context, int index) {
+                          return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.leftToRight,
+                                      child: CarStore(
+                                          id: data[index]['id'].toString())),
+                                );
                               },
-                            ),
-                          )
-                        ],
-                      )
+                              child: Container(
+                                  height: 110,
+                                  child: Card(
+                                      color: CustomColors.appColorWhite,
+                                      shadowColor: const Color.fromARGB(
+                                          255, 200, 198, 198),
+                                      surfaceTintColor:
+                                          CustomColors.appColorWhite,
+                                      elevation: 5,
+                                      child: ClipRRect(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10.0)),
+                                          child: Container(
+                                              height: 110,
+                                              child: Row(children: <Widget>[
+                                                Expanded(
+                                                    flex: 1,
+                                                    child: ClipRect(
+                                                        child: Container(
+                                                            height: 110,
+                                                            child: FittedBox(
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                child: data[index]
+                                                                            [
+                                                                            'img'] !=
+                                                                        ''
+                                                                    ? Image.network(baseurl +
+                                                                        data[index]['img']
+                                                                            .toString())
+                                                                    : Image.asset(
+                                                                        'assets/images/default.jpg'))))),
+                                                Expanded(
+                                                    flex: 2,
+                                                    child: Container(
+                                                        color: CustomColors
+                                                            .appColorWhite,
+                                                        margin: EdgeInsets.only(
+                                                            left: 2),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(5),
+                                                        child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .start,
+                                                            children: <Widget>[
+                                                              Expanded(
+                                                                  child: Align(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child: Text(
+                                                                          data[index]['mark'].toString() +
+                                                                              " " +
+                                                                              data[index]['model'].toString() +
+                                                                              " " +
+                                                                              data[index]['year'].toString(),
+                                                                          style: CustomText.itemTextBold))),
+                                                              Expanded(
+                                                                  child: Align(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .centerLeft,
+                                                                      child: Text(
+                                                                          data[index]['location']
+                                                                              .toString(),
+                                                                          style:
+                                                                              CustomText.itemText))),
+                                                              Expanded(
+                                                                  child: Row(
+                                                                      children: [
+                                                                    Text(
+                                                                        data[index]['price']
+                                                                            .toString(),
+                                                                        style: CustomText
+                                                                            .itemText),
+                                                                    Spacer(),
+                                                                    Text(
+                                                                        data[index]['delta_time']
+                                                                            .toString(),
+                                                                        style: CustomText
+                                                                            .itemText)
+                                                                  ])),
+                                                              if (data[index][
+                                                                          'store_id'] ==
+                                                                      null ||
+                                                                  data[index][
+                                                                          'store_id'] ==
+                                                                      '')
+                                                                Expanded(
+                                                                    child: Align(
+                                                                        alignment: Alignment.centerLeft,
+                                                                        child: Row(children: <Widget>[
+                                                                          Text(
+                                                                              'Kredit',
+                                                                              style: TextStyle(color: CustomColors.appColors, fontSize: 12)),
+                                                                          data[index]['credit']
+                                                                              ? Icon(Icons.check, color: Colors.green)
+                                                                              : Icon(Icons.close, color: Colors.red),
+                                                                          SizedBox(
+                                                                              width: 5),
+                                                                          Text(
+                                                                              'Obmen',
+                                                                              style: TextStyle(color: CustomColors.appColors, fontSize: 12)),
+                                                                          data[index]['swap']
+                                                                              ? Icon(Icons.check, color: Colors.green)
+                                                                              : Icon(
+                                                                                  Icons.close,
+                                                                                  color: Colors.red,
+                                                                                ),
+                                                                          SizedBox(
+                                                                            width:
+                                                                                5,
+                                                                          ),
+                                                                          Text(
+                                                                              'Nagt däl',
+                                                                              style: TextStyle(color: CustomColors.appColors, fontSize: 12)),
+                                                                          data[index]['none_cash_pay']
+                                                                              ? Icon(Icons.check, color: Colors.green)
+                                                                              : Icon(Icons.close, color: Colors.red)
+                                                                        ])))
+                                                              else
+                                                                Expanded(
+                                                                    child: Align(
+                                                                        alignment:
+                                                                            Alignment
+                                                                                .centerLeft,
+                                                                        child: ElevatedButton(
+                                                                            onPressed:
+                                                                                () {},
+                                                                            child: Text(data[index]['store_name'],
+                                                                                maxLines: 1,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                style: CustomText.itemText))))
+                                                            ])))
+                                              ]))))));
+                        }))
+                      ])
                     : Center(
                         child: CircularProgressIndicator(
                             color: CustomColors.appColors))),
-            drawer: MyDraver(),
-          )
+            drawer: MyDraver())
         : CustomProgressIndicator(funcInit: initState);
   }
 
