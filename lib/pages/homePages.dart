@@ -28,7 +28,6 @@ import '../main.dart';
 import 'Search/search.dart';
 import 'Store/store.dart';
 import 'homePageLocation.dart';
-import 'package:page_transition/page_transition.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

@@ -9,7 +9,6 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Restaurants/detail.dart';
-import 'package:my_app/pages/Store/merketDetail.dart';
 import 'package:my_app/pages/homePages.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
