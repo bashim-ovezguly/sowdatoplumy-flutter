@@ -9,6 +9,7 @@ import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
 import 'package:my_app/pages/Customer/login.dart';
 import 'package:my_app/widgets/inputText.dart';
+import 'package:my_app/widgets/multiSelect.dart';
 import 'package:provider/provider.dart';
 import '../../../dB/colors.dart';
 import '../../../dB/providers.dart';
@@ -195,11 +196,52 @@ class _OtherGoodsAddState extends State<OtherGoodsAdd> {
                     child: Text('Ýerleşýän ýeri',
                         style: TextStyle(color: Colors.black, fontSize: 12))))
           ]),
-          InputSelectText(
-              title: "Kategoriýa",
-              height: 40.0,
-              callFunc: callbackCategory,
-              items: categories),
+          Stack(children: <Widget>[
+            Container(
+              width: double.infinity,
+              height: 40,
+              margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+              decoration: BoxDecoration(
+                  border: Border.all(color: CustomColors.appColors, width: 1),
+                  borderRadius: BorderRadius.circular(5),
+                  shape: BoxShape.rectangle),
+              child: Container(
+                  margin: EdgeInsets.only(left: 15),
+                  child: GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CategorySelect(
+                              categories: categories,
+                              callbackFunc: callbackCategory);
+                        },
+                      );
+                    },
+                    child: categoryController['name_tm'] != null
+                        ? Container(
+                            margin: EdgeInsets.only(top: 10),
+                            child: Text(
+                              categoryController['name_tm'],
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          )
+                        : Text(""),
+                  )
+                  // MyDropdownButton(
+                  //     items: categories, callbackFunc: callbackCategory)
+                  ),
+            ),
+            Positioned(
+                left: 25,
+                top: 12,
+                child: Container(
+                    color: Colors.white,
+                    child: Text('Kategoriýasy',
+                        style: TextStyle(color: Colors.black, fontSize: 12))))
+          ]),
           InputText(
               title: "Giňişleýin maglumat",
               height: 100.0,

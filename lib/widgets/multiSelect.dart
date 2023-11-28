@@ -105,7 +105,7 @@ class _CategorySelectState extends State<CategorySelect> {
                                             Navigator.pop(context);
                                           },
                                           child: Text(
-                                            "     - " + category_item['name_tm'],
+                                            "         - " + category_item['name_tm'],
                                             style: TextStyle(
                                                 color: CustomColors.appColors,
                                                 fontSize: 16),

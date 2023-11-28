@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:my_app/pages/Customer/locationWidget.dart';
 import 'package:my_app/pages/error.dart';
 import 'package:my_app/widgets/inputText.dart';
+import 'package:my_app/widgets/multiSelect.dart';
 import 'package:provider/provider.dart';
 import '../../dB/constants.dart';
 import '../../dB/providers.dart';
@@ -141,11 +142,53 @@ class _NewStoreState extends State<NewStore> {
                     color: CustomColors.appColors)),
           ),
           InputText(title: "Ady", height: 40.0, callFunc: setName),
-          InputSelectText(
-              title: "Kategoriýa",
-              height: 40.0,
-              callFunc: callbackCategory,
-              items: categories),
+          
+          Stack(children: <Widget>[
+        Container(
+          width: double.infinity,
+          height: 40,
+          margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+          decoration: BoxDecoration(
+              border: Border.all(color: CustomColors.appColors, width: 1),
+              borderRadius: BorderRadius.circular(5),
+              shape: BoxShape.rectangle),
+          child: Container(
+              margin: EdgeInsets.only(left: 15),
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CategorySelect(
+                          categories: categories,
+                          callbackFunc: callbackCategory);
+                    },
+                  );
+                },
+                child: categoryController['name_tm'] != null
+                    ? Container(
+                      margin: EdgeInsets.only(top: 10),
+                        child: Text(
+                          categoryController['name_tm'],
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      )
+                    : Text(""),
+              )
+              // MyDropdownButton(
+              //     items: categories, callbackFunc: callbackCategory)
+              ),
+        ),
+        Positioned(
+            left: 25,
+            top: 12,
+            child: Container(
+                color: Colors.white,
+                child: Text('Kategoriýasy',
+                    style: TextStyle(color: Colors.black, fontSize: 12))))
+      ]),
           Stack(children: <Widget>[
             GestureDetector(
                 child: Container(
@@ -306,11 +349,14 @@ class _NewStoreState extends State<NewStore> {
                     'token': token
                   });
                   request.fields['name'] = nameController.text;
-                  request.fields['category'] = categoryController['id'].toString();
-                  request.fields['delivery_price'] = delivery_priceController.text;
+                  request.fields['category'] =
+                      categoryController['id'].toString();
+                  request.fields['delivery_price'] =
+                      delivery_priceController.text;
                   request.fields['phones'] = phoneController.text;
                   request.fields['description'] = body_tmController.text;
-                  request.fields['location'] = locationController['id'].toString();
+                  request.fields['location'] =
+                      locationController['id'].toString();
                   request.fields['customer'] = customer_id.toString();
 
                   for (var i in selectedImages) {

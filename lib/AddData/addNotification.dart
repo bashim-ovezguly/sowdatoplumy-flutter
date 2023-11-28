@@ -14,6 +14,7 @@ import 'package:my_app/pages/homePageLocation.dart';
 import 'package:my_app/pages/select.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:my_app/widgets/multiSelect.dart';
 import 'package:provider/provider.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -123,23 +124,48 @@ class _AddNotificationsState extends State<AddNotifications> {
       ]),
       Stack(children: <Widget>[
         Container(
-            width: double.infinity,
-            height: 40,
-            margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-            decoration: BoxDecoration(
-                border: Border.all(color: CustomColors.appColors, width: 1),
-                borderRadius: BorderRadius.circular(5),
-                shape: BoxShape.rectangle),
-            child: Container(
-                margin: EdgeInsets.only(left: 15),
-                child: MyDropdownButton(
-                    items: categories, callbackFunc: callbackCategory))),
+          width: double.infinity,
+          height: 40,
+          margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
+          decoration: BoxDecoration(
+              border: Border.all(color: CustomColors.appColors, width: 1),
+              borderRadius: BorderRadius.circular(5),
+              shape: BoxShape.rectangle),
+          child: Container(
+              margin: EdgeInsets.only(left: 15),
+              child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CategorySelect(
+                          categories: categories,
+                          callbackFunc: callbackCategory);
+                    },
+                  );
+                },
+                child: categoryController['name_tm'] != null
+                    ? Container(
+                        margin: EdgeInsets.only(top: 10),
+                        child: Text(
+                          categoryController['name_tm'],
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      )
+                    : Text(""),
+              )
+              // MyDropdownButton(
+              //     items: categories, callbackFunc: callbackCategory)
+              ),
+        ),
         Positioned(
             left: 25,
             top: 12,
             child: Container(
                 color: Colors.white,
-                child: Text('Kategoriýa',
+                child: Text('Kategoriýasy',
                     style: TextStyle(color: Colors.black, fontSize: 12))))
       ]),
       Stack(children: <Widget>[
@@ -371,7 +397,8 @@ class _AddNotificationsState extends State<AddNotifications> {
                           storesController['id'].toString();
                     }
                     request.fields['name'] = nameController.text;
-                    request.fields['category'] = categoryController['id'].toString();
+                    request.fields['category'] =
+                        categoryController['id'].toString();
                     request.fields['price'] = priceController.text;
                     request.fields['phone'] = phoneController.text;
                     request.fields['description'] = detailController.text;
