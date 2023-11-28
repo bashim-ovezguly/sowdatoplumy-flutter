@@ -10,7 +10,6 @@ import '../../dB/colors.dart';
 import '../../dB/constants.dart';
 import '../../dB/providers.dart';
 import '../customCheckbox.dart';
-import '../select.dart';
 
 class OutletsSearch extends StatefulWidget {
   final Function callbackFunc;
