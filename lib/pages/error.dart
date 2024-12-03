@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/dB/colors.dart';
+
+import 'package:my_app/dB/constants.dart';
 
 class ErrorAlert extends StatefulWidget {
   ErrorAlert({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _ErrorAlertState extends State<ErrorAlert> {
         Align(
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: CustomColors.appColors,
+                backgroundColor: CustomColors.appColor,
                 foregroundColor: Colors.white),
             onPressed: () {
               Navigator.pop(context, 'Close');

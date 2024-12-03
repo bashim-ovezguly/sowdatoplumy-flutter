@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../dB/colors.dart';
+import 'package:my_app/dB/constants.dart';
 
 class RegionWidget extends StatefulWidget {
   @override
@@ -8,7 +7,7 @@ class RegionWidget extends StatefulWidget {
 }
 
 class _RegionWidgetState extends State<RegionWidget> {
-  List<bool> selectchildren = [false, false, false, false, false, false, true];  
+  List<bool> selectchildren = [false, false, false, false, false, false, true];
   List<String> _texts = [
     "Aşgabat",
     "Balkan",
@@ -16,66 +15,67 @@ class _RegionWidgetState extends State<RegionWidget> {
     "Mary",
     "Lebap",
     "Daşaguz",
-    "Hemmesi",];
-    int _selectedIndex = 6;
+    "Hemmesi",
+  ];
+  int _selectedIndex = 6;
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(backgroundColor: CustomColors.appColorWhite,
+    return AlertDialog(
+      backgroundColor: CustomColors.appColorWhite,
       title: Row(
         children: <Widget>[
-          Text("Welaýatlar", style: TextStyle(color: CustomColors.appColors),),
+          Text(
+            "Welaýatlar",
+            style: TextStyle(color: CustomColors.appColor),
+          ),
           Spacer(),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.pop(context, 'Cancel');
             },
             child: Icon(Icons.close, color: Colors.red),
           )
-
         ],
       ),
       content: SingleChildScrollView(
         child: Container(
           width: 600,
           height: 400,
-          child: ListView(
-              scrollDirection: Axis.vertical,
-              children: [
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: _texts.length,
-                  itemBuilder: (_, index) {
-                            return ListTile(
-                              
-                              title: GestureDetector(
-                                onTap: (){
-                                  setState(() {
-                                    _selectedIndex = index;
-                                  });
-                                },
-                                child: Text(_texts[index]),
-                              ),
-                              leading: Radio(
-                                activeColor: CustomColors.appColors,
-                                value: index,
-                                groupValue: _selectedIndex,
-                                onChanged: (value) {
-                                  setState(() {
-                                    _selectedIndex = value!;
-                                  });
-                                },
-                              ),
-                        );
-                  },
-                ),
-              ]),
+          child: ListView(scrollDirection: Axis.vertical, children: [
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: _texts.length,
+              itemBuilder: (_, index) {
+                return ListTile(
+                  title: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = index;
+                      });
+                    },
+                    child: Text(_texts[index]),
+                  ),
+                  leading: Radio(
+                    activeColor: CustomColors.appColor,
+                    value: index,
+                    groupValue: _selectedIndex,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedIndex = value!;
+                      });
+                    },
+                  ),
+                );
+              },
+            ),
+          ]),
         ),
       ),
       actions: <Widget>[
         Align(
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: CustomColors.appColors,
+                backgroundColor: CustomColors.appColor,
                 foregroundColor: Colors.white),
             onPressed: () => Navigator.pop(context, 'Cancel'),
             child: const Text('FILTER'),

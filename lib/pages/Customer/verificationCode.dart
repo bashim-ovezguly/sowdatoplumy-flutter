@@ -2,30 +2,30 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:my_app/dB/colors.dart';
+
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:my_app/dB/db.dart';
 import 'package:my_app/dB/textStyle.dart';
-import 'package:my_app/pages/Customer/newPassword.dart';
+import 'package:my_app/pages/Customer/restore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../dB/constants.dart';
 import '../../main.dart';
-import 'confirmNewPassword.dart';
+import 'setNewPassword.dart';
 import 'package:http/http.dart' as http;
 
-class MyHomePage extends StatefulWidget {
-  final String phone;
+class Verification extends StatefulWidget {
+  final String email;
   final String action;
   final String password;
-  MyHomePage(
-      {Key? key, required this.phone, this.action = "", this.password = ''})
+  Verification(
+      {Key? key, required this.email, this.action = "", this.password = ''})
       : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState(phone: phone);
+  State<Verification> createState() => _VerificationState(email: email);
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  final String phone;
+class _VerificationState extends State<Verification> {
+  final String email;
 
   final _code = TextEditingController();
 
@@ -39,7 +39,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     if (widget.action == 'login') {
       sendSms();
-     
     }
     super.initState();
   }
@@ -51,7 +50,61 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  _MyHomePageState({required this.phone});
+  confirmClick() async {
+    if (_code.text.length != 4) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return ErrorAlert(
+              message: 'Telefon belgiňize gelen sms kody giriziň',
+            );
+          });
+    } else {
+      String url = serverIp + '/mob/verif';
+      final uri = Uri.parse(url);
+
+      var map = new Map<String, dynamic>();
+      map['email'] = email;
+      map['code'] = _code.text;
+
+      final response = await http.post(uri, body: map);
+      final json = jsonDecode(utf8.decode(response.bodyBytes));
+
+      if (response.statusCode == 200) {
+        final deleteallRows = await dbHelper.deleteAllRows();
+        final deleteallRows1 = await dbHelper.deleteAllRows1();
+
+        String access_token = json['access_token'];
+        String refresh_token = json['refresh_token'];
+        int customer_id = json['id'];
+        if (widget.action != 'login') {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => setNewPassword(
+                      email: email,
+                      access_token: access_token,
+                      refresh_token: refresh_token,
+                      customer_id: customer_id)));
+        } else {
+          final pref = await SharedPreferences.getInstance();
+          pref.setInt('user_id', customer_id);
+          pref.setString('access_token', access_token);
+          pref.setString('refresh_token', refresh_token);
+        }
+      } else {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return ErrorAlert(
+                message: 'Tassyklaýyş kodyňyz nädogry täzeden synanşyp görüň',
+              );
+            });
+      }
+    }
+  }
+
+  _VerificationState({required this.email});
   @override
   build(BuildContext context) {
     return Scaffold(
@@ -69,7 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Column(
                   children: [
                     Container(
-                      height: 300,
+                      height: 200,
                       alignment: Alignment.center,
                       child: Image.asset('assets/images/sms_code_icon.png'),
                     ),
@@ -79,118 +132,36 @@ class _MyHomePageState extends State<MyHomePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("+993 " + phone + " belgä ugradylan",
+                            Text(email + " poçta ugradylan",
                                 style: TextStyle(
-                                    color: CustomColors.appColors,
+                                    color: CustomColors.appColor,
                                     fontSize: 16)),
                             Text("SMS kody giriziň",
                                 style: TextStyle(
-                                    color: CustomColors.appColors,
+                                    color: CustomColors.appColor,
                                     fontSize: 16)),
                           ],
                         )),
                     Container(
-                        margin: EdgeInsets.only(left: 50, right: 50),
-                        height: 50,
+                        margin:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                         child: TextFormField(
+                            style: TextStyle(fontSize: 30),
+                            textAlign: TextAlign.center,
+                            maxLength: 4,
                             controller: _code,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
-                                fillColor: CustomColors.appColors,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: CustomColors.appColors,
-                                      width: 1.0),
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: CustomColors.appColors,
-                                      width: 1.0),
-                                  borderRadius: BorderRadius.circular(15.0),
-                                )))),
-                    SizedBox(height: 30),
+                              contentPadding: EdgeInsets.all(10),
+                              fillColor: CustomColors.appColor,
+                            ))),
                     Container(
                         child: ElevatedButton(
                             onPressed: () async {
-                              if (_code.text.length != 4) {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return ErrorAlert(
-                                        message:
-                                            'Bagyşlaň telefon belgiňize gelen sms kody giriziň',
-                                      );
-                                    });
-                              } else {
-                                Urls server_url = new Urls();
-                                String url =
-                                    server_url.get_server_url() + '/mob/verif';
-                                final uri = Uri.parse(url);
-
-                                var map = new Map<String, dynamic>();
-                                map['phone'] = phone;
-                                map['code'] = _code.text;
-
-                                final response =
-                                    await http.post(uri, body: map);
-                                final json =
-                                    jsonDecode(utf8.decode(response.bodyBytes));
-
-                                if (response.statusCode == 200) {
-                                  final deleteallRows =
-                                      await dbHelper.deleteAllRows();
-                                  final deleteallRows1 =
-                                      await dbHelper.deleteAllRows1();
-
-                                  print('-----1--------  $deleteallRows');
-                                  print('-----2--------  $deleteallRows1');
-
-                                  String access_token = json['access_token'];
-                                  String refresh_token = json['refresh_token'];
-                                  int customer_id = json['id'];
-                                  if (widget.action != 'login') {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ConfirmNewPassword(
-                                                    phone: phone,
-                                                    access_token: access_token,
-                                                    refresh_token:
-                                                        refresh_token,
-                                                    customer_id: customer_id)));
-                                  } else {
-                                    Map<String, dynamic> row = {
-                                      DatabaseSQL.columnUserId: customer_id,
-                                      DatabaseSQL.columnName: access_token,
-                                      DatabaseSQL.columnPassword: refresh_token,
-                                    };
-
-                                    Map<String, dynamic> row1 = {
-                                      DatabaseSQL.columnName:
-                                          widget.phone.toString(),
-                                      DatabaseSQL.columnPassword:
-                                          widget.password.toString()
-                                    };
-
-                                    final id = await dbHelper.insert(row);
-                                    final id1 = await dbHelper.inser1(row1);
-                                  }
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return ErrorAlert(
-                                          message:
-                                              'Tassyklaýyş kodyňyz nädogry täzeden synanşyp görüň',
-                                        );
-                                      });
-                                }
-                              }
+                              this.confirmClick();
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: CustomColors.appColors,
+                              backgroundColor: CustomColors.appColor,
                             ),
                             child: Text("Tassyklamak",
                                 style: TextStyle(
@@ -206,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ringColor: Colors.white,
                       fillColor: Colors.white,
                       textStyle: TextStyle(
-                          color: CustomColors.appColors,
+                          color: CustomColors.appColor,
                           fontSize: 16,
                           fontWeight: FontWeight.bold),
                       onStart: () {
@@ -240,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               'Content-Type':
                                   'application/x-www-form-urlencoded',
                             });
-                            request.fields['phone'] = phone;
+                            request.fields['phone'] = email;
 
                             final response = await request.send();
                             if (response.statusCode == 200) {
@@ -257,7 +228,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             }
                           },
                           child: Text("SMS kody täzeden ugratmak",
-                              style: TextStyle(color: CustomColors.appColors)),
+                              style: TextStyle(color: CustomColors.appColor)),
                         ),
                       )
                   ],
@@ -269,16 +240,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> sendSms() async {
-     Urls server_url = new Urls();
-      String url = server_url.get_server_url() + '/mob/customers/send/code';
-      final uri = Uri.parse(url);
-      var request = new http.MultipartRequest("POST", uri);
+    Urls server_url = new Urls();
+    String url = server_url.get_server_url() + '/mob/customers/send/code';
+    final uri = Uri.parse(url);
+    var request = new http.MultipartRequest("POST", uri);
 
-      request.headers.addAll({
-        'Content-Type': 'application/x-www-form-urlencoded',
-      });
-      request.fields['phone'] = phone;
-      final response = await request.send();
-      print('SUCCESS');
+    request.headers.addAll({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+    request.fields['phone'] = email;
+    final response = await request.send();
+    print('SUCCESS');
   }
 }

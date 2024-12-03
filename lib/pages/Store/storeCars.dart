@@ -2,19 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import '../../dB/colors.dart';
+
 import '../../dB/constants.dart';
-import '../Car/carStore.dart';
+import '../Car/carDetail.dart';
 import 'package:http/http.dart' as http;
 
 class StoreCars extends StatefulWidget {
-  StoreCars({Key? key, required this.id, required this.isTopList})
+  StoreCars({Key? key, required this.id, required this.storeName})
       : super(key: key);
   final String id;
-  final Function isTopList;
+  final String storeName;
 
   @override
-  State<StoreCars> createState() => _StoreCarsState(id: id);
+  State<StoreCars> createState() =>
+      _StoreCarsState(id: id, storeName: storeName);
 }
 
 class _StoreCarsState extends State<StoreCars> {
@@ -24,78 +25,72 @@ class _StoreCarsState extends State<StoreCars> {
   var products = [];
   var keyword = TextEditingController();
   var baseurl = '';
-  late ScrollController _scrollController = ScrollController();
+  var storeName = '';
+
+  // late ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     get_products_modul(id);
-    _scrollController.addListener(_controllListener);
+    // _scrollController.addListener(_controllListener);
     super.initState();
   }
 
-  _StoreCarsState({required this.id});
+  _StoreCarsState({required this.id, required this.storeName});
 
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.only(left: 10, right: 10),
-          width: double.infinity,
-          height: 40,
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(5)),
-          child: Center(
-            child: TextFormField(
-              controller: keyword,
-              decoration: InputDecoration(
-                  prefixIcon: IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () {
-                      get_products_modul(id);
-                    },
-                  ),
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      setState(() {
-                        keyword.text = '';
-                      });
-                      get_products_modul(id);
-                    },
-                  ),
-                  hintText: 'Gözleg...',
-                  border: InputBorder.none),
+    return Scaffold(
+      appBar: AppBar(
+          title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            this.storeName,
+            textAlign: TextAlign.start,
+            style: TextStyle(color: Colors.white, fontSize: 17),
+          ),
+          Text(
+            'Awtoulaglar',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.white,
             ),
           ),
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height - 200,
-          child: ListView(
-            children: [
-              Wrap(
-                alignment: WrapAlignment.spaceAround,
-                children: products.map((item) {
-                  return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    CarStore(id: item['id'].toString())));
-                      },
-                      child: Card(
-                          color: CustomColors.appColorWhite,
-                          shadowColor: const Color.fromARGB(255, 200, 198, 198),
-                          surfaceTintColor: CustomColors.appColorWhite,
-                          elevation: 5,
+        ],
+      )),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height - 80,
+              child: ListView(
+                children: [
+                  Wrap(
+                    alignment: WrapAlignment.spaceAround,
+                    children: products.map((item) {
+                      return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        CarDetail(id: item['id'])));
+                          },
                           child: Container(
+                              clipBehavior: Clip.hardEdge,
+                              margin: EdgeInsets.all(5),
                               height: 180,
                               width: MediaQuery.of(context).size.width / 3 - 10,
-                              child: Column(children: [
-                                Container(
-                                    alignment: Alignment.topCenter,
-                                    child: item['img'] != null &&
-                                            item['img'] != ""
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(5),
+                                  boxShadow: [
+                                    BoxShadow(color: Colors.grey, blurRadius: 5)
+                                  ]),
+                              child: Column(
+                                  // crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    item['img'] != null && item['img'] != ""
                                         ? Image.network(
                                             baseurl + item['img'].toString(),
                                             fit: BoxFit.cover,
@@ -104,55 +99,61 @@ class _StoreCarsState extends State<StoreCars> {
                                                         .width /
                                                     3 -
                                                 10,
-                                            height:120,
+                                            height: 120,
                                           )
                                         : Image.asset(
                                             'assets/images/default.jpg',
-                                            height:120,
-                                          )),
-                                Container(
-                                    alignment: Alignment.center,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          item['mark'].toString() +
-                                              " " +
-                                              item['model'],
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: CustomColors.appColors,
-                                              overflow: TextOverflow.clip),
-                                        ),
-                                        Text(
-                                          item['price'].toString(),
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: CustomColors.appColors,
-                                              overflow: TextOverflow.clip),
-                                        ),
-                                        Text(
-                                          item['delta_time'].toString(),
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: CustomColors.appColors,
-                                              overflow: TextOverflow.clip),
-                                        ),
-                                      ],
-                                    ))
-                              ]))));
-                }).toList(),
-              )
-            ],
-          ),
+                                            height: 120,
+                                          ),
+                                    Container(
+                                        padding: EdgeInsets.all(2),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              item['mark'].toString() +
+                                                  " " +
+                                                  item['model'],
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: CustomColors.appColor,
+                                                  overflow:
+                                                      TextOverflow.ellipsis),
+                                            ),
+                                            Text(
+                                              item['price'].toString() + ' TMT',
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 12,
+                                                  color: Colors.blue,
+                                                  overflow: TextOverflow.clip),
+                                            ),
+                                            Text(
+                                              item['created_at']
+                                                  .toString()
+                                                  .split(' ')[0],
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.grey,
+                                                  overflow: TextOverflow.clip),
+                                            ),
+                                          ],
+                                        ))
+                                  ])));
+                    }).toList(),
+                  )
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -183,9 +184,9 @@ class _StoreCarsState extends State<StoreCars> {
     });
   }
 
-  void _controllListener() {
-    if (_scrollController.offset <= 0) {
-      widget.isTopList();
-    }
-  }
+  // void _controllListener() {
+  //   if (_scrollController.offset <= 0) {
+  //     widget.isTopList();
+  //   }
+  // }
 }

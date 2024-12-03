@@ -1,10 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:my_app/globalFunctions.dart';
 import 'package:my_app/pages/Customer/login.dart';
-import 'package:provider/provider.dart';
-import '../../dB/colors.dart';
+
 import '../../dB/constants.dart';
-import '../../dB/providers.dart';
 
 class DeleteAlert extends StatefulWidget {
   DeleteAlert(
@@ -39,13 +38,13 @@ class _DeleteAlertState extends State<DeleteAlert> {
       shadowColor: CustomColors.appColorWhite,
       surfaceTintColor: CustomColors.appColorWhite,
       backgroundColor: CustomColors.appColorWhite,
-      title: Row(
+      title: Wrap(
+        alignment: WrapAlignment.spaceBetween,
         children: [
           Text(
-            '',
-            style: TextStyle(color: CustomColors.appColors),
+            'Bozmaga ynamyňyz barmy?',
+            style: TextStyle(color: CustomColors.appColor, fontSize: 15),
           ),
-          Spacer(),
           GestureDetector(
             onTap: () => Navigator.pop(context, 'Cancel'),
             child: Icon(
@@ -64,12 +63,12 @@ class _DeleteAlertState extends State<DeleteAlert> {
             Align(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: CustomColors.appColors,
+                    backgroundColor: CustomColors.appColor,
                     foregroundColor: Colors.white),
                 onPressed: () async {
                   Navigator.pop(context, 'Cancel');
                 },
-                child: const Text('Goý bolsun'),
+                child: const Text('Ýok'),
               ),
             ),
             SizedBox(
@@ -81,16 +80,13 @@ class _DeleteAlertState extends State<DeleteAlert> {
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white),
                 onPressed: () async {
-                  var token = Provider.of<UserInfo>(context, listen: false)
-                      .access_token;
-                  Urls server_url = new Urls();
-                  String url = server_url.get_server_url() +
+                  String url = serverIp +
                       '/mob/' +
                       action.toString() +
                       "/delete/" +
                       id.toString();
                   if (action == 'lenta') {
-                    url = server_url.get_server_url() +
+                    url = serverIp +
                         '/mob/' +
                         action.toString() +
                         "/" +
@@ -102,7 +98,7 @@ class _DeleteAlertState extends State<DeleteAlert> {
                   for (var i in global_headers.entries) {
                     headers[i.key] = i.value.toString();
                   }
-                  headers['token'] = token;
+                  headers['token'] = await get_access_token();
                   final response = await http.post(uri, headers: headers);
                   if (response.statusCode == 200) {
                     callbackFunc();
@@ -110,15 +106,13 @@ class _DeleteAlertState extends State<DeleteAlert> {
                     Navigator.pop(context);
                   }
                   if (response.statusCode != 200) {
-                    var response = Provider.of<UserInfo>(context, listen: false)
-                        .update_tokenc();
                     if (response == false) {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => Login()));
                     }
                   }
                 },
-                child: const Text('Pozmak'),
+                child: const Text('Hawa'),
               ),
             )
           ],
@@ -160,7 +154,7 @@ class _DeletePhoneAlertState extends State<DeletePhoneAlert> {
         children: [
           Text(
             'Pozmaga ynamyñyz barmy?',
-            style: TextStyle(color: CustomColors.appColors, fontSize: 15),
+            style: TextStyle(color: CustomColors.appColor, fontSize: 15),
           ),
           Spacer(),
           GestureDetector(
@@ -181,7 +175,7 @@ class _DeletePhoneAlertState extends State<DeletePhoneAlert> {
             Align(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: CustomColors.appColors,
+                    backgroundColor: CustomColors.appColor,
                     foregroundColor: Colors.white),
                 onPressed: () async {
                   Navigator.pop(context, 'Cancel');
@@ -199,31 +193,27 @@ class _DeletePhoneAlertState extends State<DeletePhoneAlert> {
                     foregroundColor: Colors.white),
                 onPressed: () async {
                   Urls server_url = new Urls();
-                  String url = server_url.get_server_url() +'/mob/stores/contact/delete/' +id.toString();
+                  String url = server_url.get_server_url() +
+                      '/mob/stores/contact/delete/' +
+                      id.toString();
                   final uri = Uri.parse(url);
 
-                  var responsess = Provider.of<UserInfo>(context, listen: false).update_tokenc();
-                  if (await responsess) {
-                    var token = Provider.of<UserInfo>(context, listen: false).access_token;
-                    Map<String, String> headers = {};
-                    for (var i in global_headers.entries) {
-                      headers[i.key] = i.value.toString();
-                    }
-                    headers['token'] = token;
-                    final response = await http.post(
-                      uri,
-                      headers: headers,
-                    );
-                    print(response.statusCode);
-                    print(url);
-                    print(headers);
-                    if (response.statusCode == 200) {
-                      callbackFunc();
-                      Navigator.pop(context);
-                    }
+                  Map<String, String> headers = {};
+                  for (var i in global_headers.entries) {
+                    headers[i.key] = i.value.toString();
+                  }
+                  headers['token'] = await get_access_token();
+                  final response = await http.post(
+                    uri,
+                    headers: headers,
+                  );
+
+                  if (response.statusCode == 200) {
+                    callbackFunc();
+                    Navigator.pop(context);
                   }
                 },
-                child: const Text('Pozmak'),
+                child: const Text('Bozmak'),
               ),
             )
           ],

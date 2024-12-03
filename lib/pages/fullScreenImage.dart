@@ -3,8 +3,9 @@
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/dB/colors.dart';
+
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:my_app/dB/constants.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:photo_view/photo_view.dart';
 
@@ -37,7 +38,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
           title: '',
           text: 'Suran ýüklenildi!',
           confirmBtnText: 'Dowam et',
-          confirmBtnColor: CustomColors.appColors,
+          confirmBtnColor: CustomColors.appColor,
           type: QuickAlertType.success,
           onConfirmBtnTap: () {
             Navigator.pop(context);
@@ -45,7 +46,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
     }
 
     return Scaffold(
-          backgroundColor: CustomColors.appColorWhite,
+      backgroundColor: CustomColors.appColorWhite,
       body: Container(
           color: Colors.black,
           child: Column(children: <Widget>[
@@ -78,7 +79,8 @@ class _FullScreenImageState extends State<FullScreenImage> {
                     onTap: () async {
                       var response = await Dio().get(img,
                           options: Options(responseType: ResponseType.bytes));
-                      final result = await ImageGallerySaver.saveImage(Uint8List.fromList(response.data));
+                      final result = await ImageGallerySaver.saveImage(
+                          Uint8List.fromList(response.data));
                       showSuccessAlert();
                     },
                     child: Container(

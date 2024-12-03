@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/dB/colors.dart';
+
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/dB/textStyle.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatAdmin extends StatefulWidget {
   const ChatAdmin({super.key});
@@ -111,7 +112,7 @@ class _ChatAdminState extends State<ChatAdmin> {
                               }
                             },
                             child: Icon(Icons.send,
-                                color: CustomColors.appColors, size: 18),
+                                color: CustomColors.appColor, size: 18),
                             elevation: 0)
                       ]))))
         ]));
@@ -121,23 +122,28 @@ class _ChatAdminState extends State<ChatAdmin> {
     Urls server_url = new Urls();
     String url = server_url.get_server_url() + '/mob/mail/admin';
 
-    Map<String, String> headers = {};
-    for (var i in global_headers.entries) {
-      headers[i.key] = i.value.toString();
-    }
+    Map<String, String> headers = global_headers;
+
+    final pref = await SharedPreferences.getInstance();
+    headers['Device-Id'] = await pref.getString('device_id').toString();
+
     final uri = Uri.parse(url);
     final response = await http.get(uri, headers: headers);
+    print(headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
-    setState(() {
-      data = json['data'];
 
-      List<dynamic> reversedNumbers = data.reversed.toList();
-      data = reversedNumbers;
-      data.insert(0, {
-        "msg": "",
-        "created_at": "2023-10-31T18:07:11.049428",
-        "sender": "customer1"
+    if (json['data'] != null) {
+      setState(() {
+        data = json['data'];
       });
+    }
+
+    List<dynamic> reversedNumbers = data.reversed.toList();
+    data = reversedNumbers;
+    data.insert(0, {
+      "msg": "",
+      "created_at": "2023-10-31T18:07:11.049428",
+      "sender": "customer1"
     });
   }
 }

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "765215676777",
+    "project_id": "sowda-toplumy",
+    "storage_bucket": "sowda-toplumy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765215676777:android:38ca57725d5987ea7b05f8",
+        "android_client_info": {
+          "package_name": "com.sowda_toplum.sowda_toplum"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG4-1geJ234s9_pvyYOae26cFZzKiEA7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765215676777:android:fd26af5680d0a89c7b05f8",
+        "android_client_info": {
+          "package_name": "com.sowda_toplumy.sowda_toplumy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAG4-1geJ234s9_pvyYOae26cFZzKiEA7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

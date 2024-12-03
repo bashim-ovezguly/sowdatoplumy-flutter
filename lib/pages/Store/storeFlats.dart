@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import '../../dB/colors.dart';
+
 import '../../dB/constants.dart';
 import 'package:http/http.dart' as http;
-import '../Propertie/propertiesDetail.dart';
+import '../Flats/FlatDetail.dart';
 
 class StoreFlats extends StatefulWidget {
   StoreFlats({Key? key, required this.id, required this.isTopList})
@@ -104,11 +104,11 @@ class _StoreFlatsState extends State<StoreFlats> {
                                                         .width /
                                                     3 -
                                                 10,
-                                            height:120,
+                                            height: 120,
                                           )
                                         : Image.asset(
                                             'assets/images/default.jpg',
-                                            height:120,
+                                            height: 120,
                                           )),
                                 Container(
                                     alignment: Alignment.center,
@@ -121,7 +121,7 @@ class _StoreFlatsState extends State<StoreFlats> {
                                           maxLines: 1,
                                           style: TextStyle(
                                               fontSize: 12,
-                                              color: CustomColors.appColors,
+                                              color: CustomColors.appColor,
                                               overflow: TextOverflow.clip),
                                         ),
                                         Text(
@@ -129,7 +129,7 @@ class _StoreFlatsState extends State<StoreFlats> {
                                           maxLines: 1,
                                           style: TextStyle(
                                               fontSize: 12,
-                                              color: CustomColors.appColors,
+                                              color: CustomColors.appColor,
                                               overflow: TextOverflow.clip),
                                         ),
                                       ],

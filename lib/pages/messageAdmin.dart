@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/dB/colors.dart';
+
 import 'package:my_app/dB/constants.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -75,8 +75,8 @@ class _AdminMessageState extends State<AdminMessage> {
                                                       .toString(),
                                                   textAlign: TextAlign.start,
                                                   style: TextStyle(
-                                                      color: CustomColors
-                                                          .appColors,
+                                                      color:
+                                                          CustomColors.appColor,
                                                       fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.bold))),
@@ -88,8 +88,8 @@ class _AdminMessageState extends State<AdminMessage> {
                                                   data[index]['msg'].toString(),
                                                   textAlign: TextAlign.start,
                                                   style: TextStyle(
-                                                      color: CustomColors
-                                                          .appColors,
+                                                      color:
+                                                          CustomColors.appColor,
                                                       fontSize: 15))),
                                         if (data[index]['created_at'] != '' &&
                                             data[index]['created_at'] != null)
@@ -101,20 +101,20 @@ class _AdminMessageState extends State<AdminMessage> {
                                                       .toString(),
                                                   textAlign: TextAlign.end,
                                                   style: TextStyle(
-                                                      color: CustomColors
-                                                          .appColors,
+                                                      color:
+                                                          CustomColors.appColor,
                                                       fontSize: 15)))
                                       ]))));
                     })
                 : Center(
                     child: Text("Habarnama ýok!",
                         style: TextStyle(
-                            color: CustomColors.appColors,
+                            color: CustomColors.appColor,
                             fontSize: 18,
                             fontWeight: FontWeight.bold)))
             : Center(
                 child:
-                    CircularProgressIndicator(color: CustomColors.appColors)));
+                    CircularProgressIndicator(color: CustomColors.appColor)));
   }
 
   void get_messages() async {
@@ -137,7 +137,7 @@ class _AdminMessageState extends State<AdminMessage> {
     print("");
     print(headers);
     print("");
-    
+
     final uri = Uri.parse(url);
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));

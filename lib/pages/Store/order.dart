@@ -1,83 +1,96 @@
 // ignore_for_file: unused_local_variable
-
-import 'dart:async';
 import 'package:badges/badges.dart' as badges;
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/textStyle.dart';
 import 'package:my_app/pages/Customer/login.dart';
-import 'package:my_app/pages/Store/checkout.dart';
-import '../../dB/colors.dart';
+import 'package:my_app/pages/Store/orderConfirm.dart';
+
 import '../../dB/constants.dart';
 import '../../main.dart';
 import '../progressIndicator.dart';
 
 class Order extends StatefulWidget {
   final String store_name;
-  final String store_id;
+  final int store_id;
   final Function refresh;
-  final String delivery_price;
+  final int delivery_price;
+  final List<dynamic> products;
 
   Order(
       {Key? key,
       required this.store_name,
       required this.store_id,
+      required this.products,
       required this.refresh,
       required this.delivery_price})
       : super(key: key);
 
   @override
   State<Order> createState() => _OrderState(
-      store_name: store_name,
-      store_id: store_id,
-      delivery_price: delivery_price);
+        store_name: store_name,
+        store_id: store_id,
+        products: products,
+      );
 }
 
 class _OrderState extends State<Order> {
   bool determinate = true;
   final String store_name;
-  final String store_id;
-  var total_price;
+  final int store_id;
+  double total_price = 0;
   int item_count = 0;
-  var shoping_carts = [];
-  var array = [];
-  var baseurl = "";
-  final String delivery_price;
-  int delivery_price_int = 0;
-  var data = [];
   bool status = true;
+  List<dynamic> products;
 
   void initState() {
-    timers();
-    if (delivery_price != 'tölegsiz') {
-      setState(() {
-        String sss = delivery_price.substring(0, delivery_price.length - 4);
-        delivery_price_int = int.parse(sss);
-      });
-    }
-    get_products();
     super.initState();
+    this.calc_total();
   }
 
-  timers() async {
-    setState(() {
-      status = true;
+  calc_total() {
+    double total = 0;
+    products.forEach((element) {
+      total = total + (double.parse(element['price']) * element['amount']);
     });
-    final completer = Completer();
-    final t = Timer(Duration(seconds: 5), () => completer.complete());
-    print(t);
-    await completer.future;
-    setState(() {
-      if (determinate == false) {
-        status = false;
-      }
+
+    this.setState(() {
+      total_price = total;
+      item_count = products.length;
     });
   }
 
-  _OrderState(
-      {required this.store_name,
-      required this.store_id,
-      required this.delivery_price});
+  remove_item(item) {
+    this.setState(() {
+      this.products.remove(item);
+    });
+    calc_total();
+  }
+
+  increment(item) {
+    var index = widget.products.indexOf(item);
+    this.setState(() {
+      this.products[index]['amount'] = this.products[index]['amount'] + 1;
+    });
+    calc_total();
+  }
+
+  decrement(item) {
+    var index = widget.products.indexOf(item);
+
+    if (this.products[index]['amount'] > 1) {
+      this.setState(() {
+        this.products[index]['amount'] = this.products[index]['amount'] - 1;
+      });
+      calc_total();
+    }
+  }
+
+  _OrderState({
+    required this.store_name,
+    required this.store_id,
+    required this.products,
+  });
   @override
   Widget build(BuildContext context) {
     return status
@@ -107,316 +120,238 @@ class _OrderState extends State<Order> {
                 ),
               ],
             ),
-            body: RefreshIndicator(
-                color: Colors.white,
-                backgroundColor: CustomColors.appColors,
-                onRefresh: () async {
-                  setState(() {
-                    get_products();
-                  });
-                  return Future<void>.delayed(const Duration(seconds: 3));
-                },
-                child: determinate
-                    ? CustomScrollView(
-                        slivers: [
-                          if (store_name != '')
-                            SliverList(
-                                delegate:
-                                    SliverChildBuilderDelegate(childCount: 1,
-                                        (BuildContext context, int index) {
-                              return Container(
-                                  margin: EdgeInsets.only(top: 10, bottom: 5),
-                                  padding: EdgeInsets.only(left: 10, right: 10),
-                                  child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Expanded(
-                                            flex: 3,
-                                            child: Text(store_name,
-                                                style: TextStyle(
-                                                    color:
-                                                        CustomColors.appColors,
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold))),
-                                      ]));
-                            })),
-                          SliverList(
-                              delegate:
-                                  SliverChildBuilderDelegate(childCount: 1,
-                                      (BuildContext context, int index) {
-                            return Container(
-                                margin: EdgeInsets.only(top: 5, bottom: 10),
-                                padding: EdgeInsets.only(left: 10, right: 10),
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Row(children: [
-                                        Text("Harytlaryň bahasy:",
-                                            style: TextStyle(
-                                                color: CustomColors.appColors,
-                                                fontSize: 15)),
-                                        Spacer(),
-                                        Text(total_price.toString() + " TMT",
-                                            style: TextStyle(
-                                                color: CustomColors.appColors,
-                                                fontSize: 15))
-                                      ]),
-                                      Row(children: [
-                                        Text("Eltip bermek bahasy:",
-                                            style: TextStyle(
-                                                color: CustomColors.appColors,
-                                                fontSize: 15)),
-                                        Spacer(),
-                                        Text(delivery_price.toString(),
-                                            style: TextStyle(
-                                                color: CustomColors.appColors,
-                                                fontSize: 15))
-                                      ]),
-                                      Row(children: [
-                                        Text("Umumy töleg:",
-                                            style: TextStyle(
-                                                color: CustomColors.appColors,
-                                                fontSize: 15)),
-                                        Spacer(),
-                                        Text(
-                                            (total_price + delivery_price_int)
-                                                    .toString() +
-                                                " TMT",
-                                            style: TextStyle(
-                                                color: CustomColors.appColors,
-                                                fontSize: 15))
-                                      ]),
-                                    ]));
-                          })),
-                          SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                  childCount: array.length,
-                                  (BuildContext context, int index) {
-                            return Container(
-                                height: 110,
-                                child: Card(
-                                    color: CustomColors.appColorWhite,
-                                    shadowColor: const Color.fromARGB(
-                                        255, 200, 198, 198),
-                                    surfaceTintColor:
-                                        CustomColors.appColorWhite,
-                                    elevation: 5,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(7.0)),
-                                      child: Row(children: [
-                                        Expanded(
-                                            flex: 3,
-                                            child: Container(
-                                                child: Image.network(
-                                                    baseurl +
-                                                        array[index]
-                                                            ['product_img'],
-                                                    height: 110,
-                                                    fit: BoxFit.cover))),
-                                        Expanded(
-                                            flex: 4,
-                                            child: Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 5),
-                                                child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Expanded(
-                                                          child: Container(
-                                                              height: 60,
-                                                              alignment: Alignment
-                                                                  .centerLeft,
-                                                              child: Text(
-                                                                  array[index][
-                                                                          'product_name'],
-                                                                  maxLines: 2,
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      color: CustomColors
-                                                                          .appColors)))),
-                                                      Container(
+            body: Container(
+              padding: EdgeInsets.all(8),
+              child: ListView(
+                children: [
+                  Container(
+                      margin:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                                flex: 3,
+                                child: Text(store_name,
+                                    style: TextStyle(
+                                        color: CustomColors.appColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold))),
+                          ])),
+                  Container(
+                      margin: EdgeInsets.only(top: 5, bottom: 10),
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(children: [
+                              Text("Jemi:",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: CustomColors.appColor,
+                                      fontSize: 18)),
+                              Text(this.total_price.toString() + ' TMT',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: CustomColors.appColor,
+                                      fontSize: 18)),
+                            ]),
+                          ])),
+                  Column(
+                    children: widget.products.map((item) {
+                      int index = widget.products.indexOf(item);
+                      return Container(
+                          height: 110,
+                          child: Card(
+                              color: CustomColors.appColorWhite,
+                              shadowColor:
+                                  const Color.fromARGB(255, 200, 198, 198),
+                              surfaceTintColor: CustomColors.appColorWhite,
+                              elevation: 5,
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(7.0)),
+                                child: Row(children: [
+                                  Expanded(
+                                      flex: 3,
+                                      child: Container(
+                                          child: Image.network(
+                                              serverIp +
+                                                  widget.products[index]['img'],
+                                              height: 110,
+                                              fit: BoxFit.cover))),
+                                  Expanded(
+                                      flex: 4,
+                                      child: Container(
+                                          margin: EdgeInsets.only(left: 5),
+                                          child: Container(
+                                            padding: EdgeInsets.all(5),
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Expanded(
+                                                      child: Container(
+                                                          height: 20,
                                                           alignment: Alignment
                                                               .centerLeft,
                                                           child: Text(
-                                                              array[index][
-                                                                      'product_price']
-                                                                  .toString(),
-                                                              style: CustomText
-                                                                  .size_16)),
-                                                      Expanded(
-                                                          child: Container(
-                                                        margin: EdgeInsets.only(
-                                                            bottom: 5),
-                                                        child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              GestureDetector(
-                                                                onTap:
-                                                                    () async {
-                                                                  if (array[index]
+                                                              widget.products[
+                                                                      index]
+                                                                  ['name'],
+                                                              maxLines: 1,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: TextStyle(
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  color: CustomColors
+                                                                      .appColor)))),
+                                                  Container(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Text(
+                                                          widget.products[index]
+                                                                      ['price']
+                                                                  .toString() +
+                                                              ' TMT',
+                                                          style: CustomText
+                                                              .size_16)),
+                                                  Expanded(
+                                                      child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        bottom: 5),
+                                                    child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          GestureDetector(
+                                                            onTap: () async {
+                                                              this.decrement(
+                                                                  item);
+                                                            },
+                                                            child: Container(
+                                                                height: 35,
+                                                                width: 35,
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                decoration: BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            5),
+                                                                    border: Border.all(
+                                                                        color: Color.fromARGB(
+                                                                            255,
+                                                                            155,
+                                                                            154,
+                                                                            154))),
+                                                                child: Icon(
+                                                                    Icons
+                                                                        .remove,
+                                                                    color: Colors
+                                                                        .green,
+                                                                    size: 20)),
+                                                          ),
+                                                          Padding(
+                                                              child: Text(
+                                                                  widget
+                                                                      .products[
+                                                                          index]
                                                                           [
-                                                                          'count'] >
-                                                                      1) {
-                                                                    var decrement = await dbHelper.product_count_increment(
-                                                                        item_id:
-                                                                            array[index]['id']
-                                                                                .toString(),
-                                                                        count: array[index]['count'] -
-                                                                            1);
-                                                                    get_products();
-                                                                  }
-                                                                },
-                                                                child: Container(
-                                                                    height: 35,
-                                                                    width: 35,
-                                                                    alignment:
-                                                                        Alignment
-                                                                            .center,
-                                                                    decoration: BoxDecoration(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                5),
-                                                                        border: Border.all(
-                                                                            color: Color.fromARGB(
-                                                                                255,
-                                                                                155,
-                                                                                154,
-                                                                                154))),
-                                                                    child: Icon(
-                                                                        Icons
-                                                                            .remove,
-                                                                        color: Colors
-                                                                            .green,
-                                                                        size:
-                                                                            20)),
-                                                              ),
-                                                              Text(
-                                                                  "  " +
-                                                                      array[index]
-                                                                              [
-                                                                              'count']
-                                                                          .toString() +
-                                                                      "  ",
+                                                                          'amount']
+                                                                      .toString(),
                                                                   style: CustomText
                                                                       .size_16),
-                                                              GestureDetector(
-                                                                  onTap:
-                                                                      () async {
-                                                                    var increment = await dbHelper.product_count_increment(
-                                                                        item_id:
-                                                                            array[index]['id']
-                                                                                .toString(),
-                                                                        count: array[index]['count'] +
-                                                                            1);
-                                                                    setState(
-                                                                        () {
-                                                                      get_products();
-                                                                    });
-                                                                  },
-                                                                  child: Container(
-                                                                      height:
-                                                                          35,
-                                                                      width: 35,
-                                                                      alignment:
-                                                                          Alignment
-                                                                              .center,
-                                                                      decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8)),
+                                                          GestureDetector(
+                                                              onTap: () async {
+                                                                this.increment(
+                                                                    item);
+                                                              },
+                                                              child: Container(
+                                                                  height: 35,
+                                                                  width: 35,
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  decoration: BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
                                                                               5),
-                                                                          border: Border.all(
-                                                                              color: Color.fromARGB(255, 155, 154,
-                                                                                  154))),
-                                                                      child: Icon(
-                                                                          Icons
-                                                                              .add,
-                                                                          color: Colors
-                                                                              .green,
-                                                                          size:
-                                                                              20)))
-                                                            ]),
-                                                      ))
-                                                    ]))),
-                                        Expanded(
-                                            flex: 1,
-                                            child: Container(
-                                                child: GestureDetector(
-                                                    onTap: () async {
-                                                      var delete_item =
-                                                          await dbHelper.delete_item(
-                                                              item_id: array[
-                                                                          index]
-                                                                      ['id']
-                                                                  .toString());
-                                                      widget.refresh();
-                                                      setState(() {
-                                                        get_products();
-                                                      });
-                                                    },
-                                                    child: Icon(
-                                                      Icons.delete,
-                                                      color: Colors.red,
-                                                      size: 30,
-                                                    ))))
-                                      ]),
-                                    )));
-                          })),
-                          SliverList(
-                              delegate:
-                                  SliverChildBuilderDelegate(childCount: 1,
-                                      (BuildContext context, int index) {
-                            return Container(height: 70);
-                          }))
-                        ],
-                      )
-                    : Center(
-                        child: CircularProgressIndicator(
-                            color: CustomColors.appColors))),
+                                                                      border: Border.all(
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              155,
+                                                                              154,
+                                                                              154))),
+                                                                  child: Icon(
+                                                                      Icons.add,
+                                                                      color: Colors
+                                                                          .green,
+                                                                      size:
+                                                                          20)))
+                                                        ]),
+                                                  ))
+                                                ]),
+                                          ))),
+                                  Expanded(
+                                      flex: 1,
+                                      child: Container(
+                                          child: GestureDetector(
+                                              onTap: () async {
+                                                this.remove_item(item);
+                                              },
+                                              child: Icon(
+                                                Icons.delete,
+                                                color: Colors.red,
+                                                size: 30,
+                                              ))))
+                                ]),
+                              )));
+                    }).toList(),
+                  ),
+                  SizedBox(
+                    height: 100,
+                  ),
+                ],
+              ),
+            ),
             floatingActionButton: item_count > 0
                 ? FloatingActionButton.extended(
                     onPressed: () async {
                       final Map<String, dynamic> dict = {
                         'products': [],
                       };
-                      for (var i in array) {
-                        dict['products']!.add(
-                            {"product": i['product_id'], "amount": i['count']});
-                      }
+
                       dict['store'] = store_id;
                       var allRows = await dbHelper.queryAllRows();
                       var data1 = [];
                       for (final row in allRows) {
                         data1.add(row);
                       }
-                      setState(() {
-                        data = data1;
-                      });
-                      if (data.length == 0) {
+
+                      if (widget.products.length == 0) {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Login()));
                       }
-                      for (final row in allRows) {
-                        data.add(row);
-                      }
-                      dict['customer'] = data[0]['userId'];
-                      dict['delivery_price'] = delivery_price_int;
+
+                      dict['accepter'] = this.store_id;
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Checkout(
-                                  total_price: total_price + delivery_price_int,
-                                  dict: dict,
+                              builder: (context) => OrderConfirm(
+                                  total_price: total_price,
+                                  accepter: widget.store_id,
+                                  products: this.products,
                                   refresh: widget.refresh)));
                     },
                     label: const Text('Sargydy taýýarla',
@@ -425,34 +360,5 @@ class _OrderState extends State<Order> {
                   )
                 : Container())
         : CustomProgressIndicator(funcInit: initState);
-  }
-
-  get_products() async {
-    array = [];
-    baseurl = "";
-    shoping_carts = [];
-    var shoping_cart = await dbHelper.get_shoping_cart_by_store(id: store_id);
-    for (final row in shoping_cart) {
-      shoping_carts.add(row);
-    }
-    var count = await dbHelper.get_shoping_cart_items(
-        soping_cart_id: shoping_carts[0]['id'].toString());
-    var array1 = [];
-    int total_price1 = 0;
-    for (final row in count) {
-      array1.add(row);
-      String ss =
-          row['product_price'].substring(0, row['product_price'].length - 4);
-      ss = ss.replaceAll(RegExp(' '), '');
-      int qq = row['count'] * int.parse(ss);
-      total_price1 = total_price1 + qq;
-    }
-    Urls server_url = new Urls();
-    setState(() {
-      total_price = total_price1;
-      item_count = array1.length;
-      baseurl = server_url.get_server_url();
-      array = array1;
-    });
   }
 }

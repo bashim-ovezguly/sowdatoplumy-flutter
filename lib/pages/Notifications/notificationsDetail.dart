@@ -5,12 +5,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
-import 'package:my_app/pages/Customer/myPages.dart';
-import 'package:my_app/pages/Store/merketDetail.dart';
+import 'package:my_app/pages/Customer/Profile.dart';
 import 'package:share_plus/share_plus.dart';
 import '../call.dart';
 import '../fullScreenSlider.dart';
-import '../../dB/colors.dart';
+
 import '../progressIndicator.dart';
 
 class NotificationsDetail extends StatefulWidget {
@@ -34,28 +33,12 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
   List<String> imgList = [];
 
   void initState() {
-    timers();
     if (imgList.length == 0) {
       imgList.add(
           'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWXAFCMCaO9NVAPUqo5i8rXVgWB5Qaj_Qthf-KQZNAy0YyJxlAxejBSvSWOK-5PMK3RQQ&usqp=CAU');
     }
     getsingleproduct(id: id);
     super.initState();
-  }
-
-  timers() async {
-    setState(() {
-      status = true;
-    });
-    final completer = Completer();
-    final t = Timer(Duration(seconds: 5), () => completer.complete());
-    print(t);
-    await completer.future;
-    setState(() {
-      if (determinate == false) {
-        status = false;
-      }
-    });
   }
 
   _NotificationsDetailState({required this.id, required this.title});
@@ -67,7 +50,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                 backgroundColor: CustomColors.appColorWhite,
                 body: RefreshIndicator(
                     color: Colors.white,
-                    backgroundColor: CustomColors.appColors,
+                    backgroundColor: CustomColors.appColor,
                     onRefresh: () async {
                       setState(() {
                         determinate = false;
@@ -89,7 +72,9 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                     child: GestureDetector(
                                       child: CarouselSlider(
                                         options: CarouselOptions(
-                                            height: MediaQuery.of(context).size.width,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .width,
                                             viewportFraction: 1,
                                             initialPage: 0,
                                             enableInfiniteScroll:
@@ -120,7 +105,10 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                                   child: Center(
                                                     child: ClipRect(
                                                       child: Container(
-                                                        height: MediaQuery.of(context).size.width,
+                                                        height: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
                                                         width: double.infinity,
                                                         child: FittedBox(
                                                           fit: BoxFit.cover,
@@ -156,7 +144,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                       position: _current.toDouble(),
                                       decorator: DotsDecorator(
                                         color: Colors.white,
-                                        activeColor: CustomColors.appColors,
+                                        activeColor: CustomColors.appColor,
                                         activeShape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(15.0)),
@@ -192,12 +180,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                                           width:
                                                               double.infinity,
                                                           child: Row(children: [
-                                                            Image.asset(
-                                                                'assets/images/send_link.png',
-                                                                width: 20,
-                                                                height: 20,
-                                                                color: CustomColors
-                                                                    .appColors),
+                                                            Icon(Icons.share),
                                                             Text('  Paýlaş')
                                                           ]))))
                                             ];
@@ -228,7 +211,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                         Icon(
                                           Icons.access_time_outlined,
                                           size: 20,
-                                          color: CustomColors.appColors,
+                                          color: CustomColors.appColor,
                                         ),
                                         SizedBox(
                                           width: 10,
@@ -238,7 +221,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontFamily: 'Raleway',
-                                            color: CustomColors.appColors,
+                                            color: CustomColors.appColor,
                                           ),
                                         ),
                                       ],
@@ -251,7 +234,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                         Icon(
                                           Icons.visibility_sharp,
                                           size: 20,
-                                          color: CustomColors.appColors,
+                                          color: CustomColors.appColor,
                                         ),
                                         SizedBox(
                                           width: 10,
@@ -261,7 +244,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontFamily: 'Raleway',
-                                            color: CustomColors.appColors,
+                                            color: CustomColors.appColor,
                                           ),
                                         ),
                                       ],
@@ -279,7 +262,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                     child: Text(data['name_tm'].toString(),
                                         maxLines: 3,
                                         style: TextStyle(
-                                            color: CustomColors.appColors,
+                                            color: CustomColors.appColor,
                                             fontSize: 18)),
                                   )
                                 ])),
@@ -290,15 +273,14 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                   Expanded(
                                     flex: 1,
                                     child: Icon(Icons.location_on,
-                                        color: CustomColors.appColors,
-                                        size: 25),
+                                        color: CustomColors.appColor, size: 25),
                                   ),
                                   SizedBox(width: 5),
                                   Expanded(
                                     flex: 10,
                                     child: Text(data['location'].toString(),
                                         style: TextStyle(
-                                            color: CustomColors.appColors,
+                                            color: CustomColors.appColor,
                                             fontSize: 14)),
                                   )
                                 ])),
@@ -333,7 +315,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                         data['price'].toString() + " TMT",
                                         style: TextStyle(
                                             fontSize: 20,
-                                            color: CustomColors.appColors,
+                                            color: CustomColors.appColor,
                                             fontWeight: FontWeight.bold))),
                               if (data['store_name'] != null &&
                                   data['store_name'] != '')
@@ -341,14 +323,14 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                     onTap: () {
                                       if (data['store'] != null &&
                                           data['store_id'] != '') {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    MarketDetail(
-                                                        id: data['store_id']
-                                                            .toString(),
-                                                        title: 'Dükanlar')));
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             MarketDetail(
+                                        //                 id: data['store_id']
+                                        //                     .toString(),
+                                        //                 title: 'Dükanlar')));
                                       }
                                     },
                                     child: Row(
@@ -360,15 +342,14 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                           ),
                                           Image.asset(
                                             'assets/images/store.png',
-                                            color: CustomColors.appColors,
+                                            color: CustomColors.appColor,
                                             width: 25,
                                             height: 25,
                                           ),
                                           Text(data['store_name'],
                                               style: TextStyle(
                                                   fontSize: 16,
-                                                  color:
-                                                      CustomColors.appColors))
+                                                  color: CustomColors.appColor))
                                         ])),
                               if (data['customer_name'] != null &&
                                   data['customer_name'] != '')
@@ -379,7 +360,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => MyPages(
+                                                builder: (context) => Profile(
                                                     user_customer_id:
                                                         data['customer_id']
                                                             .toString())));
@@ -410,8 +391,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                               style: TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold,
-                                                  color:
-                                                      CustomColors.appColors))
+                                                  color: CustomColors.appColor))
                                         ])),
                               if (data['phone'] != '' && data['phone'] != null)
                                 Container(
@@ -420,12 +400,12 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                     height: 35,
                                     child: Row(children: [
                                       Icon(Icons.phone,
-                                          color: CustomColors.appColors),
+                                          color: CustomColors.appColor),
                                       SizedBox(width: 10),
                                       Text(data['phone'].toString(),
                                           style: TextStyle(
                                               fontSize: 16,
-                                              color: CustomColors.appColors))
+                                              color: CustomColors.appColor))
                                     ])),
                               if (data['body_tm'] != null &&
                                   data['body_tm'] != '')
@@ -441,7 +421,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                           hintMaxLines: 10,
                                           hintStyle: TextStyle(
                                               fontSize: 14,
-                                              color: CustomColors.appColors),
+                                              color: CustomColors.appColor),
                                           hintText: data['body_tm'].toString(),
                                           fillColor: Colors.white,
                                         ))),
@@ -449,7 +429,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                           )
                         : Center(
                             child: CircularProgressIndicator(
-                                color: CustomColors.appColors))),
+                                color: CustomColors.appColor))),
                 floatingActionButton: status
                     ? Call(phone: data['phone'].toString())
                     : Container()),

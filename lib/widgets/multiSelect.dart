@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/dB/colors.dart';
+
+import 'package:my_app/dB/constants.dart';
 
 // ignore: must_be_immutable
 class CategorySelect extends StatefulWidget {
@@ -63,16 +64,16 @@ class _CategorySelectState extends State<CategorySelect> {
                           },
                           child: !item['status']
                               ? Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Icon(
                                       Icons.keyboard_arrow_down,
-                                      color: CustomColors.appColors,
+                                      color: CustomColors.appColor,
                                     ),
                                     Text(
                                       item['name_tm'],
                                       style: TextStyle(
-                                          color: CustomColors.appColors,
+                                          color: CustomColors.appColor,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16),
                                     ),
@@ -85,18 +86,19 @@ class _CategorySelectState extends State<CategorySelect> {
                                       children: [
                                         Icon(
                                           Icons.keyboard_arrow_up,
-                                          color: CustomColors.appColors,
+                                          color: CustomColors.appColor,
                                         ),
                                         Text(
                                           item['name_tm'],
                                           style: TextStyle(
-                                              color: CustomColors.appColors,
+                                              color: CustomColors.appColor,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16),
                                         ),
                                       ],
                                     ),
-                                    for (var category_item in item['sub_categories'])
+                                    for (var category_item
+                                        in item['sub_categories'])
                                       Container(
                                         margin: EdgeInsets.only(top: 5),
                                         child: GestureDetector(
@@ -105,9 +107,10 @@ class _CategorySelectState extends State<CategorySelect> {
                                             Navigator.pop(context);
                                           },
                                           child: Text(
-                                            "         - " + category_item['name_tm'],
+                                            "         - " +
+                                                category_item['name_tm'],
                                             style: TextStyle(
-                                                color: CustomColors.appColors,
+                                                color: CustomColors.appColor,
                                                 fontSize: 16),
                                           ),
                                         ),
@@ -127,7 +130,7 @@ class _CategorySelectState extends State<CategorySelect> {
                                 Text(
                                   "      " + item['name_tm'],
                                   style: TextStyle(
-                                      color: CustomColors.appColors,
+                                      color: CustomColors.appColor,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),

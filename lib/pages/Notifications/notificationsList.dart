@@ -8,13 +8,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
-import 'package:my_app/pages/homePages.dart';
+import 'package:my_app/pages/Customer/myproductDetail.dart';
+import 'package:my_app/pages/drawer.dart';
+import 'package:my_app/pages/homePage.dart';
 import 'package:provider/provider.dart';
 
-import '../../dB/colors.dart';
 import '../../dB/providers.dart';
 import '../../dB/textStyle.dart';
-import '../OtherGoods/otherGoodsDetail.dart';
+import '../Products/ProductDetail.dart';
 import '../Search/search.dart';
 import '../progressIndicator.dart';
 import '../sortWidget.dart';
@@ -47,7 +48,6 @@ class _NotificationsState extends State<Notifications> {
   var sort_value = "";
 
   callbackFilter() {
-    timers();
     setState(() {
       determinate = false;
       determinate1 = false;
@@ -78,21 +78,19 @@ class _NotificationsState extends State<Notifications> {
     _loading = true;
     _error = false;
 
-    timers();
-    var sort = Provider.of<UserInfo>(context, listen: false).sort;
-    var sort_value = "";
-    if (int.parse(sort) == 2) {
-      sort_value = 'sort=price';
-    }
-    if (int.parse(sort) == 3) {
-      sort_value = 'sort=-price';
-    }
-    if (int.parse(sort) == 4) {
-      sort_value = 'sort=id';
-    }
-    if (int.parse(sort) == 4) {
-      sort_value = 'sort=-id';
-    }
+    // var sort_value = "";
+    // if (int.parse(sort) == 2) {
+    //   sort_value = 'sort=price';
+    // }
+    // if (int.parse(sort) == 3) {
+    //   sort_value = 'sort=-price';
+    // }
+    // if (int.parse(sort) == 4) {
+    //   sort_value = 'sort=id';
+    // }
+    // if (int.parse(sort) == 4) {
+    //   sort_value = 'sort=-id';
+    // }
 
     getmarketslist(sort_value);
     getmarkets_slider();
@@ -102,23 +100,6 @@ class _NotificationsState extends State<Notifications> {
   @override
   void dispose() {
     super.dispose();
-  }
-
-  timers() async {
-    _controller.addListener(_controllListener);
-
-    setState(() {
-      status = true;
-    });
-    final completer = Completer();
-    final t = Timer(Duration(seconds: 5), () => completer.complete());
-    print(t);
-    await completer.future;
-    setState(() {
-      if (determinate == false) {
-        status = false;
-      }
-    });
   }
 
   late bool _isLastPage;
@@ -165,7 +146,7 @@ class _NotificationsState extends State<Notifications> {
             ),
             body: RefreshIndicator(
                 color: Colors.white,
-                backgroundColor: CustomColors.appColors,
+                backgroundColor: CustomColors.appColor,
                 onRefresh: () async {
                   setState(() {
                     _pageNumber = 1;
@@ -297,9 +278,8 @@ class _NotificationsState extends State<Notifications> {
                                                                               Navigator.push(
                                                                                   context,
                                                                                   MaterialPageRoute(
-                                                                                      builder: (context) => OtherGoodsDetail(
+                                                                                      builder: (context) => ProductDetail(
                                                                                             id: item['id'].toString(),
-                                                                                            title: 'Harytlar',
                                                                                           )));
                                                                             }
                                                                           },
@@ -327,7 +307,7 @@ class _NotificationsState extends State<Notifications> {
                                                                           .white,
                                                                       activeColor:
                                                                           CustomColors
-                                                                              .appColors,
+                                                                              .appColor,
                                                                       activeShape:
                                                                           RoundedRectangleBorder(
                                                                               borderRadius: BorderRadius.circular(15.0)))))
@@ -338,12 +318,10 @@ class _NotificationsState extends State<Notifications> {
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                                OtherGoodsDetail(
+                                                                ProductDetail(
                                                                   id: data[index]
                                                                           ['id']
                                                                       .toString(),
-                                                                  title:
-                                                                      'Harytlar',
                                                                 )));
                                                   },
                                                   child: Container(
@@ -475,11 +453,10 @@ class _NotificationsState extends State<Notifications> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            OtherGoodsDetail(
+                                                            ProductDetail(
                                                               id: data[index]
                                                                       ['id']
                                                                   .toString(),
-                                                              title: 'Harytlar',
                                                             )));
                                               },
                                               child: Container(
@@ -619,11 +596,11 @@ class _NotificationsState extends State<Notifications> {
                       )
                     : Center(
                         child: CircularProgressIndicator(
-                            color: CustomColors.appColors))),
-            drawer: MyDraver(),
+                            color: CustomColors.appColor))),
+            drawer: MyDrawer(),
             floatingActionButton: buttonTop
                 ? FloatingActionButton.small(
-                    backgroundColor: CustomColors.appColors,
+                    backgroundColor: CustomColors.appColor,
                     onPressed: () {
                       isTopList();
                     },
@@ -653,7 +630,9 @@ class _NotificationsState extends State<Notifications> {
   void getmarketslist(sort_value) async {
     try {
       Urls server_url = new Urls();
-      String url = server_url.get_server_url() + '/mob/announcements?' + sort_value.toString();
+      String url = server_url.get_server_url() +
+          '/mob/announcements?' +
+          sort_value.toString();
 
       if (keyword.text != '') {
         url = server_url.get_server_url() +
@@ -735,11 +714,11 @@ class _NotificationsState extends State<Notifications> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(title, style: TextStyle(color: CustomColors.appColors)),
+              Text(title, style: TextStyle(color: CustomColors.appColor)),
               SizedBox(width: 5),
               Icon(
                 Icons.arrow_upward,
-                color: CustomColors.appColors,
+                color: CustomColors.appColor,
               )
             ]));
   }

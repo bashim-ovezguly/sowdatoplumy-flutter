@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/dB/colors.dart';
+
 import 'package:my_app/dB/constants.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -47,20 +47,20 @@ class _CustomerListState extends State<CustomerList> {
                         child: data[index]['photo'] != ''
                             ? Image.network(
                                 baseurl + data[index]['photo'].toString(),
-                                fit: BoxFit.cover)  
+                                fit: BoxFit.cover)
                             : Image.asset('assets/images/default.jpg'),
-                      ),  
-                    ),  
+                      ),
+                    ),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text("   " + data[index]['name'].toString(),
                               style: TextStyle(
-                                  color: CustomColors.appColors, fontSize: 18)),
+                                  color: CustomColors.appColor, fontSize: 18)),
                           Text("   " + data[index]['phone'].toString(),
                               style: TextStyle(
-                                  color: CustomColors.appColors, fontSize: 18))
+                                  color: CustomColors.appColor, fontSize: 18))
                         ])
                   ]));
             }));
@@ -68,7 +68,9 @@ class _CustomerListState extends State<CustomerList> {
 
   Future<void> get_customers() async {
     Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/customer/clients/'+ widget.customer_id;
+    String url = server_url.get_server_url() +
+        '/mob/customer/clients/' +
+        widget.customer_id;
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
     for (var i in global_headers.entries) {

@@ -1,14 +1,10 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:my_app/AddData/addCars.dart';
-import 'package:my_app/AddData/addNotification.dart';
-import 'package:my_app/AddData/addParth.dart';
-import 'package:my_app/AddData/addRealestate.dart';
-import 'package:my_app/AddData/addRobbinList.dart';
-import 'package:my_app/AddData/addStore.dart';
-
-import '../../dB/colors.dart';
+import 'package:my_app/AddData/addCar.dart';
+import 'package:my_app/AddData/addProduct.dart';
+import 'package:my_app/AddData/addLenta.dart';
+import 'package:my_app/dB/constants.dart';
 import '../../dB/textStyle.dart';
 
 class AddDatasPage extends StatelessWidget {
@@ -36,19 +32,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
   void initState() {
     super.initState();
     _tabController =
-        TabController(length: 6, vsync: this, initialIndex: widget.index);
+        TabController(length: 3, vsync: this, initialIndex: widget.index);
   }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _tabController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 5,
+        length: 3,
         child: Scaffold(
             backgroundColor: CustomColors.appColorWhite,
             resizeToAvoidBottomInset: false,
@@ -58,85 +54,73 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
               TabBar(
                   tabAlignment: TabAlignment.start,
                   controller: _tabController,
-                  indicatorColor: CustomColors.appColors,
+                  indicatorColor: CustomColors.appColor,
                   unselectedLabelColor: Colors.black,
                   isScrollable: true,
                   tabs: <Widget>[
                     Tab(
                         child: Row(children: const <Widget>[
                       Icon(
-                        Icons.store_outlined,
-                        color: CustomColors.appColors,
+                        Icons.card_giftcard,
+                        color: CustomColors.appColor,
                       ),
-                      Text("Dükan",
+                      Text("Haryt",
                           style: TextStyle(
-                              color: CustomColors.appColors,
+                              color: CustomColors.appColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 15))
                     ])),
                     Tab(
                         child: Row(children: const <Widget>[
-                      Icon(Icons.car_repair, color: CustomColors.appColors),
+                      Icon(Icons.directions_car_rounded,
+                          color: CustomColors.appColor),
                       Text("Awtoulag",
                           style: TextStyle(
-                              color: CustomColors.appColors,
+                              color: CustomColors.appColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 15))
                     ])),
+                    // Tab(
+                    //     child: Row(children: const <Widget>[
+                    //   Icon(
+                    //     Icons.settings_outlined,
+                    //     color: CustomColors.appColor,
+                    //   ),
+                    //   Text("Awtoşaý",
+                    //       style: TextStyle(
+                    //           color: CustomColors.appColor,
+                    //           fontWeight: FontWeight.bold,
+                    //           fontSize: 15))
+                    // ])),
+                    // Tab(
+                    //     child: Row(children: const <Widget>[
+                    //   Icon(Icons.other_houses, color: CustomColors.appColor),
+                    //   Text("Emläk ",
+                    //       style: TextStyle(
+                    //           color: CustomColors.appColor,
+                    //           fontWeight: FontWeight.bold,
+                    //           fontSize: 15))
+                    // ])),
                     Tab(
                         child: Row(children: const <Widget>[
-                      Icon(
-                        Icons.settings_outlined,
-                        color: CustomColors.appColors,
-                      ),
-                      Text("Awtoşaý",
-                          style: TextStyle(
-                              color: CustomColors.appColors,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15))
-                    ])),
-                    Tab(
-                        child: Row(children: const <Widget>[
-                      Icon(
-                        Icons.campaign,
-                        color: CustomColors.appColors,
-                      ),
-                      Text("Bildiriş",
-                          style: TextStyle(
-                              color: CustomColors.appColors,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15))
-                    ])),
-                    Tab(
-                        child: Row(children: const <Widget>[
-                      Icon(Icons.other_houses, color: CustomColors.appColors),
-                      Text("Emläk ",
-                          style: TextStyle(
-                              color: CustomColors.appColors,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15))
-                    ])),
-                    Tab(
-                        child: Row(children: const <Widget>[
-                      Icon(Icons.bookmark, color: CustomColors.appColors),
+                      Icon(Icons.bookmark, color: CustomColors.appColor),
                       Text("Lenta",
                           style: TextStyle(
-                              color: CustomColors.appColors,
+                              color: CustomColors.appColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 15))
                     ]))
                   ]),
-              SizedBox(
-                  height: MediaQuery.of(context).size.height - 130,
+              Expanded(
+                  // height: MediaQuery.of(context).size.height - 130,
                   child:
                       TabBarView(controller: _tabController, children: <Widget>[
-                    AddStore(),
-                    AddCars(),
-                    AddParth(),
-                    AddNotifications(),
-                    AddRealestate(),
-                    AddRobbinList()
-                  ]))
+                AddProduct(),
+                AddCars(),
+                // AddParth(),
+                // AddRealestate(),
+                AddRobbinList()
+              ]))
             ])));
   }
 }

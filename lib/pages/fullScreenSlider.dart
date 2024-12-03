@@ -4,8 +4,9 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/dB/colors.dart';
+
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:my_app/dB/constants.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:quickalert/quickalert.dart';
 
@@ -41,7 +42,7 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
           title: '',
           text: 'Suran ýüklenildi!',
           confirmBtnText: 'Dowam et',
-          confirmBtnColor: CustomColors.appColors,
+          confirmBtnColor: CustomColors.appColor,
           type: QuickAlertType.success,
           onConfirmBtnTap: () {
             Navigator.pop(context);
@@ -139,7 +140,7 @@ class _FullScreenSliderState extends State<FullScreenSlider> {
                             position: _current.toDouble(),
                             decorator: DotsDecorator(
                                 color: Colors.white,
-                                activeColor: CustomColors.appColors,
+                                activeColor: CustomColors.appColor,
                                 activeShape: RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.circular(15.0))))))
