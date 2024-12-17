@@ -3,7 +3,7 @@ import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:my_app/main.dart';
-import 'package:my_app/pages/fullScreenSlider.dart';
+import 'package:my_app/pages/FullScreenSlider.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 

@@ -51,7 +51,7 @@ class UserInfo extends ChangeNotifier {
 
   void set_device_id(value) {
     device_id = value;
-    setHeadersDevice_id(value);
+    // setHeadersDevice_id(value);
     notifyListeners();
   }
 
@@ -82,7 +82,7 @@ class UserInfo extends ChangeNotifier {
 
   void change_location(value) {
     regionsCode = value;
-    setHeadersLocation_id(value['id']);
+    // setHeadersLocation_id(value['id']);
     notifyListeners();
   }
 

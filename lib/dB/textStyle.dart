@@ -3,7 +3,7 @@ import 'package:my_app/dB/constants.dart';
 
 class CustomText {
   static const appBarText =
-      TextStyle(color: CustomColors.appColorWhite, fontSize: 17);
+      TextStyle(color: CustomColors.appColorWhite, fontSize: 20);
   static const itemText = TextStyle(fontSize: 12, color: CustomColors.appColor);
   static const itemTextBold = TextStyle(
       fontSize: 14,

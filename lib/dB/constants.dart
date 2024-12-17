@@ -1,37 +1,34 @@
-import 'package:my_app/dB/db.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 const serverIp = 'http://216.250.9.45:8000';
-const storesUrl = serverIp + '/mob/stores';
-const ordersUrl = serverIp + '/mob/orders';
-const carsUrl = serverIp + '/mob/cars';
-const carImageDeleteUrl = serverIp + '/mob/cars/img/delete/';
-const partsUrl = serverIp + '/mob/parts';
-const flatsUrl = serverIp + '/mob/flats';
-const productsUrl = serverIp + '/mob/products';
-const storeUrl = serverIp + '/mob/stores/';
-const lentaUrl = serverIp + '/mob/lenta';
-const orderAddUrl = serverIp + '/mob/orders/add';
+const storesUrl = serverIp + '/stores';
+const tradeCenters = serverIp + '/trade_centers';
+const ordersUrl = serverIp + '/orders';
+const carsUrl = serverIp + '/cars';
+const carImageDeleteUrl = serverIp + '/cars/img/delete/';
+const partsUrl = serverIp + '/parts';
+const flatsUrl = serverIp + '/flats';
+const productsUrl = serverIp + '/products';
+const storeUrl = serverIp + '/stores/';
+const lentaUrl = serverIp + '/lenta';
+const orderAddUrl = serverIp + '/orders/add';
 
-const indexCarsUrl = serverIp + '/mob/index/car';
-const indexFlatUrl = serverIp + '/mob/index/flat';
-const indexProductUrl = serverIp + '/mob/index/product';
-const indexStoreUrl = serverIp + '/mob/index/store';
-const homePageUrl = serverIp + '/mob/homepage';
-const profileUrl = serverIp + '/mob/profile';
-const device_id_url = serverIp + '/mob/device_id';
-const newsUrl = serverIp + '/mob/news';
-const tokenObtainUrl = serverIp + '/mob/token/obtain';
-const token_refresh_url = serverIp + '/mob/token/refresh';
-const order_products_url = serverIp + '/mob/orders/products/';
+const indexCarsUrl = serverIp + '/index/car';
+const indexFlatUrl = serverIp + '/index/flat';
+const indexProductUrl = serverIp + '/index/product';
+const indexStoreUrl = serverIp + '/index/store';
+const homePageUrl = serverIp + '/homepage';
+const profileUrl = serverIp + '/profile';
+const device_id_url = serverIp + '/device_id';
+const newsUrl = serverIp + '/news';
+const tokenObtainUrl = serverIp + '/token/obtain';
+const token_refresh_url = serverIp + '/token/refresh';
+const order_products_url = serverIp + '/orders/products/';
 
-String defaulImageUrl = 'assets/images/default16x9.jpg';
-
-final pref = SharedPreferences.getInstance();
+String defaulImageUrl = 'assets/images/default.jpg';
 
 class CustomColors {
-  static const Color appColor = Color(0xff0c2463);
+  static const Color appColor = Color.fromRGBO(4, 129, 203, 1);
   static const Color appColorWhite = Colors.white;
   static const Color appColorBlack54 = Colors.black54;
 }
@@ -46,16 +43,8 @@ class Urls {
 
 Map<String, String> global_headers = {
   'Api-key': 'bc_android_client_key',
-  'App-Version': '27-11-2024',
-  'Device-Id': getLocalStorage('device-id').toString(),
-  'Location-Id': getLocalStorage('location-id').toString(),
-  'Content-Type': 'application/x-www-form-urlencoded',
+  'App-Version': '18-12-2024',
 };
 
-void setHeadersDevice_id(value) {
-  global_headers['Device-Id'] = value;
-}
-
-void setHeadersLocation_id(value) {
-  global_headers['Location-Id'] = value.toString();
-}
+BoxShadow appShadow =
+    BoxShadow(color: Colors.grey.shade400, blurRadius: 5, offset: Offset(0, 0));

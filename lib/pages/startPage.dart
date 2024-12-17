@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
-import 'package:my_app/pages/homePage.dart';
+import 'package:my_app/pages/HomePage.dart';
 
 class StartPage extends StatefulWidget {
   @override
@@ -38,7 +38,7 @@ class _StartPageState extends State<StartPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'Business Complex',
+                'Söwda toplumy',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 30,

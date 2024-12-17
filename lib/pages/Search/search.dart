@@ -14,19 +14,19 @@ class Search extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MyStatefulWidget(index: index);
+    return SearchStatefulWidget(index: index);
   }
 }
 
-class MyStatefulWidget extends StatefulWidget {
+class SearchStatefulWidget extends StatefulWidget {
   int index;
-  MyStatefulWidget({super.key, required this.index});
+  SearchStatefulWidget({super.key, required this.index});
 
   @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+  State<SearchStatefulWidget> createState() => _SearchStatefulWidgetState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget>
+class _SearchStatefulWidgetState extends State<SearchStatefulWidget>
     with TickerProviderStateMixin {
   late TabController _tabController;
   @override

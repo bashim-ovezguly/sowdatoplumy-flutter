@@ -5,10 +5,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
-import 'package:my_app/pages/Customer/Profile.dart';
+import 'package:my_app/pages/Profile/Profile.dart';
 import 'package:share_plus/share_plus.dart';
 import '../call.dart';
-import '../fullScreenSlider.dart';
+import '../FullScreenSlider.dart';
 
 import '../progressIndicator.dart';
 

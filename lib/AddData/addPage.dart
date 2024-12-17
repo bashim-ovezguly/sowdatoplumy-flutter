@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/AddData/addCar.dart';
 import 'package:my_app/AddData/addProduct.dart';
-import 'package:my_app/AddData/addLenta.dart';
+import 'package:my_app/AddData/AddAksiya.dart';
 import 'package:my_app/dB/constants.dart';
 import '../../dB/textStyle.dart';
 
@@ -104,7 +104,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
                     Tab(
                         child: Row(children: const <Widget>[
                       Icon(Icons.bookmark, color: CustomColors.appColor),
-                      Text("Lenta",
+                      Text("Aksiýa",
                           style: TextStyle(
                               color: CustomColors.appColor,
                               fontWeight: FontWeight.bold,

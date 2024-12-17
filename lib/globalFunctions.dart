@@ -14,22 +14,22 @@ converToJson(response) {
 
 Future get_store_id() async {
   final prefs = await SharedPreferences.getInstance();
-  return prefs.getInt('user_id').toString();
+  return await prefs.getInt('user_id').toString();
 }
 
 Future get_access_token() async {
   final prefs = await SharedPreferences.getInstance();
-  return prefs.getString('access_token').toString();
+  return await prefs.getString('access_token').toString();
 }
 
 Future login_state() async {
   final prefs = await SharedPreferences.getInstance();
-  return prefs.getBool('login').toString();
+  return await prefs.getBool('login');
 }
 
 Future get_refresh_token() async {
   final prefs = await SharedPreferences.getInstance();
-  return prefs.getString('refresh_token').toString();
+  return await prefs.getString('refresh_token').toString();
 }
 
 Future refresh_token() async {
@@ -38,5 +38,5 @@ Future refresh_token() async {
   var resp = await http.post(Uri.parse(token_refresh_url),
       body: {'refresh_token': await get_refresh_token()});
 
-  return prefs.getString('access_token').toString();
+  return await prefs.getString('access_token').toString();
 }

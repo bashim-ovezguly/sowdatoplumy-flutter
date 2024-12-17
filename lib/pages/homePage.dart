@@ -2,15 +2,17 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:my_app/AddData/addPage.dart';
+import 'package:my_app/globalFunctions.dart';
+import 'package:my_app/pages/Profile/login.dart';
 import 'package:my_app/pages/Store/StoreDetail.dart';
-import 'package:my_app/pages/drawer.dart';
+import 'package:my_app/pages/TradeCenters/Detail.dart';
+import 'package:my_app/pages/TradeCenters/List.dart';
+import 'package:my_app/pages/Drawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:my_app/dB/constants.dart';
-import 'package:my_app/pages/advertiseDetail.dart';
+import 'package:my_app/pages/SliderDetail.dart';
 import 'package:my_app/pages/regionWidget.dart';
-
-import '../main.dart';
 import 'Search/search.dart';
 import 'Store/Stores.dart';
 import 'homePageLocation.dart';
@@ -37,6 +39,7 @@ class _HomeState extends State<Home> {
   List<dynamic> parts = [];
   List<dynamic> productsList = [];
   List<dynamic> messages = [];
+  List<dynamic> trade_centers = [];
   String storeCount = '';
 
   var region = {};
@@ -45,11 +48,11 @@ class _HomeState extends State<Home> {
   bool tryAgain = false;
   bool update = false;
 
-  BoxShadow bannerBoxShadow =
-      BoxShadow(color: Colors.grey, blurRadius: 2, offset: Offset(0, 2));
+  BoxShadow bannerBoxShadow = BoxShadow(
+      color: Colors.grey.shade400, blurRadius: 5, offset: Offset(0, 0));
 
-  BoxShadow storeBoxShadow =
-      BoxShadow(color: Colors.grey, blurRadius: 2, offset: Offset(0, 2));
+  BoxShadow storeBoxShadow = BoxShadow(
+      color: Colors.grey.shade400, blurRadius: 5, offset: Offset(0, 2));
 
   @override
   void initState() {
@@ -57,6 +60,7 @@ class _HomeState extends State<Home> {
     getData();
     getNotifications();
     checkDeviceId();
+    getTradeCenters();
   }
 
   setLocation(new_value) async {
@@ -78,15 +82,17 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: CustomColors.appColorWhite,
+      backgroundColor: Colors.white,
       appBar: AppBar(
+          iconTheme: IconThemeData(color: CustomColors.appColor),
+          backgroundColor: Colors.white,
           title: Column(
             children: [
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Baş sahypa",
-                  style: TextStyle(color: Colors.white),
+                  "Söwda toplumy",
+                  style: TextStyle(color: CustomColors.appColor),
                 ),
               ),
               Container(
@@ -95,7 +101,7 @@ class _HomeState extends State<Home> {
                       ? Text(
                           region['name_tm'].toString(),
                           style: TextStyle(
-                              fontSize: 12, color: CustomColors.appColorWhite),
+                              fontSize: 12, color: CustomColors.appColor),
                         )
                       : Container()),
             ],
@@ -113,8 +119,8 @@ class _HomeState extends State<Home> {
                           },
                         );
                       },
-                      child: const Icon(Icons.location_on,
-                          size: 25, color: Colors.white))),
+                      child: const Icon(Icons.location_on_outlined,
+                          size: 25, color: CustomColors.appColor))),
               Container(
                   padding: const EdgeInsets.all(10),
                   child: GestureDetector(
@@ -124,7 +130,8 @@ class _HomeState extends State<Home> {
                             MaterialPageRoute(
                                 builder: (context) => Search(index: 0)));
                       },
-                      child: Icon(Icons.search, color: Colors.white, size: 25)))
+                      child: Icon(Icons.search,
+                          color: CustomColors.appColor, size: 25)))
             ])
           ]),
       body: RefreshIndicator(
@@ -148,7 +155,7 @@ class _HomeState extends State<Home> {
                 if (dataSlider1.length > 0)
                   ImageSlideshow(
                       initialPage: 0,
-                      height: 250,
+                      height: MediaQuery.of(context).size.width / 1.77777 + 50,
                       isLoop: true,
                       autoPlayInterval: 3000,
                       children: [
@@ -169,10 +176,13 @@ class _HomeState extends State<Home> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      height: 180,
-                                      clipBehavior: Clip.hardEdge,
                                       width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.width /
+                                              1.77777,
+                                      clipBehavior: Clip.hardEdge,
                                       decoration: BoxDecoration(
+                                        color: Colors.white,
                                         boxShadow: [bannerBoxShadow],
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -258,6 +268,7 @@ class _HomeState extends State<Home> {
                                     margin: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                       boxShadow: [bannerBoxShadow],
+                                      color: Colors.white,
                                       borderRadius: BorderRadius.circular(10),
                                       image: DecorationImage(
                                           image: NetworkImage(
@@ -268,6 +279,75 @@ class _HomeState extends State<Home> {
                                 )
                           ]),
                   ],
+                ),
+                if (this.isLoading == false)
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TradeCenters()));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                      child: Text(
+                        "Söwda merkezler",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: CustomColors.appColor),
+                      ),
+                    ),
+                  ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(children: [
+                    for (var item in this.trade_centers)
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TradeCenterDetail(
+                                        id: item['id'],
+                                      )));
+                        },
+                        child: Container(
+                          width: 130,
+                          margin: EdgeInsets.all(10),
+                          child: Column(
+                            children: [
+                              Container(
+                                  width: 130,
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.grey.shade400,
+                                            offset: Offset(0, 0),
+                                            blurRadius: 3)
+                                      ],
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Image.network(
+                                    serverIp + item['img'],
+                                    width: 120,
+                                    height: 120,
+                                    fit: BoxFit.cover,
+                                  )),
+                              Text(
+                                item['name'].toString(),
+                                style: TextStyle(
+                                    color: CustomColors.appColor,
+                                    fontWeight: FontWeight.bold),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                  ]),
                 ),
                 if (stores_list.length > 0)
                   GestureDetector(
@@ -280,7 +360,9 @@ class _HomeState extends State<Home> {
                       child: Text(
                         "Dükanlar",
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: CustomColors.appColor),
                       ),
                     ),
                   ),
@@ -338,16 +420,30 @@ class _HomeState extends State<Home> {
                                           fontWeight: FontWeight.w600),
                                     ),
                                   ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.location_on_outlined,
-                                        size: 16,
-                                      ),
-                                      Text(stores_list[index]['location']),
-                                    ],
-                                  ),
-                                  Text(stores_list[index]['category'])
+                                  if (stores_list[index]['location'] != '')
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.location_on_outlined,
+                                          size: 16,
+                                        ),
+                                        Text(stores_list[index]['location']),
+                                      ],
+                                    ),
+                                  if (stores_list[index]['category'] != '')
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.window,
+                                          color: Colors.grey,
+                                          size: 16,
+                                        ),
+                                        Text(
+                                          stores_list[index]['category'],
+                                          style: TextStyle(color: Colors.grey),
+                                        ),
+                                      ],
+                                    )
                                 ],
                               ),
                             )
@@ -364,10 +460,16 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.green,
           onPressed: () async {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => AddDatasPage(index: 0)));
+            print(await login_state());
+            if (await login_state() == false)
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Login()));
+            else {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddDatasPage(index: 0)));
+            }
           },
           child: Icon(Icons.add, color: Colors.white)),
     );
@@ -441,24 +543,10 @@ class _HomeState extends State<Home> {
   }
 
   void getNotifications() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/notifs?status=preview';
-
-    var data1 = [];
-    var allRows = await dbHelper.queryAllRows();
-    for (final row in allRows) {
-      data1.add(row);
-    }
-    Map<String, String> headers = {};
-    for (var i in global_headers.entries) {
-      headers[i.key] = i.value.toString();
-    }
-    if (data1.length > 0) {
-      headers['Token'] = data1[0]['name'];
-    }
+    String url = serverIp + '/notifs?status=preview';
 
     final uri = Uri.parse(url);
-    final response = await http.get(uri, headers: headers);
+    final response = await http.get(uri, headers: global_headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       messages = json;
@@ -480,6 +568,17 @@ class _HomeState extends State<Home> {
     }
   }
 
+  getTradeCenters() async {
+    final uri = Uri.parse(serverIp + '/trade_centers');
+    final response = await http.get(uri, headers: global_headers);
+    final json = jsonDecode(utf8.decode(response.bodyBytes));
+
+    setState(() {
+      isLoading = false;
+      trade_centers = json['data'];
+    });
+  }
+
   void getData() async {
     final pref = await SharedPreferences.getInstance();
     final uri = Uri.parse(homePageUrl);
@@ -490,8 +589,6 @@ class _HomeState extends State<Home> {
     final response = await http.get(uri, headers: global_headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     pref.setBool('update', json['data']['update']);
-
-    setState(() {});
 
     setState(() {
       region = {
@@ -505,7 +602,6 @@ class _HomeState extends State<Home> {
       stores_list = json['data']['stores'];
       parts = json['data']['parts'];
       productsList = json['data']['products'];
-
       dataSlider1 = json['data']['slider1'];
       dataSlider2 = json['data']['slider2'];
       dataSlider3 = json['data']['slider3'];

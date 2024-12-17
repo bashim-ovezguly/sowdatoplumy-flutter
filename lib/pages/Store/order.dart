@@ -3,8 +3,8 @@ import 'package:badges/badges.dart' as badges;
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/textStyle.dart';
-import 'package:my_app/pages/Customer/login.dart';
-import 'package:my_app/pages/Store/orderConfirm.dart';
+import 'package:my_app/pages/Profile/login.dart';
+import 'package:my_app/pages/Store/OrderConfirm.dart';
 
 import '../../dB/constants.dart';
 import '../../main.dart';
@@ -163,160 +163,144 @@ class _OrderState extends State<Order> {
                     children: widget.products.map((item) {
                       int index = widget.products.indexOf(item);
                       return Container(
-                          height: 110,
-                          child: Card(
-                              color: CustomColors.appColorWhite,
-                              shadowColor:
-                                  const Color.fromARGB(255, 200, 198, 198),
-                              surfaceTintColor: CustomColors.appColorWhite,
-                              elevation: 5,
-                              child: ClipRRect(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(7.0)),
-                                child: Row(children: [
-                                  Expanded(
-                                      flex: 3,
-                                      child: Container(
-                                          child: Image.network(
-                                              serverIp +
-                                                  widget.products[index]['img'],
-                                              height: 110,
-                                              fit: BoxFit.cover))),
-                                  Expanded(
-                                      flex: 4,
-                                      child: Container(
-                                          margin: EdgeInsets.only(left: 5),
-                                          child: Container(
-                                            padding: EdgeInsets.all(5),
-                                            child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Expanded(
+                          clipBehavior: Clip.hardEdge,
+                          height: 120,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [appShadow],
+                              color: Colors.white,
+                              border: Border.all(color: Colors.grey.shade300)),
+                          margin: EdgeInsets.all(8),
+                          child: Row(children: [
+                            Expanded(
+                                flex: 3,
+                                child: Container(
+                                    child: Image.network(
+                                        serverIp +
+                                            widget.products[index]['img'],
+                                        height: double.infinity,
+                                        fit: BoxFit.cover))),
+                            Expanded(
+                                flex: 4,
+                                child: Container(
+                                    margin: EdgeInsets.only(left: 5),
+                                    child: Container(
+                                      padding: EdgeInsets.all(5),
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                                child: Container(
+                                                    height: 20,
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                        widget.products[index]
+                                                            ['name'],
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: CustomColors
+                                                                .appColor)))),
+                                            Container(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                    widget.products[index]
+                                                                ['price']
+                                                            .toString() +
+                                                        ' TMT',
+                                                    style: CustomText.size_16)),
+                                            Expanded(
+                                                child: Container(
+                                              margin:
+                                                  EdgeInsets.only(bottom: 5),
+                                              child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    GestureDetector(
+                                                      onTap: () async {
+                                                        this.decrement(item);
+                                                      },
                                                       child: Container(
-                                                          height: 20,
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Text(
-                                                              widget.products[
-                                                                      index]
-                                                                  ['name'],
-                                                              maxLines: 1,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: TextStyle(
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  color: CustomColors
-                                                                      .appColor)))),
-                                                  Container(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Text(
-                                                          widget.products[index]
-                                                                      ['price']
-                                                                  .toString() +
-                                                              ' TMT',
-                                                          style: CustomText
-                                                              .size_16)),
-                                                  Expanded(
-                                                      child: Container(
-                                                    margin: EdgeInsets.only(
-                                                        bottom: 5),
-                                                    child: Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
+                                                          height: 35,
+                                                          width: 35,
+                                                          alignment:
+                                                              Alignment.center,
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          5),
+                                                              border: Border.all(
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          155,
+                                                                          154,
+                                                                          154))),
+                                                          child: Icon(
+                                                              Icons.remove,
+                                                              color: Colors.green,
+                                                              size: 20)),
+                                                    ),
+                                                    Padding(
+                                                        child: Text(
+                                                            widget
+                                                                .products[index]
+                                                                    ['amount']
+                                                                .toString(),
+                                                            style: CustomText
+                                                                .size_16),
+                                                        padding:
+                                                            EdgeInsets.all(8)),
+                                                    GestureDetector(
+                                                        onTap: () async {
+                                                          this.increment(item);
+                                                        },
+                                                        child: Container(
+                                                            height: 35,
+                                                            width: 35,
+                                                            alignment: Alignment
                                                                 .center,
-                                                        children: [
-                                                          GestureDetector(
-                                                            onTap: () async {
-                                                              this.decrement(
-                                                                  item);
-                                                            },
-                                                            child: Container(
-                                                                height: 35,
-                                                                width: 35,
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                decoration: BoxDecoration(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
+                                                            decoration: BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
                                                                             5),
-                                                                    border: Border.all(
-                                                                        color: Color.fromARGB(
-                                                                            255,
-                                                                            155,
-                                                                            154,
-                                                                            154))),
-                                                                child: Icon(
-                                                                    Icons
-                                                                        .remove,
-                                                                    color: Colors
-                                                                        .green,
-                                                                    size: 20)),
-                                                          ),
-                                                          Padding(
-                                                              child: Text(
-                                                                  widget
-                                                                      .products[
-                                                                          index]
-                                                                          [
-                                                                          'amount']
-                                                                      .toString(),
-                                                                  style: CustomText
-                                                                      .size_16),
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(8)),
-                                                          GestureDetector(
-                                                              onTap: () async {
-                                                                this.increment(
-                                                                    item);
-                                                              },
-                                                              child: Container(
-                                                                  height: 35,
-                                                                  width: 35,
-                                                                  alignment:
-                                                                      Alignment
-                                                                          .center,
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              5),
-                                                                      border: Border.all(
-                                                                          color: Color.fromARGB(
-                                                                              255,
-                                                                              155,
-                                                                              154,
-                                                                              154))),
-                                                                  child: Icon(
-                                                                      Icons.add,
-                                                                      color: Colors
-                                                                          .green,
-                                                                      size:
-                                                                          20)))
-                                                        ]),
-                                                  ))
-                                                ]),
-                                          ))),
-                                  Expanded(
-                                      flex: 1,
-                                      child: Container(
-                                          child: GestureDetector(
-                                              onTap: () async {
-                                                this.remove_item(item);
-                                              },
-                                              child: Icon(
-                                                Icons.delete,
-                                                color: Colors.red,
-                                                size: 30,
-                                              ))))
-                                ]),
-                              )));
+                                                                border: Border.all(
+                                                                    color: Color.fromARGB(
+                                                                        255,
+                                                                        155,
+                                                                        154,
+                                                                        154))),
+                                                            child: Icon(
+                                                                Icons.add,
+                                                                color: Colors
+                                                                    .green,
+                                                                size: 20)))
+                                                  ]),
+                                            ))
+                                          ]),
+                                    ))),
+                            Expanded(
+                                flex: 1,
+                                child: Container(
+                                    child: GestureDetector(
+                                        onTap: () async {
+                                          this.remove_item(item);
+                                        },
+                                        child: Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                          size: 30,
+                                        ))))
+                          ]));
                     }).toList(),
                   ),
                   SizedBox(
@@ -354,7 +338,7 @@ class _OrderState extends State<Order> {
                                   products: this.products,
                                   refresh: widget.refresh)));
                     },
-                    label: const Text('Sargydy taýýarla',
+                    label: const Text('Sargydy tassyklamak',
                         style: TextStyle(color: CustomColors.appColorWhite)),
                     backgroundColor: Colors.green,
                   )

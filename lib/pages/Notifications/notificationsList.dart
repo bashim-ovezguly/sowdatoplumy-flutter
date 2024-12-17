@@ -8,9 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
-import 'package:my_app/pages/Customer/myproductDetail.dart';
-import 'package:my_app/pages/drawer.dart';
-import 'package:my_app/pages/homePage.dart';
+import 'package:my_app/pages/Drawer.dart';
 import 'package:provider/provider.dart';
 
 import '../../dB/providers.dart';

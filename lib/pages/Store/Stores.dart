@@ -6,7 +6,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Store/StoreDetail.dart';
-import 'package:my_app/pages/drawer.dart';
+import 'package:my_app/pages/Drawer.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../dB/textStyle.dart';
 import '../Search/search.dart';
@@ -132,89 +132,6 @@ class _StoresState extends State<Stores> {
           child: SingleChildScrollView(
               controller: scrollController,
               child: Column(children: [
-                // if (this.isLoading == true)
-                //   Padding(
-                //     padding: const EdgeInsets.all(8.0),
-                //     child:
-                //         CircularProgressIndicator(color: CustomColors.appColor),
-                //   ),
-                Stack(
-                  alignment: Alignment.bottomCenter,
-                  textDirection: TextDirection.rtl,
-                  fit: StackFit.loose,
-                  clipBehavior: Clip.hardEdge,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.all(5),
-                      height: 220,
-                      child: CarouselSlider(
-                        options: CarouselOptions(
-                            height: 220,
-                            viewportFraction: 1,
-                            initialPage: 0,
-                            enableInfiniteScroll:
-                                dataSlider.length > 1 ? true : false,
-                            reverse: false,
-                            autoPlay: dataSlider.length > 1 ? true : false,
-                            autoPlayInterval: const Duration(seconds: 4),
-                            autoPlayAnimationDuration:
-                                const Duration(milliseconds: 800),
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            enlargeCenterPage: true,
-                            enlargeFactor: 0.3,
-                            scrollDirection: Axis.horizontal,
-                            onPageChanged: (index, reason) {
-                              setState(() {
-                                _current = index;
-                              });
-                            }),
-                        items: dataSlider
-                            .map((item) => GestureDetector(
-                                  onTap: () {},
-                                  child: Stack(
-                                    children: [
-                                      Container(
-                                        clipBehavior: Clip.hardEdge,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        height: 220,
-                                        width: double.infinity,
-                                        child: FittedBox(
-                                            fit: BoxFit.cover,
-                                            child: Image.network(
-                                              serverIp +
-                                                  item['logo'].toString(),
-                                              errorBuilder: (b, o, s) {
-                                                return Image.asset(
-                                                  defaulImageUrl,
-                                                  fit: BoxFit.cover,
-                                                );
-                                              },
-                                            )),
-                                      ),
-                                    ],
-                                  ),
-                                ))
-                            .toList(),
-                      ),
-                    ),
-                    if (dataSlider.length > 0)
-                      Container(
-                        margin: EdgeInsets.only(bottom: 7),
-                        child: DotsIndicator(
-                          dotsCount: dataSlider.length,
-                          position: _current.toDouble(),
-                          decorator: DotsDecorator(
-                            color: Colors.white,
-                            activeColor: CustomColors.appColor,
-                            activeShape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0)),
-                          ),
-                        ),
-                      )
-                  ],
-                ),
                 Container(
                   margin: EdgeInsets.all(10),
                   width: double.infinity,
@@ -259,6 +176,76 @@ class _StoresState extends State<Stores> {
                     ),
                   ),
                 ),
+                Container(
+                  height: 220,
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                        height: 220,
+                        viewportFraction: 1,
+                        initialPage: 0,
+                        enableInfiniteScroll:
+                            dataSlider.length > 1 ? true : false,
+                        reverse: false,
+                        autoPlay: dataSlider.length > 1 ? true : false,
+                        autoPlayInterval: const Duration(seconds: 4),
+                        autoPlayAnimationDuration:
+                            const Duration(milliseconds: 800),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enlargeCenterPage: true,
+                        enlargeFactor: 0.3,
+                        scrollDirection: Axis.horizontal,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+                          });
+                        }),
+                    items: dataSlider
+                        .map((item) => GestureDetector(
+                              onTap: () {},
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.all(10),
+                                    clipBehavior: Clip.hardEdge,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        boxShadow: [appShadow],
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    height: 200,
+                                    width: double.infinity,
+                                    child: FittedBox(
+                                        fit: BoxFit.cover,
+                                        child: Image.network(
+                                          serverIp + item['logo'].toString(),
+                                          errorBuilder: (b, o, s) {
+                                            return Image.asset(
+                                              defaulImageUrl,
+                                              fit: BoxFit.cover,
+                                            );
+                                          },
+                                        )),
+                                  ),
+                                ],
+                              ),
+                            ))
+                        .toList(),
+                  ),
+                ),
+                if (dataSlider.length > 0)
+                  Container(
+                    margin: EdgeInsets.only(bottom: 7),
+                    child: DotsIndicator(
+                      dotsCount: dataSlider.length,
+                      position: _current.toDouble(),
+                      decorator: DotsDecorator(
+                        color: Colors.grey,
+                        activeColor: CustomColors.appColor,
+                        activeShape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
+                      ),
+                    ),
+                  ),
                 Wrap(
                   alignment: WrapAlignment.start,
                   children: data.map((item) {
@@ -273,7 +260,6 @@ class _StoresState extends State<Stores> {
                         );
                       },
                       child: Container(
-                        height: 170,
                         margin: EdgeInsets.all(5),
                         width: MediaQuery.of(context).size.width * 0.3,
                         child: ClipRRect(
@@ -284,12 +270,7 @@ class _StoresState extends State<Stores> {
                                   margin: EdgeInsets.all(5),
                                   decoration: BoxDecoration(
                                       color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            blurRadius: 2,
-                                            color: Color.fromARGB(
-                                                255, 135, 135, 135))
-                                      ],
+                                      boxShadow: [appShadow],
                                       borderRadius: BorderRadius.circular(10)),
                                   clipBehavior: Clip.hardEdge,
                                   height:
@@ -338,30 +319,15 @@ class _StoresState extends State<Stores> {
     );
   }
 
-  showConfirmationDialog(BuildContext context) {
-    // showDialog(
-    //   barrierDismissible: false,
-    //   context: context,
-    //   builder: (BuildContext context) {
-    //     return CustomDialog(
-    //       sort_value: sort,
-    //       callbackFunc: callbackFilter,
-    //     );
-    //   },
-    // );
-  }
-
   void getStores() async {
+    setState(() {
+      isLoading = true;
+    });
     var keywordText = keyword.text;
     final response = await http.get(Uri.parse(storesUrl +
         "?name=$keywordText&page=$_pageNumber&page_size=$_numberOfPostPerRequest"));
 
-    print(keywordText);
-    print(
-        "?name=$keywordText&page=$_pageNumber&page_size=$_numberOfPostPerRequest");
-
     final json = jsonDecode(utf8.decode(response.bodyBytes));
-    print(json);
     var postList = [];
     for (var i in json['data']) {
       postList.add(i);

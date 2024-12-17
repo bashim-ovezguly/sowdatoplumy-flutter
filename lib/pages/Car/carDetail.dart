@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Store/StoreDetail.dart';
-import 'package:my_app/pages/advertiseDetail.dart';
+import 'package:my_app/pages/SliderDetail.dart';
 import 'package:my_app/pages/call.dart';
 import 'package:share_plus/share_plus.dart';
-import '../fullScreenSlider.dart';
+import '../FullScreenSlider.dart';
 
 import '../progressIndicator.dart';
 

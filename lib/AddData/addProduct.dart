@@ -5,7 +5,7 @@ import 'package:my_app/dB/constants.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:my_app/pages/Customer/loadingWidget.dart';
+import 'package:my_app/pages/Profile/loadingWidget.dart';
 import 'package:my_app/pages/error.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/http_parser.dart';

@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:my_app/globalFunctions.dart';
-import 'package:my_app/pages/Store/order.dart';
+import 'package:my_app/pages/Store/Order.dart';
 import 'dart:convert';
 
 import '../../dB/constants.dart';
-import '../Customer/login.dart';
+import '../Profile/login.dart';
 import '../Products/ProductDetail.dart';
 import 'package:http/http.dart' as http;
 import 'package:badges/badges.dart' as badges;
@@ -169,35 +169,35 @@ class _StoreProductsState extends State<StoreProducts> {
             width: double.infinity,
             height: 40,
             decoration: BoxDecoration(
-                color: Colors.blueGrey.shade100,
+                color: Colors.grey.shade300,
                 borderRadius: BorderRadius.circular(5)),
-            child: Center(
-              child: TextFormField(
-                controller: keyword,
-                decoration: InputDecoration(
-                    prefixIcon: IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: () {
-                        getProducts(id);
-                      },
-                    ),
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        setState(() {
-                          keyword.text = '';
-                        });
-                        getProducts(id);
-                      },
-                    ),
-                    hintText: 'Gözleg...',
-                    border: InputBorder.none),
-              ),
+            child: TextFormField(
+              controller: keyword,
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(2),
+                  prefixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      getProducts(id);
+                    },
+                  ),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.clear),
+                    onPressed: () {
+                      setState(() {
+                        keyword.text = '';
+                      });
+                      getProducts(id);
+                    },
+                  ),
+                  hintText: 'Gözleg...',
+                  border: InputBorder.none),
             ),
           ),
         Expanded(
           child: ListView(
             controller: _scrollController,
+            scrollDirection: Axis.vertical,
             children: [
               Wrap(
                 alignment: WrapAlignment.spaceAround,
@@ -216,32 +216,24 @@ class _StoreProductsState extends State<StoreProducts> {
                           clipBehavior: Clip.hardEdge,
                           decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: [
-                                BoxShadow(color: Colors.grey, blurRadius: 5)
-                              ]),
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [appShadow]),
                           child: Container(
-                              height: 190,
-                              width: MediaQuery.of(context).size.width / 3 - 10,
+                              width: MediaQuery.of(context).size.width / 2 - 20,
                               child: Column(children: [
-                                Container(
-                                    alignment: Alignment.topCenter,
-                                    child: item['img'] != null &&
-                                            item['img'] != ""
-                                        ? Image.network(
-                                            serverIp + item['img'].toString(),
-                                            fit: BoxFit.cover,
-                                            width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    3 -
-                                                10,
-                                            height: 120,
-                                          )
-                                        : Image.asset(
-                                            'assets/images/default.jpg',
-                                            height: 120,
-                                          )),
+                                item['img'] != null && item['img'] != ""
+                                    ? Image.network(
+                                        serverIp + item['img'].toString(),
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height:
+                                            MediaQuery.sizeOf(context).height /
+                                                5,
+                                      )
+                                    : Image.asset(
+                                        'assets/images/default.jpg',
+                                        height: 120,
+                                      ),
                                 Container(
                                     padding: EdgeInsets.all(5),
                                     alignment: Alignment.center,
@@ -253,7 +245,7 @@ class _StoreProductsState extends State<StoreProducts> {
                                           item['name'].toString(),
                                           maxLines: 1,
                                           style: TextStyle(
-                                              fontSize: 12,
+                                              fontSize: 17,
                                               color: CustomColors.appColor,
                                               overflow: TextOverflow.ellipsis),
                                         ),
@@ -261,24 +253,26 @@ class _StoreProductsState extends State<StoreProducts> {
                                           item['price'].toString() + ' TMT',
                                           maxLines: 1,
                                           style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.blue,
-                                              fontWeight: FontWeight.bold,
+                                              fontSize: 17,
+                                              color: CustomColors.appColor,
+                                              // fontWeight: FontWeight.bold,
                                               overflow: TextOverflow.ellipsis),
                                         ),
                                         GestureDetector(
                                             child: Container(
+                                              width: double.infinity,
                                               clipBehavior: Clip.hardEdge,
                                               decoration: BoxDecoration(
                                                   color: Colors.green,
                                                   borderRadius:
                                                       BorderRadius.circular(8)),
                                               padding: EdgeInsets.symmetric(
-                                                  horizontal: 8, vertical: 2),
+                                                  horizontal: 8, vertical: 5),
                                               child: Text('Sebede goş',
+                                                  textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 12,
+                                                      fontSize: 15,
                                                       overflow: TextOverflow
                                                           .ellipsis)),
                                             ),

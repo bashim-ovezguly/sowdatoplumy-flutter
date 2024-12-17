@@ -118,28 +118,10 @@ class _AdminMessageState extends State<AdminMessage> {
   }
 
   void get_messages() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/notifs';
-
-    var data1 = [];
-    var allRows = await dbHelper.queryAllRows();
-    for (final row in allRows) {
-      data1.add(row);
-    }
-    Map<String, String> headers = {};
-    for (var i in global_headers.entries) {
-      headers[i.key] = i.value.toString();
-    }
-    if (data1.length > 0) {
-      headers['Token'] = data1[0]['name'];
-    }
-
-    print("");
-    print(headers);
-    print("");
+    String url = serverIp + '/notifs';
 
     final uri = Uri.parse(url);
-    final response = await http.get(uri, headers: headers);
+    final response = await http.get(uri, headers: global_headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data = json;

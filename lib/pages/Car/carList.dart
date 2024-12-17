@@ -4,7 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/pages/Car/carDetail.dart';
-import 'package:my_app/pages/drawer.dart';
+import 'package:my_app/pages/Drawer.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/dB/constants.dart';
 import 'package:page_transition/page_transition.dart';
@@ -154,16 +154,9 @@ class _CarState extends State<Car> {
                                                 margin: EdgeInsets.all(10),
                                                 clipBehavior: Clip.hardEdge,
                                                 decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          color: Colors.grey,
-                                                          blurRadius: 4,
-                                                          spreadRadius: 1,
-                                                          offset: Offset(0, 2))
-                                                    ]),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                ),
                                                 child: Center(
                                                     child: Stack(
                                                   children: [

@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:my_app/dB/constants.dart';
-import 'package:my_app/pages/Customer/Profile.dart';
-import 'package:my_app/pages/Customer/loadingWidget.dart';
+import 'package:my_app/pages/Profile/Profile.dart';
+import 'package:my_app/pages/Profile/loadingWidget.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';

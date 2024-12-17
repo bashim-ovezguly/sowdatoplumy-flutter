@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
-import 'package:my_app/pages/Store/Images.dart';
+import 'package:my_app/pages/Store/StoreImages.dart';
+import 'package:my_app/pages/Store/StoreAksiya.dart';
 import 'package:my_app/pages/Store/StoreCars.dart';
 import 'package:my_app/pages/Store/StoreProducts.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,6 +24,8 @@ class StoreDetailState extends State<StoreDetail>
   });
   var id;
   var name = '';
+  var created_at = '';
+  var viewed = '';
   var location = '';
   var logo = '';
   var category = '';
@@ -59,6 +62,8 @@ class StoreDetailState extends State<StoreDetail>
       isLoading = false;
       try {
         this.name = data['name'];
+        this.created_at = data['created_at'];
+        this.viewed = data['viewed'].toString();
       } catch (e) {}
 
       try {
@@ -95,7 +100,7 @@ class StoreDetailState extends State<StoreDetail>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.appColorWhite,
+      backgroundColor: Colors.white,
       appBar: AppBar(
           title: Text(
         name,
@@ -103,7 +108,8 @@ class StoreDetailState extends State<StoreDetail>
       )),
       body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (this.isLoading)
               Center(
@@ -120,10 +126,6 @@ class StoreDetailState extends State<StoreDetail>
                   margin: EdgeInsets.all(5),
                   height: MediaQuery.sizeOf(context).width * 0.4,
                   decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.grey,
-                        width: 1,
-                        strokeAlign: BorderSide.strokeAlignOutside),
                     borderRadius: BorderRadius.circular(400.0),
                   ),
                   child: Image.network(
@@ -135,10 +137,12 @@ class StoreDetailState extends State<StoreDetail>
                   ),
                 ),
               ),
-            Text(
-              this.name,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+            Center(
+              child: Text(
+                this.name,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+              ),
             ),
             if (this.category != '')
               Row(
@@ -146,16 +150,16 @@ class StoreDetailState extends State<StoreDetail>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                    margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                     child: Icon(
                       Icons.window,
                       color: CustomColors.appColor,
-                      size: 20,
+                      size: 17,
                     ),
                   ),
                   Text(
                     this.category,
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 15),
                   ),
                 ],
               ),
@@ -166,7 +170,7 @@ class StoreDetailState extends State<StoreDetail>
                   Icon(
                     Icons.location_pin,
                     color: CustomColors.appColor,
-                    size: 20,
+                    size: 17,
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
@@ -176,52 +180,54 @@ class StoreDetailState extends State<StoreDetail>
                       this.location,
                       maxLines: 2,
                       style: TextStyle(
-                          fontSize: 16, overflow: TextOverflow.ellipsis),
+                          fontSize: 15, overflow: TextOverflow.ellipsis),
                     ),
                   ),
                 ]),
               ),
-            Column(
-              children: this
-                  .phones
-                  .map((e) => Container(
-                        child: GestureDetector(
-                          onTap: () {
-                            launchUrl(Uri.parse('tel:' + e['phone']));
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5)),
-                            margin: EdgeInsets.symmetric(vertical: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 5),
-                                  child: Icon(
-                                    Icons.phone,
-                                    size: 22,
-                                    color: Colors.green,
-                                  ),
-                                ),
-                                Text(
-                                  e['phone'],
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.green),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ))
-                  .toList(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.remove_red_eye,
+                    color: Colors.grey,
+                    size: 20,
+                  ),
+                  Text(
+                    this.viewed,
+                    style: TextStyle(fontSize: 15, color: Colors.grey),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Icon(
+                    Icons.calendar_month,
+                    color: Colors.grey,
+                    size: 20,
+                  ),
+                  Text(
+                    this.created_at,
+                    style: TextStyle(fontSize: 15, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 5,
             ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Column(children: [
                 if (this.carCount > 0)
-                  GestureDetector(
-                    onTap: () => {
+                  MaterialButton(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    color: Colors.grey.shade100,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    onPressed: () => {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -230,36 +236,33 @@ class StoreDetailState extends State<StoreDetail>
                                     id: id.toString(),
                                   )))
                     },
-                    child: Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Row(children: [
-                        Container(
-                            child: Container(
-                                margin: EdgeInsets.only(right: 10),
-                                child: Icon(
-                                  Icons.time_to_leave,
-                                  color: CustomColors.appColor,
-                                  size: 30,
-                                ))),
-                        Text('Awtoulaglar ' + this.carCount.toString(),
-                            style: TextStyle(
-                                fontSize: 20, color: CustomColors.appColor)),
-                        Icon(
-                          Icons.chevron_right,
-                          color: CustomColors.appColor,
-                          size: 35,
-                        )
-                      ]),
-                    ),
+                    child: Row(children: [
+                      Container(
+                          child: Container(
+                              margin: EdgeInsets.only(right: 10),
+                              child: Icon(
+                                Icons.time_to_leave_outlined,
+                                color: CustomColors.appColor,
+                                size: 25,
+                              ))),
+                      Text('Awtoulaglar ' + this.carCount.toString(),
+                          style: TextStyle(
+                              fontSize: 17, color: CustomColors.appColor)),
+                      Spacer(),
+                      Icon(
+                        Icons.keyboard_arrow_right,
+                        color: CustomColors.appColor,
+                      )
+                    ]),
                   ),
                 if (this.productCount > 0)
-                  GestureDetector(
-                    onTap: () => {
+                  MaterialButton(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    color: Colors.grey.shade100,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    onPressed: () => {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -269,34 +272,35 @@ class StoreDetailState extends State<StoreDetail>
                                     delivery_price: this.delivery_price,
                                   )))
                     },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 15),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Row(children: [
-                        Container(
-                            child: Container(
-                                margin: EdgeInsets.only(right: 10),
-                                child: Icon(
-                                  Icons.card_giftcard_sharp,
-                                  size: 30,
-                                  color: CustomColors.appColor,
-                                ))),
-                        Text(
-                          'Harytlar ' + this.productCount.toString(),
-                          style: TextStyle(
-                              fontSize: 20, color: CustomColors.appColor),
-                        ),
-                      ]),
-                    ),
+                    child: Row(children: [
+                      Container(
+                          child: Container(
+                              margin: EdgeInsets.only(right: 10),
+                              child: Icon(
+                                Icons.card_giftcard_sharp,
+                                size: 25,
+                                color: CustomColors.appColor,
+                              ))),
+                      Text(
+                        'Harytlar ' + this.productCount.toString(),
+                        style: TextStyle(
+                            fontSize: 17, color: CustomColors.appColor),
+                      ),
+                      Spacer(),
+                      Icon(
+                        Icons.keyboard_arrow_right,
+                        color: CustomColors.appColor,
+                      )
+                    ]),
                   ),
                 if (this.images.length > 0)
-                  GestureDetector(
-                    onTap: () => {
+                  MaterialButton(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    color: Colors.grey.shade100,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    onPressed: () => {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -305,75 +309,183 @@ class StoreDetailState extends State<StoreDetail>
                                     callbackFunc: fetch,
                                   )))
                     },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 15),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Row(children: [
-                        Container(
-                            child: Container(
-                                margin: EdgeInsets.only(right: 10),
-                                child: Icon(
-                                  Icons.image,
-                                  size: 30,
-                                  color: CustomColors.appColor,
-                                ))),
-                        Text(
-                          'Suratlar ' + this.images.length.toString(),
-                          style: TextStyle(
-                              fontSize: 20, color: CustomColors.appColor),
-                        ),
-                      ]),
-                    ),
+                    child: Row(children: [
+                      Container(
+                          child: Container(
+                              margin: EdgeInsets.only(right: 10),
+                              child: Icon(
+                                Icons.image_outlined,
+                                size: 25,
+                                color: CustomColors.appColor,
+                              ))),
+                      Text(
+                        'Suratlar ' + this.images.length.toString(),
+                        style: TextStyle(
+                            fontSize: 17, color: CustomColors.appColor),
+                      ),
+                      Spacer(),
+                      Icon(
+                        Icons.keyboard_arrow_right,
+                        color: CustomColors.appColor,
+                      )
+                    ]),
                   ),
                 if (this.lentaCount > 0)
-                  GestureDetector(
-                    onTap: () => {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => StoreImages(
-                      //               customer_id: id,
-                      //               callbackFunc: fetch,
-                      //             )))
+                  MaterialButton(
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    color: Colors.grey.shade100,
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    onPressed: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => StoreAksiya(
+                                    storeId: id.toString(),
+                                  )))
                     },
-                    child: Container(
-                      margin: EdgeInsets.only(top: 15),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(30)),
-                      child: Row(children: [
-                        Container(
-                            child: Container(
-                                margin: EdgeInsets.only(right: 10),
-                                child: Icon(
-                                  Icons.newspaper,
-                                  size: 30,
-                                  color: CustomColors.appColor,
-                                ))),
-                        Text(
-                          'Lenta ' + this.lentaCount.toString(),
-                          style: TextStyle(
-                              color: CustomColors.appColor, fontSize: 20),
-                        ),
-                      ]),
-                    ),
+                    child: Row(children: [
+                      Container(
+                          child: Container(
+                              margin: EdgeInsets.only(right: 10),
+                              child: Icon(
+                                Icons.bookmark_border_outlined,
+                                size: 25,
+                                color: CustomColors.appColor,
+                              ))),
+                      Text(
+                        'Aksiýalar ' + this.lentaCount.toString(),
+                        style: TextStyle(
+                            color: CustomColors.appColor, fontSize: 17),
+                      ),
+                      Spacer(),
+                      Icon(
+                        Icons.keyboard_arrow_right,
+                        color: CustomColors.appColor,
+                      )
+                    ]),
                   ),
               ]),
             ),
             if (this.description != '')
-              Container(
-                width: MediaQuery.sizeOf(context).width * 0.9,
-                margin: EdgeInsets.symmetric(vertical: 10),
-                child: Text(this.description),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Container(
+                  width: MediaQuery.sizeOf(context).width * 0.9,
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  child: Text(this.description),
+                ),
               ),
+            if (this.phones.length > 0)
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Habarlaşmak üçin',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: this
+                          .phones
+                          .map((e) => Container(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    launchUrl(Uri.parse('tel:' + e['phone']));
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5)),
+                                    margin: EdgeInsets.symmetric(vertical: 5),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(top: 5),
+                                          child: Icon(
+                                            Icons.phone,
+                                            size: 22,
+                                            color: Colors.green,
+                                          ),
+                                        ),
+                                        Text(
+                                          e['phone'],
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.green),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ))
+                          .toList(),
+                    ),
+                  ],
+                ),
+              ),
+            if (this.links.length > 0)
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Linkler',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: this
+                          .links
+                          .map((item) => Container(
+                                margin: EdgeInsets.symmetric(vertical: 5),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    String url = item['link'];
+                                    if (!url.startsWith('http')) {
+                                      url = 'https://' + url;
+                                    }
+                                    launchUrl(Uri.parse(url));
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5)),
+                                    margin: EdgeInsets.symmetric(vertical: 5),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 5),
+                                          child: Icon(
+                                            Icons.link,
+                                            size: 22,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        Text(
+                                          item['link'],
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.green),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ))
+                          .toList(),
+                    ),
+                  ],
+                ),
+              )
           ],
         ),
       ),

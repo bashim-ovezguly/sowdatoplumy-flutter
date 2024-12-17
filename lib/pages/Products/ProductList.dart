@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Products/ProductDetail.dart';
-import 'package:my_app/pages/drawer.dart';
+import 'package:my_app/pages/Drawer.dart';
 import '../../dB/textStyle.dart';
 import '../Search/search.dart';
 
@@ -23,7 +23,7 @@ class _ProductListState extends State<ProductList> {
   int currentPage = 1;
   int pageSize = 48;
   int totalCount = 0;
-  bool isLoading = true;
+  bool isLoading = false;
   bool tryFetchAgain = false;
   bool status = true;
   var keyword = TextEditingController();
@@ -35,6 +35,7 @@ class _ProductListState extends State<ProductList> {
   final int nextPageTriger = 3;
   var sort = '';
   var category = '';
+  var categories = [];
   late ScrollController scrollController = ScrollController();
 
   bool filter = false;
@@ -49,10 +50,9 @@ class _ProductListState extends State<ProductList> {
     currentPage = 1;
     isLastPage = false;
     setData();
+    getCategories();
     super.initState();
   }
-
-  getProductCategories() {}
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +66,7 @@ class _ProductListState extends State<ProductList> {
               Container(
                   padding: const EdgeInsets.all(10),
                   child: GestureDetector(
-                      onTap: () {
-                        // showConfirmationDialog(context);
-                      },
+                      onTap: () {},
                       child: const Icon(
                         Icons.sort,
                         size: 25,
@@ -88,13 +86,10 @@ class _ProductListState extends State<ProductList> {
         ],
       ),
       body: RefreshIndicator(
-          color: Colors.white,
-          backgroundColor: CustomColors.appColor,
           onRefresh: () async {
             setState(() {
               setData();
             });
-            return Future<void>.delayed(const Duration(seconds: 3));
           },
           child: Column(children: [
             Container(
@@ -102,39 +97,62 @@ class _ProductListState extends State<ProductList> {
               width: double.infinity,
               height: 40,
               decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
+                  color: Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(5)),
-              child: Center(
-                child: TextFormField(
-                  controller: keyword,
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(2),
-                      prefixIcon: IconButton(
-                        icon: const Icon(Icons.search),
-                        onPressed: () {
-                          setState(() {
-                            this.data = [];
-                            isLoading = true;
-                          });
-                          setData();
-                        },
+              child: TextFormField(
+                controller: keyword,
+                decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(2),
+                    prefixIcon: IconButton(
+                      icon: const Icon(
+                        Icons.search,
+                        color: Colors.grey,
                       ),
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          keyword.text = '';
-                          setState(() {
-                            isLoading = true;
-                            this.data = [];
-                          });
+                      onPressed: () {
+                        setState(() {
+                          this.data = [];
+                          isLoading = true;
+                        });
+                        setData();
+                      },
+                    ),
+                    suffixIcon: IconButton(
+                      icon: const Icon(
+                        Icons.clear,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {
+                        keyword.text = '';
+                        setState(() {
+                          isLoading = true;
+                          this.data = [];
+                        });
 
-                          setData();
-                        },
-                      ),
-                      hintText: 'Ady boýunça gözleg...',
-                      border: InputBorder.none),
-                ),
+                        setData();
+                      },
+                    ),
+                    hintText: 'Ady boýunça gözleg...',
+                    border: InputBorder.none),
               ),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                  children: this
+                      .categories
+                      .map((item) => MaterialButton(
+                          onPressed: () {
+                            setState(() {
+                              this.category = item['id'].toString();
+                              setData();
+                            });
+                          },
+                          padding: EdgeInsets.all(5),
+                          child: Text(
+                            item['name_tm'],
+                            style: TextStyle(color: Colors.grey),
+                          )))
+                      .toList()),
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -143,7 +161,9 @@ class _ProductListState extends State<ProductList> {
             if (isLoading == true)
               Padding(
                   padding: EdgeInsets.all(8),
-                  child: CircularProgressIndicator()),
+                  child: CircularProgressIndicator(
+                    color: CustomColors.appColor,
+                  )),
             Expanded(
                 child: SingleChildScrollView(
               controller: scrollController,
@@ -161,7 +181,6 @@ class _ProductListState extends State<ProductList> {
                     child: Container(
                         margin: EdgeInsets.all(5),
                         clipBehavior: Clip.hardEdge,
-                        // height: 100,
                         width: MediaQuery.sizeOf(context).width / 3 - 10,
                         decoration: BoxDecoration(
                             boxShadow: [
@@ -173,6 +192,7 @@ class _ProductListState extends State<ProductList> {
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.white),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Image.network(
                               serverIp + item['img'],
@@ -183,6 +203,7 @@ class _ProductListState extends State<ProductList> {
                             Padding(
                               padding: const EdgeInsets.all(5.0),
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     item['name'],
@@ -208,7 +229,6 @@ class _ProductListState extends State<ProductList> {
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       color: Colors.grey,
-                                      fontWeight: FontWeight.bold,
                                       fontSize: 12,
                                     ),
                                   ),
@@ -229,22 +249,20 @@ class _ProductListState extends State<ProductList> {
   void scrollControllerEvent() {
     if (scrollController.offset / scrollController.position.maxScrollExtent >
         0.9) {
-      setState(() {
-        currentPage++;
-      });
       addMoreItems();
     }
   }
 
   void addMoreItems() async {
-    if (isLoading == true) {
+    if (this.isLoading == true) {
       return null;
     }
-
-    this.setState(() {
-      isLoading = true;
+    setState(() {
+      currentPage++;
     });
-    String url = productsUrl + "?page=$currentPage&page_size=$pageSize";
+
+    String url = productsUrl +
+        "?page=$currentPage&page_size=$pageSize&category=$category";
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
 
@@ -262,7 +280,28 @@ class _ProductListState extends State<ProductList> {
     });
   }
 
+  getCategories() async {
+    String url = serverIp + '/index/product';
+
+    final response = await get(Uri.parse(url));
+    final json = jsonDecode(utf8.decode(response.bodyBytes));
+
+    setState(() {
+      categories.add({'id': '', 'name_tm': 'Hemmesi'});
+      categories.addAll(json['categories']);
+    });
+  }
+
   void setData() async {
+    if (this.isLoading == true) {
+      return null;
+    }
+    setState(() {
+      isLoading = true;
+      this.data = [];
+    });
+
+    print('request');
     String keywordText = keyword.text;
     String url = productsUrl +
         '?name=$keywordText&page_size=$pageSize&sort=$sort&category=$category';
@@ -280,65 +319,5 @@ class _ProductListState extends State<ProductList> {
       isLoading = false;
       data.addAll(postList);
     });
-
-    // QuickAlert.show(
-    //     context: context,
-    //     type: QuickAlertType.confirm,
-    //     text: data.length.toString());
-  }
-
-  void fetchSliderProducts() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/products?on_slider=1';
-    final uri = Uri.parse(url);
-    Map<String, String> headers = {};
-    for (var i in global_headers.entries) {
-      headers[i.key] = i.value.toString();
-    }
-    final response = await http.get(uri, headers: headers);
-    final json = jsonDecode(utf8.decode(response.bodyBytes));
-    setState(() {
-      dataSlider = json['data'];
-      if (dataSlider.length == 0) {
-        dataSlider = [
-          {"img": "", 'name_tm': "", 'price': "", 'location': ''}
-        ];
-      }
-      tryFetchAgain = true;
-    });
-  }
-
-  Widget errorDialog({required double size}) {
-    return SizedBox(
-      height: 180,
-      width: 200,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'An error occurred when fetching the posts.',
-            style: TextStyle(
-                fontSize: size,
-                fontWeight: FontWeight.w500,
-                color: Colors.black),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          GestureDetector(
-              onTap: () {
-                setState(() {
-                  _loading = true;
-                  error = false;
-                  setData();
-                });
-              },
-              child: const Text(
-                "Retry",
-                style: TextStyle(fontSize: 20, color: Colors.purpleAccent),
-              )),
-        ],
-      ),
-    );
   }
 }
