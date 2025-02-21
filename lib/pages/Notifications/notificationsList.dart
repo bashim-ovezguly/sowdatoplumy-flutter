@@ -285,7 +285,7 @@ class _NotificationsState extends State<Notifications> {
                                                                               color: Colors.white,
                                                                               child: Center(
                                                                                   child: Stack(children: [
-                                                                                ClipRect(child: Container(height: 220, width: double.infinity, child: FittedBox(fit: BoxFit.cover, child: item['img'] != null && item['img'] != '' ? Image.network(baseurl + item['img'].toString()) : Image.asset('assets/images/default16x9.jpg')))),
+                                                                                ClipRect(child: Container(height: 220, width: double.infinity, child: FittedBox(fit: BoxFit.cover, child: item['img'] != null && item['img'] != '' ? Image.network(baseurl + item['img'].toString()) : Image.asset('assets/images/default .jpg')))),
                                                                               ])))))
                                                                       .toList())),
                                                           Container(
@@ -617,7 +617,7 @@ class _NotificationsState extends State<Notifications> {
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return CustomDialog(
+        return SortDialog(
           sort_value: sort,
           callbackFunc: callbackFilter,
         );
@@ -627,13 +627,10 @@ class _NotificationsState extends State<Notifications> {
 
   void getmarketslist(sort_value) async {
     try {
-      Urls server_url = new Urls();
-      String url = server_url.get_server_url() +
-          '/mob/announcements?' +
-          sort_value.toString();
+      String url = serverIp + '/mob/announcements?' + sort_value.toString();
 
       if (keyword.text != '') {
-        url = server_url.get_server_url() +
+        url = serverIp +
             '/mob/announcements?' +
             sort_value.toString() +
             "&name=" +
@@ -658,7 +655,7 @@ class _NotificationsState extends State<Notifications> {
         setState(() {
           current_page = json['current_page'];
           total_page = json['total_page'];
-          baseurl = server_url.get_server_url();
+          baseurl = serverIp;
           determinate = true;
           _isLastPage = data.length < _numberOfPostPerRequest;
           _loading = false;
@@ -682,8 +679,7 @@ class _NotificationsState extends State<Notifications> {
   }
 
   void getmarkets_slider() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/announcements?on_slider=1';
+    String url = serverIp + '/mob/announcements?on_slider=1';
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
     for (var i in global_headers.entries) {
@@ -693,7 +689,7 @@ class _NotificationsState extends State<Notifications> {
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       dataSlider = json['data'];
-      baseurl = server_url.get_server_url();
+      baseurl = serverIp;
       if (dataSlider.length == 0) {
         dataSlider = [
           {"img": "", 'name': "", 'location': ''}

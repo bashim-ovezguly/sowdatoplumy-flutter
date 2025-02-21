@@ -30,25 +30,26 @@ class _FullScreenImageState extends State<FullScreenImage> {
   }
 
   _FullScreenImageState({required this.img});
+
+  showSuccessAlert() {
+    QuickAlert.show(
+        context: context,
+        title: '',
+        text: 'Suran ýüklenildi!',
+        confirmBtnText: 'Dowam et',
+        confirmBtnColor: CustomColors.appColor,
+        type: QuickAlertType.success,
+        onConfirmBtnTap: () {
+          Navigator.pop(context);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
-    showSuccessAlert() {
-      QuickAlert.show(
-          context: context,
-          title: '',
-          text: 'Suran ýüklenildi!',
-          confirmBtnText: 'Dowam et',
-          confirmBtnColor: CustomColors.appColor,
-          type: QuickAlertType.success,
-          onConfirmBtnTap: () {
-            Navigator.pop(context);
-          });
-    }
-
     return Scaffold(
-      backgroundColor: CustomColors.appColorWhite,
+      backgroundColor: Colors.white,
       body: Container(
-          color: Colors.black,
+          color: Colors.white,
           child: Column(children: <Widget>[
             Row(
               children: [
@@ -60,7 +61,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
                           child: const Icon(
                             Icons.arrow_back,
                             size: 30,
-                            color: Color.fromARGB(255, 255, 255, 255),
+                            color: CustomColors.appColor,
                           ),
                           onTap: () {
                             Navigator.pop(context);
@@ -73,8 +74,8 @@ class _FullScreenImageState extends State<FullScreenImage> {
                     },
                     child: Container(
                         margin: const EdgeInsets.only(right: 20, top: 30),
-                        child:
-                            Icon(Icons.screen_rotation, color: Colors.white))),
+                        child: Icon(Icons.screen_rotation,
+                            color: CustomColors.appColor))),
                 GestureDetector(
                     onTap: () async {
                       var response = await Dio().get(img,
@@ -85,7 +86,8 @@ class _FullScreenImageState extends State<FullScreenImage> {
                     },
                     child: Container(
                         margin: const EdgeInsets.only(right: 20, top: 30),
-                        child: Icon(Icons.arrow_downward, color: Colors.white)))
+                        child: Icon(Icons.arrow_downward,
+                            color: CustomColors.appColor)))
               ],
             ),
             Stack(alignment: Alignment.center, children: [
@@ -96,6 +98,9 @@ class _FullScreenImageState extends State<FullScreenImage> {
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height - 100,
                       child: PhotoView(
+                        backgroundDecoration:
+                            BoxDecoration(color: Colors.white),
+                        minScale: PhotoViewComputedScale.contained,
                         imageProvider: NetworkImage(
                           img.toString(),
                         ),
@@ -109,6 +114,9 @@ class _FullScreenImageState extends State<FullScreenImage> {
                       width: MediaQuery.of(context).size.height - 100,
                       height: MediaQuery.of(context).size.width,
                       child: PhotoView(
+                        backgroundDecoration:
+                            BoxDecoration(color: Colors.white),
+                        minScale: PhotoViewComputedScale.contained,
                         imageProvider: NetworkImage(
                           img.toString(),
                         ),

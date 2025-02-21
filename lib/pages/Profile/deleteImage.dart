@@ -75,9 +75,7 @@ class _DeleteImageState extends State<DeleteImage> {
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white),
                 onPressed: () async {
-                  Urls server_url = new Urls();
-                  String url = server_url.get_server_url() +
-                      '/mob/' +
+                  String url = serverIp +
                       action +
                       "/img/delete/" +
                       image['id'].toString();
@@ -104,7 +102,7 @@ class _DeleteImageState extends State<DeleteImage> {
                         MaterialPageRoute(builder: (context) => ErrorAlert()));
                   }
                 },
-                child: const Text('Howwa'),
+                child: const Text('Hawa'),
               ),
             ],
           )),

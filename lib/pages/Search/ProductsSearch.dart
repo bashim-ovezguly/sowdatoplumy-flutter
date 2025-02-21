@@ -166,9 +166,7 @@ class _ProductsSearchState extends State<ProductsSearch> {
           type: MaterialType.transparency,
           child: Ink(
             decoration: BoxDecoration(
-              border: Border.all(
-                  color: Color.fromARGB(255, 182, 210, 196), width: 2.0),
-              color: Colors.blue[900],
+              color: CustomColors.appColor,
               shape: BoxShape.circle,
             ),
             child: InkWell(

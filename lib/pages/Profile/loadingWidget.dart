@@ -4,10 +4,11 @@ import 'package:my_app/dB/constants.dart';
 
 showLoaderDialog(BuildContext context) {
   AlertDialog alert = AlertDialog(
-    shadowColor: CustomColors.appColorWhite,
-    surfaceTintColor: CustomColors.appColorWhite,
-    backgroundColor: CustomColors.appColorWhite,
+    shadowColor: Colors.white,
+    surfaceTintColor: Colors.white,
+    backgroundColor: Colors.white,
     content: new Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CircularProgressIndicator(
           backgroundColor: CustomColors.appColor,

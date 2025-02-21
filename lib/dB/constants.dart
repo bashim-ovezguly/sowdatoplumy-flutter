@@ -33,18 +33,21 @@ class CustomColors {
   static const Color appColorBlack54 = Colors.black54;
 }
 
-class Urls {
-  String server_url = "http://216.250.9.45:8000";
+// class Urls {
+//   String server_url = "http://216.250.9.45:8000";
 
-  String get_server_url() {
-    return server_url;
-  }
-}
+//   String get_server_url() {
+//     return server_url;
+//   }
+// }
 
 Map<String, String> global_headers = {
   'Api-key': 'bc_android_client_key',
-  'App-Version': '18-12-2024',
+  'App-Version': '07-01-2025',
 };
 
-BoxShadow appShadow =
-    BoxShadow(color: Colors.grey.shade400, blurRadius: 5, offset: Offset(0, 0));
+BoxShadow appShadow = BoxShadow(
+    blurRadius: 3,
+    spreadRadius: 1,
+    color: Colors.grey.shade400,
+    offset: Offset(2, 2));

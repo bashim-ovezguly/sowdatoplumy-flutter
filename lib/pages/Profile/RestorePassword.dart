@@ -26,7 +26,7 @@ class _RestoreAccountState extends State<RestoreAccount> {
       this.isLoading = true;
     });
     var phone = emailController.text.toString();
-    String url = serverIp + '/mob/send/otp';
+    String url = serverIp + '/send/otp';
     final uri = Uri.parse(url);
     var request = new http.MultipartRequest("POST", uri);
     request.fields['phone'] = phone;
@@ -86,18 +86,15 @@ class _RestoreAccountState extends State<RestoreAccount> {
                     SizedBox(height: 40),
                     Container(
                         margin: EdgeInsets.symmetric(horizontal: 20),
-                        // height: 50,
                         child: Row(
                           children: [
                             Expanded(
                                 child: Container(
-                                    // height: 100,
                                     width: double.infinity,
                                     child: TextFormField(
                                         maxLength: 8,
                                         controller: emailController,
-                                        keyboardType:
-                                            TextInputType.emailAddress,
+                                        keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                             helperText:
                                                 'Telefon belgiňize SMS kod ugradylar',

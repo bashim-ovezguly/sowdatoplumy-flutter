@@ -3,30 +3,27 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 
-class CustomDialog extends StatefulWidget {
-  CustomDialog({Key? key, required this.sort_value, required this.callbackFunc})
+class SortDialog extends StatefulWidget {
+  SortDialog({Key? key, required this.sort_value, required this.callbackFunc})
       : super(key: key);
   String sort_value;
   final Function callbackFunc;
   @override
-  _CustomDialogState createState() =>
-      _CustomDialogState(sort_value: sort_value, callbackFunc: callbackFunc);
+  _SortDialogState createState() =>
+      _SortDialogState(sort_value: sort_value, callbackFunc: callbackFunc);
 }
 
-class _CustomDialogState extends State<CustomDialog> {
+class _SortDialogState extends State<SortDialog> {
   final Function callbackFunc;
   String sort_value;
   bool canUpload = false;
   int _value = 1;
 
   void initState() {
-    setState(() {
-      // _value = int.parse(ss);
-    });
     super.initState();
   }
 
-  _CustomDialogState({required this.sort_value, required this.callbackFunc});
+  _SortDialogState({required this.sort_value, required this.callbackFunc});
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -36,7 +33,7 @@ class _CustomDialogState extends State<CustomDialog> {
       title: Row(
         children: [
           Text(
-            'Tertip',
+            'Tertibi',
             style: TextStyle(color: CustomColors.appColor),
           ),
           Spacer(),

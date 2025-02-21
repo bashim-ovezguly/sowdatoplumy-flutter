@@ -104,12 +104,14 @@ class _SearchStatefulWidgetState extends State<SearchStatefulWidget>
                             Icons.storefront,
                             color: CustomColors.appColor,
                           ),
-                          Text(
-                            "Dükanlar",
-                            style: TextStyle(
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              "Dükanlar",
+                              style: TextStyle(
                                 color: CustomColors.appColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
+                              ),
+                            ),
                           )
                         ],
                       ),
@@ -121,12 +123,14 @@ class _SearchStatefulWidgetState extends State<SearchStatefulWidget>
                             Icons.card_giftcard_rounded,
                             color: CustomColors.appColor,
                           ),
-                          Text(
-                            "Harytlar",
-                            style: TextStyle(
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              "Harytlar",
+                              style: TextStyle(
                                 color: CustomColors.appColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
+                              ),
+                            ),
                           )
                         ],
                       ),
@@ -139,12 +143,12 @@ class _SearchStatefulWidgetState extends State<SearchStatefulWidget>
                             size: 28,
                             color: CustomColors.appColor,
                           ),
-                          Text(
-                            "Awtoulaglar",
-                            style: TextStyle(
-                                color: CustomColors.appColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              "Awtoulaglar",
+                              style: TextStyle(color: CustomColors.appColor),
+                            ),
                           )
                         ],
                       ),

@@ -24,7 +24,6 @@ class _StoreCarsState extends State<StoreCars> {
   var shoping_cart_items = [];
   var products = [];
   var keyword = TextEditingController();
-  var baseurl = '';
   var storeName = '';
 
   // late ScrollController _scrollController = ScrollController();
@@ -66,7 +65,7 @@ class _StoreCarsState extends State<StoreCars> {
               child: ListView(
                 children: [
                   Wrap(
-                    alignment: WrapAlignment.spaceAround,
+                    alignment: WrapAlignment.start,
                     children: products.map((item) {
                       return GestureDetector(
                           onTap: () {
@@ -84,15 +83,13 @@ class _StoreCarsState extends State<StoreCars> {
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(5),
-                                  boxShadow: [
-                                    BoxShadow(color: Colors.grey, blurRadius: 5)
-                                  ]),
+                                  boxShadow: [appShadow]),
                               child: Column(
-                                  // crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     item['img'] != null && item['img'] != ""
                                         ? Image.network(
-                                            baseurl + item['img'].toString(),
+                                            serverIp + item['img'].toString(),
                                             fit: BoxFit.cover,
                                             width: MediaQuery.of(context)
                                                         .size
@@ -109,7 +106,7 @@ class _StoreCarsState extends State<StoreCars> {
                                         padding: EdgeInsets.all(2),
                                         child: Column(
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                              CrossAxisAlignment.start,
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
@@ -158,18 +155,10 @@ class _StoreCarsState extends State<StoreCars> {
   }
 
   void get_products_modul(id) async {
-    Urls server_url = new Urls();
-    var param = 'cars';
-    String url = server_url.get_server_url() + '/mob/' + param + '?store=' + id;
+    String url = carsUrl + '?store=' + id;
 
     if (keyword.text != '') {
-      url = server_url.get_server_url() +
-          '/mob/' +
-          param +
-          '?store=' +
-          id +
-          "&name=" +
-          keyword.text;
+      url = url + '?store=' + id + "&name=" + keyword.text;
     }
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
@@ -180,7 +169,6 @@ class _StoreCarsState extends State<StoreCars> {
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       products = json['data'];
-      baseurl = server_url.get_server_url();
     });
   }
 

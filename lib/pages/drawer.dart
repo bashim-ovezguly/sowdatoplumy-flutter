@@ -10,7 +10,7 @@ import 'package:my_app/globalFunctions.dart';
 import 'package:my_app/pages/Aksiya/List.dart';
 import 'package:my_app/pages/TradeCenters/List.dart';
 import 'package:my_app/pages/AppInfo.dart';
-import 'package:my_app/pages/chatAdmin.dart';
+import 'package:my_app/pages/AdminChat.dart';
 import 'package:my_app/pages/news/News.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -427,7 +427,7 @@ class _MyDrawerState extends State<MyDrawer> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ChatAdmin()));
+                                  builder: (context) => AdminChat()));
                         },
                         child: Container(
                             width: double.infinity,

@@ -445,10 +445,8 @@ class _EditStoreState extends State<EditStore> {
                     backgroundColor: CustomColors.appColor,
                     foregroundColor: Colors.white),
                 onPressed: () async {
-                  Urls server_url = new Urls();
-                  String url = server_url.get_server_url() +
-                      '/mob/stores/' +
-                      old_data['id'].toString();
+                  String url =
+                      serverIp + '/mob/stores/' + old_data['id'].toString();
                   final uri = Uri.parse(url);
                   var request = new http.MultipartRequest("PUT", uri);
 
@@ -598,8 +596,7 @@ class _EditStoreState extends State<EditStore> {
   }
 
   void get_store_index() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/index/store';
+    String url = serverIp + '/mob/index/store';
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
     for (var i in global_headers.entries) {
@@ -609,7 +606,7 @@ class _EditStoreState extends State<EditStore> {
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
       data = json;
-      baseurl = server_url.get_server_url();
+      baseurl = serverIp;
       categories = json['categories'];
     });
   }

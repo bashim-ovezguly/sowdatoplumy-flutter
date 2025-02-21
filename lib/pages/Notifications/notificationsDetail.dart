@@ -119,7 +119,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
                                                                   item.toString(),
                                                                 )
                                                               : Image.asset(
-                                                                  'assets/images/default16x9.jpg'),
+                                                                  'assets/images/default .jpg'),
                                                         ),
                                                       ),
                                                     ),
@@ -438,8 +438,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
   }
 
   void getsingleproduct({required id}) async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/announcements/' + id;
+    String url = serverIp + '/announcements/' + id;
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
     for (var i in global_headers.entries) {
@@ -453,7 +452,7 @@ class _NotificationsDetailState extends State<NotificationsDetail> {
       print(json);
 
       imgList = [];
-      baseurl = server_url.get_server_url();
+      baseurl = serverIp;
       if (data['phone'] != null && data['phone'] != '') {
         number = data['phone'].toString();
       }

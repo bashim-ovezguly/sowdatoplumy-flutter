@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/pages/FullScreenImage.dart';
+import 'package:my_app/pages/FullScreenSlider.dart';
 import '../../dB/constants.dart';
 import '../../dB/textStyle.dart';
 import 'dart:convert';
@@ -56,39 +56,6 @@ class _StoreImagesState extends State<StoreImages> {
               style: CustomText.appBarText,
             ),
             actions: []),
-        // floatingActionButton: GestureDetector(
-        //   onTap: () {
-        //     Navigator.push(
-        //         context,
-        //         MaterialPageRoute(
-        //             builder: (context) => AddDatasPage(
-        //                   index: 2,
-        //                 )));
-        //   },
-        //   child: Container(
-        //     decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
-        //       BoxShadow(color: Colors.grey, blurRadius: 10, spreadRadius: 1)
-        //     ]),
-        //     child: CircleAvatar(
-        //       radius: 30,
-        //       backgroundColor: Colors.green,
-        //       child: GestureDetector(
-        //           onTap: () {
-        //             Navigator.push(
-        //                 context,
-        //                 MaterialPageRoute(
-        //                     builder: (context) => AddDatasPage(
-        //                           index: 2,
-        //                         )));
-        //           },
-        //           child: Padding(
-        //             padding: const EdgeInsets.all(8.0),
-        //             child: Center(
-        //                 child: Icon(Icons.add, size: 35, color: Colors.white)),
-        //           )),
-        //     ),
-        //   ),
-        // ),
         body: SingleChildScrollView(
           child: Center(
             child: Wrap(
@@ -97,11 +64,19 @@ class _StoreImagesState extends State<StoreImages> {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return FullScreenImage(img: serverIp + item['img_m']);
+                      return FullScreenSlider(
+                        current: images.indexOf(item),
+                        imgList: this
+                            .images
+                            .map((e) => serverIp + e['img_m'].toString())
+                            .toList(),
+                      );
                     }));
                   },
                   child: Container(
+                      clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: Colors.grey.shade200)),
                       width: MediaQuery.sizeOf(context).width / 3 - 5,
                       height: MediaQuery.sizeOf(context).width / 3 - 5,

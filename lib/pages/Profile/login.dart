@@ -3,9 +3,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Profile/Profile.dart';
-import 'package:my_app/pages/Profile/restore.dart';
+import 'package:my_app/pages/Profile/RestorePassword.dart';
 import 'package:my_app/pages/Profile/verificationCode.dart';
-import 'package:my_app/pages/register.dart';
+import 'package:my_app/pages/Register.dart';
 import 'package:my_app/pages/success.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -223,7 +223,8 @@ class _LoginState extends State<Login> {
                             ),
                             child: Text("Giriş",
                                 style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w300,
                                     color: CustomColors.appColorWhite))),
                       ),
                       SizedBox(
@@ -242,9 +243,9 @@ class _LoginState extends State<Login> {
                             ),
                             child: Text("Registrasiýa",
                                 style: TextStyle(
-                                  color: CustomColors.appColor,
-                                  fontSize: 18,
-                                ))),
+                                    color: CustomColors.appColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w300))),
                       ),
                       SizedBox(
                         width: 200,
@@ -258,6 +259,7 @@ class _LoginState extends State<Login> {
                             child: Text("Açar sözüni dikeltmek",
                                 style: TextStyle(
                                     fontSize: 16,
+                                    fontWeight: FontWeight.w300,
                                     color: CustomColors.appColor))),
                       )
                     ],

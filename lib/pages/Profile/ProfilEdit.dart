@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/globalFunctions.dart';
+import 'package:my_app/pages/Profile/PasswordChange.dart';
 import 'package:my_app/pages/Profile/locationWidget.dart';
 import 'package:my_app/pages/Profile/login.dart';
 import 'package:my_app/widgets/TCSelector.dart';
@@ -176,12 +177,24 @@ class _EditProfilState extends State<EditProfil> {
     var customerData = jsonDecode(utf8.decode(response.bodyBytes));
 
     setState(() {
-      this.name = customerData['name'];
-      this.description = customerData['description'];
-      this.imgUrl = serverIp + customerData['logo'];
-      this.email = customerData['email'];
-      this.phones = customerData['phones'];
-      this.links = customerData['websites'];
+      try {
+        this.imgUrl = serverIp + customerData['logo'];
+      } catch (err) {}
+      try {
+        this.description = customerData['description'];
+      } catch (err) {}
+      try {
+        this.name = customerData['name'];
+      } catch (err) {}
+      try {
+        this.email = customerData['email'];
+      } catch (err) {}
+      try {
+        this.phones = customerData['phones'];
+      } catch (err) {}
+      try {
+        this.links = customerData['websites'];
+      } catch (err) {}
       try {
         this.locationName = customerData['location']['name'];
       } catch (err) {}
@@ -316,7 +329,7 @@ class _EditProfilState extends State<EditProfil> {
           ),
         ),
         body: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
+          margin: EdgeInsets.symmetric(horizontal: 10),
           child: ListView(
             children: [
               Container(
@@ -394,7 +407,7 @@ class _EditProfilState extends State<EditProfil> {
               TextFormField(
                 controller: emailController,
                 decoration: InputDecoration(
-                    labelText: 'Elektron poçtaňyz',
+                    labelText: 'Elektron poçta',
                     prefixIcon: Icon(Icons.mail),
                     prefixIconColor: Colors.grey,
                     border: const OutlineInputBorder(),
@@ -521,7 +534,7 @@ class _EditProfilState extends State<EditProfil> {
                         ))
                     .toList(),
               ),
-              Text('Sosial sahypalara linkler'),
+              Text('Linkler'),
               SizedBox(
                 height: 5,
               ),
@@ -599,19 +612,57 @@ class _EditProfilState extends State<EditProfil> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(20),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: CustomColors.appColor,
-                      foregroundColor: Colors.white),
-                  child: const Text(
-                    'Ýatda sakla',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  onPressed: () async {
-                    save();
-                  },
-                ),
+                margin: EdgeInsets.symmetric(vertical: 10),
+                child: MaterialButton(
+                    onPressed: () {
+                      save();
+                    },
+                    color: CustomColors.appColor,
+                    clipBehavior: Clip.hardEdge,
+                    textColor: Colors.white,
+                    padding: EdgeInsets.all(15),
+                    shape: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.transparent)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.save),
+                        Text(
+                          'Ýatda sakla',
+                        ),
+                      ],
+                    )),
+              ),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
+                child: MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  PasswordChange(customer_id: customer_id)));
+                    },
+                    color: CustomColors.appColor,
+                    clipBehavior: Clip.hardEdge,
+                    textColor: Colors.white,
+                    padding: EdgeInsets.all(15),
+                    shape: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.transparent)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Icon(Icons.key),
+                        ),
+                        Text(
+                          'Açar sözini täzelemek',
+                        ),
+                      ],
+                    )),
               ),
             ],
           ),

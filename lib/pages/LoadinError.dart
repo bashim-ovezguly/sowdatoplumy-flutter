@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:my_app/dB/constants.dart';
 
-class ErrorAlert extends StatefulWidget {
-  ErrorAlert({Key? key}) : super(key: key);
+class LoadingErrorAlert extends StatefulWidget {
+  LoadingErrorAlert({Key? key}) : super(key: key);
   @override
-  _ErrorAlertState createState() => _ErrorAlertState();
+  _LoadingErrorAlertState createState() => _LoadingErrorAlertState();
 }
 
-class _ErrorAlertState extends State<ErrorAlert> {
+class _LoadingErrorAlertState extends State<LoadingErrorAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -22,7 +22,7 @@ class _ErrorAlertState extends State<ErrorAlert> {
             children: [
               Center(child: Icon(Icons.warning, size: 130, color: Colors.red)),
               Text(
-                'Bagyşlan ýalñyşlyk ýüze çykdy täzeden synanşyp görün!',
+                'Bagyşlan ýalñyşlyk ýüze çykdy täzeden synanşyp görüň!',
                 textAlign: TextAlign.center,
               ),
             ],

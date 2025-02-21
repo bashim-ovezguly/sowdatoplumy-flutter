@@ -67,7 +67,7 @@ class _CarDetailState extends State<CarDetail> {
     return status
         ? SafeArea(
             child: Scaffold(
-                backgroundColor: CustomColors.appColorWhite,
+                backgroundColor: Colors.transparent,
                 body: RefreshIndicator(
                     color: Colors.white,
                     backgroundColor: CustomColors.appColor,
@@ -149,7 +149,7 @@ class _CarDetailState extends State<CarDetail> {
                                                                         item.toString(),
                                                                       )
                                                                     : Image.asset(
-                                                                        'assets/images/default16x9.jpg'),
+                                                                        defaulImageUrl),
                                                               ),
                                                             ),
                                                           ),
@@ -273,11 +273,15 @@ class _CarDetailState extends State<CarDetail> {
                                             size: 20,
                                             color: CustomColors.appColor,
                                           ),
-                                          Text(
-                                            data['viewed'].toString(),
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              color: CustomColors.appColor,
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 5),
+                                            child: Text(
+                                              data['viewed'].toString(),
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: CustomColors.appColor,
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -585,7 +589,7 @@ class _CarDetailState extends State<CarDetail> {
                                         ),
                                         Expanded(
                                           child: Text(
-                                            this.phone,
+                                            '+993 ' + this.phone,
                                             style: TextStyle(),
                                           ),
                                         )
@@ -639,11 +643,6 @@ class _CarDetailState extends State<CarDetail> {
                                       width: 50,
                                       height: 50,
                                       decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                                blurRadius: 2,
-                                                color: Colors.grey),
-                                          ],
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       child: Image.network(
@@ -688,25 +687,19 @@ class _CarDetailState extends State<CarDetail> {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
+                                              horizontal: 0),
                                           child: Text(
                                             "Reklama hyzmaty",
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
-                                                color: CustomColors.appColor,
-                                                fontWeight: FontWeight.w300),
+                                                color: CustomColors.appColor),
                                           ),
                                         ),
                                         Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          clipBehavior: Clip.hardEdge,
                                           child: Image.network(
                                               serverIp +
                                                   data['ad']['img'].toString(),
                                               fit: BoxFit.cover,
-                                              height: 180,
                                               width: double.infinity),
                                         ),
                                       ],
@@ -760,6 +753,9 @@ class _CarDetailState extends State<CarDetail> {
       } catch (error) {}
       try {
         wheelDrive = data['wd']['name'];
+      } catch (error) {}
+      try {
+        phone = data['phone'];
       } catch (error) {}
 
       try {

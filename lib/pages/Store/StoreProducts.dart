@@ -199,90 +199,95 @@ class _StoreProductsState extends State<StoreProducts> {
             controller: _scrollController,
             scrollDirection: Axis.vertical,
             children: [
-              Wrap(
-                alignment: WrapAlignment.spaceAround,
-                children: products.map((item) {
-                  return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ProductDetail(
-                                      id: item['id'].toString(),
-                                    )));
-                      },
-                      child: Container(
-                          margin: EdgeInsets.all(5),
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [appShadow]),
-                          child: Container(
-                              width: MediaQuery.of(context).size.width / 2 - 20,
-                              child: Column(children: [
-                                item['img'] != null && item['img'] != ""
-                                    ? Image.network(
-                                        serverIp + item['img'].toString(),
-                                        fit: BoxFit.cover,
-                                        width: double.infinity,
-                                        height:
-                                            MediaQuery.sizeOf(context).height /
-                                                5,
-                                      )
-                                    : Image.asset(
-                                        'assets/images/default.jpg',
-                                        height: 120,
-                                      ),
-                                Container(
-                                    padding: EdgeInsets.all(5),
-                                    alignment: Alignment.center,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          item['name'].toString(),
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              color: CustomColors.appColor,
-                                              overflow: TextOverflow.ellipsis),
+              Center(
+                child: Wrap(
+                  alignment: WrapAlignment.start,
+                  children: products.map((item) {
+                    return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProductDetail(
+                                        id: item['id'].toString(),
+                                      )));
+                        },
+                        child: Container(
+                            margin: EdgeInsets.all(5),
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [appShadow]),
+                            child: Container(
+                                width:
+                                    MediaQuery.of(context).size.width / 3 - 10,
+                                child: Column(children: [
+                                  item['img'] != null && item['img'] != ""
+                                      ? Image.network(
+                                          serverIp + item['img'].toString(),
+                                          fit: BoxFit.cover,
+                                          width: double.infinity,
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height /
+                                              5,
+                                        )
+                                      : Image.asset(
+                                          'assets/images/default.jpg',
+                                          height: 120,
                                         ),
-                                        Text(
-                                          item['price'].toString() + ' TMT',
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              color: CustomColors.appColor,
-                                              // fontWeight: FontWeight.bold,
-                                              overflow: TextOverflow.ellipsis),
-                                        ),
-                                        GestureDetector(
-                                            child: Container(
-                                              width: double.infinity,
-                                              clipBehavior: Clip.hardEdge,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.green,
-                                                  borderRadius:
-                                                      BorderRadius.circular(8)),
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 8, vertical: 5),
-                                              child: Text('Sebede goş',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15,
-                                                      overflow: TextOverflow
-                                                          .ellipsis)),
+                                  Container(
+                                      padding: EdgeInsets.all(5),
+                                      alignment: Alignment.center,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            item['name'].toString(),
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                                color: CustomColors.appColor,
+                                                overflow:
+                                                    TextOverflow.ellipsis),
+                                          ),
+                                          if (item['price'] != '0')
+                                            Text(
+                                              item['price'].toString() + ' TMT',
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: CustomColors.appColor,
+                                                  overflow:
+                                                      TextOverflow.ellipsis),
                                             ),
-                                            onTap: () async {
-                                              this.addToBasket(item);
-                                            }),
-                                      ],
-                                    ))
-                              ]))));
-                }).toList(),
+                                          GestureDetector(
+                                              child: Container(
+                                                width: double.infinity,
+                                                clipBehavior: Clip.hardEdge,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.green,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8)),
+                                                padding: EdgeInsets.all(2),
+                                                margin: EdgeInsets.all(2),
+                                                child: Text('Sebede goş',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 14,
+                                                        overflow: TextOverflow
+                                                            .ellipsis)),
+                                              ),
+                                              onTap: () async {
+                                                this.addToBasket(item);
+                                              }),
+                                        ],
+                                      ))
+                                ]))));
+                  }).toList(),
+                ),
               )
             ],
           ),

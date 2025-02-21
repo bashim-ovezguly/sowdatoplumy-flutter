@@ -201,7 +201,14 @@ class _StoresState extends State<Stores> {
                         }),
                     items: dataSlider
                         .map((item) => GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => StoreDetail(
+                                              id: item['id'],
+                                            )));
+                              },
                               child: Stack(
                                 children: [
                                   Container(
@@ -209,7 +216,6 @@ class _StoresState extends State<Stores> {
                                     clipBehavior: Clip.hardEdge,
                                     decoration: BoxDecoration(
                                         color: Colors.white,
-                                        boxShadow: [appShadow],
                                         borderRadius:
                                             BorderRadius.circular(10)),
                                     height: 200,
@@ -267,10 +273,8 @@ class _StoresState extends State<Stores> {
                           child: Column(
                             children: [
                               Container(
-                                  margin: EdgeInsets.all(5),
                                   decoration: BoxDecoration(
                                       color: Colors.white,
-                                      boxShadow: [appShadow],
                                       borderRadius: BorderRadius.circular(10)),
                                   clipBehavior: Clip.hardEdge,
                                   height:
@@ -289,13 +293,12 @@ class _StoresState extends State<Stores> {
                                   })),
                               Container(
                                 color: Colors.white,
-                                // padding: EdgeInsets.all(5),
+                                margin: EdgeInsets.symmetric(vertical: 5),
                                 child: Text(
                                   item['name'],
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
                                       color: CustomColors.appColor),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

@@ -67,47 +67,27 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget>
                       Text("Haryt",
                           style: TextStyle(
                               color: CustomColors.appColor,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w400,
                               fontSize: 15))
                     ])),
                     Tab(
                         child: Row(children: const <Widget>[
-                      Icon(Icons.directions_car_rounded,
+                      Icon(Icons.time_to_leave_outlined,
                           color: CustomColors.appColor),
                       Text("Awtoulag",
                           style: TextStyle(
                               color: CustomColors.appColor,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w400,
                               fontSize: 15))
                     ])),
-                    // Tab(
-                    //     child: Row(children: const <Widget>[
-                    //   Icon(
-                    //     Icons.settings_outlined,
-                    //     color: CustomColors.appColor,
-                    //   ),
-                    //   Text("Awtoşaý",
-                    //       style: TextStyle(
-                    //           color: CustomColors.appColor,
-                    //           fontWeight: FontWeight.bold,
-                    //           fontSize: 15))
-                    // ])),
-                    // Tab(
-                    //     child: Row(children: const <Widget>[
-                    //   Icon(Icons.other_houses, color: CustomColors.appColor),
-                    //   Text("Emläk ",
-                    //       style: TextStyle(
-                    //           color: CustomColors.appColor,
-                    //           fontWeight: FontWeight.bold,
-                    //           fontSize: 15))
-                    // ])),
                     Tab(
                         child: Row(children: const <Widget>[
-                      Icon(Icons.bookmark, color: CustomColors.appColor),
+                      Icon(Icons.bookmark_border_outlined,
+                          color: CustomColors.appColor),
                       Text("Aksiýa",
                           style: TextStyle(
                               color: CustomColors.appColor,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w400,
                               fontSize: 15))
                     ]))
                   ]),

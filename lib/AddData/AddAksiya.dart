@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:my_app/globalFunctions.dart';
 import 'package:my_app/main.dart';
 import 'package:my_app/pages/Profile/loadingWidget.dart';
-import 'package:my_app/pages/error.dart';
+import 'package:my_app/pages/LoadinError.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:quickalert/models/quickalert_type.dart';
@@ -128,36 +128,24 @@ class _AddRobbinListState extends State<AddRobbinList> {
                 contentPadding: EdgeInsets.only(left: 10, bottom: 14)),
           ),
         ),
-        Container(
-            height: 50,
-            padding: const EdgeInsets.all(10),
-            child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: CustomColors.appColor,
-                        foregroundColor: Colors.white),
-                    onPressed: () {
-                      getImages();
-                    },
-                    child: const Text('Surat goş',
-                        style: TextStyle(fontWeight: FontWeight.bold))))),
-        Container(
-            height: 50,
-            padding: const EdgeInsets.all(10),
-            child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: CustomColors.appColor,
-                        foregroundColor: Colors.white),
-                    onPressed: () async {
-                      this.save();
-                    },
-                    child: const Text('Ýatda sakla',
-                        style: TextStyle(fontWeight: FontWeight.bold))))),
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: CustomColors.appColor,
+                foregroundColor: Colors.white),
+            onPressed: () {
+              getImages();
+            },
+            child: const Text('Surat goş',
+                style: TextStyle(fontWeight: FontWeight.w300))),
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: CustomColors.appColor,
+                foregroundColor: Colors.white),
+            onPressed: () async {
+              this.save();
+            },
+            child: const Text('Ýatda sakla',
+                style: TextStyle(fontWeight: FontWeight.w300))),
         SizedBox(height: 200)
       ]),
     );
@@ -202,7 +190,7 @@ class _AddRobbinListState extends State<AddRobbinList> {
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return ErrorAlert();
+        return LoadingErrorAlert();
       },
     );
   }

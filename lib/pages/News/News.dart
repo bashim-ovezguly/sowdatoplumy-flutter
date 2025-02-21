@@ -39,8 +39,7 @@ class NewsListState extends State<NewsList> {
   }
 
   void addMoreItems() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/news';
+    String url = serverIp + '/news';
 
     url = url + "?page=$currentPage&page_size=$pageSize&category=$category_id";
 
@@ -164,173 +163,126 @@ class NewsListState extends State<NewsList> {
               Expanded(
                 child: loading == true
                     ? ProgresBar()
-                    : SingleChildScrollView(
+                    : ListView(
                         controller: scrollController,
-                        child: Row(
-                          children: data.map((item) {
-                            return Container(
-                              clipBehavior: Clip.hardEdge,
-                              margin: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.white,
-                                  boxShadow: [appShadow]),
-                              height: 330,
-                              width: double.infinity,
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                      flex: 3,
-                                      child: Column(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          NewsDetailPage(
-                                                              id: item['id']
-                                                                  .toString())));
-                                            },
-                                            child: Column(
-                                              children: [
-                                                Image.network(
-                                                  'http://216.250.9.45:8000' +
-                                                      item['img'],
-                                                  fit: BoxFit.cover,
-                                                  height: 200,
-                                                  width: double.infinity,
-                                                ),
-                                              ],
-                                            ),
+                        children: data.map((item) {
+                          return Container(
+                            clipBehavior: Clip.hardEdge,
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                                boxShadow: [appShadow]),
+                            height: 330,
+                            width: double.infinity,
+                            child: Column(
+                              children: [
+                                Expanded(
+                                    flex: 3,
+                                    child: Column(
+                                      children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        NewsDetailPage(
+                                                            id: item['id']
+                                                                .toString())));
+                                          },
+                                          child: Column(
+                                            children: [
+                                              Image.network(
+                                                serverIp + item['img'],
+                                                fit: BoxFit.cover,
+                                                height: 200,
+                                                width: double.infinity,
+                                              ),
+                                            ],
                                           ),
-                                          Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                  item['title_tm'].toString(),
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                      color:
-                                                          CustomColors.appColor,
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                ),
-                                                Text(
-                                                  item['body_tm'],
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                      color: Colors.black54,
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w300),
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                      child: Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons
-                                                                .date_range_sharp,
-                                                            size: 20,
-                                                            color: Colors.grey,
-                                                          ),
-                                                          Text(
-                                                            item['created_at']
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Colors.grey,
-                                                                fontSize: 15),
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 5,
-                                                              vertical: 0),
-                                                      child: Row(
-                                                        children: [
-                                                          Icon(
-                                                              Icons
-                                                                  .remove_red_eye_outlined,
-                                                              size: 20,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                item['title_tm'].toString(),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color:
+                                                        CustomColors.appColor,
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              Text(
+                                                item['body_tm'],
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                    color: Colors.black54,
+                                                    fontSize: 13,
+                                                    fontWeight:
+                                                        FontWeight.w300),
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons
+                                                              .date_range_sharp,
+                                                          size: 20,
+                                                          color: Colors.grey,
+                                                        ),
+                                                        Text(
+                                                          item['created_at']
+                                                              .toString(),
+                                                          style: TextStyle(
                                                               color:
-                                                                  Colors.grey),
-                                                          Text(
-                                                            item['view']
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Colors.grey,
-                                                                fontSize: 15),
-                                                          ),
-                                                        ],
-                                                      ),
+                                                                  Colors.grey,
+                                                              fontSize: 15),
+                                                        )
+                                                      ],
                                                     ),
-                                                    ElevatedButton(
-                                                        onPressed: () => {
-                                                              clickLike(
-                                                                  item['id'])
-                                                            },
-                                                        style: ElevatedButton.styleFrom(
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .transparent,
-                                                            shadowColor: Colors
-                                                                .transparent,
-                                                            elevation: 0,
-                                                            foregroundColor:
-                                                                Colors.grey),
-                                                        child: Row(
-                                                          children: [
-                                                            item['liked'] ==
-                                                                    true
-                                                                ? Icon(
-                                                                    Icons
-                                                                        .favorite,
-                                                                    size: 20,
-                                                                    color: Colors
-                                                                        .blueAccent)
-                                                                : Icon(
-                                                                    Icons
-                                                                        .favorite_border,
-                                                                    size: 20,
-                                                                    color: Colors
-                                                                        .blueAccent),
-                                                            Text(
-                                                              item['like_count']
-                                                                  .toString(),
-                                                              style: TextStyle(
-                                                                  fontSize: 15,
-                                                                  color: Colors
-                                                                      .blueAccent),
-                                                            )
-                                                          ],
-                                                        )),
-                                                    ElevatedButton(
+                                                  ),
+                                                  Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 5,
+                                                            vertical: 0),
+                                                    child: Row(
+                                                      children: [
+                                                        Icon(
+                                                            Icons
+                                                                .remove_red_eye_outlined,
+                                                            size: 20,
+                                                            color: Colors.grey),
+                                                        Text(
+                                                          item['view']
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontSize: 15),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  ElevatedButton(
                                                       onPressed: () => {
-                                                        Share.share(
-                                                            'http://business-complex.com.tm/news/' +
-                                                                item['id']
-                                                                    .toString())
-                                                      },
+                                                            clickLike(
+                                                                item['id'])
+                                                          },
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                               backgroundColor:
@@ -341,23 +293,56 @@ class NewsListState extends State<NewsList> {
                                                               elevation: 0,
                                                               foregroundColor:
                                                                   Colors.grey),
-                                                      child: Icon(Icons.share,
-                                                          size: 20,
-                                                          color:
-                                                              Colors.black54),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
+                                                      child: Row(
+                                                        children: [
+                                                          item['liked'] == true
+                                                              ? Icon(
+                                                                  Icons
+                                                                      .favorite,
+                                                                  size: 20,
+                                                                  color: Colors
+                                                                      .blueAccent)
+                                                              : Icon(
+                                                                  Icons
+                                                                      .favorite_border,
+                                                                  size: 20,
+                                                                  color: Colors
+                                                                      .blueAccent),
+                                                          Text(
+                                                            item['like_count']
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontSize: 15,
+                                                                color: Colors
+                                                                    .blueAccent),
+                                                          )
+                                                        ],
+                                                      )),
+                                                  MaterialButton(
+                                                    minWidth: 10,
+                                                    padding: EdgeInsets.all(0),
+                                                    onPressed: () => {
+                                                      Share.share(
+                                                          'http://business-complex.com.tm/news/' +
+                                                              item['id']
+                                                                  .toString())
+                                                    },
+                                                    child: Icon(Icons.share,
+                                                        size: 20,
+                                                        color: Colors.black54),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
                                           ),
-                                        ],
-                                      ))
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                        )),
+                                        ),
+                                      ],
+                                    ))
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
               ),
             ],
           )),

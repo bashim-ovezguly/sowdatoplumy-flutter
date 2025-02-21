@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/select.dart';
 
 class InputText extends StatefulWidget {

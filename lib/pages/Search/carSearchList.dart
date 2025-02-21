@@ -301,8 +301,7 @@ class _CarSearchListState extends State<CarSearchList> {
     //   sort_value = 'sort=-id';
     // }
 
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/cars?';
+    String url = serverIp + '/mob/cars?';
     if (params['model'] != 'null') {
       url = url + 'model=' + params['model'] + "&";
     }
@@ -378,7 +377,7 @@ class _CarSearchListState extends State<CarSearchList> {
       }
       setState(() {
         total_count = json['count'];
-        baseurl = server_url.get_server_url();
+        baseurl = serverIp;
         determinate = true;
         _isLastPage = data.length < _numberOfPostPerRequest;
         _pageNumber = _pageNumber + 1;

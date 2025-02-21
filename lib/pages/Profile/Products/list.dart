@@ -50,43 +50,36 @@ class _ProfileProductsState extends State<ProfileProducts> {
   Widget build(BuildContext context) {
     return status
         ? Scaffold(
+            floatingActionButton: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddDatasPage(
+                              index: 0,
+                            )));
+              },
+              child: Container(
+                decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                  BoxShadow(color: Colors.grey, blurRadius: 10, spreadRadius: 1)
+                ]),
+                child: CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.green,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                        child: Icon(Icons.add, size: 35, color: Colors.white)),
+                  ),
+                ),
+              ),
+            ),
             backgroundColor: CustomColors.appColorWhite,
             appBar: AppBar(
               title: Text(
                 "Harytlar",
                 style: CustomText.appBarText,
               ),
-              actions: [
-                if (widget.user_customer_id == '')
-                  PopupMenuButton<String>(
-                    color: CustomColors.appColorWhite,
-                    surfaceTintColor: CustomColors.appColorWhite,
-                    shadowColor: CustomColors.appColorWhite,
-                    itemBuilder: (context) {
-                      List<PopupMenuEntry<String>> menuEntries2 = [
-                        PopupMenuItem<String>(
-                            child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => AddDatasPage(
-                                                index: 0,
-                                              )));
-                                },
-                                child: Container(
-                                    color: Colors.white,
-                                    height: 40,
-                                    width: double.infinity,
-                                    child: Row(children: [
-                                      Icon(Icons.add, color: Colors.green),
-                                      Text(' Goşmak')
-                                    ])))),
-                      ];
-                      return menuEntries2;
-                    },
-                  ),
-              ],
             ),
             body: RefreshIndicator(
                 color: Colors.white,

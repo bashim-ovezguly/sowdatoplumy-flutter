@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
@@ -7,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Store/StoreDetail.dart';
 import 'package:my_app/pages/SliderDetail.dart';
-import 'package:my_app/pages/call.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../FullScreenSlider.dart';
@@ -120,7 +118,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                                             .width,
                                                         width: double.infinity,
                                                         child: FittedBox(
-                                                          fit: BoxFit.contain,
+                                                          fit: BoxFit.cover,
                                                           child: item != '' &&
                                                                   slider_img ==
                                                                       true
@@ -309,12 +307,9 @@ class _ProductDetailState extends State<ProductDetail> {
                                   height: 50,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            blurRadius: 2, color: Colors.grey),
-                                      ],
                                       borderRadius: BorderRadius.circular(10)),
                                   child: Image.network(
+                                      fit: BoxFit.cover,
                                       serverIp + this.storeLogoUrl),
                                 ),
                                 Container(
@@ -390,26 +385,20 @@ class _ProductDetailState extends State<ProductDetail> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 10),
+                                        horizontal: 0),
                                     child: Text(
                                       "Reklama hyzmaty",
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
-
-                                          // fontSize: 17,
                                           color: CustomColors.appColor,
-                                          fontWeight: FontWeight.w300),
+                                          fontWeight: FontWeight.normal),
                                     ),
                                   ),
                                   Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                                    decoration: BoxDecoration(),
                                     clipBehavior: Clip.hardEdge,
                                     child: Image.network(serverIp + this.advUrl,
                                         fit: BoxFit.cover,
-                                        height: 180,
                                         width: double.infinity),
                                   ),
                                 ],

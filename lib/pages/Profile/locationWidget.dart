@@ -240,8 +240,8 @@ class _LocationWidgetState extends State<LocationWidget> {
     setState(() {
       determinate = false;
     });
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/index/locations/all';
+
+    String url = serverIp + '/mob/index/locations/all';
     if (parent != null) {
       url = url + "?parent=" + parent.toString();
     }

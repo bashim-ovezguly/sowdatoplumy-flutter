@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/textStyle.dart';
 import 'package:my_app/pages/Profile/login.dart';
-import 'package:my_app/pages/Profile/restore.dart';
+import 'package:my_app/pages/Profile/RestorePassword.dart';
 
 import '../../dB/constants.dart';
 import 'package:http/http.dart' as http;

@@ -176,7 +176,6 @@ class _TradeCentersState extends State<TradeCenters> {
                         );
                       },
                       child: Container(
-                        // height: 170,
                         margin: EdgeInsets.all(5),
                         width: MediaQuery.of(context).size.width * 0.3,
                         child: ClipRRect(
@@ -184,15 +183,8 @@ class _TradeCentersState extends State<TradeCenters> {
                           child: Column(
                             children: [
                               Container(
-                                  margin: EdgeInsets.all(5),
                                   decoration: BoxDecoration(
                                       color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            blurRadius: 2,
-                                            color: Color.fromARGB(
-                                                255, 135, 135, 135))
-                                      ],
                                       borderRadius: BorderRadius.circular(10)),
                                   clipBehavior: Clip.hardEdge,
                                   height:
@@ -211,13 +203,13 @@ class _TradeCentersState extends State<TradeCenters> {
                                     );
                                   })),
                               Container(
+                                margin: EdgeInsets.symmetric(vertical: 5),
                                 color: Colors.white,
                                 child: Text(
                                   item['name'],
                                   style: TextStyle(
                                       overflow: TextOverflow.ellipsis,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
                                       color: CustomColors.appColor),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

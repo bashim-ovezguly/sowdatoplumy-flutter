@@ -152,8 +152,8 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
 
   void getNewsById({required id}) async {
     print(id);
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/news/' + id;
+
+    String url = serverIp + '/mob/news/' + id;
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
 
@@ -166,7 +166,7 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
     setState(() {
       data = json;
       print(data['images']);
-      baseurl = server_url.get_server_url();
+      baseurl = serverIp;
       determinate = true;
       // for (var i in data['images']) {
       //   imgList.add(baseurl + i['img']);

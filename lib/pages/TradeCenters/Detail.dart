@@ -84,10 +84,6 @@ class TradeCenterDetailState extends State<TradeCenterDetail>
                     width: MediaQuery.sizeOf(context).width,
                     height: MediaQuery.sizeOf(context).width / 1.7777777,
                     decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.grey,
-                          width: 1,
-                          strokeAlign: BorderSide.strokeAlignOutside),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Image.network(
@@ -134,6 +130,7 @@ class TradeCenterDetailState extends State<TradeCenterDetail>
                       ]),
                 ),
               Wrap(
+                alignment: WrapAlignment.start,
                 children: [
                   for (var item in stores)
                     GestureDetector(
@@ -154,12 +151,6 @@ class TradeCenterDetailState extends State<TradeCenterDetail>
                                 clipBehavior: Clip.hardEdge,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.grey,
-                                          offset: Offset(0, 2),
-                                          blurRadius: 3)
-                                    ],
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Image.network(
                                   serverIp + item['logo'],
@@ -167,13 +158,16 @@ class TradeCenterDetailState extends State<TradeCenterDetail>
                                   height: 120,
                                   fit: BoxFit.cover,
                                 )),
-                            Text(
-                              item['name'].toString(),
-                              style: TextStyle(
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                item['name'].toString(),
+                                style: TextStyle(
                                   color: CustomColors.appColor,
-                                  fontWeight: FontWeight.bold),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ],
                         ),

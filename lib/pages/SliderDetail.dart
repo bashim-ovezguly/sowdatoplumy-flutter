@@ -44,6 +44,63 @@ class _AdPageState extends State<AdPage> {
               style: TextStyle(color: Colors.white),
             )),
             body: ListView(children: [
+              //name
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Text(this.title.toString(),
+                    style:
+                        TextStyle(color: CustomColors.appColor, fontSize: 20)),
+              ),
+
+              //location
+              if (this.location.length > 0)
+                Container(
+                    padding: EdgeInsets.all(5),
+                    child: Row(children: [
+                      Icon(Icons.location_on_outlined,
+                          color: CustomColors.appColor, size: 20),
+                      Expanded(
+                        child: Text(this.location,
+                            maxLines: 2,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w300,
+                                color: CustomColors.appColor,
+                                fontSize: 14)),
+                      )
+                    ])),
+              //phones
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: this
+                      .phones
+                      .map((e) => MaterialButton(
+                            padding: EdgeInsets.all(0),
+                            elevation: 0,
+                            shape: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide.none),
+                            onPressed: () {
+                              launchUrl(Uri.parse('tel:' + e['value']));
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              margin: EdgeInsets.all(5),
+                              child: Text(
+                                e['value'],
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                ),
+              ),
+
+//images
               Column(
                 children: this
                     .images
@@ -56,72 +113,16 @@ class _AdPageState extends State<AdPage> {
                                         img: serverIp + e['img'])));
                           },
                           child: Container(
-                            margin: EdgeInsets.symmetric(vertical: 2),
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10)),
+                            margin: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 10),
                             child: Image.network(serverIp + e['img']),
                           ),
                         ))
                     .toList(),
               ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: Text(this.title.toString(),
-                    style:
-                        TextStyle(color: CustomColors.appColor, fontSize: 20)),
-              ),
-              if (this.location.length > 0)
-                Container(
-                    padding: EdgeInsets.all(5),
-                    child: Row(children: [
-                      Icon(Icons.location_on,
-                          color: CustomColors.appColor, size: 25),
-                      Expanded(
-                        child: Text(this.location,
-                            maxLines: 10,
-                            style: TextStyle(
-                                color: CustomColors.appColor, fontSize: 17)),
-                      )
-                    ])),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: this
-                      .phones
-                      .map((e) => MaterialButton(
-                            onPressed: () {
-                              launchUrl(Uri.parse('tel:' + e['value']));
-                            },
-                            child: Container(
-                              margin: EdgeInsets.all(5),
-                              child: Text(
-                                e['value'],
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                ),
-              ),
-              SizedBox(
-                  width: double.infinity,
-                  child: TextField(
-                      enabled: false,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                          filled: true,
-                          hintMaxLines: 10,
-                          hintStyle: TextStyle(
-                              fontSize: 14, color: CustomColors.appColor),
-                          hintText: body,
-                          fillColor: Colors.white))),
-              Container(
-                height: 10,
-              )
             ]))
         : CustomProgressIndicator(funcInit: initState);
   }
@@ -140,8 +141,14 @@ class _AdPageState extends State<AdPage> {
     setState(() {
       try {
         title = json['title_tm'];
+      } catch (err) {}
+      try {
         location = json['location']['name'];
+      } catch (err) {}
+      try {
         images = json['images'];
+      } catch (err) {}
+      try {
         phones = json['phones'];
       } catch (err) {}
     });

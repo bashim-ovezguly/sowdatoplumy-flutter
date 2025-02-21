@@ -1,6 +1,5 @@
 // ignore_for_file: unused_field
 
-import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -91,7 +90,8 @@ class _ProductListState extends State<ProductList> {
               setData();
             });
           },
-          child: Column(children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Container(
               margin: EdgeInsets.all(5),
               width: double.infinity,
@@ -111,7 +111,7 @@ class _ProductListState extends State<ProductList> {
                       onPressed: () {
                         setState(() {
                           this.data = [];
-                          isLoading = true;
+                          // isLoading = true;
                         });
                         setData();
                       },
@@ -124,7 +124,7 @@ class _ProductListState extends State<ProductList> {
                       onPressed: () {
                         keyword.text = '';
                         setState(() {
-                          isLoading = true;
+                          // isLoading = true;
                           this.data = [];
                         });
 
@@ -159,15 +159,18 @@ class _ProductListState extends State<ProductList> {
               child: Row(children: []),
             ),
             if (isLoading == true)
-              Padding(
-                  padding: EdgeInsets.all(8),
-                  child: CircularProgressIndicator(
-                    color: CustomColors.appColor,
-                  )),
+              Center(
+                child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: CircularProgressIndicator(
+                      color: CustomColors.appColor,
+                    )),
+              ),
             Expanded(
                 child: SingleChildScrollView(
               controller: scrollController,
               child: Wrap(
+                alignment: WrapAlignment.start,
                 children: data.map((item) {
                   return GestureDetector(
                     onTap: () {
@@ -183,12 +186,7 @@ class _ProductListState extends State<ProductList> {
                         clipBehavior: Clip.hardEdge,
                         width: MediaQuery.sizeOf(context).width / 3 - 10,
                         decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey,
-                                  spreadRadius: 0,
-                                  blurRadius: 5)
-                            ],
+                            boxShadow: [appShadow],
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.white),
                         child: Column(
@@ -207,22 +205,23 @@ class _ProductListState extends State<ProductList> {
                                 children: [
                                   Text(
                                     item['name'],
-                                    maxLines: 2,
+                                    maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       fontSize: 12,
                                     ),
                                   ),
-                                  Text(
-                                    item['price'] + ' TMT',
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      color: Colors.blue,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12,
+                                  if (item['price'] != '0')
+                                    Text(
+                                      item['price'] + ' TMT',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
                                     ),
-                                  ),
                                   Text(
                                     item['store_name'].toString(),
                                     maxLines: 1,
@@ -301,7 +300,6 @@ class _ProductListState extends State<ProductList> {
       this.data = [];
     });
 
-    print('request');
     String keywordText = keyword.text;
     String url = productsUrl +
         '?name=$keywordText&page_size=$pageSize&sort=$sort&category=$category';

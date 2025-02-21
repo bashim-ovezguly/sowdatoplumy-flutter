@@ -183,7 +183,7 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
                                             width: double.infinity,
                                           )
                                         : Image.asset(
-                                            'assets/images/default16x9.jpg',
+                                            'assets/images/default .jpg',
                                             fit: BoxFit.cover,
                                           )))
                                 .toList(),
@@ -299,7 +299,6 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
   }
 
   void getPart({required id}) async {
-    Urls server_url = new Urls();
     String url = partsUrl + '/' + id;
     final uri = Uri.parse(url);
     // create request headers
@@ -338,7 +337,7 @@ class _GetAutoParthFirstState extends State<GetAutoParthFirst> {
         category = data['category']['name'];
       } catch (e) {}
 
-      baseurl = server_url.get_server_url();
+      baseurl = serverIp;
       var i;
       imgList = [];
       for (i in data['images']) {

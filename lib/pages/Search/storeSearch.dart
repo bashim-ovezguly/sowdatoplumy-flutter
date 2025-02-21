@@ -200,9 +200,7 @@ class _StoreSearchState extends State<StoreSearch> {
           type: MaterialType.transparency,
           child: Ink(
             decoration: BoxDecoration(
-              border: Border.all(
-                  color: Color.fromARGB(255, 182, 210, 196), width: 2.0),
-              color: Colors.blue[900],
+              color: CustomColors.appColor,
               shape: BoxShape.circle,
             ),
             child: InkWell(
@@ -249,8 +247,7 @@ class _StoreSearchState extends State<StoreSearch> {
   }
 
   void get_store_index() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/index/store';
+    String url = serverIp + '/mob/index/store';
     final uri = Uri.parse(url);
     final response = await http.get(uri, headers: {
       'Content-Type': 'application/x-www-form-urlencoded',

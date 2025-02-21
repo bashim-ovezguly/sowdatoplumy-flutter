@@ -80,8 +80,11 @@ class _DeleteAlertState extends State<DeleteAlert> {
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white),
                 onPressed: () async {
-                  String url =
-                      serverIp + action.toString() + "/delete/" + id.toString();
+                  String url = serverIp +
+                      '/' +
+                      action.toString() +
+                      "/delete/" +
+                      id.toString();
                   if (action == 'lenta') {
                     url = serverIp +
                         action.toString() +
@@ -188,10 +191,8 @@ class _DeletePhoneAlertState extends State<DeletePhoneAlert> {
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white),
                 onPressed: () async {
-                  Urls server_url = new Urls();
-                  String url = server_url.get_server_url() +
-                      '/mob/stores/contact/delete/' +
-                      id.toString();
+                  String url =
+                      serverIp + '/mob/stores/contact/delete/' + id.toString();
                   final uri = Uri.parse(url);
 
                   Map<String, String> headers = {};

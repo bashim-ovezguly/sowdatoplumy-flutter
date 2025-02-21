@@ -611,37 +611,29 @@ class _EditCarState extends State<EditCar> {
                     }).toList()),
               ),
             Container(
-                height: 70,
-                padding: const EdgeInsets.all(10),
-                child: SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: CustomColors.appColor,
-                            foregroundColor: Colors.white),
-                        onPressed: () {
-                          selectImages();
-                        },
-                        child: const Text('Surat goş',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 17))))),
+                padding: const EdgeInsets.all(8),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: CustomColors.appColor,
+                        foregroundColor: Colors.white),
+                    onPressed: () {
+                      selectImages();
+                    },
+                    child: const Text(
+                      'Surat goş',
+                    ))),
             Container(
-                height: 70,
-                padding: const EdgeInsets.all(10),
-                child: SizedBox(
-                    width: double.infinity,
-                    height: 60,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: CustomColors.appColor,
-                            foregroundColor: Colors.white),
-                        onPressed: () async {
-                          this.save();
-                        },
-                        child: const Text('Ýatda sakla',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 17)))))
+                padding: const EdgeInsets.all(8),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: CustomColors.appColor,
+                        foregroundColor: Colors.white),
+                    onPressed: () async {
+                      this.save();
+                    },
+                    child: const Text(
+                      'Ýatda sakla',
+                    )))
           ]),
         ));
   }
@@ -783,7 +775,7 @@ class _EditCarState extends State<EditCar> {
   }
 
   void getCarsIdex() async {
-    String url = serverIp + '/mob/index/car';
+    String url = serverIp + '/index/car';
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
     for (var i in global_headers.entries) {

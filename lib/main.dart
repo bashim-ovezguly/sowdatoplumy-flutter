@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Car/carList.dart';
 import 'package:my_app/pages/Profile/login.dart';
-import 'package:my_app/pages/Profile/restore.dart';
+import 'package:my_app/pages/Profile/RestorePassword.dart';
 import 'package:my_app/pages/Products/ProductList.dart';
 import 'package:my_app/pages/Settings/help.dart';
 import 'package:my_app/pages/Settings/settings.dart';

@@ -93,8 +93,7 @@ class UserInfo extends ChangeNotifier {
   }
 
   Future<bool> update_token() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/token/refresh';
+    String url = serverIp + '/mob/token/refresh';
     final uri = Uri.parse(url);
     final response = await http.post(
       uri,
@@ -118,8 +117,7 @@ class UserInfo extends ChangeNotifier {
       return Future<bool>.value(true);
     }
     if (response.statusCode != 200) {
-      Urls server_url = new Urls();
-      String url = server_url.get_server_url() + '/mob/token/obtain';
+      String url = serverIp + '/mob/token/obtain';
       final uri = Uri.parse(url);
       var allRows = await dbHelper.queryAllRows1();
       var data = [];

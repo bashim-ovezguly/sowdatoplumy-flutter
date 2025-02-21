@@ -496,8 +496,7 @@ class _AutoPartsEditState extends State<AutoPartsEdit> {
   }
 
   void getIndexData() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/index/part';
+    String url = serverIp + '/mob/index/part';
     final uri = Uri.parse(url);
     // create request headers
     Map<String, String> headers = {};

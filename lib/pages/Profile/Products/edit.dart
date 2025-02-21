@@ -356,10 +356,8 @@ class _ProductEditState extends State<ProductEdit> {
                       backgroundColor: CustomColors.appColor,
                       foregroundColor: Colors.white),
                   onPressed: () async {
-                    Urls server_url = new Urls();
-                    String url = server_url.get_server_url() +
-                        '/mob/products/' +
-                        old_data['id'].toString();
+                    String url =
+                        serverIp + '/mob/products/' + old_data['id'].toString();
                     final uri = Uri.parse(url);
                     var request = new http.MultipartRequest("PUT", uri);
 
@@ -456,8 +454,7 @@ class _ProductEditState extends State<ProductEdit> {
   }
 
   void get_product_index() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/index/product';
+    String url = serverIp + '/mob/index/product';
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
     for (var i in global_headers.entries) {
@@ -466,7 +463,7 @@ class _ProductEditState extends State<ProductEdit> {
     final response = await http.get(uri, headers: headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
     setState(() {
-      baseurl = server_url.get_server_url();
+      baseurl = serverIp;
       data = json;
       categories = json['categories'];
     });

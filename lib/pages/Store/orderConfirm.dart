@@ -35,201 +35,221 @@ final addressController = TextEditingController();
 final dateinput = TextEditingController();
 
 class _OrderConfirmState extends State<OrderConfirm> {
+  bool isLoading = false;
+
+  showWarningAlert(String text) {
+    QuickAlert.show(
+        context: context,
+        title: 'Sargyt et.',
+        text: text,
+        confirmBtnText: 'Dowam et',
+        confirmBtnColor: CustomColors.appColor,
+        type: QuickAlertType.warning);
+  }
+
+  showSuccessAlert() {
+    QuickAlert.show(
+        context: context,
+        title: '',
+        text: 'Siziň sargydyňyz kabul edildi!',
+        confirmBtnText: 'Dowam et',
+        confirmBtnColor: CustomColors.appColor,
+        type: QuickAlertType.success,
+        onConfirmBtnTap: () {
+          widget.refresh();
+          Navigator.pop(context);
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+  }
+
+  confirmOrder() async {
+    if (addressController.text == '') {
+      showWarningAlert('Salgyňyz hökmany!');
+      return null;
+    }
+    if (dateinput.text == '') {
+      showWarningAlert('Sargydyň wagty hökmany!');
+      return null;
+    }
+
+    List products = [];
+    widget.products.forEach((element) {
+      products.add({'product': element['id'], 'amount': element['amount']});
+    });
+
+    final store_id = await get_store_id();
+
+    var formData = {
+      'note': noteController.text,
+      'address': addressController.text,
+      'delivery_time': dateinput.text,
+      'sender': store_id,
+      'accepter': widget.accepter,
+      'products': products
+    };
+
+    final uri = Uri.parse(orderAddUrl);
+
+    Map<String, String> headers = {};
+    for (var i in global_headers.entries) {
+      headers[i.key] = i.value.toString();
+    }
+    headers['Token'] = await get_access_token();
+    headers['Content-Type'] = "application/json";
+    this.setState(() {
+      isLoading = true;
+    });
+
+    var response =
+        await http.post(uri, headers: headers, body: jsonEncode(formData));
+    if (response.statusCode == 200) {
+      showSuccessAlert();
+    } else {
+      showWarningAlert(
+          'Bagyşlaň ýalňyşlyk ýüze çykdy. Täzeden synanşyp görüň!');
+    }
+
+    this.setState(() {
+      isLoading = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     print(widget.products);
-    showSuccessAlert() {
-      QuickAlert.show(
-          context: context,
-          title: '',
-          text: 'Siziň sargydyňyz kabul edildi!',
-          confirmBtnText: 'Dowam et',
-          confirmBtnColor: CustomColors.appColor,
-          type: QuickAlertType.success,
-          onConfirmBtnTap: () {
-            widget.refresh();
-            Navigator.pop(context);
-            Navigator.pop(context);
-            Navigator.pop(context);
-          });
-    }
-
-    showWarningAlert(String text) {
-      QuickAlert.show(
-          context: context,
-          title: 'Sargyt et.',
-          text: text,
-          confirmBtnText: 'Dowam et',
-          confirmBtnColor: CustomColors.appColor,
-          type: QuickAlertType.warning);
-    }
 
     return Scaffold(
-        backgroundColor: CustomColors.appColorWhite,
-        appBar: AppBar(
-            title: Text(
-          "Sargyt et",
-          style: TextStyle(color: CustomColors.appColorWhite),
-        )),
-        body: CustomScrollView(slivers: [
-          SliverList(
-              delegate: SliverChildBuilderDelegate(childCount: 1,
-                  (BuildContext context, int index) {
-            return Container(
-              margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-              child: Card(
-                color: CustomColors.appColorWhite,
-                shadowColor: const Color.fromARGB(255, 200, 198, 198),
-                surfaceTintColor: CustomColors.appColorWhite,
-                elevation: 5,
-                child: Column(
-                  children: [
-                    Container(
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                  margin: const EdgeInsets.only(top: 10),
-                                  alignment: Alignment.centerLeft,
-                                  child: Center(
-                                      child: TextField(
-                                    controller:
-                                        dateinput, //editing controller of this TextField
-                                    decoration: InputDecoration(
-                                        icon: Icon(Icons.calendar_today),
-                                        labelStyle: TextStyle(
-                                            color: CustomColors.appColor),
-                                        labelText: "Wagt saýlaň"),
-                                    readOnly: true,
-                                    onTap: () async {
-                                      dateTimePickerWidget(context);
-                                    },
-                                  ))),
-                              SizedBox(height: 10),
-                              Text("Salgyňyz",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14)),
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(
-                                        color: CustomColors.appColor)),
-                                child: TextFormField(
-                                  autocorrect: false,
-                                  keyboardType: TextInputType.multiline,
-                                  minLines: 1,
-                                  maxLines: 8,
-                                  controller: addressController,
-                                  decoration: const InputDecoration(
-                                      hintText: '',
-                                      border: InputBorder.none,
-                                      focusColor: Colors.white,
-                                      contentPadding:
-                                          EdgeInsets.only(left: 10)),
-                                ),
-                              )
-                            ])),
-                    Container(
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 10),
-                              Text("Bellik",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14)),
-                              Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(
-                                        color: CustomColors.appColor)),
-                                child: TextFormField(
-                                  autocorrect: false,
-                                  keyboardType: TextInputType.multiline,
-                                  minLines: 1,
-                                  maxLines: 8,
-                                  controller: noteController,
-                                  decoration: const InputDecoration(
-                                      hintText: '',
-                                      border: InputBorder.none,
-                                      focusColor: Colors.white,
-                                      contentPadding:
-                                          EdgeInsets.only(left: 10)),
-                                ),
-                              )
-                            ])),
-                    Container(
-                        margin:
-                            const EdgeInsets.only(left: 20, right: 20, top: 20),
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "JEMI: " + widget.total_price.toString() + " TMT",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        )),
-                    Container(
-                        margin: const EdgeInsets.only(top: 20),
-                        alignment: Alignment.centerLeft),
-                  ],
-                ),
-              ),
-            );
-          })),
-        ]),
-        floatingActionButton: FloatingActionButton.extended(
-            backgroundColor: Colors.green,
-            label: const Text('Sargyt et',
-                style: TextStyle(color: CustomColors.appColorWhite)),
-            onPressed: () async {
-              if (addressController.text == '') {
-                showWarningAlert('Salgyňyz hökmany!');
-                return null;
-              }
-              if (dateinput.text == '') {
-                showWarningAlert('Sargydyň wagty hökmany!');
-                return null;
-              }
-
-              List products = [];
-              widget.products.forEach((element) {
-                products.add(
-                    {'product': element['id'], 'amount': element['amount']});
-              });
-
-              final store_id = await get_store_id();
-
-              var formData = {
-                'note': noteController.text,
-                'address': addressController.text,
-                'delivery_time': dateinput.text,
-                'sender': store_id,
-                'accepter': widget.accepter,
-                'products': products
-              };
-
-              final uri = Uri.parse(orderAddUrl);
-
-              Map<String, String> headers = {};
-              for (var i in global_headers.entries) {
-                headers[i.key] = i.value.toString();
-              }
-              headers['Token'] = await get_access_token();
-              headers['Content-Type'] = "application/json";
-              var req = await http.post(uri,
-                  headers: headers, body: jsonEncode(formData));
-              print(jsonDecode(utf8.decode(req.bodyBytes)));
-              if (req.statusCode == 200) {
-                showSuccessAlert();
-              } else {
-                showWarningAlert(
-                    'Bagyşlaň ýalňyşlyk ýüze çykdy. Täzeden synanşyp görüň!');
-              }
-            }));
+      backgroundColor: CustomColors.appColorWhite,
+      appBar: AppBar(
+          title: Text(
+        "Sargyt et",
+        style: TextStyle(color: CustomColors.appColorWhite),
+      )),
+      body: CustomScrollView(slivers: [
+        SliverList(
+            delegate: SliverChildBuilderDelegate(childCount: 1,
+                (BuildContext context, int index) {
+          return Container(
+            margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+            child: Column(
+              children: [
+                Container(
+                    margin: const EdgeInsets.only(left: 20, right: 20),
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              alignment: Alignment.centerLeft,
+                              child: Center(
+                                  child: TextField(
+                                controller:
+                                    dateinput, //editing controller of this TextField
+                                decoration: InputDecoration(
+                                    icon: Icon(Icons.calendar_today),
+                                    labelStyle:
+                                        TextStyle(color: CustomColors.appColor),
+                                    labelText: "Wagt saýlaň"),
+                                readOnly: true,
+                                onTap: () async {
+                                  dateTimePickerWidget(context);
+                                },
+                              ))),
+                          SizedBox(height: 10),
+                          Text("Salgyňyz",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14)),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border:
+                                    Border.all(color: CustomColors.appColor)),
+                            child: TextFormField(
+                              autocorrect: false,
+                              keyboardType: TextInputType.multiline,
+                              minLines: 1,
+                              maxLines: 8,
+                              controller: addressController,
+                              decoration: const InputDecoration(
+                                  hintText: '',
+                                  border: InputBorder.none,
+                                  focusColor: Colors.white,
+                                  contentPadding: EdgeInsets.only(left: 10)),
+                            ),
+                          )
+                        ])),
+                Container(
+                    margin: const EdgeInsets.only(left: 20, right: 20),
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 10),
+                          Text("Bellik",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14)),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border:
+                                    Border.all(color: CustomColors.appColor)),
+                            child: TextFormField(
+                              autocorrect: false,
+                              keyboardType: TextInputType.multiline,
+                              minLines: 1,
+                              maxLines: 8,
+                              controller: noteController,
+                              decoration: const InputDecoration(
+                                  hintText: '',
+                                  border: InputBorder.none,
+                                  focusColor: Colors.white,
+                                  contentPadding: EdgeInsets.only(left: 10)),
+                            ),
+                          )
+                        ])),
+                Container(
+                    margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "JEMI: " + widget.total_price.toString() + " TMT",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    )),
+                Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    alignment: Alignment.centerLeft),
+                if (isLoading)
+                  CircularProgressIndicator(
+                    color: CustomColors.appColor,
+                  ),
+                if (!isLoading)
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: MaterialButton(
+                      shape: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(10)),
+                      color: CustomColors.appColor,
+                      textColor: Colors.white,
+                      minWidth: double.infinity,
+                      onPressed: () {
+                        this.confirmOrder();
+                      },
+                      child: Text(
+                        'Sargyt et',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w300, fontSize: 18),
+                      ),
+                    ),
+                  )
+              ],
+            ),
+          );
+        })),
+      ]),
+    );
   }
 
   dateTimePickerWidget(BuildContext context) {

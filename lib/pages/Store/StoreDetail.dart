@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:my_app/dB/constants.dart';
+import 'package:my_app/pages/FullScreenImage.dart';
 import 'package:my_app/pages/Store/StoreImages.dart';
 import 'package:my_app/pages/Store/StoreAksiya.dart';
 import 'package:my_app/pages/Store/StoreCars.dart';
 import 'package:my_app/pages/Store/StoreProducts.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../dB/textStyle.dart';
@@ -97,6 +99,50 @@ class StoreDetailState extends State<StoreDetail>
     });
   }
 
+  menuButton(icon, text, count, NextPage) {
+    if (count == 0) {
+      return SizedBox(
+        height: 0,
+      );
+    }
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+            boxShadow: [appShadow],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10)),
+        child: MaterialButton(
+          splashColor: Colors.white,
+          hoverColor: CustomColors.appColor,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          textColor: CustomColors.appColor,
+          padding: EdgeInsets.all(10),
+          onPressed: () => {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => NextPage))
+          },
+          child: Row(children: [
+            Container(
+                child: Container(
+                    margin: EdgeInsets.only(right: 10), child: Icon(icon))),
+            Text(
+              text + ' ' + count.toString(),
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 17,
+              ),
+            ),
+            Spacer(),
+            Icon(Icons.keyboard_arrow_right),
+          ]),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,20 +166,29 @@ class StoreDetailState extends State<StoreDetail>
               ),
             if (this.isLoading == false)
               Center(
-                child: Container(
-                  clipBehavior: Clip.hardEdge,
-                  width: MediaQuery.sizeOf(context).width * 0.4,
-                  margin: EdgeInsets.all(5),
-                  height: MediaQuery.sizeOf(context).width * 0.4,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(400.0),
-                  ),
-                  child: Image.network(
-                    fit: BoxFit.cover,
-                    serverIp + this.logo,
-                    errorBuilder: (c, e, s) {
-                      return Text('');
-                    },
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return FullScreenImage(img: serverIp + this.logo);
+                    }));
+                  },
+                  child: Container(
+                    clipBehavior: Clip.hardEdge,
+                    width: MediaQuery.sizeOf(context).width * 0.4,
+                    margin: EdgeInsets.all(5),
+                    height: MediaQuery.sizeOf(context).width * 0.4,
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(400.0),
+                    ),
+                    child: Image.network(
+                      fit: BoxFit.cover,
+                      serverIp + this.logo,
+                      errorBuilder: (c, e, s) {
+                        return Text('');
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -211,6 +266,18 @@ class StoreDetailState extends State<StoreDetail>
                     this.created_at,
                     style: TextStyle(fontSize: 15, color: Colors.grey),
                   ),
+                  MaterialButton(
+                      elevation: 0,
+                      minWidth: 0,
+                      onPressed: () {
+                        Share.share('http://business-complex.com.tm/stores/' +
+                            widget.id.toString());
+                      },
+                      child: Icon(
+                        Icons.share,
+                        color: Colors.grey,
+                        size: 20,
+                      )),
                 ],
               ),
             ),
@@ -220,152 +287,31 @@ class StoreDetailState extends State<StoreDetail>
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Column(children: [
-                if (this.carCount > 0)
-                  MaterialButton(
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    color: Colors.grey.shade100,
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    onPressed: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => StoreCars(
-                                    storeName: name,
-                                    id: id.toString(),
-                                  )))
-                    },
-                    child: Row(children: [
-                      Container(
-                          child: Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: Icon(
-                                Icons.time_to_leave_outlined,
-                                color: CustomColors.appColor,
-                                size: 25,
-                              ))),
-                      Text('Awtoulaglar ' + this.carCount.toString(),
-                          style: TextStyle(
-                              fontSize: 17, color: CustomColors.appColor)),
-                      Spacer(),
-                      Icon(
-                        Icons.keyboard_arrow_right,
-                        color: CustomColors.appColor,
-                      )
-                    ]),
-                  ),
-                if (this.productCount > 0)
-                  MaterialButton(
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    color: Colors.grey.shade100,
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    onPressed: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => StoreProducts(
-                                    storeName: name,
-                                    id: id,
-                                    delivery_price: this.delivery_price,
-                                  )))
-                    },
-                    child: Row(children: [
-                      Container(
-                          child: Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: Icon(
-                                Icons.card_giftcard_sharp,
-                                size: 25,
-                                color: CustomColors.appColor,
-                              ))),
-                      Text(
-                        'Harytlar ' + this.productCount.toString(),
-                        style: TextStyle(
-                            fontSize: 17, color: CustomColors.appColor),
-                      ),
-                      Spacer(),
-                      Icon(
-                        Icons.keyboard_arrow_right,
-                        color: CustomColors.appColor,
-                      )
-                    ]),
-                  ),
-                if (this.images.length > 0)
-                  MaterialButton(
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    color: Colors.grey.shade100,
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    onPressed: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => StoreImages(
-                                    customer_id: id.toString(),
-                                    callbackFunc: fetch,
-                                  )))
-                    },
-                    child: Row(children: [
-                      Container(
-                          child: Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: Icon(
-                                Icons.image_outlined,
-                                size: 25,
-                                color: CustomColors.appColor,
-                              ))),
-                      Text(
-                        'Suratlar ' + this.images.length.toString(),
-                        style: TextStyle(
-                            fontSize: 17, color: CustomColors.appColor),
-                      ),
-                      Spacer(),
-                      Icon(
-                        Icons.keyboard_arrow_right,
-                        color: CustomColors.appColor,
-                      )
-                    ]),
-                  ),
-                if (this.lentaCount > 0)
-                  MaterialButton(
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    color: Colors.grey.shade100,
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    onPressed: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => StoreAksiya(
-                                    storeId: id.toString(),
-                                  )))
-                    },
-                    child: Row(children: [
-                      Container(
-                          child: Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: Icon(
-                                Icons.bookmark_border_outlined,
-                                size: 25,
-                                color: CustomColors.appColor,
-                              ))),
-                      Text(
-                        'Aksiýalar ' + this.lentaCount.toString(),
-                        style: TextStyle(
-                            color: CustomColors.appColor, fontSize: 17),
-                      ),
-                      Spacer(),
-                      Icon(
-                        Icons.keyboard_arrow_right,
-                        color: CustomColors.appColor,
-                      )
-                    ]),
-                  ),
+                menuButton(Icons.time_to_leave, 'Awtoulaglar', this.carCount,
+                    StoreCars(id: id.toString(), storeName: this.name)),
+                menuButton(
+                    Icons.card_giftcard_sharp,
+                    'Harytlar',
+                    this.productCount,
+                    StoreProducts(
+                        id: id,
+                        storeName: this.name,
+                        delivery_price: delivery_price)),
+                menuButton(
+                    Icons.image_outlined,
+                    'Suratlar',
+                    this.images.length,
+                    StoreImages(
+                      customer_id: id.toString(),
+                      callbackFunc: fetch,
+                    )),
+                menuButton(
+                    Icons.bookmark_border_outlined,
+                    'Aksiýalar',
+                    this.lentaCount,
+                    StoreAksiya(
+                      storeId: id.toString(),
+                    )),
               ]),
             ),
             if (this.description != '')
@@ -396,6 +342,11 @@ class StoreDetailState extends State<StoreDetail>
                       children: this
                           .phones
                           .map((e) => Container(
+                                // margin: EdgeInsets.symmetric(vertical: 2),
+                                // padding: EdgeInsets.all(8),
+                                // decoration: BoxDecoration(
+                                //     color: Colors.green,
+                                //     borderRadius: BorderRadius.circular(10)),
                                 child: GestureDetector(
                                   onTap: () {
                                     launchUrl(Uri.parse('tel:' + e['phone']));

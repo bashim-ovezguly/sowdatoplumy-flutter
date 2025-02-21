@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:my_app/dB/textStyle.dart';
-import 'package:my_app/pages/Profile/restore.dart';
+import 'package:my_app/pages/Profile/RestorePassword.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../dB/constants.dart';
 import '../../main.dart';
@@ -128,17 +128,19 @@ class _VerificationState extends State<Verification> {
                       child: Image.asset('assets/images/sms_code_icon.png'),
                     ),
                     Container(
+                        width: 0.8 * MediaQuery.sizeOf(context).width,
                         alignment: Alignment.center,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(phone + " poçta ugradylan",
+                            Text(
+                                '+993' +
+                                    phone +
+                                    " belgä ugradylan SMS kody giriziň",
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    color: CustomColors.appColor,
-                                    fontSize: 16)),
-                            Text("SMS kody giriziň",
-                                style: TextStyle(
+                                    fontWeight: FontWeight.w300,
                                     color: CustomColors.appColor,
                                     fontSize: 16)),
                           ],
@@ -166,6 +168,7 @@ class _VerificationState extends State<Verification> {
                             ),
                             child: Text("Tassyklamak",
                                 style: TextStyle(
+                                    fontWeight: FontWeight.w300,
                                     color: CustomColors.appColorWhite)))),
                     Container(
                         child: CircularCountDownTimer(
@@ -194,16 +197,17 @@ class _VerificationState extends State<Verification> {
                       Align(
                           child: TextButton(
                               onPressed: null,
-                              child: Text("SMS kody täzeden ugratmak")))
+                              child: Text(
+                                "SMS kody täzeden ugratmak",
+                                style: TextStyle(fontWeight: FontWeight.w300),
+                              )))
                     else
                       Align(
                         child: TextButton(
                           onPressed: () async {
                             refresh();
 
-                            Urls server_url = new Urls();
-                            String url = server_url.get_server_url() +
-                                '/mob/customers/send/code';
+                            String url = serverIp + '/mob/customers/send/code';
                             final uri = Uri.parse(url);
                             var request =
                                 new http.MultipartRequest("POST", uri);
@@ -241,8 +245,7 @@ class _VerificationState extends State<Verification> {
   }
 
   Future<void> sendSms() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/customers/send/code';
+    String url = serverIp + '/mob/customers/send/code';
     final uri = Uri.parse(url);
     var request = new http.MultipartRequest("POST", uri);
 

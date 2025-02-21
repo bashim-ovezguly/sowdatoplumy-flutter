@@ -161,6 +161,11 @@ class _ProfileState extends State<Profile> {
                   ])),
             if (this.isLoading == false)
               Container(
+                  padding: EdgeInsets.all(10),
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.grey.withOpacity(0.1)),
                   margin: EdgeInsets.symmetric(horizontal: 15),
                   child: Column(children: [
                     GestureDetector(
@@ -282,7 +287,7 @@ class _ProfileState extends State<Profile> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MyRibbonList(
+                                builder: (context) => LentaList(
                                     customer_id: this.user_id,
                                     callbackFunc: getData,
                                     user_customer_id:
@@ -365,7 +370,7 @@ class _ProfileState extends State<Profile> {
                         color: Colors.red.shade400,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
+                            borderRadius: BorderRadius.circular(10)),
                         child: Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

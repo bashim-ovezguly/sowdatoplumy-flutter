@@ -50,9 +50,13 @@ class _ProfileImagesState extends State<ProfileImages> {
         imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
     List<XFile> xfilePick = pickedFile;
 
+    if (xfilePick.length == 0) {
+      return null;
+    }
+
     setState(
       () {
-        if (xfilePick.isNotEmpty) {
+        if (xfilePick.length > 0) {
           for (var i = 0; i < xfilePick.length; i++) {
             selectedImages.add(File(xfilePick[i].path));
           }
@@ -61,7 +65,7 @@ class _ProfileImagesState extends State<ProfileImages> {
     );
 
     var request = new http.MultipartRequest(
-        "PUT", Uri.parse(serverIp + '/mob/stores/' + widget.customer_id));
+        "PUT", Uri.parse(serverIp + '/stores/' + widget.customer_id));
     for (var i in selectedImages) {
       var multiport = await http.MultipartFile.fromPath(
         'images',
@@ -114,8 +118,7 @@ class _ProfileImagesState extends State<ProfileImages> {
   }
 
   void deleteImage(imgId, index) async {
-    Uri uri =
-        Uri.parse(serverIp + '/mob/stores/img/delete/' + imgId.toString());
+    Uri uri = Uri.parse(serverIp + '/stores/img/delete/' + imgId.toString());
     var response = await http.post(uri);
 
     if (response.statusCode == 200) {
@@ -169,6 +172,8 @@ class _ProfileImagesState extends State<ProfileImages> {
         body: SingleChildScrollView(
           child: Center(
             child: Wrap(
+              alignment: WrapAlignment.start,
+              // crossAxisAlignment: WrapCrossAlignment.center,
               children: this.images.map((item) {
                 return GestureDetector(
                   onTap: () {
@@ -180,13 +185,13 @@ class _ProfileImagesState extends State<ProfileImages> {
                   child: Stack(
                     children: [
                       Container(
+                          margin: EdgeInsets.all(2),
                           clipBehavior: Clip.hardEdge,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(8),
                               border: Border.all(color: Colors.grey.shade200)),
                           width: MediaQuery.sizeOf(context).width / 3 - 5,
                           height: MediaQuery.sizeOf(context).width / 3 - 5,
-                          margin: EdgeInsets.all(1),
                           child: Image.network(
                             serverIp + item['img_m'],
                             fit: BoxFit.cover,

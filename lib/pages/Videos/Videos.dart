@@ -255,8 +255,7 @@ class VideoListState extends State<VideoList> {
   }
 
   void getNewslist() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/news';
+    String url = serverIp + '/mob/news';
 
     url = url + "?page=$currentPage&page_size=$_numberOfPostPerRequest";
 
@@ -279,8 +278,7 @@ class VideoListState extends State<VideoList> {
   }
 
   void getNewsCategories() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/index/news';
+    String url = serverIp + '/mob/index/news';
 
     final uri = Uri.parse(url);
     Map<String, String> headers = {};

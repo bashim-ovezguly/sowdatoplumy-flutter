@@ -6,17 +6,17 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ChatAdmin extends StatefulWidget {
-  const ChatAdmin({super.key});
+class AdminChat extends StatefulWidget {
+  const AdminChat({super.key});
 
   @override
-  State<ChatAdmin> createState() => _ChatAdminState();
+  State<AdminChat> createState() => _AdminChatState();
 }
 
 final ScrollController _controller = ScrollController();
 final textController = TextEditingController();
 
-class _ChatAdminState extends State<ChatAdmin> {
+class _AdminChatState extends State<AdminChat> {
   List<dynamic> data = [];
   @override
   void initState() {
@@ -36,32 +36,50 @@ class _ChatAdminState extends State<ChatAdmin> {
               itemCount: data.length,
               padding: EdgeInsets.only(top: 10, bottom: 10),
               itemBuilder: (context, index) {
+                var time = data[index]['created_at']
+                    .toString()
+                    .split('T')[1]
+                    .substring(0, 8);
+                var date = data[index]['created_at'].toString().split('T')[0];
                 return Container(
-                    padding: EdgeInsets.only(
-                        left: 14, right: 14, top: 10, bottom: 10),
+                    padding: EdgeInsets.all(10),
                     child: Align(
                         alignment: (data[index]['sender'] != "customer"
                             ? Alignment.topLeft
                             : Alignment.topRight),
                         child: Container(
-                            child: Column(children: [
-                          Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: (data[index]['sender'] == "customer"
-                                    ? Color.fromARGB(255, 169, 193, 255)
-                                    : data[index]['sender'] == 'customer1'
-                                        ? Colors.white
-                                        : Colors.grey.shade200),
-                              ),
-                              padding: EdgeInsets.all(16),
-                              child: Text(data[index]['msg'],
-                                  style: TextStyle(fontSize: 15))),
-                          // Text(data[index]['created_at'].toString())
-                        ]))));
+                            child: Column(
+                                crossAxisAlignment:
+                                    (data[index]['sender'] == 'customer'
+                                        ? CrossAxisAlignment.end
+                                        : CrossAxisAlignment.start),
+                                children: [
+                              Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: (data[index]['sender'] == "customer"
+                                        ? Colors.blue
+                                        : data[index]['sender'] == 'customer1'
+                                            ? Colors.white
+                                            : Colors.grey.shade200),
+                                  ),
+                                  padding: EdgeInsets.all(8),
+                                  child: Text(data[index]['msg'],
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: (data[index]['sender'] ==
+                                                  'customer'
+                                              ? Colors.white
+                                              : Colors.blue)))),
+                              Text(
+                                date + ', ' + time,
+                                style:
+                                    TextStyle(fontSize: 10, color: Colors.grey),
+                              )
+                            ]))));
               }),
           Align(
-              alignment: Alignment.bottomLeft,
+              alignment: Alignment.bottomCenter,
               child: Container(
                   margin: EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -90,9 +108,7 @@ class _ChatAdminState extends State<ChatAdmin> {
                             splashColor: CustomColors.appColorWhite,
                             onPressed: () async {
                               if (textController.text.length != 0) {
-                                Urls server_url = new Urls();
-                                String url = server_url.get_server_url() +
-                                    '/mob/mail/admin';
+                                String url = serverIp + '/mail/admin';
 
                                 Map<String, String> headers = {};
                                 for (var i in global_headers.entries) {
@@ -119,8 +135,7 @@ class _ChatAdminState extends State<ChatAdmin> {
   }
 
   void get_messages() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/mail/admin';
+    String url = serverIp + '/mail/admin';
 
     Map<String, String> headers = global_headers;
 

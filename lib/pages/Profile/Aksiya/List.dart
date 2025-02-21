@@ -9,11 +9,11 @@ import '../../../dB/textStyle.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class MyRibbonList extends StatefulWidget {
+class LentaList extends StatefulWidget {
   final String customer_id;
   final String user_customer_id;
   final Function callbackFunc;
-  const MyRibbonList(
+  const LentaList(
       {Key? key,
       required this.customer_id,
       required this.callbackFunc,
@@ -21,10 +21,10 @@ class MyRibbonList extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<MyRibbonList> createState() => _MyRibbonListState();
+  State<LentaList> createState() => _LentaListState();
 }
 
-class _MyRibbonListState extends State<MyRibbonList> {
+class _LentaListState extends State<LentaList> {
   bool determinate = false;
   var datas = [];
 
@@ -64,20 +64,11 @@ class _MyRibbonListState extends State<MyRibbonList> {
             child: CircleAvatar(
               radius: 30,
               backgroundColor: Colors.green,
-              child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AddDatasPage(
-                                  index: 2,
-                                )));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                        child: Icon(Icons.add, size: 35, color: Colors.white)),
-                  )),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                    child: Icon(Icons.add, size: 35, color: Colors.white)),
+              ),
             ),
           ),
         ),
@@ -88,6 +79,13 @@ class _MyRibbonListState extends State<MyRibbonList> {
               children: [
                 for (var i in datas)
                   Container(
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(color: Colors.grey, blurRadius: 3)
+                        ]),
                     margin: EdgeInsets.all(10),
                     child: GestureDetector(
                       onTap: () {
@@ -98,117 +96,63 @@ class _MyRibbonListState extends State<MyRibbonList> {
                                     id: i['id'].toString(),
                                     refreshListFunc: refreshListFunc)));
                       },
-                      child: Container(
-                        child: Column(children: [
-                          Container(
-                            height: 180,
+                      child: Column(children: [
+                        ImageSlideshow(
+                            disableUserScrolling:
+                                i['images'].length > 1 ? false : true,
                             width: double.infinity,
-                            child: Stack(
-                                alignment: Alignment.bottomCenter,
-                                children: [
-                                  Container(
-                                      height: 180,
-                                      color: Colors.black12,
-                                      child: ImageSlideshow(
-                                          disableUserScrolling:
-                                              i['images'].length > 1
-                                                  ? false
-                                                  : true,
-                                          width: double.infinity,
-                                          initialPage: 0,
-                                          indicatorColor: CustomColors.appColor,
-                                          indicatorBackgroundColor: Colors.grey,
-                                          onPageChanged: (value) {},
-                                          autoPlayInterval: null,
-                                          isLoop: false,
-                                          children: [
-                                            if (i['images'].length == 0)
-                                              ClipRect(
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) => LentaEdit(
-                                                                id: i['id']
-                                                                    .toString(),
-                                                                refreshListFunc:
-                                                                    refreshListFunc)));
-                                                  },
-                                                  child: Container(
-                                                    height: 220,
-                                                    width: double.infinity,
-                                                    child: FittedBox(
-                                                      fit: BoxFit.cover,
-                                                      child: Image.asset(
-                                                          'assets/images/default.jpg'),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            for (var item in i['images'])
-                                              if (item['img'] != null &&
-                                                  item['img'] != '')
-                                                GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (context) =>
-                                                                      LentaEdit(
-                                                                        id: i['id']
-                                                                            .toString(),
-                                                                        refreshListFunc:
-                                                                            refreshListFunc,
-                                                                      )));
-                                                    },
-                                                    child: ClipRect(
-                                                        child: Container(
-                                                            height: 220,
-                                                            width:
-                                                                double.infinity,
-                                                            child: FittedBox(
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                                child: Image
-                                                                    .network(
-                                                                  serverIp +
-                                                                      item[
-                                                                          'img'],
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                )))))
-                                          ])),
-                                ]),
+                            initialPage: 0,
+                            indicatorColor: CustomColors.appColor,
+                            indicatorBackgroundColor: Colors.grey,
+                            autoPlayInterval: null,
+                            isLoop: false,
+                            children: [
+                              for (var item in i['images'])
+                                if (item['img'] != null && item['img'] != '')
+                                  GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => LentaEdit(
+                                                      id: i['id'].toString(),
+                                                      refreshListFunc:
+                                                          refreshListFunc,
+                                                    )));
+                                      },
+                                      child: FittedBox(
+                                          fit: BoxFit.cover,
+                                          child: Image.network(
+                                            serverIp + item['img'],
+                                            fit: BoxFit.cover,
+                                          )))
+                            ]),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Icons.schedule,
+                                  color: CustomColors.appColor),
+                              SizedBox(width: 5),
+                              Text(i['created_at'].toString(),
+                                  style:
+                                      TextStyle(color: CustomColors.appColor),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.clip),
+                              SizedBox(width: 15),
+                              Icon(Icons.remove_red_eye,
+                                  color: CustomColors.appColor),
+                              SizedBox(width: 5),
+                              Text(i['view'].toString(),
+                                  style:
+                                      TextStyle(color: CustomColors.appColor),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.clip)
+                            ],
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(Icons.schedule,
-                                    color: CustomColors.appColor),
-                                SizedBox(width: 5),
-                                Text(i['created_at'].toString(),
-                                    style:
-                                        TextStyle(color: CustomColors.appColor),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.clip),
-                                SizedBox(width: 15),
-                                Icon(Icons.remove_red_eye,
-                                    color: CustomColors.appColor),
-                                SizedBox(width: 5),
-                                Text(i['view'].toString(),
-                                    style:
-                                        TextStyle(color: CustomColors.appColor),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.clip)
-                              ],
-                            ),
-                          )
-                        ]),
-                      ),
+                        )
+                      ]),
                     ),
                   )
               ],

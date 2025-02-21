@@ -157,8 +157,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
 
   void getNewsById({required id}) async {
     print(id);
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/news/' + id;
+    String url = serverIp + '/news/' + id;
     final uri = Uri.parse(url);
     Map<String, String> headers = {};
 
@@ -171,7 +170,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
     setState(() {
       data = json;
       print(data['images']);
-      baseurl = server_url.get_server_url();
+      baseurl = serverIp;
       determinate = true;
       // for (var i in data['images']) {
       //   imgList.add(baseurl + i['img']);

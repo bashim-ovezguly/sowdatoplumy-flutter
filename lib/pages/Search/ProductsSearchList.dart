@@ -1,13 +1,10 @@
 // ignore_for_file: must_be_immutable
-
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:my_app/dB/constants.dart';
 import 'package:my_app/pages/Products/ProductDetail.dart';
-
-import '../../dB/textStyle.dart';
 import '../progressIndicator.dart';
 
 class ProductsSearchList extends StatefulWidget {
@@ -66,14 +63,11 @@ class _ProductsSearchListState extends State<ProductsSearchList> {
                 children: [
                   Text(
                     'Gözleg',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20),
+                    style: TextStyle(color: Colors.white, fontSize: 17),
                   ),
                   Text(
-                    'Harytlar ' + this.total_count.toString(),
-                    style: CustomText.appBarText,
+                    'Harytlar: ' + this.total_count.toString() + ' sany',
+                    style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ],
               ),
@@ -171,12 +165,13 @@ class _ProductsSearchListState extends State<ProductsSearchList> {
                                                                 child: Text(
                                                                     data[index][
                                                                         'name'],
+                                                                    maxLines: 1,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
                                                                     style: TextStyle(
                                                                         fontSize:
-                                                                            18,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
+                                                                            14,
                                                                         color: CustomColors
                                                                             .appColor))),
                                                             Container(
@@ -186,18 +181,18 @@ class _ProductsSearchListState extends State<ProductsSearchList> {
                                                                     data[index][
                                                                             'price'] +
                                                                         'TMT',
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .blue,
-                                                                        fontWeight:
-                                                                            FontWeight.bold))),
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Colors
+                                                                          .blue,
+                                                                    ))),
                                                             Align(
                                                                 alignment: Alignment
                                                                     .centerLeft,
                                                                 child: Row(
                                                                     children: <Widget>[
                                                                       Text(
-                                                                          data[index]['delta_time']
+                                                                          data[index]['created_at']
                                                                               .toString(),
                                                                           style:
                                                                               TextStyle(fontSize: 14))
@@ -207,10 +202,20 @@ class _ProductsSearchListState extends State<ProductsSearchList> {
                                                                     .centerLeft,
                                                                 child: Row(
                                                                     children: <Widget>[
+                                                                      Icon(
+                                                                        Icons
+                                                                            .store,
+                                                                        size:
+                                                                            18,
+                                                                      ),
                                                                       Text(
                                                                         data[index]['store']
                                                                             [
                                                                             'name'],
+                                                                        maxLines:
+                                                                            1,
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
                                                                         style: TextStyle(
                                                                             fontSize:
                                                                                 14),
@@ -259,8 +264,7 @@ class _ProductsSearchListState extends State<ProductsSearchList> {
     //   sort_value = 'sort=-id';
     // }
 
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/products?';
+    String url = serverIp + '/mob/products?';
 
     if (params['category'] != 'null') {
       url = url + 'category=' + params['category'] + "&";

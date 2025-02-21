@@ -54,12 +54,7 @@ class _AppInfoState extends State<AppInfo> {
                                   style: TextStyle(
                                       color: CustomColors.appColor,
                                       fontSize: 18,
-                                      fontWeight: FontWeight.bold))),
-                          Container(
-                              child: Text(data['android_version'].toString(),
-                                  style: TextStyle(
-                                      color: CustomColors.appColor,
-                                      fontSize: 18)))
+                                      fontWeight: FontWeight.bold)))
                         ])),
                 Container(
                     padding: EdgeInsets.all(15),
@@ -139,8 +134,7 @@ class _AppInfoState extends State<AppInfo> {
   }
 
   Future<void> getAppInfo() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/mob/about_us';
+    String url = serverIp + '/mob/about_us';
 
     var pref = await SharedPreferences.getInstance();
     print(pref.getKeys());

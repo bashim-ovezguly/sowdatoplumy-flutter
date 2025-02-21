@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:my_app/globalFunctions.dart';
 import 'package:my_app/pages/Profile/loadingWidget.dart';
 import 'package:my_app/pages/customCheckbox.dart';
-import 'package:my_app/pages/error.dart';
+import 'package:my_app/pages/LoadinError.dart';
 import 'package:my_app/pages/homePageLocation.dart';
 import 'package:my_app/pages/select.dart';
 import 'package:image_picker/image_picker.dart';
@@ -151,10 +151,9 @@ class _AddCarsState extends State<AddCars> {
     setState(() {
       markaController = new_value;
     });
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() +
-        '/mob/index/car?mark=' +
-        markaController['id'].toString();
+
+    String url =
+        serverIp + '/mob/index/car?mark=' + markaController['id'].toString();
     final uri = Uri.parse(url);
     final responses = await http.get(uri);
     final jsons = jsonDecode(utf8.decode(responses.bodyBytes));
@@ -168,7 +167,7 @@ class _AddCarsState extends State<AddCars> {
     QuickAlert.show(
         context: context,
         title: '',
-        text: 'Awtoulag goşuldy. Operatoryň tassyklamagyna garaşyň',
+        text: 'Awtoulag goşuldy',
         confirmBtnText: 'Dowam et',
         confirmBtnColor: CustomColors.appColor,
         type: QuickAlertType.success,
@@ -190,7 +189,7 @@ class _AddCarsState extends State<AddCars> {
               height: 40,
               margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
               decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.appColor, width: 1),
+                  border: Border.all(width: 1),
                   borderRadius: BorderRadius.circular(5),
                   shape: BoxShape.rectangle),
               child: Container(
@@ -211,7 +210,7 @@ class _AddCarsState extends State<AddCars> {
               height: 40,
               margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
               decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.appColor, width: 1),
+                  border: Border.all(width: 1),
                   borderRadius: BorderRadius.circular(5),
                   shape: BoxShape.rectangle),
               child: Container(
@@ -226,7 +225,6 @@ class _AddCarsState extends State<AddCars> {
                   child: Text('Model',
                       style: TextStyle(color: Colors.black, fontSize: 12))))
         ]),
-
         TextFormField(
           controller: yearController,
           decoration: InputDecoration(
@@ -271,20 +269,19 @@ class _AddCarsState extends State<AddCars> {
               contentPadding: EdgeInsets.all(10)),
         ),
         SizedBox(height: 15),
-
         TextFormField(
           controller: phoneController,
           maxLength: 8,
           keyboardType: TextInputType.phone,
           decoration: InputDecoration(
             prefixIcon: Icon(Icons.phone),
+            prefixText: '+993',
             hintMaxLines: 1,
             border: OutlineInputBorder(),
             labelText: 'Telefon belgisi',
             contentPadding: EdgeInsets.all(10),
           ),
         ),
-
         TextFormField(
           controller: millageController,
           decoration: InputDecoration(
@@ -304,7 +301,7 @@ class _AddCarsState extends State<AddCars> {
               height: 40,
               margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
               decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.appColor, width: 1),
+                  border: Border.all(width: 1),
                   borderRadius: BorderRadius.circular(5),
                   shape: BoxShape.rectangle),
               child: Container(
@@ -319,7 +316,6 @@ class _AddCarsState extends State<AddCars> {
                   child: Text('Reňki',
                       style: TextStyle(color: Colors.black, fontSize: 12))))
         ]),
-
         TextFormField(
           controller: engineController,
           decoration: InputDecoration(
@@ -335,7 +331,7 @@ class _AddCarsState extends State<AddCars> {
               height: 40,
               margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
               decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.appColor, width: 1),
+                  border: Border.all(width: 1),
                   borderRadius: BorderRadius.circular(5),
                   shape: BoxShape.rectangle),
               child: Container(
@@ -356,7 +352,7 @@ class _AddCarsState extends State<AddCars> {
               height: 40,
               margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
               decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.appColor, width: 1),
+                  border: Border.all(width: 1),
                   borderRadius: BorderRadius.circular(5),
                   shape: BoxShape.rectangle),
               child: Container(
@@ -378,7 +374,7 @@ class _AddCarsState extends State<AddCars> {
               height: 40,
               margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
               decoration: BoxDecoration(
-                  border: Border.all(color: CustomColors.appColor, width: 1),
+                  border: Border.all(width: 1),
                   borderRadius: BorderRadius.circular(5),
                   shape: BoxShape.rectangle),
               child: Container(
@@ -393,7 +389,6 @@ class _AddCarsState extends State<AddCars> {
                   child: Text('Ýöredijiniň görnüş',
                       style: TextStyle(color: Colors.black, fontSize: 12))))
         ]),
-
         TextFormField(
           controller: vinCodeController,
           decoration: InputDecoration(
@@ -411,7 +406,6 @@ class _AddCarsState extends State<AddCars> {
               hintText: 'Goşmaça', border: OutlineInputBorder()),
           maxLines: 5,
         ),
-
         Row(
           children: [
             Checkbox(
@@ -442,7 +436,6 @@ class _AddCarsState extends State<AddCars> {
             )
           ],
         ),
-
         SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -468,37 +461,24 @@ class _AddCarsState extends State<AddCars> {
                         child: Icon(Icons.close, color: Colors.red)))
               ]);
             }).toList())),
-        Container(
-            height: 50,
-            padding: const EdgeInsets.all(10),
-            child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: CustomColors.appColor,
-                        foregroundColor: Colors.white),
-                    onPressed: () {
-                      getImages();
-                    },
-                    child: const Text('Surat goş',
-                        style: TextStyle(fontWeight: FontWeight.bold))))),
-        Container(
-            height: 50,
-            padding: const EdgeInsets.all(10),
-            child: SizedBox(
-                width: double.infinity,
-                height: 60,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: CustomColors.appColor,
-                        foregroundColor: Colors.white),
-                    onPressed: () async {
-                      saveCar();
-                    },
-                    child: const Text('Ýatda sakla',
-                        style: TextStyle(fontWeight: FontWeight.bold))))),
-        // SizedBox(height: 200)
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: CustomColors.appColor,
+                foregroundColor: Colors.white),
+            onPressed: () {
+              getImages();
+            },
+            child: const Text('Surat goş',
+                style: TextStyle(fontWeight: FontWeight.w300))),
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: CustomColors.appColor,
+                foregroundColor: Colors.white),
+            onPressed: () async {
+              saveCar();
+            },
+            child: const Text('Ýatda sakla',
+                style: TextStyle(fontWeight: FontWeight.w300))),
       ]),
     );
   }
@@ -597,7 +577,7 @@ class _AddCarsState extends State<AddCars> {
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return ErrorAlert();
+        return LoadingErrorAlert();
       },
     );
   }

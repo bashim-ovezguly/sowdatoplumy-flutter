@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:my_app/pages/Profile/loadingWidget.dart';
-import 'package:my_app/pages/error.dart';
+import 'package:my_app/pages/LoadinError.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:my_app/widgets/multiSelect.dart';
@@ -169,7 +169,11 @@ class _AddProductState extends State<AddProduct> {
                     children: selectedImages.map((country) {
                   return Stack(children: [
                     Container(
-                        margin: EdgeInsets.all(5),
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(color: Colors.grey, blurRadius: 2)
+                        ], borderRadius: BorderRadius.circular(10)),
+                        margin: EdgeInsets.all(8),
                         height: 100,
                         width: 100,
                         alignment: Alignment.topLeft,
@@ -188,36 +192,30 @@ class _AddProductState extends State<AddProduct> {
                             child: Icon(Icons.close, color: Colors.red)))
                   ]);
                 }).toList())),
-            Container(
-                height: 50,
-                padding: const EdgeInsets.all(5),
-                child: SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: CustomColors.appColor,
-                            foregroundColor: Colors.white),
-                        onPressed: () {
-                          getImages();
-                        },
-                        child: const Text('Surat goş',
-                            style: TextStyle(fontWeight: FontWeight.bold))))),
-            Container(
-                height: 50,
-                padding: const EdgeInsets.all(5),
-                child: SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: CustomColors.appColor,
-                            foregroundColor: Colors.white),
-                        onPressed: () async {
-                          saveProduct();
-                        },
-                        child: const Text('Ýatda sakla',
-                            style: TextStyle(fontWeight: FontWeight.bold))))),
+            SizedBox(
+              height: 15,
+            ),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: CustomColors.appColor,
+                    foregroundColor: Colors.white),
+                onPressed: () {
+                  getImages();
+                },
+                child: const Text('Surat goş',
+                    style: TextStyle(fontWeight: FontWeight.w300))),
+            SizedBox(
+              height: 15,
+            ),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: CustomColors.appColor,
+                    foregroundColor: Colors.white),
+                onPressed: () async {
+                  saveProduct();
+                },
+                child: const Text('Ýatda sakla',
+                    style: TextStyle(fontWeight: FontWeight.w300))),
             // SizedBox(height: 200)
           ],
         ));
@@ -226,17 +224,6 @@ class _AddProductState extends State<AddProduct> {
   void saveProduct() async {
     if (nameController.text == '') {
       showErrorAlert('Adyny hökman ýazmaly');
-      return null;
-    }
-
-    if (priceController.text == '') {
-      showErrorAlert('Bahasyny hökman ýazmaly');
-      return null;
-    }
-
-    if (categoryController['id'].toString() == '' ||
-        categoryController['id'] == null) {
-      showErrorAlert('Kategoriýa hökman saýlamaly');
       return null;
     }
 
@@ -305,7 +292,7 @@ class _AddProductState extends State<AddProduct> {
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return ErrorAlert();
+        return LoadingErrorAlert();
       },
     );
   }

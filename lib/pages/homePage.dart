@@ -8,6 +8,7 @@ import 'package:my_app/pages/Store/StoreDetail.dart';
 import 'package:my_app/pages/TradeCenters/Detail.dart';
 import 'package:my_app/pages/TradeCenters/List.dart';
 import 'package:my_app/pages/Drawer.dart';
+import 'package:my_app/pages/Update.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:my_app/dB/constants.dart';
@@ -81,6 +82,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -293,9 +295,7 @@ class _HomeState extends State<Home> {
                       child: Text(
                         "Söwda merkezler",
                         style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: CustomColors.appColor),
+                            fontSize: 20, color: CustomColors.appColor),
                       ),
                     ),
                   ),
@@ -322,12 +322,7 @@ class _HomeState extends State<Home> {
                                   clipBehavior: Clip.hardEdge,
                                   decoration: BoxDecoration(
                                       color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.grey.shade400,
-                                            offset: Offset(0, 0),
-                                            blurRadius: 3)
-                                      ],
+                                      boxShadow: [appShadow],
                                       borderRadius: BorderRadius.circular(10)),
                                   child: Image.network(
                                     serverIp + item['img'],
@@ -337,9 +332,7 @@ class _HomeState extends State<Home> {
                                   )),
                               Text(
                                 item['name'].toString(),
-                                style: TextStyle(
-                                    color: CustomColors.appColor,
-                                    fontWeight: FontWeight.bold),
+                                style: TextStyle(color: CustomColors.appColor),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -360,9 +353,7 @@ class _HomeState extends State<Home> {
                       child: Text(
                         "Dükanlar",
                         style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: CustomColors.appColor),
+                            fontSize: 20, color: CustomColors.appColor),
                       ),
                     ),
                   ),
@@ -392,7 +383,7 @@ class _HomeState extends State<Home> {
                                 clipBehavior: Clip.hardEdge,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    boxShadow: [storeBoxShadow],
+                                    boxShadow: [appShadow],
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Image.network(
                                   serverIp + stores_list[index]['logo'],
@@ -416,8 +407,7 @@ class _HomeState extends State<Home> {
                                       maxLines: 2,
                                       style: TextStyle(
                                           color: CustomColors.appColor,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600),
+                                          fontSize: 16),
                                     ),
                                   ),
                                   if (stores_list[index]['location'] != '')
@@ -548,9 +538,11 @@ class _HomeState extends State<Home> {
     final uri = Uri.parse(url);
     final response = await http.get(uri, headers: global_headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
-    setState(() {
-      messages = json;
-    });
+    if (mounted) {
+      setState(() {
+        messages = json;
+      });
+    }
   }
 
   void checkDeviceId() async {
@@ -573,10 +565,12 @@ class _HomeState extends State<Home> {
     final response = await http.get(uri, headers: global_headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
 
-    setState(() {
-      isLoading = false;
-      trade_centers = json['data'];
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+        trade_centers = json['data'];
+      });
+    }
   }
 
   void getData() async {
@@ -588,27 +582,40 @@ class _HomeState extends State<Home> {
     }
     final response = await http.get(uri, headers: global_headers);
     final json = jsonDecode(utf8.decode(response.bodyBytes));
-    pref.setBool('update', json['data']['update']);
 
-    setState(() {
-      region = {
-        'id': pref.getInt('location'),
-        'name_tm': pref.getString('location_name')
-      };
+    try {
+      update = json['data']['update'];
+    } catch (err) {}
 
-      isLoading = false;
+    pref.setBool('update', update);
+    if (update == true) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => RequiredUpdate()),
+          (Route<dynamic> route) => false);
+    }
 
-      cars = json['data']['cars'];
-      stores_list = json['data']['stores'];
-      parts = json['data']['parts'];
-      productsList = json['data']['products'];
-      dataSlider1 = json['data']['slider1'];
-      dataSlider2 = json['data']['slider2'];
-      dataSlider3 = json['data']['slider3'];
+    if (mounted) {
+      setState(() {
+        region = {
+          'id': pref.getInt('location'),
+          'name_tm': pref.getString('location_name')
+        };
 
-      if (json['data']['update'] == true) {
-        update = true;
-      }
-    });
+        isLoading = false;
+
+        cars = json['data']['cars'];
+        stores_list = json['data']['stores'];
+        parts = json['data']['parts'];
+        productsList = json['data']['products'];
+        dataSlider1 = json['data']['slider1'];
+        dataSlider2 = json['data']['slider2'];
+        dataSlider3 = json['data']['slider3'];
+
+        if (json['data']['update'] == true) {
+          update = true;
+        }
+      });
+    }
   }
 }

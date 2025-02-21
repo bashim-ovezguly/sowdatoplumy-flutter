@@ -50,7 +50,6 @@ class _LentaState extends State<Lenta> {
               _loading = true;
               initState();
             });
-            return Future<void>.delayed(const Duration(seconds: 3));
           },
           child: _loading == false
               ? ListView.builder(
@@ -71,11 +70,17 @@ class _LentaState extends State<Lenta> {
                       }
                     }
                     return Container(
+                      padding: EdgeInsets.symmetric(vertical: 5),
                       height: 500,
+                      clipBehavior: Clip.hardEdge,
                       decoration: BoxDecoration(
-                          border: Border.symmetric(
-                              vertical: BorderSide(color: Colors.grey))),
-                      margin: EdgeInsets.symmetric(vertical: 10),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(color: Colors.grey, blurRadius: 3)
+                        ],
+                      ),
+                      margin: EdgeInsets.all(10),
                       width: double.infinity,
                       child: Column(
                         children: [
@@ -319,11 +324,7 @@ class _LentaState extends State<Lenta> {
   }
 
   clickLike(index) async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() +
-        "/lenta/" +
-        data[index]['id'].toString() +
-        '/like';
+    String url = serverIp + "/lenta/" + data[index]['id'].toString() + '/like';
 
     final uri = Uri.parse(url);
     var request = http.MultipartRequest("POST", uri);
@@ -339,8 +340,7 @@ class _LentaState extends State<Lenta> {
   }
 
   void get_lenta_list() async {
-    Urls server_url = new Urls();
-    String url = server_url.get_server_url() + '/lenta';
+    String url = serverIp + '/lenta';
 
     url = url + "?page=$_pageNumber&page_size=$_numberOfPostPerRequest";
     final uri = Uri.parse(url);
@@ -358,7 +358,7 @@ class _LentaState extends State<Lenta> {
     }
 
     setState(() {
-      baseurl = server_url.get_server_url();
+      baseurl = serverIp;
       _isLastPage = data.length < _numberOfPostPerRequest;
       _loading = false;
 
